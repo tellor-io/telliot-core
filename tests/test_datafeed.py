@@ -4,8 +4,7 @@
 import random
 from dataclasses import dataclass
 
-from pytelliot.feeder import DataFeed
-from pytelliot.feeder import DataSource
+from pytelliot.feeder.datafeed import DataSource, DataFeed
 
 
 @dataclass

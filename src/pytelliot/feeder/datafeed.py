@@ -1,9 +1,6 @@
-""" Feeder module concept
-
-"""
 from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import Callable, Any, List, Dict
+from typing import List, Callable, Dict, Any
 
 
 @dataclass
