@@ -2,23 +2,24 @@
 
 """
 import random
-
-from atom.api import Float
+from dataclasses import dataclass
 
 from pytelliot.feeder import DataFeed
 from pytelliot.feeder import DataSource
 
 
+@dataclass
 class ConstantDataSource(DataSource):
     """ A dumb data source that just fetches a constant value
 
     """
-    value = Float()
+    value: float
 
     def fetch(self):
         return self.value
 
 
+@dataclass
 class RandomDataSource(DataSource):
     """ A dumb data source that fetches a random value
 
@@ -29,7 +30,7 @@ class RandomDataSource(DataSource):
 
 
 # Specify algorithm that operates on data sources
-def totalDudeLevel(bart=None, frank=None, smitty=None):
+def total_dude_level(bart=None, frank=None, smitty=None):
     return bart + frank + smitty
 
 
@@ -44,7 +45,7 @@ ds3 = RandomDataSource(id='smitty')
 myFeed = DataFeed(
     name='My data feed',
     id='my-data-feed',
-    algorithm=totalDudeLevel,
+    algorithm=total_dude_level,
     sources=[ds1, ds2, ds3]
 )
 

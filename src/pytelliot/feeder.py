@@ -2,11 +2,12 @@
 
 """
 from abc import abstractmethod
+from dataclasses import dataclass, field
+from typing import Callable, Any, List, Dict
 
-from atom.api import Atom, List, Str, Dict, Callable, Value, Float
 
-
-class DataSource(Atom):
+@dataclass
+class DataSource:
     """ Abstract Base Class for a DataSource
 
     A data source provides an input to a `DataFeed`
@@ -14,7 +15,7 @@ class DataSource(Atom):
 
     #: Data source identifier
     #: Should uniquely identify the datasource within a DataFeed
-    id = Str()
+    id: str
 
     @abstractmethod
     def fetch(self):
@@ -27,32 +28,34 @@ class DataSource(Atom):
         raise NotImplementedError
 
 
-class DataFeed(Atom):
+@dataclass
+class DataFeed:
     """ Data Feed
 
     """
 
     #: Descriptive name
-    name = Str()
+    name: str
 
     #: DataFeed identifier
     #: Should uniquely identify the DataFeed across the entire Tellor Oracle
-    id = Str()
+    id: str
 
     #: List of data sources that provide inputs to the
     #: DataFeed algorithm
-    sources = List(DataSource)
-
-    #: Dictionary of algorithm inputs retrieved from DataSources
-    inputs = Dict(key=str)
+    # sources: list[DataSource] = field(default_factory=list)
+    sources: List[DataSource]
 
     #: Algorithm
     #: A function which accepts keyword argument pairs and returns a single result
     #: Each keyword corresponds to the `id` of the DataSource
-    algorithm = Callable()
+    algorithm: Callable
+
+    #: Dictionary of algorithm inputs retrieved from DataSources
+    inputs: Dict[str, Any] = field(default_factory=dict)
 
     #: Current value of the Algorithm result
-    result = Value()
+    result: Any = None
 
     def update(self):
         """ Get new datapoint and store in `result`
@@ -73,5 +76,3 @@ class DataFeed(Atom):
         """
         for source in self.sources:
             self.inputs[source.id] = source.fetch()
-
-

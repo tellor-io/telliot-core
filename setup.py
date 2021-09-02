@@ -12,7 +12,7 @@ setup(
     author_email='info@tellor.io',
     description='Tellor Client',
     python_requires='>=3.8',
-    install_requires=['atom'],
+    install_requires=[],
     tests_require=['pytest',
                    'pytest-cov',
                    'tox',
