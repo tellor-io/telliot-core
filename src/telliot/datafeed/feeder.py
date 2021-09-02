@@ -5,12 +5,12 @@ from typing import List, Callable, Dict, Any
 
 @dataclass
 class DataSource:
-    """ Abstract Base Class for a DataSource
+    """ Abstract Base Class for a DataSource.
 
     A data source provides an input to a `DataFeed`
     """
 
-    #: Data source identifier
+    #: Data source identifier.
     #: Should uniquely identify the datasource within a DataFeed
     id: str
 
@@ -18,23 +18,23 @@ class DataSource:
     def fetch(self):
         """ Fetch Data
 
-        Returns
-        -------
-        <type> : Data returned from source
+        Returns:
+            any : Data returned from source
         """
         raise NotImplementedError
 
 
 @dataclass
 class DataFeed:
-    """ Data Feed
+    """ Data Feed.
 
+    A data feed produces a data point using an algorithm that operates on inputs from a :class:`DataSource`
     """
 
-    #: Descriptive name
+    #: Descriptive name for the feed.
     name: str
 
-    #: DataFeed identifier
+    #: DataFeed identifier.
     #: Should uniquely identify the DataFeed across the entire Tellor Oracle
     id: str
 
@@ -43,8 +43,8 @@ class DataFeed:
     # sources: list[DataSource] = field(default_factory=list)
     sources: List[DataSource]
 
-    #: Algorithm
-    #: A function which accepts keyword argument pairs and returns a single result
+    #: Algorithm -
+    #: a function which accepts keyword argument pairs and returns a single result
     #: Each keyword corresponds to the `id` of the DataSource
     algorithm: Callable
 
@@ -55,16 +55,19 @@ class DataFeed:
     result: Any = None
 
     def update(self):
-        """ Get new datapoint and store in `result`
+        """ Get new datapoint and store in `result`.
 
         Collect inputs to the algorithm and run the algorithm
+
+        Returns:
+            any : algorithm result
         """
         self._collect_inputs()
         self.result = self.algorithm(**self.inputs)
         return self.result
 
     def _collect_inputs(self):
-        """ Get all feed inputs
+        """ Get all feed inputs.
 
         This base implementation fetches inputs from all data sources.
         Subclasses with several inputs might consider concurrent implementations
