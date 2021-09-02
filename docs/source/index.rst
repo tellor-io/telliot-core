@@ -7,26 +7,13 @@ Welcome to PyTelliot's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
+   Getting Started <getting_started.rst>
    Feeder <feeder.rst>
-
-Getting Started
-===============
-
-To build documents:
-
-   .. code-block::
-
-      > python setup.py build_sphinx
-
-To run tests, including code coverage analysis:
-
-   .. code-block::
-
-      > pytest tests --cov pytelliot --cov-report xml
-
+   Tellormon <tellormon.rst>
+   Submitter <submitter.rst>
 
 
 
