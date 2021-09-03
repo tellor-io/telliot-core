@@ -1,1 +1,1 @@
-# This file allows pytest to find pytelliot module when run from the command line
+# This file allows pytest to find telliot module when run from the command line

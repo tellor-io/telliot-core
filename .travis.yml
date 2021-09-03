@@ -9,4 +9,3 @@ install:
   - pip install codecov
   - pip install pytest-cov
 script: tox
-

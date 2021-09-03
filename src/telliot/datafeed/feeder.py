@@ -1,11 +1,15 @@
 from abc import abstractmethod
-from dataclasses import dataclass, field
-from typing import List, Callable, Dict, Any
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
 
 
 @dataclass
 class DataSource:
-    """ Abstract Base Class for a DataSource.
+    """Abstract Base Class for a DataSource.
 
     A data source provides an input to a `DataFeed`
     """
@@ -16,7 +20,7 @@ class DataSource:
 
     @abstractmethod
     def fetch(self):
-        """ Fetch Data
+        """Fetch Data
 
         Returns:
             any : Data returned from source
@@ -26,7 +30,7 @@ class DataSource:
 
 @dataclass
 class DataFeed:
-    """ Data Feed.
+    """Data Feed.
 
     A data feed produces a data point using an algorithm that operates on inputs from a :class:`DataSource`
     """
@@ -55,7 +59,7 @@ class DataFeed:
     result: Any = None
 
     def update(self):
-        """ Get new datapoint and store in `result`.
+        """Get new datapoint and store in `result`.
 
         Collect inputs to the algorithm and run the algorithm
 
@@ -67,7 +71,7 @@ class DataFeed:
         return self.result
 
     def _collect_inputs(self):
-        """ Get all feed inputs.
+        """Get all feed inputs.
 
         This base implementation fetches inputs from all data sources.
         Subclasses with several inputs might consider concurrent implementations

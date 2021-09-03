@@ -4,14 +4,14 @@
 import random
 from dataclasses import dataclass
 
-from pytelliot.datafeed.feeder import DataSource, DataFeed
+from telliot.datafeed.feeder import DataFeed
+from telliot.datafeed.feeder import DataSource
 
 
 @dataclass
 class ConstantDataSource(DataSource):
-    """ A dumb data source that just fetches a constant value
+    """A dumb data source that just fetches a constant value"""
 
-    """
     value: float
 
     def fetch(self):
@@ -20,9 +20,7 @@ class ConstantDataSource(DataSource):
 
 @dataclass
 class RandomDataSource(DataSource):
-    """ A dumb data source that fetches a random value
-
-    """
+    """A dumb data source that fetches a random value"""
 
     def fetch(self):
         return random.random()
@@ -35,17 +33,17 @@ def total_dude_level(bart=None, frank=None, smitty=None):
 
 # Create a new data feed by registering the data sources
 # and the algorithm
-ds1 = ConstantDataSource(id='bart', value=2.0)
-ds2 = ConstantDataSource(id='frank', value=3.0)
-ds3 = RandomDataSource(id='smitty')
+ds1 = ConstantDataSource(id="bart", value=2.0)
+ds2 = ConstantDataSource(id="frank", value=3.0)
+ds3 = RandomDataSource(id="smitty")
 
 # Create a new data feed by registering the data sources
 # and the algorithm
 myFeed = DataFeed(
-    name='My data feed',
-    id='my-data-feed',
+    name="My data feed",
+    id="my-data-feed",
     algorithm=total_dude_level,
-    sources=[ds1, ds2, ds3]
+    sources=[ds1, ds2, ds3],
 )
 
 

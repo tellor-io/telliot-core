@@ -13,6 +13,6 @@ To run tests, including code coverage analysis:
 
    .. code-block::
 
-      > pytest tests --cov pytelliot --cov-report xml
+      > pytest tests --cov telliot --cov-report xml
 
 

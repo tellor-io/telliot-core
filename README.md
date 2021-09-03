@@ -1,4 +1,4 @@
-# pytelliot
+# telliot
 Python implementation of Telliot
 
 ## rough roadmap & spec
