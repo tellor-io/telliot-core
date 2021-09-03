@@ -11,7 +11,7 @@ from typing import List
 class DataSource:
     """Abstract Base Class for a DataSource.
 
-    A data source provides an input to a `DataFeed`
+    A DataSource provides an input to a `DataFeed` algorithm
     """
 
     #: Data source identifier.
@@ -19,11 +19,11 @@ class DataSource:
     id: str
 
     @abstractmethod
-    def fetch(self):
+    def fetch(self) -> Any:
         """Fetch Data
 
         Returns:
-            any : Data returned from source
+            Data returned from source
         """
         raise NotImplementedError
 
@@ -32,14 +32,15 @@ class DataSource:
 class DataFeed:
     """Data Feed.
 
-    A data feed produces a data point using an algorithm that operates on inputs from a :class:`DataSource`
+    A data feed produces a data point using an algorithm that operates on
+    inputs from a :class:`DataSource`
     """
 
     #: Descriptive name for the feed.
     name: str
 
     #: DataFeed identifier.
-    #: Should uniquely identify the DataFeed across the entire Tellor Oracle
+    #: Uniquely identifies the DataFeed across the entire Tellor network
     id: str
 
     #: List of data sources that provide inputs to the
@@ -47,8 +48,7 @@ class DataFeed:
     # sources: list[DataSource] = field(default_factory=list)
     sources: List[DataSource]
 
-    #: Algorithm -
-    #: a function which accepts keyword argument pairs and returns a single result
+    #: A function which accepts keyword argument pairs and returns a single result.
     #: Each keyword corresponds to the `id` of the DataSource
     algorithm: Callable
 
@@ -58,13 +58,13 @@ class DataFeed:
     #: Current value of the Algorithm result
     result: Any = None
 
-    def update(self):
-        """Get new datapoint and store in `result`.
+    def update(self) -> Any:
+        """Get new datapoint and store in result.
 
         Collect inputs to the algorithm and run the algorithm
 
         Returns:
-            any : algorithm result
+            Result of algorithm
         """
         self._collect_inputs()
         self.result = self.algorithm(**self.inputs)
