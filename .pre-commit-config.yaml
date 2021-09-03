@@ -1,4 +1,4 @@
-exclude: '.git|.tox|docs'
+exclude: '.git|.tox|docs|tox.ini'
 default_stages: [commit]
 fail_fast: true
 
