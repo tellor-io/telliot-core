@@ -48,9 +48,10 @@ class DataFeed:
     # sources: list[DataSource] = field(default_factory=list)
     sources: List[DataSource]
 
-    #: A function which accepts keyword argument pairs and returns a single result.
+    #: A function which accepts keyword argument pairs and
+    #  returns a single result.
     #: Each keyword corresponds to the `id` of the DataSource
-    algorithm: Callable
+    algorithm: Callable[..., Any]
 
     #: Dictionary of algorithm inputs retrieved from DataSources
     inputs: Dict[str, Any] = field(default_factory=dict)
@@ -70,12 +71,12 @@ class DataFeed:
         self.result = self.algorithm(**self.inputs)
         return self.result
 
-    def _collect_inputs(self):
+    def _collect_inputs(self) -> None:
         """Get all feed inputs.
 
         This base implementation fetches inputs from all data sources.
-        Subclasses with several inputs might consider concurrent implementations
-        using asyncio or threads.
+        Subclasses with several inputs might consider concurrent
+        implementations using asyncio or threads.
         TODO: Consider making DataSource.fetch an async def
         """
         for source in self.sources:

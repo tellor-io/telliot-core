@@ -1,6 +1,7 @@
 """ Telliot CLI
 
-A simple interface for interacting with telliot's datafeeder and submitter modules.
+A simple interface for interacting with telliot's datafeeder
+and submitter modules.
 """
 
 

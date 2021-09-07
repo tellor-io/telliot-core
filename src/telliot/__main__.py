@@ -1,3 +1,3 @@
-from cli import main
+from telliot.cli import main
 
 main()
