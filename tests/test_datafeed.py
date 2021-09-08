@@ -28,7 +28,9 @@ class RandomDataSource(DataSource):
 
 
 # A simple algorithm
-def total_dude_level1(bart: float = 0, frank: float = 0, smitty: float = 0) -> float:
+def total_dude_level1(
+    bart: float = 0, frank: float = 0, smitty: float = 0
+) -> float:
     return bart + frank + smitty
 
 
@@ -51,9 +53,7 @@ def test_feed1():
         name="My data feed",
         id="my-data-feed",
         algorithm=total_dude_level1,
-        sources={'bart': ds1,
-                 'frank': ds2,
-                 'smitty': ds3},
+        sources={"bart": ds1, "frank": ds2, "smitty": ds3},
     )
 
     for _ in range(10):

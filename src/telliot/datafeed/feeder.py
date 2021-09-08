@@ -1,33 +1,10 @@
-from abc import abstractmethod
 from dataclasses import dataclass
 from dataclasses import field
 from typing import Any
 from typing import Callable
 from typing import Dict
 
-
-@dataclass
-class DataSource:
-    """Abstract Base Class for a DataSource.
-
-    A DataSource provides an input to a `DataFeed` algorithm
-    """
-
-    #: Data source identifier
-    id: str = None
-
-    #: Descriptive name
-    name: str = None
-
-    @abstractmethod
-    def fetch(self) -> Any:
-        """Fetch Data
-
-        Returns:
-            Data returned from source
-            TODO: Handle exceptions
-        """
-        raise NotImplementedError
+from telliot.datafeed.data_source import DataSource
 
 
 @dataclass
