@@ -4,7 +4,6 @@ from dataclasses import field
 from typing import Any
 from typing import Callable
 from typing import Dict
-from typing import List
 
 
 @dataclass
@@ -14,9 +13,11 @@ class DataSource:
     A DataSource provides an input to a `DataFeed` algorithm
     """
 
-    #: Data source identifier.
-    #: Should uniquely identify the datasource within a DataFeed
-    id: str
+    #: Data source identifier
+    id: str = None
+
+    #: Descriptive name
+    name: str = None
 
     @abstractmethod
     def fetch(self) -> Any:
@@ -24,6 +25,7 @@ class DataSource:
 
         Returns:
             Data returned from source
+            TODO: Handle exceptions
         """
         raise NotImplementedError
 
@@ -46,7 +48,7 @@ class DataFeed:
     #: List of data sources that provide inputs to the
     #: DataFeed algorithm
     # sources: list[DataSource] = field(default_factory=list)
-    sources: List[DataSource]
+    sources: Dict[str, DataSource]
 
     #: A function which accepts keyword argument pairs and
     #  returns a single result.
@@ -79,5 +81,5 @@ class DataFeed:
         implementations using asyncio or threads.
         TODO: Consider making DataSource.fetch an async def
         """
-        for source in self.sources:
-            self.inputs[source.id] = source.fetch()
+        for kw in self.sources:
+            self.inputs[kw] = self.sources[kw].fetch()
