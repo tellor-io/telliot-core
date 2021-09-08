@@ -5,8 +5,8 @@ import random
 from dataclasses import dataclass
 from typing import List
 
-from telliot.datafeed.feeder import DataFeed
-from telliot.datafeed.feeder import DataSource
+from telliot.datafeed.data_feed import DataFeed
+from telliot.datafeed.data_feed import DataSource
 
 
 @dataclass
