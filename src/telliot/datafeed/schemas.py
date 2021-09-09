@@ -1,0 +1,32 @@
+"""API Models
+
+This module builds Pydantic models used for
+enforcing data types when creating and reading
+with the datafeed api.
+"""
+
+from pydantic import BaseModel
+import datetime
+
+
+class DataIn(BaseModel):
+    '''Ingested data model.
+
+    Standardize data ingested to database using typing.
+    Ingested data does not include auto-generated ids.
+    '''
+    name: str
+    value: str
+    timestamp: datetime.datetime
+
+
+class Data(BaseModel):
+    '''Retrieved data model.
+
+    Standardize data queried from the database using typing.
+    Retrieved data includes the auto-generated id for the row.
+    '''
+    id: int
+    name: str
+    value: str
+    timestamp: datetime.datetime
