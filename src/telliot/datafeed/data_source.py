@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from dataclasses import dataclass
 from dataclasses import field
 from typing import Any
@@ -21,7 +20,6 @@ class DataSource:
     #: Descriptive name
     name: str = ""
 
-    @abstractmethod
     def fetch(self) -> Any:
         """Fetch Data
 
