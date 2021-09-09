@@ -1,0 +1,15 @@
+aiosqlite==0.17.0
+asgiref==3.4.1
+click==8.0.1
+databases==0.5.1
+fastapi==0.68.1
+greenlet==1.1.1
+h11==0.12.0
+mypy==0.910
+mypy-extensions==0.4.3
+pydantic==1.8.2
+SQLAlchemy==1.4.23
+starlette==0.14.2
+toml==0.10.2
+typing-extensions==3.10.0.2
+uvicorn==0.15.0
