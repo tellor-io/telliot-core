@@ -20,9 +20,12 @@ class PriceServiceInterface(ABC):
     def get_price(self, asset: str, currency: str) -> Optional[float]:
         """Fetch the price of an asset
 
+        TODO: Strictly specify compliant asset/currency symbols so concrete
+            classes can comply.
+
         Args:
-            asset: Asset
-            currency: Currency of returned price
+            asset: Asset (Ticker Symbol)
+            currency: Currency of returned price (Ticker Symbol)
 
         Returns:
             Asset price or None if an exception occurs

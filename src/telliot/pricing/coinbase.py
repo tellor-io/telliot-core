@@ -1,47 +1,46 @@
-from typing import Any, Dict, Optional
+from typing import Any
+from typing import Optional
 
 from telliot.pricing.price_service import WebPriceService
 
 
 class CoinbasePriceService(WebPriceService):
-    """ Coinbase Price Service
-
-    """
+    """Coinbase Price Service"""
 
     def __init__(self, **kwargs: Any) -> None:
-        kwargs['name'] = 'Coinbase Price Service'
-        kwargs['url'] = 'https://api.pro.coinbase.com'
+        kwargs["name"] = "Coinbase Price Service"
+        kwargs["url"] = "https://api.pro.coinbase.com"
         super().__init__(**kwargs)
 
     def get_price(self, asset: str, currency: str) -> Optional[float]:
-        """ Implement of PriceServiceInterface
+        """Implement of PriceServiceInterface
 
         Get price from API
         """
-        request_url = self._get_price_url(asset, currency)
 
-        response = self.get_url(request_url)
+        # Get Price URL according to
+        # https://docs.pro.coinbase.com/#products API
+        request_url = "/products/{}-{}/ticker".format(
+            asset.lower(), currency.lower()
+        )
 
-        if 'response' in response:
-            price = self._parse_price_response(response['response'])
-        else:
+        d = self.get_url(request_url)
+        if "error" in d:
             price = None
-            print(response)
+            print(d)  # TODO: Log
+
+        elif "response" in d:
+            response = d["response"]
+
+            if "message" in response:
+                print(
+                    "API ERROR ({}): {}".format(self.name, response["message"])
+                )
+                return None
+            else:
+                return float(response["price"])
+
+        else:
+            raise Exception("Invalid response from get_url")
 
         return price
-
-    @staticmethod
-    def _get_price_url(asset: str, currency: str) -> str:
-        """ Get Price URL according to https://docs.pro.coinbase.com/#products API
-
-        """
-        return '/products/{}-{}/ticker'.format(asset.upper(), currency.upper())
-
-    def _parse_price_response(self, response: Dict[str, Any]) \
-            -> Optional[float]:
-
-        if 'message' in response:
-            print('API ERROR ({}): {}'.format(self.name, response['message']))
-            return None
-        else:
-            return float(response['price'])
