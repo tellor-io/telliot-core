@@ -1,3 +1,5 @@
+import asyncio
+
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
 
@@ -7,7 +9,7 @@ def test_web_price_service():
     result = ps.get_url()
     assert "response" in result
     assert result["response"] is not None
-    btcusd = ps.get_price("btc", "usd")
+    btcusd = asyncio.run(ps.get_price("btc", "usd"))
     print(btcusd)
     assert isinstance(btcusd, float)
 
@@ -20,6 +22,6 @@ def test_web_price_service_timeout():
 
 def test_coingecko_price_service():
     ps = CoinGeckoPriceService()
-    btcusd = ps.get_price("btc", "usd")
+    btcusd = asyncio.run(ps.get_price("btc", "usd"))
     print(btcusd)
     assert isinstance(btcusd, float)

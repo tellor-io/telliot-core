@@ -1,3 +1,4 @@
+import asyncio
 from dataclasses import dataclass
 from dataclasses import field
 from typing import Any
@@ -29,10 +30,10 @@ class DataFeed:
 
     #: A function which accepts keyword argument pairs and
     #  returns a single result.
-    #: Each keyword corresponds to the `id` of the DataSource
     algorithm: Callable[..., Any]
 
     #: Dictionary of algorithm inputs retrieved from DataSources
+    #: Keys correspond to algorithm keyword argument inputs
     inputs: Dict[str, Any] = field(default_factory=dict)
 
     #: Current value of the Algorithm result
@@ -56,7 +57,13 @@ class DataFeed:
         This base implementation fetches inputs from all data sources.
         Subclasses with several inputs might consider concurrent
         implementations using asyncio or threads.
-        TODO: Consider making DataSource.fetch an async def
         """
-        for kw in self.sources:
-            self.inputs[kw] = self.sources[kw].fetch()
+
+        async def gather_inputs():
+            keys = self.sources.keys()
+            values = await asyncio.gather(
+                *[self.sources[key].fetch() for key in keys]
+            )
+            self.inputs = dict(zip(keys, values))
+
+        asyncio.run(gather_inputs())

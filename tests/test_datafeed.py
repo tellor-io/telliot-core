@@ -7,23 +7,14 @@ from typing import List
 
 from telliot.datafeed.data_feed import DataFeed
 from telliot.datafeed.data_feed import DataSource
-
-
-@dataclass
-class ConstantDataSource(DataSource):
-    """A dumb data source that just fetches a constant value"""
-
-    value: float = 0
-
-    def fetch(self):
-        return self.value
+from telliot.datafeed.data_source import Constant
 
 
 @dataclass
 class RandomDataSource(DataSource):
     """A dumb data source that fetches a random value"""
 
-    def fetch(self):
+    async def fetch(self):
         return random.random()
 
 
@@ -41,8 +32,8 @@ def total_dude_level2(dudes: List[float]) -> float:
 
 # Create a new data feed by registering the data sources
 # and the algorithm
-ds1 = ConstantDataSource(id="ds1", value=2.0)
-ds2 = ConstantDataSource(id="ds2", value=3.0)
+ds1 = Constant(2.0, id="ds1")
+ds2 = Constant(3.0, id="ds2")
 ds3 = RandomDataSource(id="ds3")
 
 

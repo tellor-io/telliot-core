@@ -12,7 +12,7 @@ class CoinbasePriceService(WebPriceService):
         kwargs["url"] = "https://api.pro.coinbase.com"
         super().__init__(**kwargs)
 
-    def get_price(self, asset: str, currency: str) -> Optional[float]:
+    async def get_price(self, asset: str, currency: str) -> Optional[float]:
         """Implement of PriceServiceInterface
 
         Get price from API

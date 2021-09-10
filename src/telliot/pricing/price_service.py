@@ -17,7 +17,7 @@ class PriceServiceInterface(ABC):
     """
 
     @abstractmethod
-    def get_price(self, asset: str, currency: str) -> Optional[float]:
+    async def get_price(self, asset: str, currency: str) -> Optional[float]:
         """Fetch the price of an asset
 
         TODO: Strictly specify compliant asset/currency symbols so concrete
