@@ -1,7 +1,8 @@
 from typing import Any
 from typing import Optional
 
-from telliot.pricing.price_service import TimeStampedFloat, WebPriceService
+from telliot.pricing.price_service import WebPriceService
+from telliot.base import TimeStampedFloat
 
 
 class CoinbasePriceService(WebPriceService):

@@ -2,7 +2,8 @@ from typing import Any
 from typing import Optional
 from urllib.parse import urlencode
 
-from telliot.pricing.price_service import TimeStampedFloat, WebPriceService
+from telliot.pricing.price_service import WebPriceService
+from telliot.base import TimeStampedFloat
 
 # Coinbase API uses the 'id' field from /coins/list.
 # Using a manual mapping for now.

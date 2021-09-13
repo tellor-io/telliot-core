@@ -6,22 +6,9 @@ import pytest
 
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
-from telliot.pricing.price_service import TimeStampedFloat
+from telliot.base import TimeStampedFloat
 
 
-def test_TimeStampedFloat():
-    obj = TimeStampedFloat(3.14)
-    assert obj.val == 3.14
-
-    obj = TimeStampedFloat('3.14')
-    assert obj.val == 3.14
-
-    obj = TimeStampedFloat(3.14, ts=datetime.now())
-
-    obj.ts = datetime.now()
-
-    with pytest.raises(TypeError):
-        _ = TimeStampedFloat()
 
 
 def test_web_price_services():

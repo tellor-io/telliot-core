@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Generic, TypeVar
-from pydantic import Field
+from pydantic import BaseModel, Field
 from pydantic.generics import GenericModel
 
 T = TypeVar('T')
@@ -43,7 +43,7 @@ class TimeStampedAnswer(Answer[T], Generic[T]):
     ts: datetime = Field(default_factory=datetime.now)
 
 
-class TimeStampedFixed(TimeStampedAnswer[float], Generic[T]):
+class TimeStampedFixed(TimeStampedAnswer[float]):
     """ A time-stamped fixed point value
 
     """
@@ -60,3 +60,9 @@ class TimeStampedFixed(TimeStampedAnswer[float], Generic[T]):
             print('WARNING: float value {} rounded to {}'.format(val, stored_float))
         self.val = stored_float
 
+
+class TimeStampedFloat(TimeStampedAnswer[float]):
+    """ A time-stamped floating point value
+
+    """
+    pass
