@@ -20,7 +20,7 @@ setup(
     author_email="info@tellor.io",
     description="Tellor Client",
     python_requires=">=3.8",
-    install_requires=["sphinx", "sphinx-rtd-theme"],
+    install_requires=["requests", "sphinx", "sphinx-rtd-theme"],
     tests_require=["pytest", "pytest-cov", "tox", "tox-travis"],
     command_options={
         "build_sphinx": {
