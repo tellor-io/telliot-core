@@ -55,8 +55,8 @@ class TimeStampedFixed(TimeStampedAnswer[float], Generic[T]):
 
     def __init__(self, val, **data):
         super().__init__(val=val, **data)
-        storedval = float(self.int) / 10**self.decimals
-        if storedval != val:
-            print('WARNING: float value {} rounded to {}'.format(val, storedval))
-        self.val = storedval
+        stored_float = float(self.int) / 10**self.decimals
+        if stored_float != val:
+            print('WARNING: float value {} rounded to {}'.format(val, stored_float))
+        self.val = stored_float
 
