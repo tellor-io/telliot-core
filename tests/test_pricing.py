@@ -2,7 +2,6 @@ import asyncio
 import time
 from datetime import datetime
 
-import pytest
 from telliot.base import TimeStampedFloat
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService

@@ -21,7 +21,13 @@ setup(
     description="Tellor Client",
     python_requires=">=3.8",
     install_requires=["requests", "sphinx", "sphinx-rtd-theme", "pydantic"],
-    tests_require=["pytest", "pytest-cov", "tox", "tox-travis"],
+    tests_require=[
+        "pytest",
+        "pytest-asyncio",
+        "pytest-cov",
+        "tox",
+        "tox-travis",
+    ],
     command_options={
         "build_sphinx": {
             "project": ("setup.py", name),
