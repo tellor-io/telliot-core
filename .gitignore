@@ -145,3 +145,7 @@ cython_debug/
 
 # pyenv
 .python-version
+
+# test databases
+*.db
+*.sqlite3
