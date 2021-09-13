@@ -1,10 +1,18 @@
 """ Simple example of creating a "plug-in" data feed
 
 """
+import statistics
+
 import telliot.registry
 
 
 def test_AssetPriceFeed():
     btc_usd_median = telliot.registry.data_feeds["btc-usd-median"]
 
-    x = btc_usd_median.update_value()
+    price = btc_usd_median.update_value()
+
+    # Get list of data sources from sources dict
+    sources = [source.value for source in btc_usd_median.sources.values()]
+
+    # Make sure error is less than decimal tolerance
+    assert (price.val - statistics.median([s.val for s in sources])) < 10 ** -6
