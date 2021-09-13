@@ -1,7 +1,7 @@
 from typing import Any
 from typing import Optional
 
-from telliot.pricing.price_service import WebPriceService
+from telliot.pricing.price_service import TimeStampedFloat, WebPriceService
 
 
 class CoinbasePriceService(WebPriceService):
@@ -12,22 +12,27 @@ class CoinbasePriceService(WebPriceService):
         kwargs["url"] = "https://api.pro.coinbase.com"
         super().__init__(**kwargs)
 
-    async def get_price(self, asset: str, currency: str) -> Optional[float]:
-        """Implement of PriceServiceInterface
+    async def get_price(self,
+                        asset: str,
+                        currency: str) -> Optional[TimeStampedFloat]:
+        """Implement PriceServiceInterface
 
-        Get price from API
+        This implementation gets the price from the Coinbase pro API
+        using the interface described at:
+        https://docs.pro.coinbase.com/#products API
+
+        Note that the timestamp returned form the coinbase API could be used
+        instead of the locally generated timestamp.
         """
 
-        # Get Price URL according to
-        # https://docs.pro.coinbase.com/#products API
         request_url = "/products/{}-{}/ticker".format(
             asset.lower(), currency.lower()
         )
 
         d = self.get_url(request_url)
         if "error" in d:
-            price = None
             print(d)  # TODO: Log
+            return None
 
         elif "response" in d:
             response = d["response"]
@@ -37,10 +42,9 @@ class CoinbasePriceService(WebPriceService):
                     "API ERROR ({}): {}".format(self.name, response["message"])
                 )
                 return None
-            else:
-                return float(response["price"])
 
         else:
             raise Exception("Invalid response from get_url")
 
-        return price
+        price = float(response["price"])
+        return TimeStampedFloat(price)

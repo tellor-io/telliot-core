@@ -2,7 +2,7 @@ from typing import Any
 from typing import Optional
 from urllib.parse import urlencode
 
-from telliot.pricing.price_service import WebPriceService
+from telliot.pricing.price_service import TimeStampedFloat, WebPriceService
 
 # Coinbase API uses the 'id' field from /coins/list.
 # Using a manual mapping for now.
@@ -17,10 +17,15 @@ class CoinGeckoPriceService(WebPriceService):
         kwargs["url"] = "https://api.coingecko.com"
         super().__init__(**kwargs)
 
-    async def get_price(self, asset: str, currency: str) -> Optional[float]:
-        """Implement of PriceServiceInterface
+    async def get_price(self,
+                        asset: str,
+                        currency: str) -> Optional[TimeStampedFloat]:
+        """Implement PriceServiceInterface
 
-        Get price from API
+        This implementation gets the price from the Coingecko API
+
+        Note that coingecko does not return a timestamp so one is
+        locally generated.
         """
 
         asset = asset.lower()
@@ -30,22 +35,26 @@ class CoinGeckoPriceService(WebPriceService):
         if not coin_id:
             raise Exception("Asset not supported: {}".format(asset))
 
-        # Get Price URL according to
-        # https://docs.pro.coinbase.com/#products API
         url_params = urlencode({"ids": coin_id, "vs_currencies": currency})
         request_url = "/api/v3/simple/price?{}".format(url_params)
 
         d = self.get_url(request_url)
+        print(d)
 
-        if "response" in d:
+        if "error" in d:
+            print(d)  # TODO: Log
+            return None
+
+        elif "response" in d:
             response = d["response"]
+
             try:
                 price = float(response[coin_id][currency])
             except KeyError as e:
                 msg = "Error parsing Coingecko API response: KeyError: {}".format(e)
                 print(msg)
-                price = None
-        else:
-            price = None
 
-        return price
+        else:
+            raise Exception("Invalid response from get_url")
+
+        return TimeStampedFloat(price)

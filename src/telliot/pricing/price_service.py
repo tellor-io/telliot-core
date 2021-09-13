@@ -1,10 +1,26 @@
 from abc import ABC
 from abc import abstractmethod
+from datetime import datetime
 from typing import Any
 from typing import Dict
 from typing import Optional
 
 import requests
+from pydantic import BaseModel, Field
+
+
+class TimeStampedFloat(BaseModel):
+    """ A time-stamped floating point value
+
+    """
+    #: Value
+    val: float
+
+    #: Timestamp
+    ts: datetime = Field(default_factory=datetime.now)
+
+    def __init__(self, val, **data):
+        super().__init__(val=val, **data)
 
 
 class PriceServiceInterface(ABC):
@@ -17,7 +33,9 @@ class PriceServiceInterface(ABC):
     """
 
     @abstractmethod
-    async def get_price(self, asset: str, currency: str) -> Optional[float]:
+    async def get_price(self,
+                        asset: str,
+                        currency: str) -> Optional[TimeStampedFloat]:
         """Fetch the price of an asset
 
         TODO: Strictly specify compliant asset/currency symbols so concrete
@@ -28,7 +46,7 @@ class PriceServiceInterface(ABC):
             currency: Currency of returned price (Ticker Symbol)
 
         Returns:
-            Asset price or None if an exception occurs
+            Time-stamped asset price or None if an exception occurs
         """
         raise NotImplementedError
 
