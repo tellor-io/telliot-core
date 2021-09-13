@@ -90,7 +90,7 @@ class AssetPriceSource(DataSourceDb):
     class Config:
         arbitrary_types_allowed = True
 
-    async def update_value(self) -> TimeStampedFloat:
+    async def update_value(self) -> Optional[TimeStampedFloat]:
         """Update current value with time-stamped value fetched from source
 
         Returns:
