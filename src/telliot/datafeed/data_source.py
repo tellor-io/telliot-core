@@ -102,7 +102,7 @@ class AssetPriceSource(DataSourceDb):
 
         return price
 
-    async def load_value(self) -> None:
+    async def load_value(self) -> TimeStampedFloat:
         """Update current value with time-stamped value fetched from database
 
         TODO

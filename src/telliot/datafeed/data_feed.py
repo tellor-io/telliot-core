@@ -81,3 +81,5 @@ class AssetPriceFeed(DataFeed):
                 self.value.val, self.uid, self.value.ts
             )
         )
+
+        return self.value
