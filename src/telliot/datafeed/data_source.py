@@ -1,3 +1,4 @@
+import random
 from abc import ABC
 from abc import abstractmethod
 from typing import List
@@ -29,8 +30,12 @@ class DataSource(BaseModel, ABC):
     value: Optional[TimeStampedAnswer]
 
     @abstractmethod
-    async def fetch_value(self) -> None:
+    async def update_value(self, store: bool = False) -> TimeStampedAnswer:
         """Update current value with time-stamped value fetched from source
+
+        Args:
+            store:  If true and applicable, updated value will be stored
+                    to the database
 
         Returns:
             Current time-stamped value
@@ -38,12 +43,12 @@ class DataSource(BaseModel, ABC):
         raise NotImplementedError
 
 
-class DataSourceDb(BaseModel, ABC):
-    """ A data source with the ability to recorded and restore history
+class DataSourceDb(DataSource, ABC):
+    """ A data source that can store and retrieve values from a database
 
     """
 
-    async def load_value(self) -> None:
+    async def load_value(self) -> TimeStampedAnswer:
         """Update current value with time-stamped value fetched from database
 
         """
@@ -55,7 +60,7 @@ class DataSourceDb(BaseModel, ABC):
         """
         raise NotImplementedError
 
-    async def get_history(self, n: int = 0) -> List[T]:
+    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer]:
         """ Get data source history from database
 
         Args:
@@ -92,7 +97,7 @@ class AssetPriceSource(DataSourceDb):
     class Config:
         arbitrary_types_allowed = True
 
-    async def fetch_value(self) -> TimeStampedFloat:
+    async def update_value(self) -> TimeStampedFloat:
         """Update current value with time-stamped value fetched from source
 
         Returns:
@@ -118,7 +123,7 @@ class AssetPriceSource(DataSourceDb):
         """
         raise NotImplementedError
 
-    async def get_history(self, n: int = 0) -> List[T]:
+    async def get_history(self, n: int = 0) -> List[TimeStampedFloat]:
         """ Get data source history from database
 
         Args:
@@ -133,7 +138,7 @@ class AssetPriceSource(DataSourceDb):
         raise NotImplementedError
 
 
-class Constant(DataSource):
+class ConstantSource(DataSource):
     """A simple data source that fetches a constant value"""
 
     #: Descriptive name
@@ -142,5 +147,20 @@ class Constant(DataSource):
     def __init__(self, value, **kwargs):
         super().__init__(value=value, **kwargs)
 
-    async def fetch_value(self):
+    async def update_value(self):
         return self.value
+
+
+class RandomSource(DataSourceDb):
+    """A random data source
+
+    Returns a random floating point number in the range [0.0, 1.0).
+    """
+
+    #: Descriptive name
+    name: str = 'Random'
+
+    async def update_value(self):
+        self.value = random.random()
+        return random.random()
+
