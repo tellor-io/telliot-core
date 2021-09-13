@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Generic, TypeVar
-from pydantic import BaseModel, Field
+
+from pydantic import Field
 from pydantic.generics import GenericModel
 
 T = TypeVar('T')
@@ -51,13 +52,14 @@ class TimeStampedFixed(TimeStampedAnswer[float]):
     #: Precision (in decimals)
     decimals = 6
 
-    int = property(lambda self: round(self.val * 10**self.decimals))
+    int = property(lambda self: round(self.val * 10 ** self.decimals))
 
     def __init__(self, val, **data):
         super().__init__(val=val, **data)
-        stored_float = float(self.int) / 10**self.decimals
+        stored_float = float(self.int) / 10 ** self.decimals
         if stored_float != val:
-            print('WARNING: float value {} rounded to {}'.format(val, stored_float))
+            print('WARNING: float value {} rounded to {}'.format(val,
+                                                                 stored_float))
         self.val = stored_float
 
 

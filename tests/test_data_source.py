@@ -1,19 +1,21 @@
-import asyncio
+import pytest
 
-from telliot.datafeed.data_source import CurrentAssetPrice
+from telliot.base import TimeStampedFloat
+from telliot.datafeed.data_source import AssetPriceSource
 from telliot.pricing.coinbase import CoinbasePriceService
-from telliot.pricing.coingecko import CoinGeckoPriceService
 
 
-def test_asset_price_data_source():
-    ds = CurrentAssetPrice(
-        id="btc-usd-price-list",
-        asset="btc",
-        currency="usd",
-        services=[CoinbasePriceService, CoinGeckoPriceService],
-    )
+@pytest.mark.asyncio
+async def test_CurrentAssetPrice():
+    btc_usd_coinbase = AssetPriceSource(name='BTC USD Price from Coinbase',
+                                        uid='btc-usd-coinbase',
+                                        asset='btc',
+                                        currency='usd',
+                                        service=CoinbasePriceService())
 
-    prices1 = asyncio.run(ds.fetch())
-    prices2 = asyncio.run(ds.fetch())
-    assert abs(prices1[0] - prices1[1]) / prices1[0] < 0.05
-    assert len(ds.values) == 2
+    # Fetch current price
+    price = await btc_usd_coinbase.fetch_value()
+    assert isinstance(price, TimeStampedFloat)
+
+    # Make sure value property is updated
+    assert btc_usd_coinbase.value is price

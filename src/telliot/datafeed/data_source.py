@@ -1,89 +1,146 @@
-import asyncio
 from abc import ABC
 from abc import abstractmethod
-from dataclasses import dataclass
-from dataclasses import field
-from datetime import datetime
-from typing import Any
 from typing import List
 from typing import Optional
-from typing import Tuple
+from typing import TypeVar
 
+from pydantic import BaseModel
+
+from telliot.base import TimeStampedAnswer
+from telliot.base import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
 
+T = TypeVar('T')
 
-@dataclass
-class DataSource(ABC):
-    """Base Class for a DataSource.
 
-    A DataSource provides an input to a `DataFeed` algorithm
+class DataSource(BaseModel, ABC):
+    """ Base Class for a DataSource.
+
+    A DataSource provides an input to a `DataFeed`
     """
 
     #: Unique data source identifier
-    id: str = ""
+    uid: str = ''
 
     #: Descriptive name
-    name: str = "Data Source"
+    name: str = ''
+
+    #: Current time-stamped value of the data source or None
+    value: Optional[TimeStampedAnswer]
 
     @abstractmethod
-    async def fetch(self) -> Any:
-        """Fetch Data
+    async def fetch_value(self) -> None:
+        """Update current value with time-stamped value fetched from source
 
         Returns:
-            Data returned from source
+            Current time-stamped value
         """
         raise NotImplementedError
 
 
-@dataclass
-class CurrentAssetPrice(DataSource):
-    """Current Asset Price
+class DataSourceDb(BaseModel, ABC):
+    """ A data source with the ability to recorded and restore history
 
-    The Current Asset Price data source retrieves the price of an `asset`
-    in the specified `currency` from a list of one or more `WebPriceService`s.
     """
 
-    #: Descriptive name
-    name: str = "Current Asset Price"
+    async def load_value(self) -> None:
+        """Update current value with time-stamped value fetched from database
+
+        """
+        raise NotImplementedError
+
+    async def store_value(self) -> None:
+        """ Store current time-stamped value to database
+
+        """
+        raise NotImplementedError
+
+    async def get_history(self, n: int = 0) -> List[T]:
+        """ Get data source history from database
+
+        Args:
+            n:  If n > 0, get n datapoints from database, otherwise get all
+                available datapoints.
+
+        Returns:
+            History of timestamped values from database
+        """
+        raise NotImplementedError
+
+
+class AssetPriceSource(DataSourceDb):
+    """Current Asset Price
+
+    The Current Asset Price data source retrieves the price of an asset
+    in the specified current from a `WebPriceService`.
+    """
+
+    #: Current time-stamped value of the data source or None
+    #: Override base class type
+    value: Optional[TimeStampedFloat]
 
     #: Asset symbol
-    asset: str = ""
+    asset: str = ''
 
     #: Price currency symbol
-    currency: str = ""
+    currency: str = ''
 
-    #: List of Price Services
-    services: List[WebPriceService] = field(default_factory=list)
+    #: Price Service
+    service: WebPriceService
 
-    #: List of previously fetched values, each tagged with a timestamp
-    values: List[Tuple[datetime, Optional[float]]] = field(
-        default_factory=list)
+    #: Pydantic hack to allow general type-checking
+    class Config:
+        arbitrary_types_allowed = True
 
-    async def fetch(self) -> List[Optional[float]]:
-        price_list = await asyncio.gather(
-            *[
-                service().get_price(self.asset, self.currency)
-                for service in self.services
-            ]
-        )
-        timestamp = datetime.now()
-        self.values.append((timestamp, price_list))
-        return price_list
+    async def fetch_value(self) -> TimeStampedFloat:
+        """Update current value with time-stamped value fetched from source
+
+        Returns:
+            Current time-stamped value
+        """
+        price = await self.service.get_price(self.asset, self.currency)
+
+        self.value = price
+
+        return price
+
+    async def load_value(self) -> None:
+        """Update current value with time-stamped value fetched from database
+
+        TODO
+        """
+        raise NotImplementedError
+
+    async def store_value(self) -> None:
+        """ Store current time-stamped value to database
+
+        TODO
+        """
+        raise NotImplementedError
+
+    async def get_history(self, n: int = 0) -> List[T]:
+        """ Get data source history from database
+
+        Args:
+            n:  If n > 0, get n datapoints from database, otherwise get all
+                available datapoints.
+
+        Returns:
+            History of timestamped values from database
+
+        TODO
+        """
+        raise NotImplementedError
 
 
-@dataclass
 class Constant(DataSource):
-    """A dumb data source that just fetches a constant value"""
+    """A simple data source that fetches a constant value"""
 
     #: Descriptive name
-    name: str = "Data Source"
-
-    #: Constant value
-    value: Any = None
+    name: str = "Constant"
 
     def __init__(self, value, **kwargs):
-        self.value = value
-        super().__init__(**kwargs)
+        super().__init__(value=value, **kwargs)
 
-    async def fetch(self):
+    async def fetch_value(self):
         return self.value
