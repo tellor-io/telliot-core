@@ -1,8 +1,8 @@
 from typing import Any
 from typing import Optional
 
-from telliot.pricing.price_service import WebPriceService
 from telliot.base import TimeStampedFloat
+from telliot.pricing.price_service import WebPriceService
 
 
 class CoinbasePriceService(WebPriceService):
@@ -13,9 +13,9 @@ class CoinbasePriceService(WebPriceService):
         kwargs["url"] = "https://api.pro.coinbase.com"
         super().__init__(**kwargs)
 
-    async def get_price(self,
-                        asset: str,
-                        currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(
+        self, asset: str, currency: str
+    ) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Coinbase pro API

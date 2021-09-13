@@ -5,7 +5,6 @@ from typing import Dict
 from typing import Optional
 
 import requests
-
 from telliot.base import TimeStampedFloat
 
 
@@ -19,9 +18,9 @@ class PriceServiceInterface(ABC):
     """
 
     @abstractmethod
-    async def get_price(self,
-                        asset: str,
-                        currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(
+        self, asset: str, currency: str
+    ) -> Optional[TimeStampedFloat]:
         """Fetch the price of an asset
 
         TODO: Strictly specify compliant asset/currency symbols so concrete

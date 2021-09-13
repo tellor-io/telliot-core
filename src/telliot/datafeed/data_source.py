@@ -6,25 +6,24 @@ from typing import Optional
 from typing import TypeVar
 
 from pydantic import BaseModel
-
 from telliot.base import TimeStampedAnswer
 from telliot.base import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class DataSource(BaseModel, ABC):
-    """ Base Class for a DataSource.
+    """Base Class for a DataSource.
 
     A DataSource provides an input to a `DataFeed`
     """
 
     #: Unique data source identifier
-    uid: str = ''
+    uid: str = ""
 
     #: Descriptive name
-    name: str = ''
+    name: str = ""
 
     #: Current time-stamped value of the data source or None
     value: Optional[TimeStampedAnswer]
@@ -44,24 +43,18 @@ class DataSource(BaseModel, ABC):
 
 
 class DataSourceDb(DataSource, ABC):
-    """ A data source that can store and retrieve values from a database
-
-    """
+    """A data source that can store and retrieve values from a database"""
 
     async def load_value(self) -> TimeStampedAnswer:
-        """Update current value with time-stamped value fetched from database
-
-        """
+        """Update current value with time-stamped value fetched from database"""
         raise NotImplementedError
 
     async def store_value(self) -> None:
-        """ Store current time-stamped value to database
-
-        """
+        """Store current time-stamped value to database"""
         raise NotImplementedError
 
     async def get_history(self, n: int = 0) -> List[TimeStampedAnswer]:
-        """ Get data source history from database
+        """Get data source history from database
 
         Args:
             n:  If n > 0, get n datapoints from database, otherwise get all
@@ -85,10 +78,10 @@ class AssetPriceSource(DataSourceDb):
     value: Optional[TimeStampedFloat]
 
     #: Asset symbol
-    asset: str = ''
+    asset: str = ""
 
     #: Price currency symbol
-    currency: str = ''
+    currency: str = ""
 
     #: Price Service
     service: WebPriceService
@@ -117,14 +110,14 @@ class AssetPriceSource(DataSourceDb):
         raise NotImplementedError
 
     async def store_value(self) -> None:
-        """ Store current time-stamped value to database
+        """Store current time-stamped value to database
 
         TODO
         """
         raise NotImplementedError
 
     async def get_history(self, n: int = 0) -> List[TimeStampedFloat]:
-        """ Get data source history from database
+        """Get data source history from database
 
         Args:
             n:  If n > 0, get n datapoints from database, otherwise get all
@@ -158,9 +151,8 @@ class RandomSource(DataSourceDb):
     """
 
     #: Descriptive name
-    name: str = 'Random'
+    name: str = "Random"
 
     async def update_value(self):
         self.value = random.random()
         return random.random()
-

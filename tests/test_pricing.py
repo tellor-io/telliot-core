@@ -3,28 +3,24 @@ import time
 from datetime import datetime
 
 import pytest
-
+from telliot.base import TimeStampedFloat
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
-from telliot.base import TimeStampedFloat
-
-
 
 
 def test_web_price_services():
-    services = [CoinbasePriceService(),
-                CoinGeckoPriceService()
-                ]
+    services = [CoinbasePriceService(), CoinGeckoPriceService()]
 
     async def get_price(asset, currency):
         # Get time-stamped prices from all services
-        btcusd = await \
-            asyncio.gather(*[ps.get_price(asset, currency) for ps in services])
+        btcusd = await asyncio.gather(
+            *[ps.get_price(asset, currency) for ps in services]
+        )
         return btcusd
 
-    btcusd = asyncio.run(get_price('btc', 'usd'))
+    btcusd = asyncio.run(get_price("btc", "usd"))
     print(btcusd)
-    time.sleep(.0001)
+    time.sleep(0.0001)
     values = []
     for tsp in btcusd:
         assert isinstance(tsp, TimeStampedFloat)

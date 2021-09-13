@@ -2,8 +2,8 @@ from typing import Any
 from typing import Optional
 from urllib.parse import urlencode
 
-from telliot.pricing.price_service import WebPriceService
 from telliot.base import TimeStampedFloat
+from telliot.pricing.price_service import WebPriceService
 
 # Coinbase API uses the 'id' field from /coins/list.
 # Using a manual mapping for now.
@@ -18,9 +18,9 @@ class CoinGeckoPriceService(WebPriceService):
         kwargs["url"] = "https://api.coingecko.com"
         super().__init__(**kwargs)
 
-    async def get_price(self,
-                        asset: str,
-                        currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(
+        self, asset: str, currency: str
+    ) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Coingecko API
@@ -52,7 +52,11 @@ class CoinGeckoPriceService(WebPriceService):
             try:
                 price = float(response[coin_id][currency])
             except KeyError as e:
-                msg = "Error parsing Coingecko API response: KeyError: {}".format(e)
+                msg = (
+                    "Error parsing Coingecko API response: KeyError: {}".format(
+                        e
+                    )
+                )
                 print(msg)
 
         else:
