@@ -6,9 +6,9 @@ from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
 
 service = {
-    'coinbase': CoinbasePriceService(),
-    'coingecko': CoinGeckoPriceService(),
-    'bittrex': BittrexPriceService(),
+    "coinbase": CoinbasePriceService(),
+    "coingecko": CoinGeckoPriceService(),
+    "bittrex": BittrexPriceService(),
 }
 
 
@@ -27,19 +27,19 @@ def validate_price(price):
 
 @pytest.mark.asyncio
 async def test_coinbase():
-    price = await get_price('btc', 'usd', service['coinbase'])
+    price = await get_price("btc", "usd", service["coinbase"])
     validate_price(price)
 
 
 @pytest.mark.asyncio
 async def test_coingecko():
-    price = await get_price('btc', 'usd', service['coingecko'])
+    price = await get_price("btc", "usd", service["coingecko"])
     validate_price(price)
 
 
 @pytest.mark.asyncio
 async def test_bittrex():
-    price = await get_price('btc', 'usd', service['bittrex'])
+    price = await get_price("btc", "usd", service["bittrex"])
     validate_price(price)
 
 
