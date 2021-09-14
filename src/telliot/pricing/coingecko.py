@@ -40,7 +40,6 @@ class CoinGeckoPriceService(WebPriceService):
         request_url = "/api/v3/simple/price?{}".format(url_params)
 
         d = self.get_url(request_url)
-        print(d)
 
         if "error" in d:
             print(d)  # TODO: Log
