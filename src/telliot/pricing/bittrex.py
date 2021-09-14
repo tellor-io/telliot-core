@@ -53,7 +53,10 @@ class BittrexPriceService(WebPriceService):
             r = PriceResponse.parse_obj(d["response"])
 
             if r.success:
-                return TimeStampedFloat(r.result.Last)
+                if r.result is not None:
+                    return TimeStampedFloat(r.result.Last)
+                else:
+                    return None
             else:
                 print(r.message)
                 return None
