@@ -14,7 +14,7 @@ class Answer(GenericModel, Generic[T]):
     #: Value
     val: T
 
-    def __init__(self, val, **data):
+    def __init__(self, val: T, **data):
         super().__init__(val=val, **data)
 
     def to_bytes(self) -> bytes:
@@ -35,7 +35,11 @@ class Answer(GenericModel, Generic[T]):
 
 
 class TimeStampedAnswer(Answer[T], Generic[T]):
-    """A time-stamped answer for answer data feeds or other time series"""
+    """A time-stamped answer for answer data feeds or other time series
+
+    Note that mypy is OK if Generic[T] is removed, but pytantic
+    fails if it is removed.
+    """
 
     #: Timestamp
     ts: datetime = Field(default_factory=datetime.now)
@@ -49,7 +53,7 @@ class TimeStampedFixed(TimeStampedAnswer[float]):
 
     int = property(lambda self: round(self.val * 10 ** self.decimals))
 
-    def __init__(self, val, **data):
+    def __init__(self, val: float, **data):
         super().__init__(val=val, **data)
         stored_float = float(self.int) / 10 ** self.decimals
         if stored_float != val:
