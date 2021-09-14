@@ -1,8 +1,8 @@
 from typing import Any
-from typing import Optional
 from typing import Dict
-from pydantic import BaseModel
+from typing import Optional
 
+from pydantic import BaseModel
 from telliot.base import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
 
@@ -11,7 +11,8 @@ class PriceResponse(BaseModel):
     bid: float
     ask: float
     last: float
-    volume: Dict[str,Any]
+    volume: Dict[str, Any]
+
 
 # Example output
 # {'bid': '46696.49',
@@ -28,13 +29,11 @@ class GeminiPriceService(WebPriceService):
 
     def __init__(self, **kwargs: Any):
         super().__init__(
-            name="Gemini Price Service",
-            url="https://api.gemini.com",
-            **kwargs
+            name="Gemini Price Service", url="https://api.gemini.com", **kwargs
         )
 
     async def get_price(
-            self, asset: str, currency: str
+        self, asset: str, currency: str
     ) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
@@ -44,8 +43,9 @@ class GeminiPriceService(WebPriceService):
         instead of the locally generated timestamp.
         """
 
-        request_url = "/v1/pubticker/{}{}".format(asset.lower(),
-                                                  currency.lower())
+        request_url = "/v1/pubticker/{}{}".format(
+            asset.lower(), currency.lower()
+        )
 
         d = self.get_url(request_url)
         print(d)

@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timezone
 from typing import Generic
 from typing import TypeVar
 
@@ -34,6 +35,10 @@ class Answer(GenericModel, Generic[T]):
         raise NotImplementedError
 
 
+def datetime_now_utc():
+    return datetime.now(timezone.utc)
+
+
 class TimeStampedAnswer(Answer[T], Generic[T]):
     """A time-stamped answer for answer data feeds or other time series
 
@@ -41,8 +46,8 @@ class TimeStampedAnswer(Answer[T], Generic[T]):
     fails if it is removed.
     """
 
-    #: Timestamp
-    ts: datetime = Field(default_factory=datetime.now)
+    #: UTC Timestamp
+    ts: datetime = Field(default_factory=datetime_now_utc)
 
 
 class TimeStampedFixed(TimeStampedAnswer[float]):
