@@ -5,6 +5,7 @@ from telliot.datafeed.data_source import AssetPriceSource
 from telliot.pricing.bittrex import BittrexPriceService
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
+from telliot.pricing.gemini import GeminiPriceService
 
 data_sources = {
     "btc-usd-coinbase": AssetPriceSource(
@@ -27,6 +28,13 @@ data_sources = {
         asset="btc",
         currency="usd",
         service=BittrexPriceService(),
+    ),
+    "btc-usd-gemini": AssetPriceSource(
+        name="BTC USD Price from Gemini",
+        uid="btc-usd-gemini",
+        asset="btc",
+        currency="usd",
+        service=GeminiPriceService(),
     ),
 }
 

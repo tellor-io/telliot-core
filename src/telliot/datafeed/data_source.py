@@ -6,7 +6,6 @@ from typing import Optional
 from typing import TypeVar
 
 from pydantic import BaseModel
-
 from telliot.base import TimeStampedAnswer
 from telliot.base import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
@@ -30,8 +29,9 @@ class DataSource(BaseModel, ABC):
     value: Optional[TimeStampedAnswer]
 
     @abstractmethod
-    async def update_value(self, store: bool = False) -> Optional[
-        TimeStampedAnswer]:
+    async def update_value(
+        self, store: bool = False
+    ) -> Optional[TimeStampedAnswer]:
         """Update current value with time-stamped value fetched from source
 
         Args:
@@ -92,8 +92,9 @@ class AssetPriceSource(DataSourceDb):
     class Config:
         arbitrary_types_allowed = True
 
-    async def update_value(self, store: bool = False) -> Optional[
-        TimeStampedFloat]:
+    async def update_value(
+        self, store: bool = False
+    ) -> Optional[TimeStampedFloat]:
         """Update current value with time-stamped value fetched from source
 
         Args:
