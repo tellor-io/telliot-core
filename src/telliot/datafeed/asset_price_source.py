@@ -1,4 +1,5 @@
-from typing import List, Optional
+from typing import List
+from typing import Optional
 
 from telliot.answer import TimeStampedFloat
 from telliot.datafeed.data_source import DataSourceDb

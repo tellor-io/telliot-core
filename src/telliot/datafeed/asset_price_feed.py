@@ -1,4 +1,6 @@
-from typing import Callable, List, Optional
+from typing import Callable
+from typing import List
+from typing import Optional
 
 from telliot.answer import TimeStampedFixed
 from telliot.datafeed.data_feed import DataFeed
