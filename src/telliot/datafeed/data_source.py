@@ -1,6 +1,6 @@
-import random
 from abc import ABC
 from abc import abstractmethod
+from typing import Any
 from typing import List
 from typing import Optional
 from typing import TypeVar
@@ -26,12 +26,12 @@ class DataSource(BaseModel, ABC):
     name: str = ""
 
     #: Current time-stamped value of the data source or None
-    value: Optional[TimeStampedAnswer]
+    value: Optional[TimeStampedAnswer[Any]]
 
     @abstractmethod
     async def update_value(
         self, store: bool = False
-    ) -> Optional[TimeStampedAnswer]:
+    ) -> Optional[TimeStampedAnswer[Any]]:
         """Update current value with time-stamped value fetched from source
 
         Args:
@@ -47,7 +47,7 @@ class DataSource(BaseModel, ABC):
 class DataSourceDb(DataSource, ABC):
     """A data source that can store and retrieve values from a database"""
 
-    async def load_value(self) -> TimeStampedAnswer:
+    async def load_value(self) -> TimeStampedAnswer[Any]:
         """Update current value with time-stamped value fetched from database"""
         raise NotImplementedError
 
@@ -55,7 +55,8 @@ class DataSourceDb(DataSource, ABC):
         """Store current time-stamped value to database"""
         raise NotImplementedError
 
-    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer]:
+    @abstractmethod
+    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
         """Get data source history from database
 
         Args:
@@ -92,9 +93,7 @@ class AssetPriceSource(DataSourceDb):
     class Config:
         arbitrary_types_allowed = True
 
-    async def update_value(
-        self, store: bool = False
-    ) -> Optional[TimeStampedFloat]:
+    async def update_value(self, store: bool = False) -> Optional[TimeStampedFloat]:
         """Update current value with time-stamped value fetched from source
 
         Args:
@@ -127,7 +126,7 @@ class AssetPriceSource(DataSourceDb):
         """
         raise NotImplementedError
 
-    async def get_history(self, n: int = 0) -> List[TimeStampedFloat]:
+    async def get_history(self, n: int = 0) -> List[TimeStampedFloat]:  # type: ignore
         """Get data source history from database
 
         Args:
@@ -142,28 +141,31 @@ class AssetPriceSource(DataSourceDb):
         raise NotImplementedError
 
 
-class ConstantSource(DataSource):
-    """A simple data source that fetches a constant value"""
-
-    #: Descriptive name
-    name: str = "Constant"
-
-    def __init__(self, value, **kwargs):
-        super().__init__(value=value, **kwargs)
-
-    async def update_value(self):
-        return self.value
-
-
-class RandomSource(DataSourceDb):
-    """A random data source
-
-    Returns a random floating point number in the range [0.0, 1.0).
-    """
-
-    #: Descriptive name
-    name: str = "Random"
-
-    async def update_value(self):
-        self.value = random.random()
-        return random.random()
+# class ConstantSource(DataSource):
+#     """A simple data source that fetches a constant value"""
+#
+#     #: Descriptive name
+#     name: str = "Constant"
+#
+#     #: Constant value
+#     constant_value: float
+#
+#     def __init__(self, value: float, **kwargs: Any):
+#         super().__init__(constant_value=value, **kwargs)
+#
+#     async def update_value(self):
+#         return self.value
+#
+#
+# class RandomSource(DataSourceDb):
+#     """A random data source
+#
+#     Returns a random floating point number in the range [0.0, 1.0).
+#     """
+#
+#     #: Descriptive name
+#     name: str = "Random"
+#
+#     async def update_value(self):
+#         self.value = random.random()
+#         return random.random()

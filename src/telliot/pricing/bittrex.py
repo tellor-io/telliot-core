@@ -23,14 +23,10 @@ class BittrexPriceService(WebPriceService):
 
     def __init__(self, **kwargs: Any):
         super().__init__(
-            name="Bittrex Price Service",
-            url="https://api.bittrex.com",
-            **kwargs
+            name="Bittrex Price Service", url="https://api.bittrex.com", **kwargs
         )
 
-    async def get_price(
-        self, asset: str, currency: str
-    ) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Bittrex API

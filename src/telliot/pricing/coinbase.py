@@ -13,9 +13,7 @@ class CoinbasePriceService(WebPriceService):
         kwargs["url"] = "https://api.pro.coinbase.com"
         super().__init__(**kwargs)
 
-    async def get_price(
-        self, asset: str, currency: str
-    ) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Coinbase pro API
@@ -26,9 +24,7 @@ class CoinbasePriceService(WebPriceService):
         instead of the locally generated timestamp.
         """
 
-        request_url = "/products/{}-{}/ticker".format(
-            asset.lower(), currency.lower()
-        )
+        request_url = "/products/{}-{}/ticker".format(asset.lower(), currency.lower())
 
         d = self.get_url(request_url)
         if "error" in d:
@@ -39,9 +35,7 @@ class CoinbasePriceService(WebPriceService):
             response = d["response"]
 
             if "message" in response:
-                print(
-                    "API ERROR ({}): {}".format(self.name, response["message"])
-                )
+                print("API ERROR ({}): {}".format(self.name, response["message"]))
                 return None
 
         else:

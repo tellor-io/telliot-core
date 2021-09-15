@@ -32,9 +32,7 @@ class GeminiPriceService(WebPriceService):
             name="Gemini Price Service", url="https://api.gemini.com", **kwargs
         )
 
-    async def get_price(
-        self, asset: str, currency: str
-    ) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Bittrex API
@@ -43,9 +41,7 @@ class GeminiPriceService(WebPriceService):
         instead of the locally generated timestamp.
         """
 
-        request_url = "/v1/pubticker/{}{}".format(
-            asset.lower(), currency.lower()
-        )
+        request_url = "/v1/pubticker/{}{}".format(asset.lower(), currency.lower())
 
         d = self.get_url(request_url)
         print(d)

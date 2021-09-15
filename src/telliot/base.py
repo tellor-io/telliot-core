@@ -1,5 +1,6 @@
 from datetime import datetime
 from datetime import timezone
+from typing import Any
 from typing import Generic
 from typing import TypeVar
 
@@ -15,7 +16,7 @@ class Answer(GenericModel, Generic[T]):
     #: Value
     val: T
 
-    def __init__(self, val: T, **data):
+    def __init__(self, val: T, **data: Any):
         super().__init__(val=val, **data)
 
     def to_bytes(self) -> bytes:
@@ -35,7 +36,7 @@ class Answer(GenericModel, Generic[T]):
         raise NotImplementedError
 
 
-def datetime_now_utc():
+def datetime_now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
 
@@ -58,15 +59,11 @@ class TimeStampedFixed(TimeStampedAnswer[float]):
 
     int = property(lambda self: round(self.val * 10 ** self.decimals))
 
-    def __init__(self, val: float, **data):
+    def __init__(self, val: float, **data: Any):
         super().__init__(val=val, **data)
         stored_float = float(self.int) / 10 ** self.decimals
         if stored_float != val:
-            print(
-                "WARNING: float value {} rounded to {}".format(
-                    val, stored_float
-                )
-            )
+            print("WARNING: float value {} rounded to {}".format(val, stored_float))
         self.val = stored_float
 
 

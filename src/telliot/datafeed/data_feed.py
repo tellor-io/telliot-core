@@ -1,6 +1,8 @@
 import asyncio
+from typing import Any
 from typing import Callable
 from typing import Dict
+from typing import List
 from typing import Optional
 
 from telliot.base import TimeStampedAnswer
@@ -15,7 +17,7 @@ class DataFeed(DataSourceDb):
     #: Data feed sources
     sources: Dict[str, DataSource]
 
-    def update_sources(self) -> Dict[str, TimeStampedAnswer]:
+    def update_sources(self) -> Dict[str, TimeStampedAnswer[Any]]:
         """Update data feed sources
 
         Returns:
@@ -23,7 +25,7 @@ class DataFeed(DataSourceDb):
             to the time-stamped answer for that data source
         """
 
-        async def gather_inputs():
+        async def gather_inputs() -> Dict[str, TimeStampedAnswer[Any]]:
             keys = self.sources.keys()
             values = await asyncio.gather(
                 *[self.sources[key].update_value() for key in keys]
@@ -44,9 +46,9 @@ class AssetPriceFeed(DataFeed):
     currency: str
 
     #: Callable algorithm that accepts an iterable of floats
-    algorithm: Callable
+    algorithm: Callable[..., float]
 
-    def update_value(self, store: bool = False) -> TimeStampedFixed:
+    def update_value(self, store: bool = False) -> Optional[TimeStampedFixed]:
         """Update current value with time-stamped value fetched from source
 
         Args:
@@ -83,3 +85,17 @@ class AssetPriceFeed(DataFeed):
         )
 
         return self.value
+
+    async def get_history(self, n: int = 0) -> List[TimeStampedFixed]:  # type: ignore
+        """Get data source history from database
+
+        Args:
+            n:  If n > 0, get n datapoints from database, otherwise get all
+                available datapoints.
+
+        Returns:
+            History of timestamped values from database
+
+        TODO
+        """
+        raise NotImplementedError

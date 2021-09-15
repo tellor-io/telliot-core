@@ -18,9 +18,7 @@ class CoinGeckoPriceService(WebPriceService):
         kwargs["url"] = "https://api.coingecko.com"
         super().__init__(**kwargs)
 
-    async def get_price(
-        self, asset: str, currency: str
-    ) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Coingecko API
@@ -51,11 +49,7 @@ class CoinGeckoPriceService(WebPriceService):
             try:
                 price = float(response[coin_id][currency])
             except KeyError as e:
-                msg = (
-                    "Error parsing Coingecko API response: KeyError: {}".format(
-                        e
-                    )
-                )
+                msg = "Error parsing Coingecko API response: KeyError: {}".format(e)
                 print(msg)
 
         else:

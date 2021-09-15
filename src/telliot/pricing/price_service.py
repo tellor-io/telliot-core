@@ -18,9 +18,7 @@ class PriceServiceInterface(ABC):
     """
 
     @abstractmethod
-    async def get_price(
-        self, asset: str, currency: str
-    ) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
         """Fetch the price of an asset
 
         TODO: Strictly specify compliant asset/currency symbols so concrete
