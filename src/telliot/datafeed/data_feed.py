@@ -17,7 +17,7 @@ class DataFeed(DataSourceDb):
     #: Data feed sources
     sources: Dict[str, DataSource]
 
-    def update_sources(self) -> Dict[str, TimeStampedAnswer[Any]]:
+    async def update_sources(self) -> Dict[str, TimeStampedAnswer[Any]]:
         """Update data feed sources
 
         Returns:
@@ -32,7 +32,7 @@ class DataFeed(DataSourceDb):
             )
             return dict(zip(keys, values))
 
-        return asyncio.run(gather_inputs())
+        return await gather_inputs()
 
 
 class AssetPriceFeed(DataFeed):
@@ -48,7 +48,7 @@ class AssetPriceFeed(DataFeed):
     #: Callable algorithm that accepts an iterable of floats
     algorithm: Callable[..., float]
 
-    def update_value(self, store: bool = False) -> Optional[TimeStampedFixed]:
+    async def update_value(self, store: bool = False) -> Optional[TimeStampedFixed]:
         """Update current value with time-stamped value fetched from source
 
         Args:
@@ -58,7 +58,7 @@ class AssetPriceFeed(DataFeed):
         Returns:
             Current time-stamped value
         """
-        sources = self.update_sources()
+        sources = await self.update_sources()
 
         prices = []
         for key in sources:

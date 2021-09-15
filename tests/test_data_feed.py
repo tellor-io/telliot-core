@@ -3,13 +3,15 @@
 """
 import statistics
 
+import pytest
 import telliot.registry
 
 
-def test_AssetPriceFeed():
+@pytest.mark.asyncio
+async def test_AssetPriceFeed():
     btc_usd_median = telliot.registry.data_feeds["btc-usd-median"]
 
-    price = btc_usd_median.update_value()
+    price = await btc_usd_median.update_value()
 
     # Get list of data sources from sources dict
     sources = [source.value for source in btc_usd_median.sources.values()]
