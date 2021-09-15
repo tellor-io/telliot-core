@@ -5,7 +5,7 @@ from typing import Dict
 from typing import Optional
 
 import requests
-from telliot.base import TimeStampedFloat
+from telliot.answer import TimeStampedFloat
 
 
 class PriceServiceInterface(ABC):

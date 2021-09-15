@@ -2,10 +2,10 @@ from datetime import datetime
 
 import pytest
 from pydantic.error_wrappers import ValidationError
-from telliot.base import Answer
-from telliot.base import TimeStampedAnswer
-from telliot.base import TimeStampedFixed
-from telliot.base import TimeStampedFloat
+from telliot.answer import Answer
+from telliot.answer import TimeStampedAnswer
+from telliot.answer import TimeStampedFixed
+from telliot.answer import TimeStampedFloat
 
 
 def test_Answer():
