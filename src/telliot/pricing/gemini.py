@@ -3,7 +3,7 @@ from typing import Dict
 from typing import Optional
 
 from pydantic import BaseModel
-from telliot.base import TimeStampedFloat
+from telliot.answer import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
 
 

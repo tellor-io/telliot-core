@@ -1,14 +1,12 @@
-from typing import Callable
 from typing import Any
-from pydantic import BaseModel
+from typing import Callable
 
-from telliot.base import Answer
+from pydantic import BaseModel
+from telliot.answer import Answer
 
 
 class OracleQuery(BaseModel):
-    """ Base class for all DAO-approved tellor queries
-
-    """
+    """Base class for all DAO-approved tellor queries"""
 
     #: Unique Query ID
     uid: str

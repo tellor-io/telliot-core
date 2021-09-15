@@ -1,6 +1,6 @@
 import pytest
 import telliot.registry
-from telliot.base import TimeStampedFloat
+from telliot.answer import TimeStampedFloat
 
 
 @pytest.mark.asyncio

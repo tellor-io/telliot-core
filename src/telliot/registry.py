@@ -1,7 +1,7 @@
 import statistics
 
-from telliot.datafeed.data_feed import AssetPriceFeed
-from telliot.datafeed.data_source import AssetPriceSource
+from telliot.datafeed.asset_price_feed import AssetPriceFeed
+from telliot.datafeed.asset_price_source import AssetPriceSource
 from telliot.pricing.bittrex import BittrexPriceService
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
