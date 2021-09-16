@@ -1,22 +1,15 @@
-import asyncio
+import pytest
+import telliot.registry
+from telliot.answer import TimeStampedFloat
 
-from telliot.datafeed.data_source import WebJsonPriceApi
 
+@pytest.mark.asyncio
+async def test_CurrentAssetPrice():
+    btc_usd_coinbase = telliot.registry.data_sources["btc-usd-coinbase"]
 
-def test_web_json_price_api():
+    # Fetch current price
+    price = await btc_usd_coinbase.update_value()
+    assert isinstance(price, TimeStampedFloat)
 
-    ds1 = WebJsonPriceApi(
-        name="Coinbase BTCUSD Price",
-        asset_id="BTCUSD",
-        id="btc-usd-coinbase",
-        url="https://api.pro.coinbase.com/products/BTC-USD/ticker",
-        keywords=["price"],
-    )
-
-    p = asyncio.run(ds1.fetch())
-    assert isinstance(p, float)
-    print("{} price according to {} = {}".format(ds1.asset_id, ds1.name, p))
-
-    ds1.url = "https://mgjvbe6hdns.com/asdfgrfde"
-    p = asyncio.run(ds1.fetch())
-    assert p is None
+    # Make sure value property is updated
+    assert btc_usd_coinbase.value is price

@@ -1,83 +1,97 @@
+from abc import ABC
 from abc import abstractmethod
-from dataclasses import dataclass
-from dataclasses import field
 from typing import Any
 from typing import List
 from typing import Optional
+from typing import TypeVar
 
-import requests
+from pydantic import BaseModel
+from telliot.answer import TimeStampedAnswer
+
+T = TypeVar("T")
 
 
-@dataclass
-class DataSource:
-    """Abstract Base Class for a DataSource.
+class DataSource(BaseModel, ABC):
+    """Base Class for a DataSource.
 
-    A DataSource provides an input to a `DataFeed` algorithm
+    A DataSource provides an input to a `DataFeed`
     """
 
     #: Unique data source identifier
-    id: str = ""
+    uid: str = ""
 
     #: Descriptive name
     name: str = ""
 
+    #: Current time-stamped value of the data source or None
+    value: Optional[TimeStampedAnswer[Any]]
+
     @abstractmethod
-    def fetch(self) -> Any:
-        """Fetch Data
+    async def update_value(
+        self, store: bool = False
+    ) -> Optional[TimeStampedAnswer[Any]]:
+        """Update current value with time-stamped value fetched from source
+
+        Args:
+            store:  If true and applicable, updated value will be stored
+                    to the database
 
         Returns:
-            Data returned from source
-            TODO: Handle exceptions
+            Current time-stamped value
         """
         raise NotImplementedError
 
 
-@dataclass
-class WebJsonPriceApi(DataSource):
-    """Web JSON Price API
+class DataSourceDb(DataSource, ABC):
+    """A data source that can store and retrieve values from a database"""
 
-    A price API accessible through HTTP that returns a JSON dict result.
+    async def load_value(self) -> TimeStampedAnswer[Any]:
+        """Update current value with time-stamped value fetched from database"""
+        raise NotImplementedError
 
-    """
+    async def store_value(self) -> None:
+        """Store current time-stamped value to database"""
+        raise NotImplementedError
 
-    #: Asset ID
-    asset_id: str = ""
+    @abstractmethod
+    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
+        """Get data source history from database
 
-    #: API URL
-    url: str = ""
-
-    #: Web request timeout
-    timeout: float = 5.0
-
-    #: Dict keywords used to parse API result to get price
-    keywords: List[str] = field(default_factory=list)
-
-    async def fetch(self) -> Optional[float]:
-        """Fetch Data
+        Args:
+            n:  If n > 0, get n datapoints from database, otherwise get all
+                available datapoints.
 
         Returns:
-            Data returned from source or None if an exception occurred
+            History of timestamped values from database
         """
-        with requests.Session() as s:
-            try:
-                response = s.get(self.url, timeout=self.timeout)
-            except Exception as e:
-                msg = "API Error ({})\n{}".format(self.name, str(e))
-                print(msg)
-                return None
+        raise NotImplementedError
 
-            try:
-                d = response.json()
-            except Exception as e:
-                msg = "API Error ({}) returned invalid JSON string\n{}".format(
-                    self.name, str(e)
-                )
-                print(msg)
-                return None
 
-            for keyword in self.keywords:
-                d = d[keyword]
-
-        price = float(d)
-
-        return price
+# class ConstantSource(DataSource):
+#     """A simple data source that fetches a constant value"""
+#
+#     #: Descriptive name
+#     name: str = "Constant"
+#
+#     #: Constant value
+#     constant_value: float
+#
+#     def __init__(self, value: float, **kwargs: Any):
+#         super().__init__(constant_value=value, **kwargs)
+#
+#     async def update_value(self):
+#         return self.value
+#
+#
+# class RandomSource(DataSourceDb):
+#     """A random data source
+#
+#     Returns a random floating point number in the range [0.0, 1.0).
+#     """
+#
+#     #: Descriptive name
+#     name: str = "Random"
+#
+#     async def update_value(self):
+#         self.value = random.random()
+#         return random.random()

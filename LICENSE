@@ -1,6 +1,8 @@
-MIT License
+# The Tellor licensing terms
 
-Copyright (c) 2021 Tellor
+Tellor is licensed under the terms of the MIT License, as follows.
+
+Copyright (c) 2020-, Tellor Development Community
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +21,27 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## About the Tellor Development Community
+
+The Tellor Development Community is the set of all contributors to the Tellor
+project. This includes all of the Tellor subprojects.
+
+The core team that coordinates development on GitHub can be found at
+https://tellor.io
+
+## Our Copyright Policy
+
+Tellor uses a shared copyright model. Each contributor maintains copyright over
+their contributions to Tellor and has licensed these contributions under
+the MIT license above. Thus, the Tellor source code in its entirety is not the
+copyright of any single person or institution. Instead, it is the collective
+copyright of the entire Tellor Development Community.
+
+With this in mind, the following banner should be used in any source code file to
+indicate the copyright and license terms:
+
+# ------------------------------------------------
+# Copyright (c) Tellor Development Community
+# Distributed under the terms of the MIT License.
+# ------------------------------------------------
