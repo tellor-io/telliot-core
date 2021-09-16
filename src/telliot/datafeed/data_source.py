@@ -2,11 +2,14 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Any
 from typing import List
+from typing import Dict
 from typing import Optional
 from typing import TypeVar
 
 from pydantic import BaseModel
 from telliot.answer import TimeStampedAnswer
+
+import requests
 
 T = TypeVar("T")
 
@@ -51,7 +54,31 @@ class DataSourceDb(DataSource, ABC):
 
     async def store_value(self) -> None:
         """Store current time-stamped value to database"""
-        raise NotImplementedError
+
+        data = {
+            "uid": self.uid,
+            "value": self.value.val,
+            "timestamp": str(self.value.ts)
+        }
+
+        url = 'http://127.0.0.1:8000/data/'
+        
+        def store() -> Dict[str, Any]:
+            '''Send post request to local db.'''
+            with requests.Session() as s:
+                try:
+                    r = s.post(url, json=data)
+                    json_data = r.json()
+                    return {"response": json_data}
+
+                except requests.exceptions.ConnectTimeout as e:
+                    return {"error": "Timeout Error", "exception": e}
+
+                except Exception as e:
+                    return {"error": str(type(e)), "exception": e}
+        
+        _ = store()
+
 
     @abstractmethod
     async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
