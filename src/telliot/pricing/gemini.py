@@ -44,7 +44,7 @@ class GeminiPriceService(WebPriceService):
         request_url = "/v1/pubticker/{}{}".format(asset.lower(), currency.lower())
 
         d = self.get_url(request_url)
-        print(d)
+        # print(d)
         if "error" in d:
             print(d)  # TODO: Log
             return None
