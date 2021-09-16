@@ -43,7 +43,7 @@ async def create_data(data: schemas.DataIn) -> Dict[str, Any]:
     Store new data in connected postgresql database.
     """
     query = db.offchain.insert().values(
-        name=data.name, value=data.value, timestamp=data.timestamp
+        uid=data.uid, value=data.value, timestamp=data.timestamp
     )
     last_record_id = await db.database.execute(query)
     return {**data.dict(), "id": last_record_id}
@@ -59,15 +59,15 @@ async def get_all() -> List[Mapping[str, Any]]:
     return await db.database.fetch_all(query)
 
 
-@app.get("/data/get/", response_model=schemas.Data)
-async def get_latest_by_name(name: str) -> Optional[Mapping[str, Any]]:
+@app.get("/data/latest/", response_model=schemas.Data)
+async def get_latest_by_uid(uid: str) -> Optional[Mapping[str, Any]]:
     """Get last entry for specified data.
 
     Retrieves one data entry based on given name.
     """
     query = f"""
     select * from offchain
-    where name = "{name}"
+    where uid = "{uid}"
     order by timestamp desc limit 1
     """
     return await db.database.fetch_one(query)

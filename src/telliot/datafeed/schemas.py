@@ -16,7 +16,7 @@ class DataIn(BaseModel):
     Ingested data does not include auto-generated ids.
     """
 
-    name: str
+    uid: str
     value: str
     timestamp: datetime.datetime
 
@@ -29,6 +29,6 @@ class Data(BaseModel):
     """
 
     id: int
-    name: str
+    uid: str
     value: str
     timestamp: datetime.datetime

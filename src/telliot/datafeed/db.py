@@ -16,7 +16,7 @@ offchain = sqlalchemy.Table(
     "offchain",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("name", sqlalchemy.String),
+    sqlalchemy.Column("uid", sqlalchemy.String),
     sqlalchemy.Column("value", sqlalchemy.String),
     sqlalchemy.Column("timestamp", sqlalchemy.DateTime),
 )
