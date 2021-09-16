@@ -5,8 +5,6 @@ from typing import Optional
 from telliot.answer import TimeStampedFixed
 from telliot.datafeed.data_feed import DataFeed
 
-import json
-
 
 class AssetPriceFeed(DataFeed):
     #: Override data type for this feed

@@ -6,39 +6,36 @@ Submits local data to Tellor Oracle at scheduled times.
 Configuration is handled through CLI flags or in the
 config file.
 """
-
-
-import asyncio
-from .datafeed import server
-from multiprocessing import Process
-import uvicorn
-
-from typing import Dict
 from abc import ABC
 from abc import abstractmethod
+from multiprocessing import Process
+from typing import Any
+from typing import Dict
+
+import uvicorn  # type: ignore
+
+from .datafeed import server
 
 
 class Reporter(ABC):
-    '''
-    Runs local db for off-chain data as a background task. 
+    """
+    Runs local db for off-chain data as a background task.
     Populates db & submits local data to Tellor Oracle.
-    '''
+    """
 
-    def __init__(self, datafeeds) -> None:
+    def __init__(self, datafeeds: Dict[str, Any]) -> None:
         self.datafeeds = datafeeds
         self.database = Process(
             target=uvicorn.run,
             args=(server.app,),
-            kwargs={
-                "host": "127.0.0.1",
-                "port": 8000,
-                "log_level": "info"},
-            daemon=True
+            kwargs={"host": "127.0.0.1", "port": 8000, "log_level": "info"},
+            daemon=True,
         )
 
     @abstractmethod
     async def update_datafeeds(self) -> None:
-        """Update all off-chain values for each datafeed and store those values locally."""
+        """Update all off-chain values for each datafeed
+        and store those values locally."""
 
         raise NotImplementedError
 
