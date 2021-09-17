@@ -25,12 +25,12 @@ class Reporter(ABC):
 
     def __init__(self, datafeeds: Dict[str, Any]) -> None:
         self.datafeeds = datafeeds
-        self.database = Process(
-            target=uvicorn.run,
-            args=(server.app,),
-            kwargs={"host": "127.0.0.1", "port": 8000, "log_level": "info"},
-            daemon=True,
-        )
+        # self.database = Process(
+        #     target=uvicorn.run,
+        #     args=(server.app,),
+        #     kwargs={"host": "127.0.0.1", "port": 8000, "log_level": "info"},
+        #     daemon=True,
+        # )
 
     @abstractmethod
     async def update_datafeeds(self) -> None:
@@ -51,14 +51,14 @@ class Reporter(ABC):
         execute all desired Reporter functions."""
 
         # Run database server api as background process.
-        self.database.start()
+        # self.database.start()
 
         # TODO: Replace with update_datafeeds() & submit_data() function calls.
         raise NotImplementedError
 
         # Execution will block here until Ctrl+C (Ctrl+Break on Windows) is pressed.
-        try:
-            # TODO: Run asyncio loop forever.
-            pass
-        except (KeyboardInterrupt, SystemExit):
-            self.background_server.terminate()
+        # try:
+        #     # TODO: Run asyncio loop forever.
+        #     pass
+        # except (KeyboardInterrupt, SystemExit):
+        #     self.background_server.terminate()

@@ -14,7 +14,7 @@ class DataFeed(DataSourceDb):
     sources: Dict[str, DataSource]
 
     #: Unique ID of tellor query supported by this feed
-    query_id: str
+    request_id: str
 
     async def update_sources(self) -> Dict[str, TimeStampedAnswer[Any]]:
         """Update data feed sources
