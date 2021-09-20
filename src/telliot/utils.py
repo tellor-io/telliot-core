@@ -8,8 +8,12 @@ class TelliotUtils:
         Returns:
             Byte representation of value
         """
-        return Web3.toBytes(input)
-
+        # hex = Web3.toHex(text=request_id)
+        # print(len(hex))
+        # return Web3.toBytes(hexstr=hex)
+        b = bytes(request_id, "ascii")
+        print(len(b))
+        return b
 
         raise NotImplementedError
 
@@ -31,4 +35,4 @@ class TelliotUtils:
 
 if __name__ == "__main__":
     #test really long string...does it clip?
-    print(TelliotUtils.to_bytes("really long string:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaa"))
+    print(TelliotUtils().to_bytes32("PolygonBridge,mesosphereContract,bytes4(keccack(balanceOf(address)),randomAddress,blockNumber"))

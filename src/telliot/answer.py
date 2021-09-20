@@ -19,21 +19,21 @@ class Answer(GenericModel, Generic[T]):
     def __init__(self, val: T, **data: Any):
         super().__init__(val=val, **data)
 
-    def to_bytes(self) -> bytes:
-        """Convert value to bytes as stored on the blockchain
+    # def to_bytes(self) -> bytes:
+    #     """Convert value to bytes as stored on the blockchain
 
-        Returns:
-            Byte representation of value
-        """
-        raise NotImplementedError
+    #     Returns:
+    #         Byte representation of value
+    #     """
+    #     raise NotImplementedError
 
-    def from_bytes(self, bytesval: bytes) -> T:
-        """Convert blockchain bytes to value
+    # def from_bytes(self, bytesval: bytes) -> T:
+    #     """Convert blockchain bytes to value
 
-        Returns:
-            Value
-        """
-        raise NotImplementedError
+    #     Returns:
+    #         Value
+    #     """
+    #     raise NotImplementedError
 
 
 def datetime_now_utc() -> datetime:
