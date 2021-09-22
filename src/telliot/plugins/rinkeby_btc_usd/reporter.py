@@ -7,6 +7,7 @@ import asyncio
 from multiprocessing import Process
 from typing import Any
 from typing import Dict
+from typing import Union
 
 import uvicorn  # type: ignore
 
@@ -16,7 +17,6 @@ import os
 from dotenv import find_dotenv
 from dotenv import load_dotenv
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
 
 from telliot.plugins.rinkeby_btc_usd.datafeeds import btc_usd_data_feeds
 from telliot.reporter_base import Reporter
@@ -39,25 +39,23 @@ class RinkebySubmitter(Submitter):
             abi=tellorX_playground_abi
             )
 
-    def tobytes32(self, x):
-        return bytes(x, "ascii")
+    def tobytes32(self, request_id: str) -> bytes:
+        return bytes(request_id, "ascii")
 
+    def tobytes(self, value: int) -> bytes:
+        return Web3.toBytes(hexstr=Web3.toHex(text=str(value)))
 
-    def tobytes(self, x):
-        return Web3.toBytes(hexstr=Web3.toHex(text=str(x)))
-
-
-    def build_tx(self, value, request_id):
-        request_id = self.tobytes32(request_id)
-        value = self.tobytes(int(value * 1e6))
-        nonce = self.playground.functions.getNewValueCountbyRequestId(request_id).call()
+    def build_tx(self, value: float, request_id: str) -> Dict[str, Union[int, str]]:
+        request_id_bytes = self.tobytes32(request_id)
+        value_bytes = self.tobytes(int(value * 1e6))
+        nonce = self.playground.functions.getNewValueCountbyRequestId(request_id_bytes).call()
 
         print('nonce', nonce)
 
         acc_nonce = self.w3.eth.get_transaction_count(self.acc.address)
 
         transaction = self.playground.functions.submitValue(
-            request_id, value, nonce
+            request_id_bytes, value_bytes, nonce
         ).buildTransaction(
             {
                 "nonce": acc_nonce,
@@ -69,8 +67,7 @@ class RinkebySubmitter(Submitter):
 
         return transaction
 
-
-    def submit_data(self, value, request_id):
+    def submit_data(self, value: float, request_id: str) -> Any:
         tx = self.build_tx(value, request_id)
 
         tx_signed = (
@@ -85,7 +82,6 @@ class RinkebySubmitter(Submitter):
             tx_hash, timeout=360
         )
         print(f'View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}')
-
 
 
 class BTCUSDReporter(Reporter):
@@ -111,10 +107,13 @@ class BTCUSDReporter(Reporter):
 
             _ = await asyncio.gather(*jobs)
 
-            print(f'Submitting value for {uid}: {datafeed.value.val}')
-            self.submitter.submit_data(
-                datafeed.value.val, 
-                datafeed.request_id)
+            if datafeed.value:
+                print(f'Submitting value for {uid}: {datafeed.value.val}')
+                self.submitter.submit_data(
+                    datafeed.value.val, 
+                    datafeed.request_id)
+            else:
+                print(f'Skipping submission for {uid}, datafeed value not updated')
 
             await asyncio.sleep(3)
 
