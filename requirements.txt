@@ -25,6 +25,7 @@ pydantic==1.8.2
 Pygments==2.10.0
 pyparsing==2.4.7
 pytest==6.2.5
+python-dotenv==0.19.0
 pytz==2021.1
 requests==2.26.0
 snowballstemmer==2.1.0
@@ -42,3 +43,4 @@ types-requests==2.25.6
 typing-extensions==3.10.0.2
 urllib3==1.26.6
 uvicorn==0.15.0
+web3==5.23.1
