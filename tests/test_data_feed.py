@@ -4,7 +4,7 @@
 import statistics
 
 import pytest
-from telliot.plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
+from telliot.reporter_plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
 
 
 @pytest.mark.asyncio

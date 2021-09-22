@@ -6,7 +6,7 @@ or in the configuration file.
 """
 import click
 
-from .plugins.rinkeby_btc_usd.reporter import btc_usd_reporter
+from .reporter_plugins.rinkeby_btc_usd.reporter import btc_usd_reporter
 
 
 @click.group()

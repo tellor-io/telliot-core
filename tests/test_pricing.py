@@ -1,12 +1,18 @@
 from datetime import datetime
 
 import pytest
-from telliot.plugins.rinkeby_btc_usd.datafeed_utils.bittrex import BittrexPriceService
-from telliot.plugins.rinkeby_btc_usd.datafeed_utils.coinbase import CoinbasePriceService
-from telliot.plugins.rinkeby_btc_usd.datafeed_utils.coingecko import (
+from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.bittrex import (
+    BittrexPriceService,
+)
+from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.coinbase import (
+    CoinbasePriceService,
+)
+from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.coingecko import (
     CoinGeckoPriceService,
 )
-from telliot.plugins.rinkeby_btc_usd.datafeed_utils.gemini import GeminiPriceService
+from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.gemini import (
+    GeminiPriceService,
+)
 
 service = {
     "coinbase": CoinbasePriceService(),

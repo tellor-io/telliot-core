@@ -1,7 +1,7 @@
 """ Submit Data
 
 This module's provides a base Submitter class to be subclassed
-in the `plugins` module. Submitters submit off-chain data on-chain
+in the `reporter_plugins` module. Submitters submit off-chain data on-chain
 to the Tellor oracle.
 """
 from abc import ABC
