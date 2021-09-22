@@ -6,13 +6,13 @@ import asyncio
 import os
 from typing import Any
 
-from dotenv import find_dotenv  # type: ignore
+from dotenv import find_dotenv
 from dotenv import load_dotenv
 from telliot.plugins.rinkeby_btc_usd.abi import tellorX_playground_abi
 from telliot.plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
 from telliot.reporter_base import Reporter
-from telliot.submitter.submitter_base import Submitter  # type: ignore
-from web3 import Web3  # type: ignore
+from telliot.submitter.submitter_base import Submitter
+from web3 import Web3
 
 load_dotenv(find_dotenv())
 

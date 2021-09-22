@@ -3,7 +3,7 @@
 This module creates a database with a model to store off-chain data.
 """
 import databases
-import sqlalchemy  # type: ignore
+import sqlalchemy
 
 
 DATABASE_URL = "sqlite:///./test.db"
