@@ -6,7 +6,7 @@ or in the configuration file.
 """
 import click
 
-from .btc_price_reporter import btc_reporter
+from .plugins.rinkeby_btc_usd.reporter import btc_usd_reporter
 
 
 @click.group()
@@ -19,7 +19,7 @@ def main() -> None:
 def report() -> None:
     """Report data to Tellor oracle."""
     click.echo("Reporting data to Tellor oracle.")
-    btc_reporter.run()
+    btc_usd_reporter.run()
 
 
 @main.command()
