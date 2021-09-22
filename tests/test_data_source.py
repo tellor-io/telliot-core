@@ -1,11 +1,12 @@
 import pytest
-import telliot.registry
 from telliot.answer import TimeStampedFloat
+from telliot.plugins.rinkeby_btc_usd.registry import data_sources
 
 
 @pytest.mark.asyncio
 async def test_CurrentAssetPrice():
-    btc_usd_coinbase = telliot.registry.data_sources["btc-usd-coinbase"]
+    """Retrieve BTC price in USD from Coinbase."""
+    btc_usd_coinbase = data_sources["btc-usd-coinbase"]
 
     # Fetch current price
     price = await btc_usd_coinbase.update_value()

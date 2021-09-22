@@ -1,3 +1,0 @@
-""" Telliot Submitter
-
-"""

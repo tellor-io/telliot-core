@@ -1,10 +1,13 @@
+"""Example datafeeds used by BTCUSDReporter."""
 import statistics
 
 from telliot.datafeed.asset_price_feed import AssetPriceFeed
 from telliot.datafeed.asset_price_source import AssetPriceSource
 from telliot.plugins.rinkeby_btc_usd.datafeed_utils.bittrex import BittrexPriceService
 from telliot.plugins.rinkeby_btc_usd.datafeed_utils.coinbase import CoinbasePriceService
-from telliot.plugins.rinkeby_btc_usd.datafeed_utils.coingecko import CoinGeckoPriceService
+from telliot.plugins.rinkeby_btc_usd.datafeed_utils.coingecko import (
+    CoinGeckoPriceService,
+)
 from telliot.plugins.rinkeby_btc_usd.datafeed_utils.gemini import GeminiPriceService
 
 data_sources = {

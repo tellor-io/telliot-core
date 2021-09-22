@@ -1,3 +1,4 @@
+"""`telliot` package setup"""
 from setuptools import find_packages
 from setuptools import setup
 from sphinx.setup_command import BuildDoc
