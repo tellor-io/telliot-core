@@ -1,16 +1,16 @@
 from datetime import datetime
 
 import pytest
-from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.bittrex import (
+from telliot.pricing.bittrex import (
     BittrexPriceService,
 )
-from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.coinbase import (
+from telliot.pricing.coinbase import (
     CoinbasePriceService,
 )
-from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.coingecko import (
+from telliot.pricing.coingecko import (
     CoinGeckoPriceService,
 )
-from telliot.reporter_plugins.rinkeby_btc_usd.datafeed_utils.gemini import (
+from telliot.pricing.gemini import (
     GeminiPriceService,
 )
 
