@@ -3,7 +3,7 @@
 This module creates a database with a model to store off-chain data.
 """
 import databases
-import sqlalchemy  # type: ignore
+import sqlalchemy
 
 
 DATABASE_URL = "sqlite:///./test.db"
@@ -16,7 +16,7 @@ offchain = sqlalchemy.Table(
     "offchain",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("name", sqlalchemy.String),
+    sqlalchemy.Column("uid", sqlalchemy.String),
     sqlalchemy.Column("value", sqlalchemy.String),
     sqlalchemy.Column("timestamp", sqlalchemy.DateTime),
 )

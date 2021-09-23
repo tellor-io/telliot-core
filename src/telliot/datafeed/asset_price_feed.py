@@ -39,11 +39,11 @@ class AssetPriceFeed(DataFeed):
                 timestamped_answer = sources[key]
                 price = timestamped_answer.val
                 prices.append(price)
-                print(
-                    "Source Price: {} reported from {} at time {}".format(
-                        price, key, timestamped_answer.ts
-                    )
-                )
+                # print(
+                #     "Source Price: {} reported from {} at time {}".format(
+                #         price, key, timestamped_answer.ts
+                #     )
+                # )
 
         result = self.algorithm(prices)
 
@@ -54,6 +54,9 @@ class AssetPriceFeed(DataFeed):
                 self.value.val, self.uid, self.value.ts
             )
         )
+
+        if store:
+            await self.store_value()
 
         return self.value
 
