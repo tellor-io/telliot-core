@@ -1,18 +1,10 @@
 from datetime import datetime
 
 import pytest
-from telliot.pricing.bittrex import (
-    BittrexPriceService,
-)
-from telliot.pricing.coinbase import (
-    CoinbasePriceService,
-)
-from telliot.pricing.coingecko import (
-    CoinGeckoPriceService,
-)
-from telliot.pricing.gemini import (
-    GeminiPriceService,
-)
+from telliot.pricing.bittrex import BittrexPriceService
+from telliot.pricing.coinbase import CoinbasePriceService
+from telliot.pricing.coingecko import CoinGeckoPriceService
+from telliot.pricing.gemini import GeminiPriceService
 
 service = {
     "coinbase": CoinbasePriceService(),
