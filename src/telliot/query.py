@@ -5,37 +5,105 @@ from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Union
 
 from pydantic import BaseModel
+
 from telliot.answer import Answer
 from telliot.answer import TimeStampedFixed
 
 
 @enum.unique
-class PriceType(enum.Enum):
+class PriceType(str, enum.Enum):
     """Enumeration of supported price types"""
 
-    current = 1
-    eod = 2
-    twap_custom = 20
-    twap_1hr = 21
-    twap_24hr = 22
+    current = 'current'
+    eod = 'end of day'
+    twap_custom = 'custom time-weighted average'
+    twap_1hr = '1 hour time-weighted average'
+    twap_24hr = '24 hour time-weighted average'
+
+
+CoerceToRequestId = Union[bytearray, bytes, int, str]
+
+
+class RequestId:
+    """ Request ID in bytes32 format
+
+    """
+    bytes: bytes
+
+    def __new__(cls, value: CoerceToRequestId) -> "RequestId":
+
+        self = object.__new__(cls)
+
+        if isinstance(value, bytearray):
+            value = bytes(value)
+
+        if isinstance(value, bytes):
+            if len(value) != 32:
+                raise ValueError('bytes input must be length 32')
+            else:
+                self.bytes = value
+
+        elif isinstance(value, str):
+            value = value.lower()
+            if value.startswith('0x'):
+                value = value[2:]
+
+            if len(value) != 64:
+                raise ValueError(
+                    'Request ID must be 32 bytes: {}'.format(value))
+            else:
+                self.bytes = bytes.fromhex(value)
+
+        elif isinstance(value, int):
+            self.bytes = value.to_bytes(32, 'big', signed=False)
+
+        else:
+            raise ValueError('Invalid RequestID: {}'.format(value))
+
+        return self
+
+    def hex(self) -> str:
+        return '0x' + self.bytes.hex()
+
+    def __str__(self) -> str:
+        return self.hex()
+
+    def __repr__(self) -> str:
+        return "RequestId('{}')".format(self)
+
+    def __eq__(self, other: object):
+        """ Compare Request IDs for equality
+
+        """
+        # Compare always coerces `other` into a RequestID
+        # in the spirit of int(5) == 5.0
+
+        if not isinstance(other, RequestId):
+            other = RequestId(other)
+
+        return self.bytes == other.bytes
 
 
 class OracleQuery(BaseModel):
     """Base class for all DAO-approved tellor queries"""
 
-    #: Unique Query ID
+    #: Unique data Spec ID (Tellor Assigned)
     uid: str
 
     #: Unique Contract Request ID
-    request_id: int
+    request_id: RequestId
 
     #: Question
     question: str
 
     #: Answer type
     answer_type: Callable[..., Answer[Any]]
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class PriceQuery(OracleQuery):
@@ -51,7 +119,8 @@ class PriceQuery(OracleQuery):
     price_type: PriceType
 
     def __init__(
-        self, asset: str, currency: str, t: PriceType, request_id: int, **kwargs: Any
+            self, request_id: RequestId, asset: str, currency: str,
+            t: PriceType, **kwargs: Any
     ):
 
         # Use default question if not provided
@@ -67,11 +136,11 @@ class PriceQuery(OracleQuery):
             uid = "{}-price-{}-in-{}".format(t.name, asset, currency)
 
         super().__init__(
+            request_id=request_id,
             asset=asset,
             currency=currency,
             price_type=t,
             answer_type=TimeStampedFixed,
-            request_id=request_id,
             question=question,
             uid=uid,
         )
@@ -103,16 +172,24 @@ class QueryRegistry:
         uids = self.get_uids()
         if q.uid in uids:
             raise ValueError(
-                "Cannot add query to registry: UID {} already used".format(q.uid)
+                "Cannot add query to registry: UID {} already used".format(
+                    q.uid)
             )
 
         # Assign to registry
         self._queries[q.uid] = q
 
-    def get_query_by_request_id(self, request_id: int) -> Optional[OracleQuery]:
+    def get_query_by_request_id(self, request_id: CoerceToRequestId) -> \
+            Optional[OracleQuery]:
         """Return Query corresponding to request_id"""
+
+        if not isinstance(request_id, RequestId):
+            request_id_coerced = RequestId(request_id)
+        else:
+            request_id_coerced = request_id
+
         for query in self._queries.values():
-            if query.request_id == request_id:
+            if query.request_id == request_id_coerced:
                 return query
 
         return None
