@@ -2,7 +2,7 @@
 This module lists all official DAO-approved queries currently supported by
 the TellorX network.
 """
-from telliot.query import LegacyPriceQuery
+from telliot.query import PriceQuery
 from telliot.query import PriceType
 from telliot.query import QueryRegistry
 
@@ -14,17 +14,17 @@ query_registry = QueryRegistry(_queries={})
 # ------------------------------------------------------------------------
 
 query_registry.register(
-    LegacyPriceQuery(1, "eth", "usd", PriceType.current)
+    PriceQuery("eth", "usd", PriceType.current, legacy_request_id=1)
 )
 query_registry.register(
-    LegacyPriceQuery(2, "btc", "usd", PriceType.current)
+    PriceQuery("btc", "usd", PriceType.current, legacy_request_id=2)
 )
 query_registry.register(
-    LegacyPriceQuery(3, "bnb", "usd", PriceType.current)
+    PriceQuery("bnb", "usd", PriceType.current, legacy_request_id=3)
 )
 query_registry.register(
-    LegacyPriceQuery(4, "btc", "usd", PriceType.twap_24hr)
+    PriceQuery("btc", "usd", PriceType.twap_24hr, legacy_request_id=4)
 )
 query_registry.register(
-    LegacyPriceQuery(5, "eth", "btc", PriceType.current)
+    PriceQuery("eth", "btc", PriceType.current, legacy_request_id=5)
 )

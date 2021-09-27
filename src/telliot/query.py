@@ -62,7 +62,7 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
     return bytes_value
 
 
-class _OracleQuery(BaseModel, abc.ABC):
+class OracleQuery(BaseModel, abc.ABC):
     """Base class for all tellorX queries
 
     """
@@ -76,33 +76,23 @@ class _OracleQuery(BaseModel, abc.ABC):
     #: Answer type
     answer_type: Type[Answer]  # type: ignore
 
+    #: Integer Request ID (Legacy requests only)
+    legacy_request_id: Optional[int]
 
-    @property
-    @abc.abstractmethod
-    def request_id(self) -> bytes:
-        pass
-
-
-class LegacyQuery(_OracleQuery):
-    """Legacy Query with fixed request_id <= 100."""
-
-    #: Integer Request ID
-    legacy_request_id: int
+    # @property
+    # @abc.abstractmethod
+    # def request_id(self) -> bytes:
+    #     pass
 
     @property
     def request_id(self) -> bytes:
-        return self.legacy_request_id.to_bytes(32, 'big', signed=False)
+        if self.legacy_request_id is not None:
+            return self.legacy_request_id.to_bytes(32, 'big', signed=False)
+        else:
+            return bytes(Web3.keccak(self.data))
 
 
-class OracleQuery(_OracleQuery):
-    """Base class for all modern tellorX queries"""
-
-    @property
-    def request_id(self) -> bytes:
-        return Web3.keccak(self.data)
-
-
-class LegacyPriceQuery(LegacyQuery):
+class PriceQuery(OracleQuery):
     """A legacy query requesting the price of an asset in a specified currency."""
 
     #: Asset symbol
@@ -115,7 +105,7 @@ class LegacyPriceQuery(LegacyQuery):
     price_type: PriceType
 
     def __init__(
-            self, request_id: int, asset: str, currency: str,
+            self, asset: str, currency: str,
             t: PriceType, **kwargs: Any
     ):
         # Use default unique ID if not provided
@@ -129,12 +119,12 @@ class LegacyPriceQuery(LegacyQuery):
 
         super().__init__(
             data=bytes(question.encode('utf-8')),
-            legacy_request_id=request_id,
             asset=asset,
             currency=currency,
             price_type=t,
             answer_type=TimeStampedFixed,
             uid=uid,
+            **kwargs
         )
 
 
@@ -146,9 +136,9 @@ class QueryRegistry:
     queries = property(lambda self: self._queries)
 
     #: private query storage
-    _queries: Dict[str, _OracleQuery]
+    _queries: Dict[str, OracleQuery]
 
-    def register(self, q: _OracleQuery) -> None:
+    def register(self, q: OracleQuery) -> None:
         """Add a query to the registry"""
 
         # Make sure request_id is unique in registry
@@ -172,7 +162,7 @@ class QueryRegistry:
         self._queries[q.uid] = q
 
     def get_query_by_request_id(self, request_id: CoerceToRequestId) -> \
-            Optional[_OracleQuery]:
+            Optional[OracleQuery]:
         """Return Query corresponding to request_id"""
 
         request_id_coerced = to_request_id(request_id)
