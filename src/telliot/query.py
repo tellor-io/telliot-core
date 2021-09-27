@@ -29,65 +29,37 @@ class PriceType(str, enum.Enum):
 CoerceToRequestId = Union[bytearray, bytes, int, str]
 
 
-class RequestId(BaseModel):
-    """ Request ID in bytes32 format
+def to_request_id(value: CoerceToRequestId) -> bytes:
+    """ Coerce input type to request_id in Bytes32 format
 
+    Args:
+        value:  CoerceToRequestId
+
+    Returns:
+        bytes: Request ID
     """
-    byteval: bytes
+    if isinstance(value, bytearray):
+        value = bytes(value)
 
-    class Config:
-        arbitrary_types_allowed = True
+    if isinstance(value, bytes):
+        bytes_value = value
 
-    def __init__(self, value: CoerceToRequestId, **data: Any) -> "RequestId":
+    elif isinstance(value, str):
+        value = value.lower()
+        if value.startswith('0x'):
+            value = value[2:]
+        bytes_value = bytes.fromhex(value)
 
-        if isinstance(value, bytearray):
-            value = bytes(value)
+    elif isinstance(value, int):
+        bytes_value = value.to_bytes(32, 'big', signed=False)
 
-        if isinstance(value, bytes):
-            if len(value) != 32:
-                raise ValueError('bytes input must be length 32')
-            else:
-                byteval = value
+    else:
+        raise TypeError('Cannot convert {} to request_id'.format(value))
 
-        elif isinstance(value, str):
-            value = value.lower()
-            if value.startswith('0x'):
-                value = value[2:]
+    if len(bytes_value) != 32:
+        raise ValueError('Request ID must have 32 bytes')
 
-            if len(value) != 64:
-                raise ValueError(
-                    'Request ID must be 32 bytes: {}'.format(value))
-            else:
-                byteval = bytes.fromhex(value)
-
-        elif isinstance(value, int):
-            byteval = value.to_bytes(32, 'big', signed=False)
-
-        else:
-            raise ValueError('Invalid RequestID: {}'.format(value))
-
-        super().__init__(byteval=byteval, **data)
-
-    def hex(self) -> str:
-        return '0x' + self.byteval.hex()
-
-    def __str__(self) -> str:
-        return self.hex()
-
-    def __repr__(self) -> str:
-        return "RequestId('{}')".format(self)
-
-    def __eq__(self, other: object):
-        """ Compare Request IDs for equality
-
-        """
-        # Compare always coerces `other` into a RequestID
-        # in the spirit of int(5) == 5.0
-
-        if not isinstance(other, RequestId):
-            other = RequestId(other)
-
-        return self.byteval == other.byteval
+    return bytes_value
 
 
 class _OracleQuery(BaseModel, abc.ABC):
@@ -130,7 +102,7 @@ class OracleQuery(_OracleQuery):
 
 
 class LegacyPriceQuery(LegacyQuery):
-    """A legacy query requesting the price of an asset in a specified currency"""
+    """A legacy query requesting the price of an asset in a specified currency."""
 
     #: Asset symbol
     asset: str = ""
@@ -188,8 +160,8 @@ class QueryRegistry:
             )
 
         # Make sure uid is unique in registry
-        uids = self.get_uids()
-        if q.uid in uids:
+        unique_ids = self.get_uids()
+        if q.uid in unique_ids:
             raise ValueError(
                 "Cannot add query to registry: UID {} already used".format(
                     q.uid)
@@ -202,10 +174,7 @@ class QueryRegistry:
             Optional[_OracleQuery]:
         """Return Query corresponding to request_id"""
 
-        if not isinstance(request_id, RequestId):
-            request_id_coerced = RequestId(request_id)
-        else:
-            request_id_coerced = request_id
+        request_id_coerced = to_request_id(request_id)
 
         for query in self._queries.values():
             if query.request_id == request_id_coerced:
@@ -213,7 +182,7 @@ class QueryRegistry:
 
         return None
 
-    def get_request_ids(self) -> List[int]:
+    def get_request_ids(self) -> List[bytes]:
         """Return a list of registered Request IDs."""
         return [q.request_id for q in self._queries.values()]
 

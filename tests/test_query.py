@@ -3,36 +3,7 @@ import pytest
 from telliot.query import LegacyPriceQuery
 from telliot.query import PriceType
 from telliot.query import QueryRegistry
-from telliot.query import RequestId
 from telliot.query_registry import query_registry
-
-
-def test_request_id():
-    # Construct from integer
-    x = RequestId(5)
-
-    assert str(
-        x) == "0x0000000000000000000000000000000000000000000000000000000000000005"
-    assert repr(
-        x) == "RequestId('0x0000000000000000000000000000000000000000000000000000000000000005')"
-
-    # Construct from hex string
-    x = RequestId(
-        "0x0000000000000000000000000000000000000000000000000000000000000005")
-    x = RequestId(
-        "0000000000000000000000000000000000000000000000000000000000000005")
-
-    b = bytes.fromhex(
-        "0000000000000000000000000000000000000000000000000000000000000005")
-    x = RequestId(b)
-
-
-def test_request_id__eq__():
-    x = RequestId(5)
-    assert x == 5
-    assert x == RequestId(5)
-    assert x == "0000000000000000000000000000000000000000000000000000000000000005"
-    print(x.dict())
 
 
 def test_legacy_price_query():
@@ -62,17 +33,17 @@ def test_registry_creation():
 
     # Key error
     with pytest.raises(KeyError):
-        query = qr.queries["does-not-exist"]
+        _ = qr.queries["does-not-exist"]
 
     # Avoid duplicate request IDs
     with pytest.raises(ValueError):
         qr.register(
-            LegacyPriceQuery(RequestId(2), "btc", "usd", PriceType.current))
+            LegacyPriceQuery(2, "btc", "usd", PriceType.current))
 
     # Avoid duplicate UIDs
     with pytest.raises(ValueError):
         qr.register(
-            LegacyPriceQuery(RequestId(3), "btc", "usd", PriceType.current))
+            LegacyPriceQuery(3, "btc", "usd", PriceType.current))
 
 
 def test_registry():

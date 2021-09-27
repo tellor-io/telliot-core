@@ -5,7 +5,6 @@ the TellorX network.
 from telliot.query import LegacyPriceQuery
 from telliot.query import PriceType
 from telliot.query import QueryRegistry
-from telliot.query import RequestId
 
 #: The Query Registry
 query_registry = QueryRegistry(_queries={})
