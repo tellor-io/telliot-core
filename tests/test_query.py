@@ -4,34 +4,81 @@ from telliot.query import PriceType
 from telliot.query import QueryRegistry
 from telliot.query_registry import query_registry
 
+# Modern query example
+qm = PriceQuery(
+    asset="eth",
+    currency="usd",
+    uid="current-price-eth-in-usd",
+    data="What is the current price of ETH in USD?".encode("utf-8"),
+    price_type=PriceType.current,
+)
 
-def test_legacy_price_query():
-    """Test legacy price query"""
-    q = PriceQuery("eth", "usd", PriceType.current, legacy_request_id=1)
-    assert q.uid == "current-price-eth-in-usd"
-    print(q.data)
-    assert q.data == b"What is the current price of ETH in USD?"
-    print(q.dict())
+# Legacy query example
+ql = PriceQuery(
+    asset="eth",
+    currency="usd",
+    uid="current-price-eth-in-usd",
+    data="What is the current price of ETH in USD?".encode("utf-8"),
+    price_type=PriceType.current,
+    legacy_request_id=1,
+)
 
 
 def test_modern_price_query():
     """Test modern price query"""
-    q = PriceQuery("eth", "usd", PriceType.current)
-    assert q.uid == "current-price-eth-in-usd"
-    print(q.request_id.hex())
-    assert q.data == b"What is the current price of ETH in USD?"
+    assert qm.uid == "current-price-eth-in-usd"
+    print(qm.request_id.hex())
+    assert qm.data == b"What is the current price of ETH in USD?"
     assert (
-        q.request_id.hex()
+        qm.request_id.hex()
         == "615b2bcf2cffe9e48e505d81caaa0f76c72fc81a2191c6e5d5c7560bc0cc4acb"
     )
+    assert not qm.is_legacy
+
+
+def test_legacy_price_query():
+    """Test legacy price query"""
+    assert ql.is_legacy
+    assert ql.uid == "current-price-eth-in-usd"
+    print(ql.data)
+    assert ql.data == b"What is the current price of ETH in USD?"
+
+
+def test_export_import():
+    # Test export and import object
+    exported = ql.dict()
+    q2 = PriceQuery.parse_obj(exported)
+
+    assert ql.uid == q2.uid
+    assert ql.data == q2.data
+    assert ql.answer_type == q2.answer_type
+    assert ql.legacy_request_id == q2.legacy_request_id
+    assert ql.asset == q2.asset
+    assert ql.currency == q2.currency
+    assert ql.price_type == q2.price_type
 
 
 def test_registry_creation():
     """Example registry creation"""
-    qr = QueryRegistry(_queries={})
+    qr = QueryRegistry(queries={})
 
-    q1 = PriceQuery("eth", "usd", PriceType.current, legacy_request_id=1)
-    q2 = PriceQuery("btc", "usd", PriceType.current, legacy_request_id=2)
+    q1 = PriceQuery(
+        asset="eth",
+        currency="usd",
+        uid="current-price-eth-in-usd",
+        data="What is the current price of ETH in USD?".encode("utf-8"),
+        price_type=PriceType.current,
+        legacy_request_id=1,
+    )
+
+    q2 = PriceQuery(
+        asset="btc",
+        currency="usd",
+        uid="current-price-btc-in-usd",
+        data="What is the current price of BTC in USD?".encode("utf-8"),
+        price_type=PriceType.current,
+        legacy_request_id=2,
+    )
 
     qr.register(q1)
     qr.register(q2)
@@ -50,13 +97,40 @@ def test_registry_creation():
 
     # Avoid duplicate request IDs
     with pytest.raises(ValueError):
-        qr.register(PriceQuery("btc", "usd", PriceType.current, legacy_request_id=2))
+        qr.register(
+            PriceQuery(
+                asset="btc",
+                currency="usd",
+                uid="current-price-btc-in-usd",
+                data="What is the current price of BTC in USD?".encode("utf-8"),
+                price_type=PriceType.current,
+                legacy_request_id=2,
+            )
+        )
 
     # Avoid duplicate UIDs
     with pytest.raises(ValueError):
-        qr.register(PriceQuery("btc", "usd", PriceType.current, legacy_request_id=3))
+        qr.register(
+            PriceQuery(
+                asset="btc",
+                currency="usd",
+                uid="current-price-btc-in-usd",
+                data="What is the current price of BTC in USD?".encode("utf-8"),
+                price_type=PriceType.current,
+                legacy_request_id=2,
+            )
+        )
 
 
-def test_registry():
+def test_get_query():
+    """Test get_query"""
     q = query_registry.get_query_by_request_id(1)
     assert q.asset == "eth"
+
+
+def test_export_registry():
+    """Make sure we can export and re-import query registry"""
+    exported = query_registry.dict()
+    print(exported)
+    qr2 = QueryRegistry.parse_obj(exported)
+    assert len(qr2.queries) == len(query_registry.queries)

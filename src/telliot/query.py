@@ -1,6 +1,5 @@
 import abc
 import enum
-from dataclasses import dataclass
 from typing import Any
 from typing import Dict
 from typing import List
@@ -9,6 +8,7 @@ from typing import Type
 from typing import Union
 
 from pydantic import BaseModel
+from pydantic import validator
 from telliot.answer import Answer
 from telliot.answer import TimeStampedFixed
 from web3 import Web3
@@ -76,10 +76,8 @@ class OracleQuery(BaseModel, abc.ABC):
     #: Integer Request ID (Legacy requests only)
     legacy_request_id: Optional[int]
 
-    # @property
-    # @abc.abstractmethod
-    # def request_id(self) -> bytes:
-    #     pass
+    #: True if this is a legacy price query
+    is_legacy = property(lambda self: self.legacy_request_id is not None)
 
     @property
     def request_id(self) -> bytes:
@@ -92,6 +90,13 @@ class OracleQuery(BaseModel, abc.ABC):
             return self.legacy_request_id.to_bytes(32, "big", signed=False)
         else:
             return bytes(Web3.keccak(self.data))
+
+    @validator("legacy_request_id")
+    def must_be_less_than_100(cls, v):  # type: ignore
+        if v is not None:
+            if v > 100:
+                raise ValueError("Legacy request ID must be less than 100")
+        return v
 
 
 class PriceQuery(OracleQuery):
@@ -106,36 +111,23 @@ class PriceQuery(OracleQuery):
     #: Price Type
     price_type: PriceType
 
-    def __init__(self, asset: str, currency: str, t: PriceType, **kwargs: Any):
-        # Use default unique ID if not provided
-        uid = kwargs.get("uid")
-        if not uid:
-            uid = "{}-price-{}-in-{}".format(t.name, asset, currency)
+    class Config:
+        # Export price_type as string
+        use_enum_values = True
 
-        question = "What is the {} price of {} in {}?".format(
-            t.name, asset.upper(), currency.upper()
-        )
+    def __init__(self, **kwargs: Any):
+        if "answer_type" not in kwargs:
+            kwargs["answer_type"] = TimeStampedFixed
 
-        super().__init__(
-            data=bytes(question.encode("utf-8")),
-            asset=asset,
-            currency=currency,
-            price_type=t,
-            answer_type=TimeStampedFixed,
-            uid=uid,
-            **kwargs
-        )
+        super().__init__(**kwargs)
 
 
-@dataclass
-class QueryRegistry:
+class QueryRegistry(BaseModel):
     """A class for constructing the official query registry"""
 
-    #: Read only dict of registered queries
-    queries = property(lambda self: self._queries)
-
-    #: private query storage
-    _queries: Dict[str, OracleQuery]
+    #: Dict of registered queries keyed by uid
+    #: Todo: make private/read-only
+    queries: Dict[str, OracleQuery]
 
     def register(self, q: OracleQuery) -> None:
         """Add a query to the registry"""
@@ -157,7 +149,7 @@ class QueryRegistry:
             )
 
         # Assign to registry
-        self._queries[q.uid] = q
+        self.queries[q.uid] = q
 
     def get_query_by_request_id(
         self, request_id: CoerceToRequestId
@@ -166,7 +158,7 @@ class QueryRegistry:
 
         request_id_coerced = to_request_id(request_id)
 
-        for query in self._queries.values():
+        for query in self.queries.values():
             if query.request_id == request_id_coerced:
                 return query
 
@@ -174,8 +166,8 @@ class QueryRegistry:
 
     def get_request_ids(self) -> List[bytes]:
         """Return a list of registered Request IDs."""
-        return [q.request_id for q in self._queries.values()]
+        return [q.request_id for q in self.queries.values()]
 
     def get_uids(self) -> List[str]:
         """Return a list of registered UIDs."""
-        return [q.uid for q in self._queries.values()]
+        return [q.uid for q in self.queries.values()]
