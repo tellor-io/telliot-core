@@ -9,28 +9,27 @@ from typing import Type
 from typing import Union
 
 from pydantic import BaseModel
-from web3 import Web3
-
 from telliot.answer import Answer
 from telliot.answer import TimeStampedFixed
+from web3 import Web3
 
 
 @enum.unique
 class PriceType(str, enum.Enum):
     """Enumeration of supported price types"""
 
-    current = 'current'
-    eod = 'end of day'
-    twap_custom = 'custom time-weighted average'
-    twap_1hr = '1 hour time-weighted average'
-    twap_24hr = '24 hour time-weighted average'
+    current = "current"
+    eod = "end of day"
+    twap_custom = "custom time-weighted average"
+    twap_1hr = "1 hour time-weighted average"
+    twap_24hr = "24 hour time-weighted average"
 
 
 CoerceToRequestId = Union[bytearray, bytes, int, str]
 
 
 def to_request_id(value: CoerceToRequestId) -> bytes:
-    """ Coerce input type to request_id in Bytes32 format
+    """Coerce input type to request_id in Bytes32 format
 
     Args:
         value:  CoerceToRequestId
@@ -46,26 +45,24 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
 
     elif isinstance(value, str):
         value = value.lower()
-        if value.startswith('0x'):
+        if value.startswith("0x"):
             value = value[2:]
         bytes_value = bytes.fromhex(value)
 
     elif isinstance(value, int):
-        bytes_value = value.to_bytes(32, 'big', signed=False)
+        bytes_value = value.to_bytes(32, "big", signed=False)
 
     else:
-        raise TypeError('Cannot convert {} to request_id'.format(value))
+        raise TypeError("Cannot convert {} to request_id".format(value))
 
     if len(bytes_value) != 32:
-        raise ValueError('Request ID must have 32 bytes')
+        raise ValueError("Request ID must have 32 bytes")
 
     return bytes_value
 
 
 class OracleQuery(BaseModel, abc.ABC):
-    """Base class for all tellorX queries
-
-    """
+    """Base class for all tellorX queries"""
 
     #: Unique query name (Tellor Assigned)
     uid: str
@@ -86,8 +83,13 @@ class OracleQuery(BaseModel, abc.ABC):
 
     @property
     def request_id(self) -> bytes:
+        """Return the modern or legacy request ID
+
+        Returns:
+            bytes: 32-byte Request ID
+        """
         if self.legacy_request_id is not None:
-            return self.legacy_request_id.to_bytes(32, 'big', signed=False)
+            return self.legacy_request_id.to_bytes(32, "big", signed=False)
         else:
             return bytes(Web3.keccak(self.data))
 
@@ -104,10 +106,7 @@ class PriceQuery(OracleQuery):
     #: Price Type
     price_type: PriceType
 
-    def __init__(
-            self, asset: str, currency: str,
-            t: PriceType, **kwargs: Any
-    ):
+    def __init__(self, asset: str, currency: str, t: PriceType, **kwargs: Any):
         # Use default unique ID if not provided
         uid = kwargs.get("uid")
         if not uid:
@@ -118,7 +117,7 @@ class PriceQuery(OracleQuery):
         )
 
         super().__init__(
-            data=bytes(question.encode('utf-8')),
+            data=bytes(question.encode("utf-8")),
             asset=asset,
             currency=currency,
             price_type=t,
@@ -154,15 +153,15 @@ class QueryRegistry:
         unique_ids = self.get_uids()
         if q.uid in unique_ids:
             raise ValueError(
-                "Cannot add query to registry: UID {} already used".format(
-                    q.uid)
+                "Cannot add query to registry: UID {} already used".format(q.uid)
             )
 
         # Assign to registry
         self._queries[q.uid] = q
 
-    def get_query_by_request_id(self, request_id: CoerceToRequestId) -> \
-            Optional[OracleQuery]:
+    def get_query_by_request_id(
+        self, request_id: CoerceToRequestId
+    ) -> Optional[OracleQuery]:
         """Return Query corresponding to request_id"""
 
         request_id_coerced = to_request_id(request_id)
