@@ -28,7 +28,7 @@ class Contract:
     abi: str
 
     def connect(self):
-        self.web3 = self.node.connection.eth.contract(
-            self.address,
-            self.abi
+        self.Contract = self.node.web3.eth.contract(
+            address=self.address,
+            abi=self.abi
         )
