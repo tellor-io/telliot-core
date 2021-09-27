@@ -1,4 +1,3 @@
-import abc
 import enum
 from typing import Any
 from typing import Dict
@@ -61,7 +60,7 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
     return bytes_value
 
 
-class OracleQuery(BaseModel, abc.ABC):
+class OracleQuery(BaseModel):
     """Base class for all tellorX queries"""
 
     #: Unique query name (Tellor Assigned)
@@ -100,7 +99,7 @@ class OracleQuery(BaseModel, abc.ABC):
 
 
 class PriceQuery(OracleQuery):
-    """A legacy query requesting the price of an asset in a specified currency."""
+    """A query requesting the price of an asset in a specified currency."""
 
     #: Asset symbol
     asset: str = ""

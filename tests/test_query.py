@@ -58,6 +58,22 @@ def test_export_import():
     assert ql.price_type == q2.price_type
 
 
+@pytest.mark.skip("TODO: Finish making serializable")
+def test_export_json():
+    # Test export and import object
+    exported = ql.json()
+    print(exported)
+    q2 = PriceQuery.parse_raw(exported)
+
+    assert ql.uid == q2.uid
+    assert ql.data == q2.data
+    assert ql.answer_type == q2.answer_type
+    assert ql.legacy_request_id == q2.legacy_request_id
+    assert ql.asset == q2.asset
+    assert ql.currency == q2.currency
+    assert ql.price_type == q2.price_type
+
+
 def test_registry_creation():
     """Example registry creation"""
     qr = QueryRegistry(queries={})
