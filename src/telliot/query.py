@@ -1,13 +1,15 @@
+import abc
 import enum
 from dataclasses import dataclass
 from typing import Any
-from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Type
 from typing import Union
 
 from pydantic import BaseModel
+from web3 import Web3
 
 from telliot.answer import Answer
 from telliot.answer import TimeStampedFixed
@@ -27,15 +29,16 @@ class PriceType(str, enum.Enum):
 CoerceToRequestId = Union[bytearray, bytes, int, str]
 
 
-class RequestId:
+class RequestId(BaseModel):
     """ Request ID in bytes32 format
 
     """
-    bytes: bytes
+    byteval: bytes
 
-    def __new__(cls, value: CoerceToRequestId) -> "RequestId":
+    class Config:
+        arbitrary_types_allowed = True
 
-        self = object.__new__(cls)
+    def __init__(self, value: CoerceToRequestId, **data: Any) -> "RequestId":
 
         if isinstance(value, bytearray):
             value = bytes(value)
@@ -44,7 +47,7 @@ class RequestId:
             if len(value) != 32:
                 raise ValueError('bytes input must be length 32')
             else:
-                self.bytes = value
+                byteval = value
 
         elif isinstance(value, str):
             value = value.lower()
@@ -55,18 +58,18 @@ class RequestId:
                 raise ValueError(
                     'Request ID must be 32 bytes: {}'.format(value))
             else:
-                self.bytes = bytes.fromhex(value)
+                byteval = bytes.fromhex(value)
 
         elif isinstance(value, int):
-            self.bytes = value.to_bytes(32, 'big', signed=False)
+            byteval = value.to_bytes(32, 'big', signed=False)
 
         else:
             raise ValueError('Invalid RequestID: {}'.format(value))
 
-        return self
+        super().__init__(byteval=byteval, **data)
 
     def hex(self) -> str:
-        return '0x' + self.bytes.hex()
+        return '0x' + self.byteval.hex()
 
     def __str__(self) -> str:
         return self.hex()
@@ -84,30 +87,50 @@ class RequestId:
         if not isinstance(other, RequestId):
             other = RequestId(other)
 
-        return self.bytes == other.bytes
+        return self.byteval == other.byteval
 
 
-class OracleQuery(BaseModel):
-    """Base class for all DAO-approved tellor queries"""
+class _OracleQuery(BaseModel, abc.ABC):
+    """Base class for all tellorX queries
 
-    #: Unique data Spec ID (Tellor Assigned)
+    """
+
+    #: Unique query name (Tellor Assigned)
     uid: str
 
-    #: Unique Contract Request ID
-    request_id: RequestId
-
-    #: Question
-    question: str
+    #: Data Specification
+    data: bytes
 
     #: Answer type
-    answer_type: Callable[..., Answer[Any]]
+    answer_type: Type[Answer]
 
-    class Config:
-        arbitrary_types_allowed = True
+    @property
+    @abc.abstractmethod
+    def request_id(self) -> bytes:
+        pass
 
 
-class PriceQuery(OracleQuery):
-    """A query requesting the price of an asset in a specified currency"""
+class LegacyQuery(_OracleQuery):
+    """Legacy Query with fixed request_id <= 100."""
+
+    #: Integer Request ID
+    legacy_request_id: int
+
+    @property
+    def request_id(self):
+        return self.legacy_request_id.to_bytes(32, 'big', signed=False)
+
+
+class OracleQuery(_OracleQuery):
+    """Base class for all modern tellorX queries"""
+
+    @property
+    def request_id(self):
+        return Web3.keccak(self.data)
+
+
+class LegacyPriceQuery(LegacyQuery):
+    """A legacy query requesting the price of an asset in a specified currency"""
 
     #: Asset symbol
     asset: str = ""
@@ -119,29 +142,25 @@ class PriceQuery(OracleQuery):
     price_type: PriceType
 
     def __init__(
-            self, request_id: RequestId, asset: str, currency: str,
+            self, request_id: int, asset: str, currency: str,
             t: PriceType, **kwargs: Any
     ):
-
-        # Use default question if not provided
-        question = kwargs.get("question", None)
-        if not question:
-            question = "What is the {} price of {} in {}?".format(
-                t.name, asset.upper(), currency.upper()
-            )
-
         # Use default unique ID if not provided
         uid = kwargs.get("uid")
         if not uid:
             uid = "{}-price-{}-in-{}".format(t.name, asset, currency)
 
+        question = "What is the {} price of {} in {}?".format(
+            t.name, asset.upper(), currency.upper()
+        )
+
         super().__init__(
-            request_id=request_id,
+            data=bytes(question.encode('utf-8')),
+            legacy_request_id=request_id,
             asset=asset,
             currency=currency,
             price_type=t,
             answer_type=TimeStampedFixed,
-            question=question,
             uid=uid,
         )
 
@@ -154,9 +173,9 @@ class QueryRegistry:
     queries = property(lambda self: self._queries)
 
     #: private query storage
-    _queries: Dict[str, OracleQuery]
+    _queries: Dict[str, _OracleQuery]
 
-    def register(self, q: OracleQuery) -> None:
+    def register(self, q: _OracleQuery) -> None:
         """Add a query to the registry"""
 
         # Make sure request_id is unique in registry
@@ -180,7 +199,7 @@ class QueryRegistry:
         self._queries[q.uid] = q
 
     def get_query_by_request_id(self, request_id: CoerceToRequestId) -> \
-            Optional[OracleQuery]:
+            Optional[_OracleQuery]:
         """Return Query corresponding to request_id"""
 
         if not isinstance(request_id, RequestId):
