@@ -74,7 +74,8 @@ class _OracleQuery(BaseModel, abc.ABC):
     data: bytes
 
     #: Answer type
-    answer_type: Type[Answer]
+    answer_type: Type[Answer]  # type: ignore
+
 
     @property
     @abc.abstractmethod
@@ -89,7 +90,7 @@ class LegacyQuery(_OracleQuery):
     legacy_request_id: int
 
     @property
-    def request_id(self):
+    def request_id(self) -> bytes:
         return self.legacy_request_id.to_bytes(32, 'big', signed=False)
 
 
@@ -97,7 +98,7 @@ class OracleQuery(_OracleQuery):
     """Base class for all modern tellorX queries"""
 
     @property
-    def request_id(self):
+    def request_id(self) -> bytes:
         return Web3.keccak(self.data)
 
 
@@ -154,8 +155,8 @@ class QueryRegistry:
         request_ids = self.get_request_ids()
         if q.request_id in request_ids:
             raise ValueError(
-                "Cannot add query to registry: Request ID {} already used".format(
-                    q.request_id
+                "Cannot add query to registry: Request ID 0x{} already used".format(
+                    q.request_id.hex()
                 )
             )
 
