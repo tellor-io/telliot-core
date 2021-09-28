@@ -61,7 +61,7 @@ def test_load_from_config():
 def connect_to_contract(address):
     '''Helper function for connecting to a contract at an address'''
     url = os.getenv("NODE_URL")
-    endpt = RPCEndpoint(network, url)
+    endpt = RPCEndpoint(network='mainnet', url=url)
     endpt.connect()
 
     c = Contract(endpt, address, abi)
