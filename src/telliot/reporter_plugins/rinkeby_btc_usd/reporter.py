@@ -3,24 +3,21 @@
 Example of a subclassed Reporter.
 """
 import asyncio
+import json
 import os
 from typing import Any
 
-
+import requests
+import yaml
 from telliot.reporter_base import Reporter
 from telliot.reporter_plugins.rinkeby_btc_usd.abi import tellorX_playground_abi
 from telliot.reporter_plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
 from telliot.submitter.submitter_base import Submitter
+from telliot.utils.app import default_homedir
 from web3 import Web3
 
-from telliot.utils.app import default_homedir
-import requests
 
-import json
-import yaml
-
-
-config = yaml.safe_load(open(os.path.join(default_homedir(), 'config.yml')))
+config = yaml.safe_load(open(os.path.join(default_homedir(), "config.yml")))
 
 
 class RinkebySubmitter(Submitter):
@@ -34,9 +31,9 @@ class RinkebySubmitter(Submitter):
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
 
-        self.w3 = Web3(Web3.HTTPProvider(config['node_url']))
+        self.w3 = Web3(Web3.HTTPProvider(config["node_url"]))
 
-        self.acc = self.w3.eth.account.from_key(config['private_key'])
+        self.acc = self.w3.eth.account.from_key(config["private_key"])
 
         self.playground = self.w3.eth.contract(
             "0xd313B61C5Ae9cE94985177AC456a077DfE0D7A38", abi=tellorX_playground_abi
@@ -68,8 +65,8 @@ class RinkebySubmitter(Submitter):
         )
 
         estimated_gas = transaction.estimateGas()
-        print('estimated gas:', estimated_gas)
-        
+        print("estimated gas:", estimated_gas)
+
         built_tx = transaction.buildTransaction(
             {
                 "nonce": acc_nonce,
@@ -85,10 +82,10 @@ class RinkebySubmitter(Submitter):
         """Submits data on-chain & provides a link to view the
         successful transaction."""
 
-        req = requests.get('https://ethgasstation.info/json/ethgasAPI.json')
+        req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
         prices = json.loads(req.content)
-        gas_price = str(prices['fast'])
-        print('retrieved gas price:', gas_price)
+        gas_price = str(prices["fast"])
+        print("retrieved gas price:", gas_price)
 
         tx = self.build_tx(value, request_id, gas_price)
 
@@ -106,7 +103,7 @@ class BTCUSDReporter(Reporter):
 
     def __init__(self) -> None:
         self.homedir = default_homedir()
-        print('homedir:', self.homedir)
+        print("homedir:", self.homedir)
         self.submitter = RinkebySubmitter()
         self.datafeeds = btc_usd_data_feeds
 
