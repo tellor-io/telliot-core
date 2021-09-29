@@ -1,8 +1,6 @@
 """
 Tests covering Pytelliot ethereum connection utils.
 """
-import os
-
 import pytest
 import requests
 import web3
@@ -33,7 +31,7 @@ def test_very_bad_rpc_url():
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
     # expect bad url error from requests library
-    with pytest.raises(requests.exceptions.MissingSchema) as e_info:
+    with pytest.raises(requests.exceptions.MissingSchema):
         endpt.web3.eth.blockNumber
 
 
@@ -43,7 +41,7 @@ def test_incomplete_rpc_url():
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
     # expect bad url error from requests library
-    with pytest.raises(requests.exceptions.HTTPError) as e_info:
+    with pytest.raises(requests.exceptions.HTTPError):
         endpt.web3.eth.blockNumber
 
 

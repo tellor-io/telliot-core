@@ -3,8 +3,6 @@ Utils for:
 - creating a JSON RPC connection to an EVM blockchain
 - connecting to an EVM contract
 """
-from enum import Enum
-from typing import AnyStr
 from typing import Optional
 
 import web3
@@ -20,13 +18,13 @@ class RPCEndpoint(BaseModel):
     # chain = Enum(*supported_networks)
 
     #: Network Name (e.g. 'mainnet', 'testnet', 'rinkebey')
-    network: AnyStr
+    network: str
 
     #: Provider Name (e.g. 'Infura')
-    provider: AnyStr
+    provider: str
 
     #: URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')
-    url: AnyStr
+    url: str
 
     #: Web3 Connection
     web3: Optional[Web3]
@@ -34,13 +32,13 @@ class RPCEndpoint(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
-    def connect(self):
+    def connect(self) -> Web3:
         """Connect to EVM blockchain"""
         self.web3 = Web3(Web3.HTTPProvider(self.url))
         try:
             connected = self.web3.isConnected()
         # Pokt nodes won't submit isConnected rpc call
-        except Exception as e:
+        except Exception:
             connected = self.web3.eth.get_block_number() > 1
         if connected:
             print("Connected to {}".format(self))
@@ -49,7 +47,7 @@ class RPCEndpoint(BaseModel):
 
         return self.web3
 
-    def close(self):
+    def close(self) -> None:
         self.web3 = None
 
 
@@ -65,6 +63,9 @@ class Contract:
     #: Abi specifications of contract, likely loaded from JSON
     abi: str
 
-    def connect(self):
+    def connect(self) -> web3.contract.Contract:
         """Connect to EVM contract through an RPC Endpoint"""
+        if not self.node.web3:
+            self.node.connect()
         self.Contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
+        return self.Contract

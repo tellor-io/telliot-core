@@ -141,7 +141,7 @@
        ],
        "name":"addTip",
        "outputs":[
-          
+
        ],
        "stateMutability":"nonpayable",
        "type":"function"
@@ -234,7 +234,7 @@
     },
     {
        "inputs":[
-          
+
        ],
        "name":"decimals",
        "outputs":[
@@ -262,7 +262,7 @@
        ],
        "name":"disputeValue",
        "outputs":[
-          
+
        ],
        "stateMutability":"nonpayable",
        "type":"function"
@@ -277,7 +277,7 @@
        ],
        "name":"faucet",
        "outputs":[
-          
+
        ],
        "stateMutability":"nonpayable",
        "type":"function"
@@ -375,7 +375,7 @@
     },
     {
        "inputs":[
-          
+
        ],
        "name":"name",
        "outputs":[
@@ -432,14 +432,14 @@
        ],
        "name":"submitValue",
        "outputs":[
-          
+
        ],
        "stateMutability":"nonpayable",
        "type":"function"
     },
     {
        "inputs":[
-          
+
        ],
        "name":"symbol",
        "outputs":[
@@ -478,7 +478,7 @@
     },
     {
        "inputs":[
-          
+
        ],
        "name":"totalSupply",
        "outputs":[
