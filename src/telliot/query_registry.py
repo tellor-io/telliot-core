@@ -5,6 +5,7 @@ the TellorX network.
 from telliot.query import PriceQuery
 from telliot.query import PriceType
 from telliot.query import QueryRegistry
+from telliot.response_type import ResponseType
 
 #: The Query Registry
 query_registry = QueryRegistry(queries={})
@@ -20,7 +21,7 @@ query_registry.register(
         uid="current-price-eth-in-usd",
         data="What is the current price of ETH in USD?".encode("utf-8"),
         price_type=PriceType.current,
-        legacy_request_id=1,
+        legacy_request_id=1
     )
 )
 query_registry.register(
@@ -30,7 +31,7 @@ query_registry.register(
         uid="current-price-btc-in-usd",
         data="What is the current price of BTC in USD?".encode("utf-8"),
         price_type=PriceType.current,
-        legacy_request_id=2,
+        legacy_request_id=2
     )
 )
 query_registry.register(
@@ -40,7 +41,7 @@ query_registry.register(
         uid="current-price-bnb-in-usd",
         data="What is the current price of BNB in USD?".encode("utf-8"),
         price_type=PriceType.current,
-        legacy_request_id=3,
+        legacy_request_id=3
     )
 )
 query_registry.register(
@@ -50,7 +51,7 @@ query_registry.register(
         uid="twap_24hr-price-btc-in-usd",
         data="What is the twap_24hr price of BTC in USD?".encode("utf-8"),
         price_type=PriceType.twap_24hr,
-        legacy_request_id=4,
+        legacy_request_id=4
     )
 )
 query_registry.register(
@@ -60,6 +61,6 @@ query_registry.register(
         uid="current-price-eth-in-btc",
         data="What is the current price of BTC in USD?".encode("utf-8"),
         price_type=PriceType.current,
-        legacy_request_id=5,
+        legacy_request_id=5
     )
 )
