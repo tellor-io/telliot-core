@@ -149,7 +149,7 @@ def test_export_registry():
     """Make sure we can export and re-import query registry"""
     exported = query_registry.json()
     print(exported)
-    with open("query_registry_export.json", "w") as f:
-        f.write(exported)
+    # with open("query_registry_export.json", "w") as f:
+    #    f.write(exported)
     qr2 = QueryRegistry.parse_raw(exported)
     assert len(qr2.queries) == len(query_registry.queries)
