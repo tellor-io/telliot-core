@@ -7,10 +7,8 @@ from typing import Union
 
 from pydantic import BaseModel
 from pydantic import validator
-from web3 import Web3
-
-from telliot.answer import TimeStampedFixed
 from telliot.response_type import ResponseType
+from web3 import Web3
 
 
 @enum.unique
@@ -116,7 +114,7 @@ class PriceQuery(OracleQuery):
 
     def __init__(self, **kwargs: Any):
         if "response_type" not in kwargs:
-            kwargs["response_type"] = ResponseType(abi_type='ufixed256x9', packed=False)
+            kwargs["response_type"] = ResponseType(abi_type="ufixed256x6", packed=False)
 
         super().__init__(**kwargs)
 
@@ -144,15 +142,14 @@ class QueryRegistry(BaseModel):
         unique_ids = self.get_uids()
         if q.uid in unique_ids:
             raise ValueError(
-                "Cannot add query to registry: UID {} already used".format(
-                    q.uid)
+                "Cannot add query to registry: UID {} already used".format(q.uid)
             )
 
         # Assign to registry
         self.queries[q.uid] = q
 
     def get_query_by_request_id(
-            self, request_id: CoerceToRequestId
+        self, request_id: CoerceToRequestId
     ) -> Optional[OracleQuery]:
         """Return Query corresponding to request_id"""
 

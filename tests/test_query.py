@@ -1,9 +1,12 @@
+""" Unit tests for query module
+
+"""
 import pytest
 from telliot.query import PriceQuery
 from telliot.query import PriceType
 from telliot.query import QueryRegistry
 from telliot.query_registry import query_registry
-from telliot.response_type import ResponseType
+
 
 # Modern query example
 qm = PriceQuery(
@@ -11,7 +14,7 @@ qm = PriceQuery(
     currency="usd",
     uid="current-price-eth-in-usd",
     data="What is the current price of ETH in USD?".encode("utf-8"),
-    price_type=PriceType.current
+    price_type=PriceType.current,
 )
 
 # Legacy query example
@@ -21,7 +24,7 @@ ql = PriceQuery(
     uid="current-price-eth-in-usd",
     data="What is the current price of ETH in USD?".encode("utf-8"),
     price_type=PriceType.current,
-    legacy_request_id=1
+    legacy_request_id=1,
 )
 
 
@@ -58,7 +61,6 @@ def test_export_import():
     assert ql.price_type == q2.price_type
 
 
-# @pytest.mark.skip("TODO: Finish making serializable")
 def test_export_json():
     # Test export and import object
     exported = ql.json()
