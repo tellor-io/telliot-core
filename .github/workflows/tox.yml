@@ -31,3 +31,6 @@ jobs:
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: "tox"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
