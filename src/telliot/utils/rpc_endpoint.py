@@ -6,10 +6,8 @@ from pydantic.main import BaseModel
 from web3 import Web3
 import web3
 
-# @dataclass
 class RPCEndpoint(BaseModel):
-    """ JSON RPC Endpoint
-    """
+    """ JSON RPC Endpoint for EVM compatible network"""
     #: Blockchain Name
     # chain = Enum(*supported_networks)
 
@@ -29,8 +27,13 @@ class RPCEndpoint(BaseModel):
         arbitrary_types_allowed = True
 
     def connect(self):
+        """Connect to EVM blockchain"""
         self.web3 = Web3(Web3.HTTPProvider(self.url))
-        connected = self.web3.isConnected()
+        try:
+            connected = self.web3.isConnected()
+        #Pokt nodes won't submit isConnected rpc call
+        except Exception as e:
+            connected = self.web3.eth.get_block_number() > 1
         if connected:
             print("Connected to {}".format(self))
         else:
@@ -54,6 +57,7 @@ class Contract:
     abi: str
 
     def connect(self):
+        """Connect to EVM contract through an RPC Endpoint"""
         self.Contract = self.node.web3.eth.contract(
             address=self.address,
             abi=self.abi
