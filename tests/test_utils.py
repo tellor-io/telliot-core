@@ -32,7 +32,7 @@ def test_very_bad_rpc_url():
     endpt.connect()
     # expect bad url error from requests library
     with pytest.raises(requests.exceptions.MissingSchema):
-        endpt.web3.eth.blockNumber
+        endpt.web3.eth.block_number
 
 
 def test_incomplete_rpc_url():
@@ -42,7 +42,7 @@ def test_incomplete_rpc_url():
     endpt.connect()
     # expect bad url error from requests library
     with pytest.raises(requests.exceptions.HTTPError):
-        endpt.web3.eth.blockNumber
+        endpt.web3.eth.block_number
 
 
 def test_read_tellor_playground():
