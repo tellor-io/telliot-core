@@ -80,6 +80,12 @@ tellorX_playground_abi = [
                 "name": "_tip",
                 "type": "uint256",
             },
+            {
+                "indexed": False,
+                "internalType": "bytes",
+                "name": "_data",
+                "type": "bytes",
+            },
         ],
         "name": "TipAdded",
         "type": "event",
@@ -113,6 +119,7 @@ tellorX_playground_abi = [
         "inputs": [
             {"internalType": "bytes32", "name": "_requestId", "type": "bytes32"},
             {"internalType": "uint256", "name": "_amount", "type": "uint256"},
+            {"internalType": "bytes", "name": "_data", "type": "bytes"},
         ],
         "name": "addTip",
         "outputs": [],

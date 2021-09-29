@@ -3,18 +3,21 @@
 Example of a subclassed Reporter.
 """
 import asyncio
+import json
 import os
 from typing import Any
 
-from dotenv import find_dotenv
-from dotenv import load_dotenv
+import requests
+import yaml
 from telliot.reporter_base import Reporter
 from telliot.reporter_plugins.rinkeby_btc_usd.abi import tellorX_playground_abi
 from telliot.reporter_plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
 from telliot.submitter.submitter_base import Submitter
+from telliot.utils.app import default_homedir
 from web3 import Web3
 
-load_dotenv(find_dotenv())
+
+config = yaml.safe_load(open(os.path.join(default_homedir(), "config.yml")))
 
 
 class RinkebySubmitter(Submitter):
@@ -28,11 +31,12 @@ class RinkebySubmitter(Submitter):
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
 
-        self.w3 = Web3(Web3.HTTPProvider(os.getenv("NODE_URL")))
-        self.acc = self.w3.eth.account.from_key(os.getenv("PRIVATE_KEY"))
+        self.w3 = Web3(Web3.HTTPProvider(config["node_url"]))
+
+        self.acc = self.w3.eth.account.from_key(config["private_key"])
 
         self.playground = self.w3.eth.contract(
-            "0x33A9e116C4E78c5294d82Af7e0313E10E0a4B027", abi=tellorX_playground_abi
+            "0xd313B61C5Ae9cE94985177AC456a077DfE0D7A38", abi=tellorX_playground_abi
         )
 
     def tobytes32(self, request_id: str) -> bytes:
@@ -43,7 +47,7 @@ class RinkebySubmitter(Submitter):
         """Casts value as a bytes array."""
         return Web3.toBytes(hexstr=Web3.toHex(text=str(value)))
 
-    def build_tx(self, value: float, request_id: str) -> Any:
+    def build_tx(self, value: float, request_id: str, gas_price: str) -> Any:
         """Assembles needed transaction data."""
 
         request_id_bytes = self.tobytes32(request_id)
@@ -52,28 +56,38 @@ class RinkebySubmitter(Submitter):
             request_id_bytes
         ).call()
 
-        print("nonce", nonce)
+        print("nonce:", nonce)
 
         acc_nonce = self.w3.eth.get_transaction_count(self.acc.address)
 
         transaction = self.playground.functions.submitValue(
             request_id_bytes, value_bytes, nonce
-        ).buildTransaction(
+        )
+
+        estimated_gas = transaction.estimateGas()
+        print("estimated gas:", estimated_gas)
+
+        built_tx = transaction.buildTransaction(
             {
                 "nonce": acc_nonce,
-                "gas": 4000000,
-                "gasPrice": self.w3.toWei("3", "gwei"),
+                "gas": estimated_gas,
+                "gasPrice": self.w3.toWei(gas_price, "gwei"),
                 "chainId": 4,  # rinkeby
             }
         )
 
-        return transaction
+        return built_tx
 
     def submit_data(self, value: float, request_id: str) -> Any:
         """Submits data on-chain & provides a link to view the
         successful transaction."""
 
-        tx = self.build_tx(value, request_id)
+        req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
+        prices = json.loads(req.content)
+        gas_price = str(prices["fast"])
+        print("retrieved gas price:", gas_price)
+
+        tx = self.build_tx(value, request_id, gas_price)
 
         tx_signed = self.acc.sign_transaction(tx)
 
@@ -88,6 +102,8 @@ class BTCUSDReporter(Reporter):
     every 10 seconds."""
 
     def __init__(self) -> None:
+        self.homedir = default_homedir()
+        print("homedir:", self.homedir)
         self.submitter = RinkebySubmitter()
         self.datafeeds = btc_usd_data_feeds
 
