@@ -3,6 +3,7 @@ Utils for:
 - creating a JSON RPC connection to an EVM blockchain
 - connecting to an EVM contract
 """
+from typing import Optional
 from typing import Union
 
 import web3
@@ -25,6 +26,9 @@ class RPCEndpoint(BaseModel):
 
     #: URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')
     url: str
+
+    #: Web3 Connection
+    web3: Optional[Web3] = None
 
     class Config:
         arbitrary_types_allowed = True
