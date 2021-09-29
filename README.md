@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/oraclown/pytelliot/branch/main/graph/badge.svg?token=GLDKCJ7BKX)](https://codecov.io/gh/oraclown/pytelliot)
+[![codecov](https://codecov.io/gh/oraclown-test/pytelliot/branch/main/graph/badge.svg?token=jDGxaDXc9Q)](https://codecov.io/gh/oraclown-test/pytelliot)
 
 # telliot
 A Python implementation of Telliot, a tool for interacting with the [Tellor Oracle](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf).
