@@ -1,8 +1,12 @@
+""" Unit tests for query module
+
+"""
 import pytest
 from telliot.query import PriceQuery
 from telliot.query import PriceType
 from telliot.query import QueryRegistry
 from telliot.query_registry import query_registry
+
 
 # Modern query example
 qm = PriceQuery(
@@ -51,14 +55,12 @@ def test_export_import():
 
     assert ql.uid == q2.uid
     assert ql.data == q2.data
-    assert ql.answer_type == q2.answer_type
     assert ql.legacy_request_id == q2.legacy_request_id
     assert ql.asset == q2.asset
     assert ql.currency == q2.currency
     assert ql.price_type == q2.price_type
 
 
-@pytest.mark.skip("TODO: Finish making serializable")
 def test_export_json():
     # Test export and import object
     exported = ql.json()
@@ -67,7 +69,6 @@ def test_export_json():
 
     assert ql.uid == q2.uid
     assert ql.data == q2.data
-    assert ql.answer_type == q2.answer_type
     assert ql.legacy_request_id == q2.legacy_request_id
     assert ql.asset == q2.asset
     assert ql.currency == q2.currency
@@ -146,7 +147,9 @@ def test_get_query():
 
 def test_export_registry():
     """Make sure we can export and re-import query registry"""
-    exported = query_registry.dict()
+    exported = query_registry.json()
     print(exported)
-    qr2 = QueryRegistry.parse_obj(exported)
+    # with open("query_registry_export.json", "w") as f:
+    #    f.write(exported)
+    qr2 = QueryRegistry.parse_raw(exported)
     assert len(qr2.queries) == len(query_registry.queries)

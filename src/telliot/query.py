@@ -3,13 +3,11 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import Type
 from typing import Union
 
 from pydantic import BaseModel
 from pydantic import validator
-from telliot.answer import Answer
-from telliot.answer import TimeStampedFixed
+from telliot.response_type import ResponseType
 from web3 import Web3
 
 
@@ -69,8 +67,8 @@ class OracleQuery(BaseModel):
     #: Data Specification
     data: bytes
 
-    #: Answer type
-    answer_type: Type[Answer]  # type: ignore
+    #: Response specification
+    response_type: ResponseType
 
     #: Integer Request ID (Legacy requests only)
     legacy_request_id: Optional[int]
@@ -115,8 +113,8 @@ class PriceQuery(OracleQuery):
         use_enum_values = True
 
     def __init__(self, **kwargs: Any):
-        if "answer_type" not in kwargs:
-            kwargs["answer_type"] = TimeStampedFixed
+        if "response_type" not in kwargs:
+            kwargs["response_type"] = ResponseType(abi_type="ufixed256x6", packed=False)
 
         super().__init__(**kwargs)
 
