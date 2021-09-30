@@ -42,6 +42,7 @@ def test_incomplete_rpc_url():
     with pytest.raises(requests.exceptions.HTTPError):
         endpt.web3.eth.block_number
 
+
 def test_load_from_config():
     """RPCEndpoint should read from config.yml"""
     pass

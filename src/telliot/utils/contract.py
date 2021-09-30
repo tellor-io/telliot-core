@@ -1,11 +1,9 @@
 """
 Utils for connecting to an EVM contract
 """
-
 import web3
-from telliot.utils.rpc_endpoint import RPCEndpoint
-
 from pydantic.dataclasses import dataclass
+from telliot.utils.rpc_endpoint import RPCEndpoint
 
 
 @dataclass
