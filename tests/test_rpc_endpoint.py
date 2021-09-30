@@ -8,8 +8,6 @@ from telliot.utils.rpc_endpoint import RPCEndpoint
 
 load_dotenv()  # we will replace this with loading from config
 
-with open("abi.json") as f:
-    abi = f.read()
 
 network = "mainnet"
 provider = "pokt"

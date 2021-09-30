@@ -1,6 +1,10 @@
 """
 Utils for connecting to an EVM contract
 """
+from typing import Any
+from typing import Dict
+from typing import List
+
 import web3
 from pydantic.dataclasses import dataclass
 from telliot.utils.rpc_endpoint import RPCEndpoint
@@ -15,8 +19,8 @@ class Contract:
 
     address: str
 
-    #: Abi specifications of contract, likely loaded from JSON
-    abi: str
+    #: ABI specifications of contract
+    abi: List[Dict[str, Any]]
 
     def connect(self) -> web3.contract.Contract:
         """Connect to EVM contract through an RPC Endpoint"""
