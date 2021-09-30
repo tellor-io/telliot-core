@@ -26,6 +26,6 @@ def connect_to_contract(address):
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
 
-    c = Contract(endpt, address, tellor_playground_abi)
+    c = Contract(node=endpt, address=address, abi=tellor_playground_abi)
     c.connect()
     return c
