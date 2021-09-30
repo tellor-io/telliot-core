@@ -64,8 +64,11 @@ class OracleQuery(BaseModel):
     #: Unique query name (Tellor Assigned)
     uid: str
 
+    #: Descriptive name
+    name: str
+
     #: Data Specification
-    data: bytes
+    data: Optional[bytes]
 
     #: Response specification
     response_type: ResponseType
@@ -128,15 +131,6 @@ class QueryRegistry(BaseModel):
 
     def register(self, q: OracleQuery) -> None:
         """Add a query to the registry"""
-
-        # Make sure request_id is unique in registry
-        request_ids = self.get_request_ids()
-        if q.request_id in request_ids:
-            raise ValueError(
-                "Cannot add query to registry: Request ID 0x{} already used".format(
-                    q.request_id.hex()
-                )
-            )
 
         # Make sure uid is unique in registry
         unique_ids = self.get_uids()
