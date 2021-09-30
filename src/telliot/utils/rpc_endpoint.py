@@ -3,11 +3,12 @@ Utils for creating a JSON RPC connection to an EVM blockchain
 """
 from typing import Optional
 
-from pydantic.main import BaseModel
 from web3 import Web3
 
+from telliot.utils.base import Base
 
-class RPCEndpoint(BaseModel):
+
+class RPCEndpoint(Base):
     """JSON RPC Endpoint for EVM compatible network"""
 
     #: Blockchain Name
@@ -25,9 +26,6 @@ class RPCEndpoint(BaseModel):
     #: Web3 Connection
     web3: Optional[Web3] = None
 
-    class Config:
-        arbitrary_types_allowed = True
-
     def connect(self) -> bool:
         """Connect to EVM blockchain
 
@@ -42,8 +40,12 @@ class RPCEndpoint(BaseModel):
         try:
             connected = self.web3.isConnected()
         # Pokt nodes won't submit isConnected rpc call
-        except Exception:
-            connected = self.web3.eth.get_block_number() > 1
+        except:
+            #If pokt 
+            try:
+                connected = self.web3.eth.get_block_number() > 1
+            except:
+                connected = False
         if connected:
             print("Connected to {}".format(self))
         else:

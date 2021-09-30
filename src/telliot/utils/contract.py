@@ -7,11 +7,11 @@ from typing import List
 from typing import Optional
 
 import web3
-from pydantic import BaseModel
+from telliot.utils.base import Base
 from telliot.utils.rpc_endpoint import RPCEndpoint
 
 
-class Contract(BaseModel):
+class Contract(Base):
     """Convenience wrapper for connecting to an Ethereum contract"""
 
     #: RPCNode connection to Ethereum network
@@ -23,17 +23,23 @@ class Contract(BaseModel):
     #: ABI specifications of contract
     abi: List[Dict[str, Any]]
 
-    #: Contract address
+    #: web3 contract object
     web3_contract: Optional[web3.contract.Contract]
 
     class Config:
         arbitrary_types_allowed = True
 
-    def connect(self) -> None:
+
+    @property
+    def contract(self):
         """Connect to EVM contract through an RPC Endpoint"""
-        if self.node.web3 is None:
-            raise TypeError("node is not connected")
+        if self.node:
+            if self.node.connect():
+                return self.node.web3.eth.contract(
+                    address=self.address,
+                    abi=self.abi
+                )
+            else:
+                print("rpc endpoint not connected")
         else:
-            self.web3_contract = self.node.web3.eth.contract(
-                address=self.address, abi=self.abi
-            )
+            print("rpc endpoint not instantiated")
