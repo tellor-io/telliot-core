@@ -34,6 +34,10 @@ class RPCEndpoint(BaseModel):
         returns:
             True if connection was successful
         """
+
+        if self.web3:
+            return True
+
         self.web3 = Web3(Web3.HTTPProvider(self.url))
         try:
             connected = self.web3.isConnected()
