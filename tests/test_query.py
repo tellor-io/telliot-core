@@ -10,20 +10,18 @@ from telliot.query_registry import query_registry
 
 # Modern query example
 qm = PriceQuery(
-    uid="qid-9999",
-    name="ETH/USD Current Price",
     asset="eth",
     currency="usd",
+    uid="current-price-eth-in-usd",
     data="What is the current price of ETH in USD?".encode("utf-8"),
     price_type=PriceType.current,
 )
 
 # Legacy query example
 ql = PriceQuery(
-    uid="qid-9998",
-    name="ETH/USD Current Price",
     asset="eth",
     currency="usd",
+    uid="current-price-eth-in-usd",
     data="What is the current price of ETH in USD?".encode("utf-8"),
     price_type=PriceType.current,
     legacy_request_id=1,
@@ -32,7 +30,7 @@ ql = PriceQuery(
 
 def test_modern_price_query():
     """Test modern price query"""
-    assert qm.uid == "qid-9999"
+    assert qm.uid == "current-price-eth-in-usd"
     print(qm.request_id.hex())
     assert qm.data == b"What is the current price of ETH in USD?"
     assert (
@@ -45,7 +43,7 @@ def test_modern_price_query():
 def test_legacy_price_query():
     """Test legacy price query"""
     assert ql.is_legacy
-    assert ql.uid == "qid-9998"
+    assert ql.uid == "current-price-eth-in-usd"
     print(ql.data)
     assert ql.data == b"What is the current price of ETH in USD?"
 
@@ -82,20 +80,18 @@ def test_registry_creation():
     qr = QueryRegistry(queries={})
 
     q1 = PriceQuery(
-        uid="qid-9999",
-        name="ETH/USD current price",
         asset="eth",
         currency="usd",
+        uid="current-price-eth-in-usd",
         data="What is the current price of ETH in USD?".encode("utf-8"),
         price_type=PriceType.current,
         legacy_request_id=1,
     )
 
     q2 = PriceQuery(
-        uid="current-price-btc-in-usd",
-        name="BTC/USD current price",
         asset="btc",
         currency="usd",
+        uid="current-price-btc-in-usd",
         data="What is the current price of BTC in USD?".encode("utf-8"),
         price_type=PriceType.current,
         legacy_request_id=2,
@@ -105,7 +101,7 @@ def test_registry_creation():
     qr.register(q2)
 
     # Demonstrate getting query by Unique data spec ID
-    query = qr.queries["qid-9999"]
+    query = qr.queries["current-price-eth-in-usd"]
     assert query is q1
 
     # Demonstrate getting query by Request ID
@@ -115,6 +111,19 @@ def test_registry_creation():
     # Key error
     with pytest.raises(KeyError):
         _ = qr.queries["does-not-exist"]
+
+    # Avoid duplicate request IDs
+    with pytest.raises(ValueError):
+        qr.register(
+            PriceQuery(
+                asset="btc",
+                currency="usd",
+                uid="current-price-btc-in-usd",
+                data="What is the current price of BTC in USD?".encode("utf-8"),
+                price_type=PriceType.current,
+                legacy_request_id=2,
+            )
+        )
 
     # Avoid duplicate UIDs
     with pytest.raises(ValueError):

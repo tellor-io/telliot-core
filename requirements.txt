@@ -3,6 +3,7 @@ databases==0.5.2
 fastapi==0.68.1
 pydantic==1.8.2
 pytest==6.2.5
+python-dotenv==0.19.0
 PyYAML==5.4.1
 requests==2.26.0
 Sphinx==4.1.2
