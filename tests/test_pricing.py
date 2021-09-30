@@ -1,3 +1,6 @@
+""" Unit tests for pricing module
+
+"""
 from datetime import datetime
 
 import pytest

@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/tellor-io/pytelliot/branch/main/graph/badge.svg?token=S1199HQ2EK)](https://codecov.io/gh/tellor-io/pytelliot)
+[![Discord Chat](https://img.shields.io/discord/461602746336935936)](https://discord.com/invite/n7drGjh)
+[![Twitter Follow](https://img.shields.io/twitter/follow/wearetellor?style=social)](https://twitter.com/WeAreTellor)
+
 # telliot
 A Python implementation of Telliot, a tool for interacting with the [Tellor Oracle](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf).
 
