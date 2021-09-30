@@ -3,9 +3,8 @@ Utils for creating a JSON RPC connection to an EVM blockchain
 """
 from typing import Optional
 
-from web3 import Web3
-
 from telliot.utils.base import Base
+from web3 import Web3
 
 
 class RPCEndpoint(Base):
@@ -40,11 +39,11 @@ class RPCEndpoint(Base):
         try:
             connected = self.web3.isConnected()
         # Pokt nodes won't submit isConnected rpc call
-        except:
-            #If pokt 
+        except Exception:
+            # If pokt
             try:
                 connected = self.web3.eth.get_block_number() > 1
-            except:
+            except Exception:
                 connected = False
         if connected:
             print("Connected to {}".format(self))

@@ -3,7 +3,6 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
-from dotenv import load_dotenv
 from telliot.utils.rpc_endpoint import RPCEndpoint
 
 network = "mainnet"
@@ -41,6 +40,7 @@ def test_incomplete_rpc_url():
 def test_load_from_config():
     """RPCEndpoint should read from config.yml"""
     pass
+
 
 def connect_to_rpc(url):
     """helper function for connecting to rpc endpoint"""

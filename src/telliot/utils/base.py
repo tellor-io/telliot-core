@@ -1,7 +1,6 @@
 """
 Child class of pydantic.main.BaseModel with some configurations
 """
-
 from pydantic.main import BaseModel
 
 

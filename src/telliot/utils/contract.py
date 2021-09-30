@@ -5,6 +5,7 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Union
 
 import web3
 from telliot.utils.base import Base
@@ -29,17 +30,15 @@ class Contract(Base):
     class Config:
         arbitrary_types_allowed = True
 
-
     @property
-    def contract(self):
+    def contract(self) -> Union[web3.contract.Contract, None]:
         """Connect to EVM contract through an RPC Endpoint"""
-        if self.node:
+        if self.node.web3:
             if self.node.connect():
-                return self.node.web3.eth.contract(
-                    address=self.address,
-                    abi=self.abi
-                )
+                return self.node.web3.eth.contract(address=self.address, abi=self.abi)
             else:
                 print("rpc endpoint not connected")
+                return None
         else:
             print("rpc endpoint not instantiated")
+            return None
