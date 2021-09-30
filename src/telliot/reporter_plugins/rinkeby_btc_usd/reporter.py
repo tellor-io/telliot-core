@@ -10,9 +10,9 @@ from typing import Any
 import requests
 import yaml
 from telliot.reporter_base import Reporter
-from telliot.reporter_plugins.rinkeby_btc_usd.abi import tellorX_playground_abi
 from telliot.reporter_plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
 from telliot.submitter.submitter_base import Submitter
+from telliot.utils.abi import tellor_playground_abi
 from telliot.utils.app import default_homedir
 from web3 import Web3
 
@@ -36,7 +36,7 @@ class RinkebySubmitter(Submitter):
         self.acc = self.w3.eth.account.from_key(config["private_key"])
 
         self.playground = self.w3.eth.contract(
-            "0xd313B61C5Ae9cE94985177AC456a077DfE0D7A38", abi=tellorX_playground_abi
+            "0x4699845F22CA2705449CFD532060e04abE3F1F31", abi=tellor_playground_abi
         )
 
     def tobytes32(self, request_id: str) -> bytes:
