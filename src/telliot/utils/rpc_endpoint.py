@@ -28,8 +28,12 @@ class RPCEndpoint(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
-    def connect(self) -> Web3:
-        """Connect to EVM blockchain"""
+    def connect(self) -> bool:
+        """Connect to EVM blockchain
+
+        returns:
+            True if connection was successful
+        """
         self.web3 = Web3(Web3.HTTPProvider(self.url))
         try:
             connected = self.web3.isConnected()
@@ -41,4 +45,4 @@ class RPCEndpoint(BaseModel):
         else:
             print("Could not connect to {}".format(self))
 
-        return self.web3
+        return connected
