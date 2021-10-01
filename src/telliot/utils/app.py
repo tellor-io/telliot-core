@@ -157,14 +157,3 @@ class Application(BaseModel):
 
         print("Application {} received shutdown event".format(self.name))
         self._shutdown.clear()
-
-
-if __name__ == "__main__":
-    """Simple application demonstration"""
-
-    import time
-
-    a = Application(name="myapp")
-    a.startup()
-    time.sleep(5)
-    a.shutdown()
