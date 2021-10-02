@@ -5,8 +5,8 @@ Example of a subclassed Reporter.
 import asyncio
 import json
 import os
-from collections.abc import Mapping
 from typing import Any
+from typing import Mapping
 
 import requests
 import yaml
