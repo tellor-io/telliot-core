@@ -3,7 +3,7 @@
 """
 import pytest
 from telliot.answer import TimeStampedFloat
-from telliot.reporter_plugins.rinkeby_btc_usd.registry import data_sources
+from telliot.datafeed.example import data_sources
 
 
 @pytest.mark.asyncio

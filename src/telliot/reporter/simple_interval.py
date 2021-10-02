@@ -5,10 +5,12 @@ Example of a subclassed Reporter.
 import asyncio
 import json
 import os
+from collections.abc import Mapping
 from typing import Any
 
 import requests
 import yaml
+from telliot.datafeed.data_feed import DataFeed
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
@@ -100,7 +102,7 @@ class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
     every 10 seconds."""
 
-    def __init__(self, datafeeds, datafeed_uid) -> None:
+    def __init__(self, datafeeds: Mapping[str, DataFeed], datafeed_uid: str) -> None:
         self.datafeeds = datafeeds
         self.datafeed_uid = datafeed_uid
         self.homedir = default_homedir()

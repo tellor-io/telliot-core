@@ -5,9 +5,8 @@ Configure telliot's settings via this interface's command line flags
 or in the configuration file.
 """
 import click
-
-from telliot.reporter.simple_interval import IntervalReporter
 from telliot.datafeed.example import data_feeds
+from telliot.reporter.simple_interval import IntervalReporter
 
 
 @click.group()
@@ -17,10 +16,10 @@ def main() -> None:
 
 
 @main.command()
-@click.argument('datafeed_uid')
-def report(datafeed_uid) -> None:
+@click.argument("datafeed_uid")
+def report(datafeed_uid: str) -> None:
     """Report data to Tellor oracle."""
-    click.echo(f"Reporting to the Tellor oracle.")
+    click.echo("Reporting to the Tellor oracle.")
     reporter = IntervalReporter(data_feeds, datafeed_uid)
     reporter.run()
 
