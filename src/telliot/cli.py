@@ -6,7 +6,8 @@ or in the configuration file.
 """
 import click
 
-from .reporter_plugins.rinkeby_btc_usd.reporter import btc_usd_reporter
+from telliot.reporter.simple_interval import IntervalReporter
+from telliot.datafeed.example import data_feeds
 
 
 @click.group()
@@ -16,10 +17,12 @@ def main() -> None:
 
 
 @main.command()
-def report() -> None:
+@click.argument('datafeed_uid')
+def report(datafeed_uid) -> None:
     """Report data to Tellor oracle."""
-    click.echo("Reporting data to Tellor oracle.")
-    btc_usd_reporter.run()
+    click.echo(f"Reporting to the Tellor oracle.")
+    reporter = IntervalReporter(data_feeds, datafeed_uid)
+    reporter.run()
 
 
 @main.command()

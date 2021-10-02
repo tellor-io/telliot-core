@@ -9,9 +9,8 @@ from typing import Any
 
 import requests
 import yaml
-from telliot.reporter_base import Reporter
-from telliot.reporter_plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
-from telliot.submitter.submitter_base import Submitter
+from telliot.reporter.base import Reporter
+from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
 from telliot.utils.app import default_homedir
 from web3 import Web3
@@ -97,15 +96,15 @@ class RinkebySubmitter(Submitter):
         print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
 
 
-class BTCUSDReporter(Reporter):
+class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
     every 10 seconds."""
 
-    def __init__(self) -> None:
+    def __init__(self, datafeeds, datafeed_uid) -> None:
+        self.datafeeds = datafeeds
+        self.datafeed_uid = datafeed_uid
         self.homedir = default_homedir()
-        print("homedir:", self.homedir)
         self.submitter = RinkebySubmitter()
-        self.datafeeds = btc_usd_data_feeds
 
     async def report(self) -> None:
         """Update all off-chain values (BTC/USD) & store those values locally."""
@@ -114,8 +113,9 @@ class BTCUSDReporter(Reporter):
         while True:
             jobs = []
             for datafeed in self.datafeeds.values():
-                job = asyncio.create_task(datafeed.update_value(store=True))
-                jobs.append(job)
+                if datafeed.uid == self.datafeed_uid:
+                    job = asyncio.create_task(datafeed.update_value(store=True))
+                    jobs.append(job)
 
             _ = await asyncio.gather(*jobs)
 
@@ -140,6 +140,3 @@ class BTCUSDReporter(Reporter):
             loop.run_forever()
         except (KeyboardInterrupt, SystemExit):
             loop.close()
-
-
-btc_usd_reporter = BTCUSDReporter()
