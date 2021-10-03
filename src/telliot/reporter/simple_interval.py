@@ -4,21 +4,19 @@ Example of a subclassed Reporter.
 """
 import asyncio
 import json
-import os
 from typing import Any
 from typing import Mapping
 
 import requests
-import yaml
 from telliot.datafeed.data_feed import DataFeed
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.app import default_homedir
 from web3 import Web3
 
 
-config = yaml.safe_load(open(os.path.join(default_homedir(), "config.yml")))
+# TODO: placeholder for actual ConfigOptions clas
+temp_config = {"node_url": "", "private_key": ""}
 
 
 class RinkebySubmitter(Submitter):
@@ -27,11 +25,11 @@ class RinkebySubmitter(Submitter):
     Submits BTC price data in USD to the TellorX playground
     on the Rinkeby test network."""
 
-    def __init__(self) -> None:
+    def __init__(self, config: Mapping[str, str]) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
-
+        self.config = config
         self.w3 = Web3(Web3.HTTPProvider(config["node_url"]))
 
         self.acc = self.w3.eth.account.from_key(config["private_key"])
@@ -105,8 +103,7 @@ class IntervalReporter(Reporter):
     def __init__(self, datafeeds: Mapping[str, DataFeed], datafeed_uid: str) -> None:
         self.datafeeds = datafeeds
         self.datafeed_uid = datafeed_uid
-        self.homedir = default_homedir()
-        self.submitter = RinkebySubmitter()
+        self.submitter = RinkebySubmitter(temp_config)
 
     async def report(self) -> None:
         """Update all off-chain values (BTC/USD) & store those values locally."""
