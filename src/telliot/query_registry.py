@@ -87,7 +87,7 @@ query_registry.register(
 query_registry.register(
     OracleQuery(
         uid="qid-0041",
-        name="USPCE Value (3 Month Rollng Average)",
+        name="USPCE Value (3 Month Rolling Average)",
         data="What is the 3 month rolling average value of the USPCE as "
         "specified by ampleforth governance?".encode("utf-8"),
         response_type=ResponseType(abi_type="ufixed256x6"),
@@ -118,6 +118,7 @@ query_registry.register(
         legacy_request_id=59,
     )
 )
+
 
 # query_registry.register(
 #     OracleQuery(

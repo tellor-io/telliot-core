@@ -7,7 +7,7 @@ from telliot.response_type import ResponseType
 def test_fixed_response_type():
     """Demonstrate encoding a fixed value with precision=9"""
     value = Decimal("1.0")
-    r1 = ResponseType(abi_type="ufixed256x9", packed=False)
+    r1 = ResponseType(abi_type="ufixed64x9", packed=False)
     bytes_val = encode_single(r1.abi_type, value)
     assert (
         bytes_val.hex()
