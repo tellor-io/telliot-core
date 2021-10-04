@@ -14,7 +14,6 @@ from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
 from web3 import Web3
 
-
 # TODO: placeholder for actual ConfigOptions clas
 temp_config = {"node_url": "", "private_key": ""}
 
@@ -121,7 +120,20 @@ class IntervalReporter(Reporter):
             for uid, datafeed in self.datafeeds.items():
                 if datafeed.value:
                     print(f"Submitting value for {uid}: {datafeed.value.val}")
-                    self.submitter.submit_data(datafeed.value.val, datafeed.request_id)
+                    q = datafeed.get_query()
+                    if q is not None:
+                        """TODO:
+                        - Should encode value using query response type.
+                        - Also use request ID encoded by query
+                        - Decide if these goes here or in submitter.
+                        """
+                        # TODO: Should use query to encode value.  Request ID
+                        #       from query is already in bytes.  Probably
+                        #       be part of submitter
+                        encoded_value = q.response_type.encode(datafeed.value.val)
+                        print(encoded_value)  # Dummy print to pass tox style
+                        request_id_str = "0x" + q.request_id.hex()
+                        self.submitter.submit_data(datafeed.value.val, request_id_str)
                 else:
                     print(f"Skipping submission for {uid}, datafeed value not updated")
 
