@@ -4,11 +4,6 @@ from telliot.utils.config import ConfigOptions
 from telliot.utils.config import LogLevel
 
 
-def test_config_options():
-    c = ConfigOptions()
-    c.to_file("temp.yaml")
-
-
 def test_config_constructor():
     """Test Constructor"""
     cfg = ConfigOptions()
