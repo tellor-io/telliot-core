@@ -6,8 +6,9 @@ from typing import Optional
 from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.data_source import DataSourceDb
-from telliot.query_registry import query_registry
 from telliot.query import OracleQuery
+from telliot.query_registry import query_registry
+
 
 class DataFeed(DataSourceDb):
     """Data feed"""
@@ -36,7 +37,7 @@ class DataFeed(DataSourceDb):
         return await gather_inputs()
 
     def get_query(self) -> Optional[OracleQuery]:
-        """ Get target query for this Data Feed
+        """Get target query for this Data Feed
 
         Returns:
             Target query for this DataFeed or None if not found

@@ -5,6 +5,7 @@ import statistics
 
 import pytest
 from telliot.datafeed.example import data_feeds
+from telliot.query import OracleQuery
 
 
 @pytest.mark.asyncio
@@ -20,3 +21,7 @@ async def test_AssetPriceFeed():
 
     # Make sure error is less than decimal tolerance
     assert (price.val - statistics.median([s.val for s in sources])) < 10 ** -6
+
+    # Get query
+    q = btc_usd_median.get_query()
+    assert isinstance(q, OracleQuery)
