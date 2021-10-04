@@ -26,7 +26,7 @@ pip install telliot
 In `src/telliot/reporter_plugins/rinkeby_eth_usd`, rename `.env.example` to `.env` and update the placeholder values for `PRIVATE_KEY` and `NODE_URL` to your own private key and Rinkeby network endpoint.
 #### 3. start reporting
 ```
-telliot report
+telliot report btc-usd-median
 ```
 
 ## Contributing

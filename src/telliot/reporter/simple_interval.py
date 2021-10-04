@@ -4,20 +4,19 @@ Example of a subclassed Reporter.
 """
 import asyncio
 import json
-import os
 from typing import Any
+from typing import Mapping
 
 import requests
-import yaml
-from telliot.reporter_base import Reporter
-from telliot.reporter_plugins.rinkeby_btc_usd.registry import btc_usd_data_feeds
-from telliot.submitter.submitter_base import Submitter
+from telliot.datafeed.data_feed import DataFeed
+from telliot.reporter.base import Reporter
+from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.app import default_homedir
 from web3 import Web3
 
 
-config = yaml.safe_load(open(os.path.join(default_homedir(), "config.yml")))
+# TODO: placeholder for actual ConfigOptions clas
+temp_config = {"node_url": "", "private_key": ""}
 
 
 class RinkebySubmitter(Submitter):
@@ -26,11 +25,11 @@ class RinkebySubmitter(Submitter):
     Submits BTC price data in USD to the TellorX playground
     on the Rinkeby test network."""
 
-    def __init__(self) -> None:
+    def __init__(self, config: Mapping[str, str]) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
-
+        self.config = config
         self.w3 = Web3(Web3.HTTPProvider(config["node_url"]))
 
         self.acc = self.w3.eth.account.from_key(config["private_key"])
@@ -97,15 +96,14 @@ class RinkebySubmitter(Submitter):
         print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
 
 
-class BTCUSDReporter(Reporter):
+class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
     every 10 seconds."""
 
-    def __init__(self) -> None:
-        self.homedir = default_homedir()
-        print("homedir:", self.homedir)
-        self.submitter = RinkebySubmitter()
-        self.datafeeds = btc_usd_data_feeds
+    def __init__(self, datafeeds: Mapping[str, DataFeed], datafeed_uid: str) -> None:
+        self.datafeeds = datafeeds
+        self.datafeed_uid = datafeed_uid
+        self.submitter = RinkebySubmitter(temp_config)
 
     async def report(self) -> None:
         """Update all off-chain values (BTC/USD) & store those values locally."""
@@ -114,8 +112,9 @@ class BTCUSDReporter(Reporter):
         while True:
             jobs = []
             for datafeed in self.datafeeds.values():
-                job = asyncio.create_task(datafeed.update_value(store=True))
-                jobs.append(job)
+                if datafeed.uid == self.datafeed_uid:
+                    job = asyncio.create_task(datafeed.update_value(store=True))
+                    jobs.append(job)
 
             _ = await asyncio.gather(*jobs)
 
@@ -140,6 +139,3 @@ class BTCUSDReporter(Reporter):
             loop.run_forever()
         except (KeyboardInterrupt, SystemExit):
             loop.close()
-
-
-btc_usd_reporter = BTCUSDReporter()
