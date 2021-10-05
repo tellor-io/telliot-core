@@ -1,6 +1,9 @@
 """
 Utils for connecting to an EVM contract
 """
+
+import json
+
 from typing import Any, Callable, Tuple
 from typing import Dict
 from typing import List
@@ -68,14 +71,12 @@ class Contract(Base):
         bool: success
         """
         try:
-
             acc_nonce = self.node.web3.eth.get_transaction_count(self.acc.address)
             req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
             prices = json.loads(req.content)
             gas_price = str(prices["fast"])
             print("retrieved gas price:", gas_price)
 
-            print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
             contract_function = self.contract.get_function_by_name(func_name)
             tx = contract_function(**kwargs).build_transaction(
                 {
@@ -89,13 +90,12 @@ class Contract(Base):
             tx_signed = self.acc.sign_transaction(tx)
 
             tx_hash = self.w3.eth.send_raw_transaction(tx_signed.rawTransaction)
+            print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
+
 
             _ = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
+
+            return True
         except Exception:
-            pass
-
-
-
-    def listen(self):
-        """Listens for contract events"""
-        pass
+            print("tx was unsuccessful")
+            return False
