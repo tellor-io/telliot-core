@@ -76,6 +76,7 @@ def test_application_subclassing():
     assert app.config.chain_id == 0
 
     os.remove(app.config.config_file)
+    os.remove(app.telliot_config.config_file)
     os.rmdir(testhome)
 
 
@@ -92,4 +93,5 @@ def test_application_processing():
     app.shutdown()
 
     os.remove(app.config.config_file)
+    os.remove(app.telliot_config.config_file)
     os.rmdir(testhome)

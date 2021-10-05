@@ -42,6 +42,16 @@ class LogLevel(str, enum.Enum):
     CRITICAL = "critical"
 
 
+class TelliotConfig(ConfigOptions):
+    """Shared telliot configuration object
+
+    This class maintains configuration entries shared by all
+    telliot `Applications`.  It should be updated as needed.
+    """
+
+    infura_key: str = "Insert Infura Private Key Here"
+
+
 class AppConfig(ConfigOptions):
     """Base class for Application Configuration
 
@@ -68,6 +78,9 @@ class Application(BaseModel):
     #: Default constructor for configuration
     config_class: Type[AppConfig]
 
+    # Shared Telliot Configuration
+    telliot_config: TelliotConfig
+
     #: Private thread storage
     _thread: Optional[threading.Thread] = PrivateAttr()
     _shutdown: threading.Event = PrivateAttr(default_factory=threading.Event)
@@ -82,7 +95,17 @@ class Application(BaseModel):
         # Home Directory
         homedir = self._set_homedir(homedir)
 
-        # Get some arguments needed for creating configuration
+        # Shared Telliot Configuration
+        # Try to load configuration from file
+        telliot_config_file = Path(homedir) / "telliot.yaml"
+        if telliot_config_file.exists():
+            telliot_config = TelliotConfig.from_file(telliot_config_file)
+        else:
+            # Create a default configuration and save it
+            telliot_config = TelliotConfig(config_file=telliot_config_file)
+            telliot_config.save()
+
+        # App-Specific Configuration
         if "name" not in kwargs:
             raise AttributeError("name is required")
         else:
@@ -93,7 +116,6 @@ class Application(BaseModel):
         else:
             config_class = kwargs["config_class"]
 
-        # Configuration
         if config is None:
             # Try to load configuration from file
             config_file = Path(homedir) / (name + ".yaml")
@@ -105,7 +127,9 @@ class Application(BaseModel):
                 config.save()
 
         # Initialize object with required homedir and configuration
-        super().__init__(config=config, homedir=homedir, **kwargs)
+        super().__init__(
+            config=config, telliot_config=telliot_config, homedir=homedir, **kwargs
+        )
 
         # Logging
         self.configure_logging()
