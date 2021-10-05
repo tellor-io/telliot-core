@@ -7,11 +7,11 @@ from typing import List
 from typing import Optional
 
 import web3
-from pydantic import BaseModel
+from telliot.utils.base import Base
 from telliot.utils.rpc_endpoint import RPCEndpoint
 
 
-class Contract(BaseModel):
+class Contract(Base):
     """Convenience wrapper for connecting to an Ethereum contract"""
 
     #: RPCNode connection to Ethereum network
