@@ -55,8 +55,7 @@ def test_application_subclassing():
     # Note that ALL OPTIONS MUST HAVE DEFAULTS DEFINED
     # so that a default config can be constructed with no arguments.
     class MyAppConfig(AppConfig):
-        network: str = "Network name (e.g. rinkeby, mainnet)"
-        chain_id: int = 0
+        app_specific_option: int = 0
 
     # Create Application subclass
     # Note: other attributes-specific can be added as required
@@ -73,7 +72,7 @@ def test_application_subclassing():
     #: Instantiate application subclass
     app = MyApp(homedir=testhome)
     assert app.homedir == testhome
-    assert app.config.chain_id == 0
+    assert app.config.app_specific_option == 0
 
     os.remove(app.config.config_file)
     os.remove(app.telliot_config.config_file)
