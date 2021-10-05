@@ -1,3 +1,6 @@
+"""
+Unit tests covering telliot query response types.
+"""
 from decimal import Decimal
 
 from eth_abi import encode_single

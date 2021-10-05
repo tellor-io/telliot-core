@@ -14,7 +14,6 @@ import requests
 from telliot.utils.abi import tellor_playground_abi
 from telliot.utils.config import ConfigOptions
 from telliot.utils.rpc_endpoint import RPCEndpoint
-from web3 import Web3
 
 
 class Submitter(ABC):
@@ -44,17 +43,13 @@ class Submitter(ABC):
     def build_tx(self, value: bytes, request_id: str, gas_price: str) -> Any:
         """Assembles needed transaction data."""
 
-        nonce = self.contract.functions.getNewValueCountbyRequestId(
-            request_id
-        ).call()
+        nonce = self.contract.functions.getNewValueCountbyRequestId(request_id).call()
 
         print("nonce:", nonce)
 
         acc_nonce = self.endpt.web3.eth.get_transaction_count(self.acc.address)
 
-        transaction = self.contract.functions.submitValue(
-            request_id, value, nonce
-        )
+        transaction = self.contract.functions.submitValue(request_id, value, nonce)
 
         estimated_gas = transaction.estimateGas()
         print("estimated gas:", estimated_gas)

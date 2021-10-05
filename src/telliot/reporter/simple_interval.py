@@ -38,7 +38,13 @@ class IntervalReporter(Reporter):
 
             for uid, datafeed in self.datafeeds.items():
                 if datafeed.value:
-                    print(f"Submitting value for {uid}: float {datafeed.value.val} int {datafeed.value.int}")
+                    print(
+                        f"""
+                        Submitting value for {uid}:
+                            float {datafeed.value.val}
+                            int {datafeed.value.int}
+                        """
+                    )
                     query = datafeed.get_query()
                     if query is not None:
                         encoded_value = query.response_type.encode(datafeed.value.int)

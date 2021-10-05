@@ -1,3 +1,6 @@
+"""
+Unit tests covering telliot CLI commands.
+"""
 from click.testing import CliRunner
 from telliot.cli import main
 
