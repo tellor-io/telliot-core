@@ -1,5 +1,7 @@
-import enum
 import pathlib
+from pathlib import Path
+from typing import Any
+from typing import Optional
 from typing import Union
 
 import yaml
@@ -8,51 +10,88 @@ from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
 
 
-class LogLevel(str, enum.Enum):
-    """Enumeration of supported log levels"""
-
-    DEBUG = "debug"
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
-    CRITICAL = "critical"
-
-
 class ConfigOptions(BaseModel):
     """An object used to manage configuration options
 
-    Each attribute represents an option in the config file.
+    Each attribute represents a configuration option.
+
+    if `config_file` is provided, load and store methods will be available.
     This object can be subclassed to add parameters.
+
     """
 
-    loglevel: LogLevel = LogLevel.INFO
+    #: Configuration version used to manage config file versions
+    config_version: str = "0.0.1"
+
+    #: Private storage for Config File Path
+    _config_file: Optional[Path]
+
+    @property
+    def config_file(self) -> Optional[Path]:
+        return self._config_file
 
     class Config:
         # Export price_type as string
         use_enum_values = True
+        underscore_attrs_are_private = True
+
+    def __init__(
+        self, config_file: Optional[Union[str, Path]] = None, **data: Any
+    ) -> None:
+        """Construct a new ConfigOptions object
+
+        Args:
+            **data: Configuration options (Keyword/Argument pairs)
+            config_file: Optional file
+        """
+
+        super().__init__(**data)
+
+        if config_file:
+            self._config_file = Path(config_file).resolve().absolute()
+        else:
+            self._config_file = None
 
     @classmethod
-    def from_file(cls, filename: Union[str, pathlib.Path]) -> "ConfigOptions":
+    def from_file(cls, filename: Union[str, pathlib.Path]) -> Any:
         """Load Configuration from a .yaml file
 
         Parameters
         ----------
         filename
         """
-        with open(filename, "r") as f:
+        filepath = Path(filename).resolve().absolute()
+
+        with open(filepath, "r") as f:
             state = yaml.load(f, Loader=Loader)
 
-        return cls.parse_obj(state)
+        obj = cls.parse_obj(state)
+        obj._config_file = filepath
 
-    def to_file(self, filename: Union[str, pathlib.Path]) -> None:
-        """Save configuration to a file"""
+        return obj
+
+    def save(self) -> None:
+        """Save configuration to file"""
+        if not self.config_file:
+            raise AttributeError("Cannot save configuration.  config_file not defined")
+
         try:
-            with open(filename, "w") as f:
+
+            # Make sure folder exists
+            self.config_file.parent.mkdir(parents=True, exist_ok=True)
+
+            with open(self.config_file, "w") as f:
                 state = self.dict()
                 print(state)
                 yaml.dump(state, f, Dumper=Dumper)
-                print("Saved configuration to {}".format(filename))
+                print(
+                    "Saved {} to {}".format(self.__class__.__name__, self.config_file)
+                )
 
         except FileNotFoundError as e:
-            print("Error writing config file {}".format(filename))
+            print(
+                "Error saving {} to {}".format(
+                    self.__class__.__name__, self.config_file
+                )
+            )
             raise e
