@@ -29,12 +29,14 @@ class Submitter(ABC):
         self.config = config
 
         self.endpt = RPCEndpoint(
-            network=config.network, provider=config.provider, url=config.node_url
+            network=self.config.network, 
+            provider=self.config.provider, 
+            url=self.config.node_url
         )
 
         self.endpt.connect()
 
-        self.acc = self.endpt.web3.eth.account.from_key(config.private_key)
+        self.acc = self.endpt.web3.eth.account.from_key(self.config.private_key)
 
         self.contract = self.endpt.web3.eth.contract(
             self.config.contract_address, abi=tellor_playground_abi
