@@ -7,8 +7,8 @@ to the Tellor oracle.
 import json
 from abc import ABC
 from typing import Any
-from typing import List
 from typing import Mapping
+from typing import Sequence
 
 import requests
 from telliot.utils.abi import tellor_playground_abi
@@ -22,16 +22,16 @@ class Submitter(ABC):
     Submits BTC price data in USD to the TellorX playground
     on the Rinkeby test network."""
 
-    def __init__(self, config: ConfigOptions, abi: List[Mapping[str, Any]]) -> None:
+    def __init__(self, config: ConfigOptions, abi: Sequence[Mapping[str, Any]]) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
         self.config = config
 
         self.endpt = RPCEndpoint(
-            network=self.config.network, 
-            provider=self.config.provider, 
-            url=self.config.node_url
+            network=self.config.network,
+            provider=self.config.provider,
+            url=self.config.node_url,
         )
 
         self.endpt.connect()
