@@ -1,0 +1,6 @@
+config_version: 0.0.1
+default_endpoint:
+  network: Network Name (e.g. 'mainnet', 'testnet', 'rinkebey')
+  provider: Provider Name (e.g. 'Infura')
+  url: URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')
+  web3: null

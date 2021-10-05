@@ -12,8 +12,10 @@ from typing import Type
 from typing import Union
 
 from pydantic import BaseModel
+from pydantic import Field
 from pydantic import PrivateAttr
 from telliot.utils.config import ConfigOptions
+from telliot.utils.rpc_endpoint import RPCEndpoint
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +44,13 @@ class LogLevel(str, enum.Enum):
     CRITICAL = "critical"
 
 
+DefaultRPCEndpoint = RPCEndpoint(
+    network="Network Name (e.g. 'mainnet', 'testnet', 'rinkebey')",
+    provider="Provider Name (e.g. 'Infura')",
+    url="URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')",
+)
+
+
 class TelliotConfig(ConfigOptions):
     """Shared telliot configuration object
 
@@ -49,7 +58,7 @@ class TelliotConfig(ConfigOptions):
     telliot `Applications`.  It should be updated as needed.
     """
 
-    infura_key: str = "Insert Infura Private Key Here"
+    default_endpoint: RPCEndpoint = Field(default=DefaultRPCEndpoint)
 
 
 class AppConfig(ConfigOptions):

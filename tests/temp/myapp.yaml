@@ -1,0 +1,4 @@
+chain_id: 0
+config_version: 0.0.1
+loglevel: info
+network: Network name (e.g. rinkeby, mainnet)
