@@ -1,16 +1,21 @@
 """ Telliot application helpers
 
 """
+import enum
 import logging
 import pathlib
 import threading
 from pathlib import Path
 from typing import Any
 from typing import Optional
+from typing import Type
+from typing import Union
 
 from pydantic import BaseModel
+from pydantic import Field
 from pydantic import PrivateAttr
 from telliot.utils.config import ConfigOptions
+from telliot.utils.rpc_endpoint import RPCEndpoint
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +34,44 @@ def default_homedir() -> pathlib.Path:
     return homedir
 
 
+class LogLevel(str, enum.Enum):
+    """Enumeration of supported log levels"""
+
+    DEBUG = "debug"
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+    CRITICAL = "critical"
+
+
+DefaultRPCEndpoint = RPCEndpoint(
+    network="Network Name (e.g. 'mainnet', 'testnet', 'rinkebey')",
+    provider="Provider Name (e.g. 'Infura')",
+    url="URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')",
+)
+
+
+class TelliotConfig(ConfigOptions):
+    """Shared telliot configuration object
+
+    This class maintains configuration entries shared by all
+    telliot `Applications`.  It should be updated as needed.
+    """
+
+    default_endpoint: RPCEndpoint = Field(default=DefaultRPCEndpoint)
+
+
+class AppConfig(ConfigOptions):
+    """Base class for Application Configuration
+
+    Default values must be provided for all options so that
+    constructor can be called with zero arguments
+    """
+
+    #: Control application logging level
+    loglevel: LogLevel = LogLevel.INFO
+
+
 class Application(BaseModel):
     """Application base class"""
 
@@ -36,69 +79,73 @@ class Application(BaseModel):
     name: str
 
     #: Home directory
-    homedir: Optional[Path]
-
-    #: Configuration file
-    #: If not provided, default is <name>.yaml in homedir
-    config_file: Optional[Path]
+    homedir: Path
 
     #: Application configuration object
-    config: Optional[ConfigOptions]
+    config: AppConfig
+
+    #: Default constructor for configuration
+    config_class: Type[AppConfig]
+
+    # Shared Telliot Configuration
+    telliot_config: TelliotConfig
 
     #: Private thread storage
     _thread: Optional[threading.Thread] = PrivateAttr()
     _shutdown: threading.Event = PrivateAttr(default_factory=threading.Event)
 
-    def __init__(self, **kwargs: Any) -> None:
-
-        # Pydantic initialization
-        super().__init__(**kwargs)
+    def __init__(
+        self,
+        config: Optional[AppConfig] = None,
+        homedir: Optional[Path] = None,
+        **kwargs: Any
+    ) -> None:
 
         # Home Directory
-        if self.homedir is None:
-            # Set default homedir and create if necessary
-            self.homedir = default_homedir()
-            if not self.homedir.exists():
-                self.homedir.mkdir(parents=True)
+        homedir = self._set_homedir(homedir)
+
+        # Shared Telliot Configuration
+        # Try to load configuration from file
+        telliot_config_file = Path(homedir) / "telliot.yaml"
+        if telliot_config_file.exists():
+            telliot_config = TelliotConfig.from_file(telliot_config_file)
         else:
-            # Use specified home directory
-            self.homedir = self.homedir.resolve().absolute()
-            if not self.homedir.exists():
-                raise FileExistsError(
-                    "Directory does not exist: {}".format(self.homedir)
-                )
+            # Create a default configuration and save it
+            telliot_config = TelliotConfig(config_file=telliot_config_file)
+            telliot_config.save()
 
-        # Configuration
+        # App-Specific Configuration
+        if "name" not in kwargs:
+            raise AttributeError("name is required")
+        else:
+            name = kwargs["name"]
 
-        if self.config_file is None:
-            # If no config file was passed in, use default file
-            self.config_file = self.homedir / (self.name + ".yaml")
-        elif isinstance(self.config_file, str):
-            self.config_file = Path(self.config_file)
+        if "config_class" not in kwargs:
+            raise AttributeError("config_class is required")
+        else:
+            config_class = kwargs["config_class"]
 
-        if not self.config:
-            # If a config was not passed in, try to load it from the file
-            if self.config_file.exists():
-                self.config = ConfigOptions.from_file(self.config_file)
-
-            # Otherwise, create and store a default config
+        if config is None:
+            # Try to load configuration from file
+            config_file = Path(homedir) / (name + ".yaml")
+            if config_file.exists():
+                config = config_class.from_file(config_file)
             else:
-                self.config = self.get_default_config()
-                self.config.to_file(self.config_file)
+                # Create a default configuration and save it
+                config = config_class(config_file=config_file)
+                config.save()
+
+        # Initialize object with required homedir and configuration
+        super().__init__(
+            config=config, telliot_config=telliot_config, homedir=homedir, **kwargs
+        )
 
         # Logging
         self.configure_logging()
 
         logger.info("Created new {} application object".format(self.name))
         logger.info("Home Directory: {}".format(self.homedir))
-        logger.info("Config file: {}".format(self.config_file))
-
-    def get_default_config(self) -> ConfigOptions:
-        """Return the default application configuration object
-
-        Subclasses may override this method as required
-        """
-        return ConfigOptions()
+        logger.info("Config file: {}".format(self.config.config_file))
 
     def configure_logging(self) -> None:
         """Configure Application logging
@@ -157,3 +204,26 @@ class Application(BaseModel):
 
         print("Application {} received shutdown event".format(self.name))
         self._shutdown.clear()
+
+    @staticmethod
+    def _set_homedir(homedir: Optional[Union[str, Path]] = None) -> Path:
+        """Set homedir
+
+        Sets home directory, using a default if none is provided.
+        The default directory is created if it does not exist.
+        A homedir that is provided must exist
+        """
+        if homedir is None:
+            # Set default homedir and create if necessary
+            result = default_homedir()
+            if not result.exists():
+                result.mkdir(parents=True)
+        else:
+            # Use specified home directory
+            if isinstance(homedir, str):
+                homedir = Path(homedir)
+            result = homedir.resolve().absolute()
+            if not result.exists():
+                raise FileExistsError("Directory does not exist: {}".format(homedir))
+
+        return result
