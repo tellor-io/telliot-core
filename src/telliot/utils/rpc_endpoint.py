@@ -22,8 +22,9 @@ class RPCEndpoint(Base):
     #: URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')
     url: str
 
-    #: Web3 Connection
-    web3: Optional[Web3] = None
+    #: Read-only Web3 Connection with private storage
+    web3 = property(lambda self: self._web3)
+    _web3: Optional[Web3] = None
 
     class Config:
         arbitrary_types_allowed = True
@@ -35,15 +36,15 @@ class RPCEndpoint(Base):
             True if connection was successful
         """
 
-        if self.web3:
+        if self._web3:
             return True
 
-        self.web3 = Web3(Web3.HTTPProvider(self.url))
+        self._web3 = Web3(Web3.HTTPProvider(self.url))
         try:
-            connected = self.web3.isConnected()
+            connected = self._web3.isConnected()
         # Pokt nodes won't submit isConnected rpc call
         except Exception:
-            connected = self.web3.eth.get_block_number() > 1
+            connected = self._web3.eth.get_block_number() > 1
         if connected:
             print("Connected to {}".format(self))
         else:
