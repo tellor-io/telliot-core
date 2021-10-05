@@ -41,17 +41,11 @@ class Submitter(ABC):
             self.config.contract_address, abi=tellor_playground_abi
         )
 
-    def tobytes(self, value: int) -> Any:
-        """Casts value as a bytes array."""
-        return Web3.toBytes(hexstr=Web3.toHex(text=str(value)))
-
-    def build_tx(self, value: float, request_id: str, gas_price: str) -> Any:
+    def build_tx(self, value: bytes, request_id: str, gas_price: str) -> Any:
         """Assembles needed transaction data."""
 
-        # request_id_bytes = self.tobytes32(request_id)
-        value_bytes = self.tobytes(int(value * 1e6))
         nonce = self.contract.functions.getNewValueCountbyRequestId(
-            request_id  # request_id_bytes
+            request_id
         ).call()
 
         print("nonce:", nonce)
@@ -59,7 +53,7 @@ class Submitter(ABC):
         acc_nonce = self.endpt.web3.eth.get_transaction_count(self.acc.address)
 
         transaction = self.contract.functions.submitValue(
-            request_id, value_bytes, nonce
+            request_id, value, nonce
         )
 
         estimated_gas = transaction.estimateGas()
@@ -76,7 +70,7 @@ class Submitter(ABC):
 
         return built_tx
 
-    def submit_data(self, value: float, request_id: str) -> Any:
+    def submit_data(self, value: bytes, request_id: str) -> Any:
         """Submits data on-chain & provides a link to view the
         successful transaction."""
 
@@ -84,6 +78,8 @@ class Submitter(ABC):
         prices = json.loads(req.content)
         gas_price = str(prices[self.config.gasprice_speed])
         print("retrieved gas price:", gas_price)
+        gas_price = "3"
+        print("gas price used:", gas_price)
 
         tx = self.build_tx(value, request_id, gas_price)
 
