@@ -38,21 +38,12 @@ class IntervalReporter(Reporter):
 
             for uid, datafeed in self.datafeeds.items():
                 if datafeed.value:
-                    print(f"Submitting value for {uid}: {datafeed.value.val}")
-                    q = datafeed.get_query()
-                    if q is not None:
-                        """TODO:
-                        - Should encode value using query response type.
-                        - Also use request ID encoded by query
-                        - Decide if these goes here or in submitter.
-                        """
-                        # TODO: Should use query to encode value.  Request ID
-                        #       from query is already in bytes.  Probably
-                        #       be part of submitter
-                        # encoded_value = q.response_type.encode(datafeed.value.val)
-                        # print(encoded_value)  # Dummy print to pass tox style
-                        request_id_str = "0x" + q.request_id.hex()
-                        self.submitter.submit_data(datafeed.value.val, request_id_str)
+                    print(f"Submitting value for {uid}: float {datafeed.value.val} int {datafeed.value.int}")
+                    query = datafeed.get_query()
+                    if query is not None:
+                        encoded_value = query.response_type.encode(datafeed.value.int)
+                        request_id_str = "0x" + query.request_id.hex()
+                        self.submitter.submit_data(encoded_value, request_id_str)
                     else:
                         print(f"Skipping submission for {uid}, no query for datafeed.")
                 else:
