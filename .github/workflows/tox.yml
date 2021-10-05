@@ -1,6 +1,10 @@
 ---
 name: CI
 
+env:
+  PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+  NODE_URL: ${{ secrets.TEST_NODE_URL }}
+
 on:
   push:
     branches: ["main"]
