@@ -3,11 +3,11 @@ Utils for creating a JSON RPC connection to an EVM blockchain
 """
 from typing import Optional
 
-from pydantic.main import BaseModel
+from telliot.utils.base import Base
 from web3 import Web3
 
 
-class RPCEndpoint(BaseModel):
+class RPCEndpoint(Base):
     """JSON RPC Endpoint for EVM compatible network"""
 
     #: Blockchain Name
