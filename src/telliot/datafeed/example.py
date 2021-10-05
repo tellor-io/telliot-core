@@ -39,11 +39,11 @@ data_sources = {
     ),
 }
 
-btc_usd_data_feeds = {
+data_feeds = {
     "btc-usd-median": AssetPriceFeed(
         name="BTC USD Median Price Feed",
         uid="btc-usd-median",
-        request_id="btc-usd-median",
+        qid="qid-0002",
         asset="btc",
         currency="usd",
         sources=data_sources,

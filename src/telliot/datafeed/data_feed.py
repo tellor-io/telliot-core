@@ -1,10 +1,13 @@
 import asyncio
 from typing import Any
 from typing import Dict
+from typing import Optional
 
 from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.data_source import DataSourceDb
+from telliot.query import OracleQuery
+from telliot.query_registry import query_registry
 
 
 class DataFeed(DataSourceDb):
@@ -13,8 +16,8 @@ class DataFeed(DataSourceDb):
     #: Data feed sources
     sources: Dict[str, DataSource]
 
-    #: Unique ID of tellor query supported by this feed
-    request_id: str
+    #: Unique Query ID supported by this feed
+    qid: str
 
     async def update_sources(self) -> Dict[str, TimeStampedAnswer[Any]]:
         """Update data feed sources
@@ -32,3 +35,11 @@ class DataFeed(DataSourceDb):
             return dict(zip(keys, values))
 
         return await gather_inputs()
+
+    def get_query(self) -> Optional[OracleQuery]:
+        """Get target query for this Data Feed
+
+        Returns:
+            Target query for this DataFeed or None if not found
+        """
+        return query_registry.queries.get(self.qid, None)

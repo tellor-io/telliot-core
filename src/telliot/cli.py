@@ -6,8 +6,6 @@ or in the configuration file.
 """
 import click
 
-from .reporter_plugins.rinkeby_btc_usd.reporter import btc_usd_reporter
-
 
 @click.group()
 def main() -> None:
@@ -16,10 +14,11 @@ def main() -> None:
 
 
 @main.command()
-def report() -> None:
+@click.argument("datafeed_uid")
+def report(datafeed_uid: str) -> None:
     """Report data to Tellor oracle."""
-    click.echo("Reporting data to Tellor oracle.")
-    btc_usd_reporter.run()
+    click.echo("Reporting to the Tellor oracle.")
+    click.echo(f"Chosen datafeed uid: {datafeed_uid}")
 
 
 @main.command()

@@ -3,10 +3,7 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
-from dotenv import load_dotenv
 from telliot.utils.rpc_endpoint import RPCEndpoint
-
-load_dotenv()  # we will replace this with loading from config
 
 
 network = "mainnet"

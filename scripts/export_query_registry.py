@@ -1,5 +1,4 @@
 """ This script exports the tellor query registry to json
-
 """
 from telliot.query_registry import query_registry
 
