@@ -5,12 +5,12 @@ from typing import Optional
 from typing import Union
 
 import yaml
-from pydantic import BaseModel
+from telliot.utils.base import Base
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
 
 
-class ConfigOptions(BaseModel):
+class ConfigOptions(Base):
     """An object used to manage configuration options
 
     Each attribute represents a configuration option.
@@ -29,11 +29,6 @@ class ConfigOptions(BaseModel):
     @property
     def config_file(self) -> Optional[Path]:
         return self._config_file
-
-    class Config:
-        # Export price_type as string
-        use_enum_values = True
-        underscore_attrs_are_private = True
 
     def __init__(
         self, config_file: Optional[Union[str, Path]] = None, **data: Any
