@@ -26,9 +26,6 @@ class RPCEndpoint(Base):
     web3 = property(lambda self: self._web3)
     _web3: Optional[Web3] = None
 
-    class Config:
-        arbitrary_types_allowed = True
-
     def connect(self) -> bool:
         """Connect to EVM blockchain
 
