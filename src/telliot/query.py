@@ -4,6 +4,8 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Union
+from typing import Literal
+
 
 from pydantic import BaseModel
 from pydantic import validator
@@ -61,6 +63,10 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
 class OracleQuery(BaseModel):
     """Base class for all tellorX queries"""
 
+    #: Type field is required to support registry export/import through json
+    #: Must be overridden in all OracleQuery subclasses
+    type: Literal['OracleQuery']='OracleQuery'
+
     #: Unique query name (Tellor Assigned)
     uid: str
 
@@ -78,6 +84,9 @@ class OracleQuery(BaseModel):
 
     #: True if this is a legacy price query
     is_legacy = property(lambda self: self.legacy_request_id is not None)
+
+    #: Container to register subclasses for pydantic export hack (see below)
+    _types: Dict[str, type] = {}
 
     @property
     def request_id(self) -> bytes:
@@ -98,9 +107,38 @@ class OracleQuery(BaseModel):
                 raise ValueError("Legacy request ID must be less than 100")
         return v
 
+    # --------------------------------------------------------------
+    # The following machinery is used to force Pydantic to properly
+    # serialize and deserialize OracleQuery subclasses by including
+    # type info in the JSON stream
+    # Per https://github.com/samuelcolvin/pydantic/issues/2177
+    # --------------------------------------------------------------
+
+    # used to register automatically all the submodels in `_types`.
+    def __init_subclass__(cls, type: Optional[str] = None):
+        cls._types[type or cls.__name__.lower()] = cls
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, value: Dict[str, Any]) -> 'OracleQuery':
+        try:
+            query_cls = value.pop('type')
+            # init with right Pet submodel
+            return cls._types[query_cls](**value)
+        except:
+            raise ValueError('...')
+
+
 
 class PriceQuery(OracleQuery):
     """A query requesting the price of an asset in a specified currency."""
+
+    #: Type field is required to support registry export/import through json
+    #: Must be overridden in all OracleQuery subclasses
+    type: Literal['PriceQuery']='PriceQuery'
 
     #: Asset symbol
     asset: str = ""
