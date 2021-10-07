@@ -32,8 +32,8 @@ jobs:
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
-          python -c "import os;print(os.environ['TEST_SECRET'])"
-          "tox"
+          python -c 'import os;print(os.environ["TEST_SECRET"])';
+          tox
         env:
           NODE_URL: ${{ secrets.TEST_NODE_URL }} 
           PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
