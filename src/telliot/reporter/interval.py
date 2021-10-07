@@ -3,10 +3,10 @@
 Example of a subclassed Reporter.
 """
 import asyncio
-from typing import Mapping
-from typing import List
-from typing import Union
 from typing import Any
+from typing import List
+from typing import Mapping
+from typing import Union
 
 from telliot.datafeed.data_feed import DataFeed
 from telliot.reporter.base import Reporter
@@ -46,11 +46,12 @@ class IntervalReporter(Reporter):
                 query = datafeed.get_query()
                 if query is not None:
                     encoded_value = query.response_type.encode(
-                        datafeed.value.int)  # type: ignore
+                        datafeed.value.int  # type: ignore
+                    )
                     request_id_str = "0x" + query.request_id.hex()
                     transaction_receipt = self.submitter.submit_data(
-                        encoded_value,
-                        request_id_str)
+                        encoded_value, request_id_str
+                    )
                     transaction_receipts.append(transaction_receipt)
                 else:
                     print(f"Skipping submission for {uid}, no query for datafeed.")

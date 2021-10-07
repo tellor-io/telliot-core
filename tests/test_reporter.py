@@ -5,19 +5,19 @@ telliot's reporter subpackage.
 import os
 from pathlib import Path
 
+import pytest
 import yaml
 from telliot.datafeed.example import data_feeds
 from telliot.reporter.config import ReporterConfig
 from telliot.reporter.interval import IntervalReporter
 from web3.datastructures import AttributeDict
 
-import pytest
-
 
 @pytest.fixture
 def tmpdir():
     """Create temp dir for config file."""
     return Path("./temp").resolve().absolute()
+
 
 @pytest.fixture
 def config_file(tmpdir):
@@ -41,7 +41,7 @@ def config_file(tmpdir):
         yaml.dump(reporter_config_data, outfile, default_flow_style=False)
 
     return config_file
-    
+
 
 def test_interval_reporter_instantiation_from_file(tmpdir, config_file):
     """Test instantiating an IntervalReporter from config file."""
@@ -66,7 +66,7 @@ async def test_interval_reporter_submit_once(tmpdir, config_file):
         datafeeds=data_feeds,
     )
     tx_receipts = await reporter.report_once()
-    
+
     assert tx_receipts
     for receipt in tx_receipts:
         assert isinstance(receipt, AttributeDict)
