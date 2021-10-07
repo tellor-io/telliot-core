@@ -14,6 +14,7 @@ setup(
     version=release,
     packages=find_packages(where="src"),
     package_dir={"": "src"},
+    package_data={"": ["queries/*.csv"]},
     url="www.tellor.io",
     license="MIT",
     cmdclass=cmdclass,

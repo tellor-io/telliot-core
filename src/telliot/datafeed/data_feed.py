@@ -6,8 +6,8 @@ from typing import Optional
 from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.data_source import DataSourceDb
-from telliot.query import OracleQuery
-from telliot.query_registry import query_registry
+from telliot.queries.query import OracleQuery
+from telliot.queries.query_registry import query_registry
 
 
 class DataFeed(DataSourceDb):
