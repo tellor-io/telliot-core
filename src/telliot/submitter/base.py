@@ -11,8 +11,8 @@ from typing import Mapping
 from typing import Sequence
 
 import requests
+from telliot.reporter.config import ReporterConfig
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.config import ConfigOptions
 from telliot.utils.rpc_endpoint import RPCEndpoint
 
 
@@ -22,7 +22,9 @@ class Submitter(ABC):
     Submits BTC price data in USD to the TellorX playground
     on the Rinkeby test network."""
 
-    def __init__(self, config: ConfigOptions, abi: Sequence[Mapping[str, Any]]) -> None:
+    def __init__(
+        self, config: ReporterConfig, abi: Sequence[Mapping[str, Any]]
+    ) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
@@ -84,5 +86,9 @@ class Submitter(ABC):
 
         tx_hash = self.endpt.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
 
-        _ = self.endpt.web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
+        tx_receipt = self.endpt.web3.eth.wait_for_transaction_receipt(
+            tx_hash, timeout=360
+        )
         print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
+
+        return tx_receipt
