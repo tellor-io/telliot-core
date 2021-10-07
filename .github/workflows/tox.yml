@@ -35,6 +35,7 @@ jobs:
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
           python -c 'import os;print(os.environ)';
+          python -c 'import os;print("TEST_SECRET" in os.environ)';
           tox
 
       - name: Upload coverage to Codecov
