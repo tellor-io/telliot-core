@@ -1,9 +1,14 @@
+""" Unit tests for query registry
+
+Copyright (c) 2021-, Tellor Development Community
+Distributed under the terms of the MIT License.
+"""
 from telliot.queries.query_registry import query_registry
 from telliot.queries.query_registry import QueryRegistry
 
 
 def test_query_registry():
-    qr = query_registry
+    """Validate query registry"""
 
     exported = query_registry.json(indent=2)
 

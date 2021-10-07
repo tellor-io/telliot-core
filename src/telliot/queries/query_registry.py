@@ -1,6 +1,7 @@
-""" Oracle Queries
-This module lists all official DAO-approved queries currently supported by
-the TellorX network.
+""" Query Registry
+
+Copyright (c) 2021-, Tellor Development Community
+Distributed under the terms of the MIT License.
 """
 import csv
 from pathlib import Path

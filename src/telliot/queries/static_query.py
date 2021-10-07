@@ -1,18 +1,22 @@
-from web3 import Web3
+""" Static Query Class
 
+Copyright (c) 2021-, Tellor Development Community
+Distributed under the terms of the MIT License.
+"""
+from pydantic import Field
 from telliot.queries.query import OracleQuery
 from telliot.response_type import ResponseType
-from pydantic import Field
+from web3 import Web3
 
 
 class StaticQuery(OracleQuery):
-    """ Static Oracle Query
+    """Static Oracle Query
 
     A static uses a fixed value for tip data.
     The request_id is also fixed according the keccak algorithm
     """
 
-    type: str = Field('StaticQuery', constant=True)
+    type: str = Field("StaticQuery", constant=True)
 
     #: Question
     static_question: str
@@ -23,12 +27,12 @@ class StaticQuery(OracleQuery):
 
     @property
     def response_type(self) -> ResponseType:
-        """ Concrete implementation  """
+        """Abstract method implementation."""
         return self.static_response_type
 
     @property
     def request_id(self) -> bytes:
-        """Return the modern or legacy request ID
+        """Compute and return the request ID
 
         Returns:
             bytes: 32-byte Request ID
@@ -37,4 +41,5 @@ class StaticQuery(OracleQuery):
 
     @property
     def question(self) -> str:
+        """Abstract method implementation."""
         return self.static_question
