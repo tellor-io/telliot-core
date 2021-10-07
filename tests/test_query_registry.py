@@ -7,8 +7,8 @@ from telliot.queries.query_registry import query_registry
 from telliot.queries.query_registry import QueryRegistry
 
 
-def test_query_registry():
-    """Validate query registry"""
+def test_registry_import_export():
+    """Validate query registry JSON round trip"""
 
     exported = query_registry.json(indent=2)
 

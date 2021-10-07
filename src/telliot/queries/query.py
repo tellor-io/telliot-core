@@ -100,15 +100,6 @@ class SerializableSubclassModel(BaseModel):
         return cls._convert_to_real_type_(obj)
 
 
-#
-# QuerySubClass = Literal['OracleQuery',
-#                         'StaticQuery',
-#                         'DynamicQuery',
-#                         'PriceQuery',
-#                         'LegacyQuery',
-#                         'LegacyPriceQuery']
-
-
 class OracleQuery(SerializableSubclassModel, ABC):
     """Abstract Base class for all tellorX queries"""
 
