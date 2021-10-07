@@ -1,14 +1,11 @@
 """
 Utils for connecting to an EVM contract
 """
-
-import json
-
-from typing import Any, Callable, Tuple
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-import requests
+from typing import Tuple
 
 import web3
 from telliot.utils.base import Base
@@ -30,21 +27,24 @@ class Contract(Base):
     #: web3 contract object
     contract: Optional[web3.contract.Contract]
 
-    class Config:
-        arbitrary_types_allowed = True
+    #: global pytelliot configurations
+    # config: ConfigOptions
 
-    def connect(self) -> None:
+    def connect(self) -> bool:
         """Connect to EVM contract through an RPC Endpoint"""
         if self.node.web3 is None:
             print("node is not instantiated")
+            return False
         else:
             if not self.node.connect():
                 print("node is not connected")
+                return False
             self.contract = self.node.web3.eth.contract(
                 address=self.address, abi=self.abi
             )
+            return True
 
-    def read(self,func_name:str, **kwargs:Any) -> Tuple[Tuple, bool]: 
+    def read(self, func_name: str, **kwargs: Any) -> Tuple[Any, bool]:
         """
         Reads data from contract
         inputs:
@@ -54,48 +54,70 @@ class Contract(Base):
         Tuple: contains contract function outputs (tuple) and success (bool)
         """
 
-        try:
-            contract_function = self.contract.get_function_by_name(func_name)
-            return (contract_function(**kwargs).call(), True)
-        except ValueError:
-            print(f"function '{func_name}' not found in contract abi")
-            return ((), False)
+        if self.contract:
+            try:
+                contract_function = self.contract.get_function_by_name(func_name)
+                print(contract_function)
+                return (contract_function(**kwargs).transact(), True)
+            except ValueError:
+                print(f"function '{func_name}' not found in contract abi")
+                return ((), False)
+        else:
+            if self.connect():
+                print("now connected to contract")
+                return self.read(func_name=func_name, **kwargs)
+            else:
+                print("unable to connect to contract")
+                return ((), False)
 
-    def write(self, func_name:str, **kwargs:Any) -> bool:
-        """
-        Writes data to contract
-        inputs:
-        func_name (str): name of contract function to call
+    # def write(self, func_name: str, **kwargs: Any) -> bool:
+    #     """
+    #     Writes data to contract
+    #     inputs:
+    #     func_name (str): name of contract function to call
 
-        returns:
-        bool: success
-        """
-        try:
-            acc_nonce = self.node.web3.eth.get_transaction_count(self.acc.address)
-            req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
-            prices = json.loads(req.content)
-            gas_price = str(prices["fast"])
-            print("retrieved gas price:", gas_price)
+    #     returns:
+    #     bool: success
+    #     """
+    #     try:
+    #         # load account from private key
+    #         self.acc = self.node.web3.eth.account.from_key(self.config.private_key)
+    #         # get account nonce
+    #         acc_nonce = self.node.web3.eth.get_transaction_count(self.acc.address)
+    #         # get fast gas price
+    #         req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
+    #         prices = json.loads(req.content)
+    #         gas_price = str(prices["fast"])
+    #         print("retrieved gas price:", gas_price)
+    #         # find function in contract
+    #         contract_function = self.contract.get_function_by_name(func_name)
+    #         tx = contract_function(**kwargs)
+    #         # estimate gas
+    #         estimated_gas = tx.estimateGas()
+    #         # build transaction
+    #         tx_built = tx.build_transaction(
+    #             {
+    #                 "nonce": acc_nonce,
+    #                 "gas": estimated_gas,
+    #                 "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
+    #                 "chainId": self.config.chain_id,
+    #             }
+    #         )
 
-            contract_function = self.contract.get_function_by_name(func_name)
-            tx = contract_function(**kwargs).build_transaction(
-                {
-                "nonce": acc_nonce,
-                "gas": 4000000,
-                "gasPrice": self.w3.toWei(gas_price, "gwei"),
-                "chainId": self.chain_id,
-            }
-            )
+    #         tx_signed = self.acc.sign_transaction(tx_built)
 
-            tx_signed = self.acc.sign_transaction(tx)
+    #         tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
+    #         print(
+    #             f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}"
+    #         )
 
-            tx_hash = self.w3.eth.send_raw_transaction(tx_signed.rawTransaction)
-            print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
+    #         _ = self.node.web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
 
+    #         return True
+    #     except Exception:
+    #         print("tx was unsuccessful")
+    #         return False
 
-            _ = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
-
-            return True
-        except Exception:
-            print("tx was unsuccessful")
-            return False
+    def listen() -> None:
+        """Wrapper for listening for contract events"""
+        pass
