@@ -4,7 +4,7 @@ PyTelliot Data Feeder Module
 Data Source
 -----------
 
-.. autoclass:: telliot.datafeed.feeder.DataSource
+.. autoclass:: telliot.datafeed.data_source.DataSource
     :members:
     :exclude-members: dataclass
 
@@ -13,7 +13,7 @@ Data Feed
 ---------
 
 
-.. autoclass:: telliot.datafeed.feeder.DataFeed
+.. autoclass:: telliot.datafeed.data_feed.DataFeed
     :members:
     :exclude-members: dataclass
 
