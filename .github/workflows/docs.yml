@@ -1,5 +1,5 @@
 ---
-name: CI
+name: docs
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   docs:
-    name: "Python ${{ matrix.python-version }}"
+    name: "Documentation build on Python ${{ matrix.python-version }}"
     runs-on: "ubuntu-latest"
 
     strategy:
