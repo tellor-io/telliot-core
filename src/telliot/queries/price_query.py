@@ -10,19 +10,25 @@ from typing import List
 
 from pydantic import Field
 from pydantic import PrivateAttr
+from pydantic import validator
+from telliot.queries.query import OracleQuery
 from telliot.queries.dynamic_query import DynamicQuery
 from telliot.response_type import ResponseType
 
-price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
+price_types = Literal[
+    "current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
 
 # Standard response type for price query
 response_type = ResponseType(abi_type="ufixed64x6", packed=True)
 
+# List of parameters used to customize a PriceQuery object
+price_query_params = ['asset', 'currency', 'price_type']
 
-class PriceQuery(DynamicQuery):
+
+class PriceQuery(OracleQuery):
     """A dynamic query for the price of an asset in a specified currency."""
 
-    parameters: ClassVar[List[str]]
+    parameters: ClassVar[List[str]] = price_query_params
 
     type: str = Field("PriceQuery", constant=True)
 
@@ -43,40 +49,24 @@ class PriceQuery(DynamicQuery):
     _response_type: ResponseType = PrivateAttr()
 
     def __init__(self, **kwargs: Any):
-
         # Fixed response type for all queries
-        response_type = ResponseType(abi_type="ufixed64x6", packed=True)
+        fixed_rtype = ResponseType(abi_type="ufixed64x6", packed=True)
 
         super().__init__(**kwargs)
 
-        self._response_type = response_type
+        self._response_type = fixed_rtype
 
     @property
     def response_type(self) -> ResponseType:
         """Abstract method implementation."""
         return self._response_type
 
-    @property
-    def query(self) -> str:
-        """Abstract method implementation."""
+    @validator("asset")
+    def asset_must_be_lower_case(cls, v: str) -> str:
+        """Ensure asset/currency are lower case"""
+        return v.lower()
 
-        q = (
-            f"what is the {self.price_type} value of "
-            f"{self.asset} in {self.currency}"
-        )
-
-        if self.check_parameters():
-            return q
-        else:
-            return ""
-
-    def check_parameters(self) -> bool:
-        """Abstract method implementation."""
-
-        if not self.price_type:
-            return False
-        if not self.asset:
-            return False
-        if not self.currency:
-            return False
-        return True
+    @validator("currency")
+    def currency_must_be_lower_case(cls, v: str) -> str:
+        """Ensure asset/currency are lower case"""
+        return v.lower()

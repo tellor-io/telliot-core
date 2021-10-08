@@ -11,12 +11,12 @@ def test_constructor():
     q = PriceQuery(asset="BTC", currency="USD")
 
     exp = (
-        b"qid-101?what is the current value of btc in usd?abi_type=ufixed64x6,packed=true"
-    )
+        b"PriceQuery(asset='btc',currency='usd',price_type='current')?"
+        b"abi_type='ufixed64x6',packed=True")
 
     assert q.tip_data == exp
 
-    exp = "58a476e45522ad46d48b17bdac8600bb63656435ee938f0d72990cc3007fb7ad"
+    exp = "067301891b463794433b722e176d8dac5e3e5e8152342ca85212dd562ac8128c"
     assert q.tip_id.hex() == exp
 
 
@@ -24,11 +24,11 @@ def test_price_type():
     """Validate price_type setting"""
     q = PriceQuery(asset="ETH", currency="USD", price_type="24hr_twap")
 
-    exp = (
-        b"qid-101?what is the 24hr_twap value of eth in usd?"
-        b"abi_type=ufixed64x6,packed=true"
-    )
-    assert q.tip_data == exp
+    exp =(b"PriceQuery(asset='eth',currency='usd',price_type='24hr_twap')?"
+          b"abi_type='ufixed64x6',packed=True")
 
-    exp = "c89db5d2c69b59e8a4260ad119dc1710683341a69d985437717b6b92aadd203e"
+    assert q.tip_data == exp
+    print(q.tip_data)
+
+    exp = "3b78e54622a770904d047cbb72a7fff611a3561eebc86a4922c3e4a6d1d237cb"
     assert q.tip_id.hex() == exp

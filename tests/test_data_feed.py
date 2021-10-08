@@ -23,5 +23,5 @@ async def test_AssetPriceFeed():
     assert (price.val - statistics.median([s.val for s in sources])) < 10 ** -6
 
     # Get query
-    q = btc_usd_median.get_query()
+    q = btc_usd_median.query
     assert isinstance(q, OracleQuery)

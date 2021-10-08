@@ -11,6 +11,8 @@ from pydantic import validator
 from telliot.queries.price_query import price_types
 from telliot.queries.query import OracleQuery
 from telliot.response_type import ResponseType
+from typing import ClassVar
+from typing import List
 
 # The default response type applicable to most legacy queries
 default_legacy_response_type = ResponseType(abi_type="ufixed256x6", packed=False)
@@ -26,12 +28,10 @@ class LegacyQuery(OracleQuery):
 
     type: str = Field("LegacyQuery", constant=True)
 
+    parameters: ClassVar[List[str]] = ['legacy_tip_id']
+
     #: The request ID of all legacy queries is a static integer 1 < N <=100
     legacy_tip_id: int
-
-    #: The question used by a legacy query (and submitted with tip data).
-    #: Per the contract, this could be anything
-    legacy_query: str
 
     #: The response type of the query, default for most legacy queries
     value_type: ResponseType = Field(default=default_legacy_response_type)
@@ -43,13 +43,8 @@ class LegacyQuery(OracleQuery):
 
     @property
     def tip_id(self) -> bytes:
-        """Abstract method implementation."""
+        """Override tip ``id`` with the legacy value."""
         return self.legacy_tip_id.to_bytes(32, "big", signed=False)
-
-    @property
-    def query(self) -> str:
-        """Abstract method implementation."""
-        return self.legacy_query
 
     @validator("legacy_tip_id")
     def must_be_less_than_100(cls, v):  # type: ignore
@@ -60,35 +55,3 @@ class LegacyQuery(OracleQuery):
         return v
 
 
-class LegacyPriceQuery(LegacyQuery):
-    type: Literal["LegacyPriceQuery"] = "LegacyPriceQuery"
-
-    #: Asset symbol
-    asset: str
-
-    #: Price currency symbol
-    currency: str
-
-    #: Price Type
-    price_type: price_types = "current"
-
-    def __init__(self, **data: Any) -> None:
-
-        # Handle deserialization when legacy_query is defined
-        if "legacy_query" in data:
-            legacy_query = data.pop("legacy_query")
-        else:
-            legacy_query = ""
-
-        super().__init__(legacy_query=legacy_query, **data)
-
-        question = (
-            f"what is the {self.price_type} value of {self.asset}"
-            f" in {self.currency} (warning:deprecated)"
-        )
-
-        if self.legacy_query:
-            if self.legacy_query != question:
-                raise ValueError("Unexpected question")
-        else:
-            self.legacy_query = question
