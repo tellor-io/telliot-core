@@ -19,6 +19,8 @@ is parameterized.  Therefore, a dynamic query can generate different values for
 tip ``data`` and ``id`` when calling ``TellorX.Oracle.addTip()``.
 
 
+Contents
+========
 
 .. rubric:: Submodules
 
@@ -37,7 +39,11 @@ tip ``data`` and ``id`` when calling ``TellorX.Oracle.addTip()``.
     :nosignatures:
 
     telliot.queries.query.OracleQuery
+    telliot.queries.static_query.StaticQuery
     telliot.queries.dynamic_query.DynamicQuery
+    telliot.queries.price_query.PriceQuery
+    telliot.queries.legacy_query.LegacyQuery
+    telliot.queries.legacy_query.LegacyPriceQuery
 
 Base Query Classes
 ==================

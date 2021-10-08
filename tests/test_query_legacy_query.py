@@ -12,13 +12,13 @@ def test_legacy_query():
     q = LegacyQuery(
         uid="qid-100",
         name="name",
-        legacy_request_id=100,
-        legacy_question=b"legacy question",
+        legacy_tip_id=100,
+        legacy_query=b"legacy question",
     )
     assert q.response_type.abi_type == "ufixed256x6"
     assert q.response_type.packed is False
     assert (
-        q.request_id.hex()
+        q.tip_id.hex()
         == "0000000000000000000000000000000000000000000000000000000000000064"
     )
     assert q.tip_data == b"qid-100?legacy question?abi_type=ufixed256x6,packed=false"
@@ -29,7 +29,7 @@ def test_legacy_price_query():
     q = LegacyPriceQuery(
         name="BTC/USD Current Price",
         uid="qid-99",
-        legacy_request_id=99,
+        legacy_tip_id=99,
         asset="btc",
         currency="usd",
         price_type="current",
@@ -42,4 +42,4 @@ def test_legacy_price_query():
     assert q.tip_data == exp
 
     exp = "0000000000000000000000000000000000000000000000000000000000000063"
-    assert q.request_id.hex() == exp
+    assert q.tip_id.hex() == exp

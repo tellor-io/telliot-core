@@ -24,7 +24,7 @@ class DynamicQuery(OracleQuery, ABC):
     parameters: ClassVar[List[str]]
 
     @property
-    def request_id(self) -> bytes:
+    def tip_id(self) -> bytes:
         """Return the modern or legacy request ID
 
         Returns:

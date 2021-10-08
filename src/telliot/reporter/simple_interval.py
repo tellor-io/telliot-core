@@ -132,7 +132,7 @@ class IntervalReporter(Reporter):
                         #       be part of submitter
                         encoded_value = q.response_type.encode(datafeed.value.val)
                         print(encoded_value)  # Dummy print to pass tox style
-                        request_id_str = "0x" + q.request_id.hex()
+                        request_id_str = "0x" + q.tip_id.hex()
                         self.submitter.submit_data(datafeed.value.val, request_id_str)
                 else:
                     print(f"Skipping submission for {uid}, datafeed value not updated")

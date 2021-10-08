@@ -17,7 +17,7 @@ def test_constructor():
     assert q.tip_data == exp
 
     exp = "58a476e45522ad46d48b17bdac8600bb63656435ee938f0d72990cc3007fb7ad"
-    assert q.request_id.hex() == exp
+    assert q.tip_id.hex() == exp
 
 
 def test_price_type():
@@ -31,4 +31,4 @@ def test_price_type():
     assert q.tip_data == exp
 
     exp = "c89db5d2c69b59e8a4260ad119dc1710683341a69d985437717b6b92aadd203e"
-    assert q.request_id.hex() == exp
+    assert q.tip_id.hex() == exp

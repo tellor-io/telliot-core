@@ -17,17 +17,12 @@ from pydantic import Field
 from telliot.response_type import ResponseType
 
 
-CoerceToRequestId = Union[bytearray, bytes, int, str]
+CoerceToTipId = Union[bytearray, bytes, int, str]
 
 
-def to_request_id(value: CoerceToRequestId) -> bytes:
-    """Coerce input type to request_id in Bytes32 format
+def to_tip_id(value: CoerceToTipId) -> bytes:
+    """Coerce input type to tip id in Bytes32 format
 
-    Args:
-        value:  CoerceToRequestId
-
-    Returns:
-        bytes: Request ID
     """
     if isinstance(value, bytearray):
         value = bytes(value)
@@ -45,10 +40,10 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
         bytes_value = value.to_bytes(32, "big", signed=False)
 
     else:
-        raise TypeError("Cannot convert {} to request_id".format(value))
+        raise TypeError("Cannot convert {} to tip id".format(value))
 
     if len(bytes_value) != 32:
-        raise ValueError("Request ID must have 32 bytes")
+        raise ValueError("Tip ID must have 32 bytes")
 
     return bytes_value
 
@@ -133,7 +128,12 @@ class OracleQuery(SerializableSubclassModel, ABC):
     @property
     def tip_data(self) -> bytes:
         """Returns the ``data`` field for use in ``TellorX.Oracle.addTip()``
-        contract call
+        contract call.
+
+        By convention, the tip data includes the unique ID, a query string
+        and the expected response type in the following format:
+
+        <:attr:`uid`> : <:attr:`query`> ? <:attr:`response_type`>
         """
 
         rtype = (
@@ -146,8 +146,8 @@ class OracleQuery(SerializableSubclassModel, ABC):
 
     @property
     @abstractmethod
-    def request_id(self) -> bytes:
-        """Returns the request ID for use with the
+    def tip_id(self) -> bytes:
+        """Returns the tip ``id`` for use with the
         ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
         contract calls.
         """

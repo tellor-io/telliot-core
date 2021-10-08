@@ -14,9 +14,9 @@ from pydantic import BaseModel
 from telliot.queries.legacy_query import LegacyPriceQuery
 from telliot.queries.legacy_query import LegacyQuery
 from telliot.queries.price_query import PriceQuery
-from telliot.queries.query import CoerceToRequestId
+from telliot.queries.query import CoerceToTipId
 from telliot.queries.query import OracleQuery
-from telliot.queries.query import to_request_id
+from telliot.queries.query import to_tip_id
 
 
 #: The Query Registry
@@ -43,21 +43,21 @@ class QueryRegistry(BaseModel):
         self.queries[q.uid] = q
 
     def get_query_by_request_id(
-        self, request_id: CoerceToRequestId
+        self, request_id: CoerceToTipId
     ) -> Optional[OracleQuery]:
         """Return Query corresponding to request_id"""
 
-        request_id_coerced = to_request_id(request_id)
+        request_id_coerced = to_tip_id(request_id)
 
         for query in self.queries.values():
-            if query.request_id == request_id_coerced:
+            if query.tip_id == request_id_coerced:
                 return query
 
         return None
 
     def get_request_ids(self) -> List[bytes]:
         """Return a list of registered Request IDs."""
-        return [q.request_id for q in self.queries.values()]
+        return [q.tip_id for q in self.queries.values()]
 
     def get_uids(self) -> List[str]:
         """Return a list of registered UIDs."""
@@ -83,7 +83,7 @@ def register_legacy_price_query(
     q = LegacyPriceQuery(
         name=name,
         uid=qid,
-        legacy_request_id=rqid,
+        legacy_tip_id=rqid,
         asset=asset.lower(),
         currency=currency.lower(),
         price_type=price_type,
@@ -129,36 +129,36 @@ def register_legacy_pairs(registry: QueryRegistry, active_only: bool = True) -> 
 qid_41 = LegacyQuery(
     uid="qid-41",
     name="USPCE manual value",
-    legacy_request_id=41,
-    legacy_question=b"what is the manual value of the USPCE",
+    legacy_tip_id=41,
+    legacy_query=b"what is the manual value of the USPCE",
 )
 
 qid_53 = LegacyQuery(
     uid="qid-53",
     name="BTCDOMINANCE value",
-    legacy_request_id=53,
-    legacy_question=b"what is the current value of BTCDOMINANCE",
+    legacy_tip_id=53,
+    legacy_query=b"what is the current value of BTCDOMINANCE",
 )
 
 qid_56 = LegacyQuery(
     uid="qid-56",
     name="VIXEOD value",
-    legacy_request_id=56,
-    legacy_question=b"what is the current value of VIXEOD",
+    legacy_tip_id=56,
+    legacy_query=b"what is the current value of VIXEOD",
 )
 
 qid_57 = LegacyQuery(
     uid="qid-57",
     name="DEFITVL value",
-    legacy_request_id=57,
-    legacy_question=b"what is the current value of DEFITVL",
+    legacy_tip_id=57,
+    legacy_query=b"what is the current value of DEFITVL",
 )
 
 qid_58 = LegacyQuery(
     uid="qid-58",
     name="DEFIMCAP value",
-    legacy_request_id=58,
-    legacy_question=b"what is the current value of DEFIMCAP",
+    legacy_tip_id=58,
+    legacy_query=b"what is the current value of DEFIMCAP",
 )
 
 

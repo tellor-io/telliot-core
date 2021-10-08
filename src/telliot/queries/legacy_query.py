@@ -27,11 +27,11 @@ class LegacyQuery(OracleQuery):
     type: str = Field("LegacyQuery", constant=True)
 
     #: The request ID of all legacy queries is a static integer 1 < N <=100
-    legacy_request_id: int
+    legacy_tip_id: int
 
     #: The question used by a legacy query (and submitted with tip data).
     #: Per the contract, this could be anything
-    legacy_question: str
+    legacy_query: str
 
     #: The response type of the query, default for most legacy queries
     value_type: ResponseType = Field(default=default_legacy_response_type)
@@ -42,16 +42,16 @@ class LegacyQuery(OracleQuery):
         return self.value_type
 
     @property
-    def request_id(self) -> bytes:
+    def tip_id(self) -> bytes:
         """Abstract method implementation."""
-        return self.legacy_request_id.to_bytes(32, "big", signed=False)
+        return self.legacy_tip_id.to_bytes(32, "big", signed=False)
 
     @property
     def query(self) -> str:
         """Abstract method implementation."""
-        return self.legacy_question
+        return self.legacy_query
 
-    @validator("legacy_request_id")
+    @validator("legacy_tip_id")
     def must_be_less_than_100(cls, v):  # type: ignore
         """Ensure legacy request ID is valid"""
         if v is not None:
@@ -74,21 +74,21 @@ class LegacyPriceQuery(LegacyQuery):
 
     def __init__(self, **data: Any) -> None:
 
-        # Handle deserialization when legacy_question is defined
-        if "legacy_question" in data:
-            legacy_question = data.pop("legacy_question")
+        # Handle deserialization when legacy_query is defined
+        if "legacy_query" in data:
+            legacy_query = data.pop("legacy_query")
         else:
-            legacy_question = ""
+            legacy_query = ""
 
-        super().__init__(legacy_question=legacy_question, **data)
+        super().__init__(legacy_query=legacy_query, **data)
 
         question = (
             f"what is the {self.price_type} value of {self.asset}"
             f" in {self.currency} (warning:deprecated)"
         )
 
-        if self.legacy_question:
-            if self.legacy_question != question:
+        if self.legacy_query:
+            if self.legacy_query != question:
                 raise ValueError("Unexpected question")
         else:
-            self.legacy_question = question
+            self.legacy_query = question

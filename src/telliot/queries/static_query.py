@@ -12,8 +12,8 @@ from web3 import Web3
 class StaticQuery(OracleQuery):
     """Static Oracle Query
 
-    A static query uses a fixed value for addTip ``data``.
-    The addTip ``id`` is also fixed according the keccak algorithm.
+    A static query always uses the same value for tip ``data``.
+    The tip ``id`` is also fixed according the keccak algorithm.
     """
 
     type: str = Field("StaticQuery", constant=True)
@@ -30,7 +30,7 @@ class StaticQuery(OracleQuery):
         return self.static_response_type
 
     @property
-    def request_id(self) -> bytes:
+    def tip_id(self) -> bytes:
         """Compute and return the request ID."""
         return bytes(Web3.keccak(self.tip_data))
 
