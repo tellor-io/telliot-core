@@ -1,3 +1,5 @@
+![CI](https://github.com/tellor-io/pytelliot/actions/workflows/tox.yml/badge.svg)
+![Docs](https://github.com/tellor-io/pytelliot/actions/workflows/docs.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tellor-io/pytelliot/branch/main/graph/badge.svg?token=S1199HQ2EK)](https://codecov.io/gh/tellor-io/pytelliot)
 [![Discord Chat](https://img.shields.io/discord/461602746336935936)](https://discord.com/invite/n7drGjh)
 [![Twitter Follow](https://img.shields.io/twitter/follow/wearetellor?style=social)](https://twitter.com/WeAreTellor)

@@ -1,8 +1,8 @@
 """ Static Query Class
 
-Copyright (c) 2021-, Tellor Development Community
-Distributed under the terms of the MIT License.
 """
+# Copyright (c) 2021-, Tellor Development Community
+# Distributed under the terms of the MIT License.
 from pydantic import Field
 from telliot.queries.query import OracleQuery
 from telliot.response_type import ResponseType
