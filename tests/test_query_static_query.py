@@ -12,7 +12,7 @@ def test_static_query():
     q = StaticQuery(
         uid="qid-999",
         name="Fundamental Question",
-        static_question="What is the meaning of life",
+        static_query="What is the meaning of life",
         static_response_type=ResponseType(abi_type="string"),
     )
 

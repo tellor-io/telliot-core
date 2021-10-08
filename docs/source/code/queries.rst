@@ -4,8 +4,21 @@ Queries Package
 
 .. automodule:: telliot.queries
 
-The Queries package provides mechanisms to itemize Oracle queries,
+The Queries package provides a mechanism to itemize Oracle queries
 and specify the format of the query and the response.
+:class:`~telliot.queries.query.OracleQuery` an abstract base class
+used for all Queries.
+
+There are two basic types of Queries: static and dynamic.
+A :class:`~telliot.queries.static_query.StaticQuery` uses a fixed value
+for ``data`` when submitting to ``TellorX.Oracle.addTip()``.
+It also uses a fixed value for the tip ``id``, which is computed
+from the ``data`` using keccak hash algorithm.
+A :class:`~telliot.queries.dynamic_query.DynamicQuery`, on the other hand,
+is parameterized.  Therefore, a dynamic query can generate different values for
+tip ``data`` and ``id`` when calling ``TellorX.Oracle.addTip()``.
+
+
 
 .. rubric:: Submodules
 
@@ -13,53 +26,66 @@ and specify the format of the query and the response.
     :nosignatures:
 
     query
-    query_registry
     static_query
     price_query
     legacy_query
-
-
-Query Base Module
-==================
-
-.. automodule:: telliot.queries.query
+    query_registry
 
 .. rubric:: Classes
 
 .. autosummary::
     :nosignatures:
 
-    OracleQuery
+    telliot.queries.query.OracleQuery
+    telliot.queries.dynamic_query.DynamicQuery
+
+Base Query Classes
+==================
 
 Oracle Query Base Class
 -----------------------
 
-.. autoclass:: OracleQuery
+.. autoclass:: telliot.queries.query.OracleQuery
     :members:
 
+Static Query Base Class
+-----------------------
 
-Query Registry
-==============
-
-.. automodule:: telliot.queries.query_registry
+.. autoclass:: telliot.queries.static_query.StaticQuery
    :members:
 
-Static Query
-============
+Dynamic Query
+-------------
 
-.. automodule:: telliot.queries.static_query
+.. autoclass:: telliot.queries.dynamic_query.DynamicQuery
    :members:
 
 Price Query
 ===========
 
-.. automodule:: telliot.queries.price_query
+.. autoclass:: telliot.queries.price_query.PriceQuery
    :members:
+
+
+Legacy Queries
+==============
 
 Legacy Query
-============
+------------
 
-.. automodule:: telliot.queries.legacy_query
+.. autoclass:: telliot.queries.legacy_query.LegacyQuery
+   :members:
+
+Legacy Price Query
+------------------
+
+.. autoclass:: telliot.queries.legacy_query.LegacyPriceQuery
    :members:
 
 
+Helper Classes
+==============
+
+
+.. autoclass:: telliot.queries.query.SerializableSubclassModel
+    :members:

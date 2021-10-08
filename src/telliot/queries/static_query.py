@@ -12,34 +12,29 @@ from web3 import Web3
 class StaticQuery(OracleQuery):
     """Static Oracle Query
 
-    A static uses a fixed value for tip data.
-    The request_id is also fixed according the keccak algorithm
+    A static query uses a fixed value for addTip ``data``.
+    The addTip ``id`` is also fixed according the keccak algorithm.
     """
 
     type: str = Field("StaticQuery", constant=True)
 
-    #: Question
-    static_question: str
+    #: Static query string
+    static_query: str
 
-    #: Response specification: defines required data type of
-    #: `value` in `TellorX.submitValue` function call
+    #: Static response type
     static_response_type: ResponseType
 
     @property
     def response_type(self) -> ResponseType:
-        """Abstract method implementation."""
+        """Returns the static response type."""
         return self.static_response_type
 
     @property
     def request_id(self) -> bytes:
-        """Compute and return the request ID
-
-        Returns:
-            bytes: 32-byte Request ID
-        """
+        """Compute and return the request ID."""
         return bytes(Web3.keccak(self.tip_data))
 
     @property
-    def question(self) -> str:
-        """Abstract method implementation."""
-        return self.static_question
+    def query(self) -> str:
+        """Returns the static query"""
+        return self.static_query

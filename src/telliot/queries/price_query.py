@@ -57,7 +57,7 @@ class PriceQuery(DynamicQuery):
         return self._response_type
 
     @property
-    def question(self) -> str:
+    def query(self) -> str:
         """Abstract method implementation."""
 
         q = (

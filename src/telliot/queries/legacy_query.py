@@ -47,7 +47,7 @@ class LegacyQuery(OracleQuery):
         return self.legacy_request_id.to_bytes(32, "big", signed=False)
 
     @property
-    def question(self) -> str:
+    def query(self) -> str:
         """Abstract method implementation."""
         return self.legacy_question
 

@@ -94,7 +94,6 @@ class OracleQuery(SerializableSubclassModel, ABC):
     An OracleQuery specifies how to pose a question to the
     Tellor Oracle and how to format/interpret the response.
 
-
     The base class provides:
 
     - An identifier (:attr:`uid`) that uniquely identifies the query
@@ -141,7 +140,7 @@ class OracleQuery(SerializableSubclassModel, ABC):
             f"abi_type={self.response_type.abi_type},packed={self.response_type.packed}"
         )
 
-        q = f"{self.uid}?{self.question}?{rtype}"
+        q = f"{self.uid}?{self.query}?{rtype}"
 
         return q.lower().encode("utf-8")
 
@@ -156,12 +155,10 @@ class OracleQuery(SerializableSubclassModel, ABC):
 
     @property
     @abstractmethod
-    def question(self) -> str:
-        """Return question for the current Query configuration
+    def query(self) -> str:
+        """Return the query for the current configuration
 
-        Questions should not have question marks.
-
-        Parameterized queries must return a unique question for each
+        Parameterized queries must return a unique value for each
         possible combinations of parameters.
         """
         pass
