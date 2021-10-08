@@ -11,6 +11,8 @@ from typing import Dict
 from typing import Optional
 from typing import Type
 from typing import Union
+from typing import List
+from web3 import Web3
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -48,6 +50,12 @@ def to_tip_id(value: CoerceToTipId) -> bytes:
     return bytes_value
 
 
+def dict2argstr(d: dict) -> str:
+    """ Convert a dict to a string of kwd=arg pairs
+
+    """
+    return ','.join("{!s}={!r}".format(key, val) for (key, val) in d.items())
+
 class SerializableSubclassModel(BaseModel):
     """A helper subclass that allows nested serialization of subclasses
 
@@ -66,6 +74,10 @@ class SerializableSubclassModel(BaseModel):
 
     @classmethod
     def _convert_to_real_type_(cls, data: Any) -> BaseModel:
+
+        if isinstance(data, BaseModel):
+            return data
+
         data_type = data.get("type")
 
         if data_type is None:
@@ -114,6 +126,9 @@ class OracleQuery(SerializableSubclassModel, ABC):
     #: A descriptive name for the query.
     name: str
 
+    #: A list of parameter names used to customize the query
+    parameters: ClassVar[List[str]]
+
     @property
     @abstractmethod
     def response_type(self) -> ResponseType:
@@ -136,29 +151,46 @@ class OracleQuery(SerializableSubclassModel, ABC):
         <:attr:`uid`> : <:attr:`query`> ? <:attr:`response_type`>
         """
 
-        rtype = (
-            f"abi_type={self.response_type.abi_type},packed={self.response_type.packed}"
-        )
+        rtype_str = dict2argstr(self.response_type.dict())
 
-        q = f"{self.uid}?{self.query}?{rtype}"
+        # rtype = (
+        #     f"abi_type={self.response_type.abi_type},packed={self.response_type.packed}"
+        # )
 
-        return q.lower().encode("utf-8")
+        q = f"{self.query}?{rtype_str}"
+
+        return q.encode("utf-8")
+
+    def get_params(self) -> Dict[str, Any]:
+        """ Returns a dictionary of all query parameter values
+
+        """
+        result = {}
+        for p in self.parameters:
+            result[p] = self.__getattribute__(p)
+
+        return result
 
     @property
-    @abstractmethod
     def tip_id(self) -> bytes:
         """Returns the tip ``id`` for use with the
         ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
         contract calls.
         """
-        pass
+        return bytes(Web3.keccak(self.tip_data))
 
     @property
-    @abstractmethod
     def query(self) -> str:
-        """Return the query for the current configuration
+        """Returns the default query
 
-        Parameterized queries must return a unique value for each
-        possible combinations of parameters.
+        By default, a query will create a customized query string
+        using currently configured values of each parameter.
         """
-        pass
+
+        params = self.get_params()
+
+        param_str = dict2argstr(params)
+
+        q = f"{self.__class__.__name__}({param_str})"
+
+        return q
