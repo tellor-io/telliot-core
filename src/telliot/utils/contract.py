@@ -6,10 +6,13 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 import web3
+from eth_typing.evm import ChecksumAddress
 from telliot.utils.base import Base
 from telliot.utils.rpc_endpoint import RPCEndpoint
+from web3 import Web3
 
 
 class Contract(Base):
@@ -19,10 +22,10 @@ class Contract(Base):
     node: RPCEndpoint
 
     #: Contract address
-    address: str
+    address: Union[str, ChecksumAddress]
 
     #: ABI specifications of contract
-    abi: List[Dict[str, Any]]
+    abi: Union[List[Dict[str, Any]], str]
 
     #: web3 contract object
     contract: Optional[web3.contract.Contract]
@@ -39,6 +42,7 @@ class Contract(Base):
             if not self.node.connect():
                 print("node is not connected")
                 return False
+            self.address = Web3.toChecksumAddress(self.address)
             self.contract = self.node.web3.eth.contract(
                 address=self.address, abi=self.abi
             )
@@ -118,6 +122,6 @@ class Contract(Base):
     #         print("tx was unsuccessful")
     #         return False
 
-    def listen() -> None:
+    def listen(self) -> None:
         """Wrapper for listening for contract events"""
         pass

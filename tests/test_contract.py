@@ -7,8 +7,8 @@ from telliot.utils.contract import Contract
 from telliot.utils.rpc_endpoint import RPCEndpoint
 
 
-network = "mainnet"
-provider = "pokt"
+network = "rinkeby"
+provider = "infura"
 func_name = "getNewValueCountbyRequestId"
 requestId = "0x0000000000000000000000000000000000000000000000000000000000000002"
 
@@ -31,7 +31,7 @@ def test_call_read_function():
 
 def connect_to_contract(address):
     """Helper function for connecting to a contract at an address"""
-    url = "https://mainnet.infura.io/v3/1a09c4705f114af2997548dd901d655b"
+    url = "https://rinkeby.infura.io/v3/1a09c4705f114af2997548dd901d655b"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
 
@@ -42,7 +42,7 @@ def connect_to_contract(address):
 
 def test_attempt_read_not_connected():
     address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"
-    url = "https://mainnet.infura.io/v3/1a09c4705f114af2997548dd901d655b"
+    url = "https://rinkeby.infura.io/v3/1a09c4705f114af2997548dd901d655b"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
 
