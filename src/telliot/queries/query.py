@@ -1,8 +1,8 @@
 """ Base Query Classes
 
-Copyright (c) 2021-, Tellor Development Community
-Distributed under the terms of the MIT License.
 """
+# Copyright (c) 2021-, Tellor Development Community
+# Distributed under the terms of the MIT License.
 from abc import ABC
 from abc import abstractmethod
 from typing import Any
@@ -54,17 +54,18 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
 
 
 class SerializableSubclassModel(BaseModel):
-    """Pydantic hack to allow nested serialization of subclasses
+    """Pydantic subclass that allows nested serialization of subclasses
 
     The following machinery is used to force Pydantic to properly
     serialize and deserialize OracleQuery subclasses by including
-    type info in the JSON stream
-    Per https://github.com/samuelcolvin/pydantic/issues/2177
-        https://github.com/samuelcolvin/pydantic/discussions/3091
+    type info in the JSON stream, per the following:
+
+    - https://github.com/samuelcolvin/pydantic/issues/2177
+    - https://github.com/samuelcolvin/pydantic/discussions/3091
 
     This pydantic Config is required to prevent the following error:
-        cls._subtypes_[type or cls.__name__.lower()] = cls
-        TypeError: 'member_descriptor' object does not support item assignment
+    ``cls._subtypes_[type or cls.__name__.lower()] = cls``
+    ``TypeError: 'member_descriptor' object does not support item assignment``
     """
 
     # class Config:

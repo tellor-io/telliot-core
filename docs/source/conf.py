@@ -29,6 +29,7 @@ author = 'Tellor'
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.coverage',
               'sphinx.ext.napoleon',
+              'sphinx.ext.autosummary',
               'sphinx_autodoc_typehints',
               'sphinx.ext.viewcode']
 

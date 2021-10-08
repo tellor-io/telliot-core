@@ -1,6 +1,5 @@
-Getting Started
-===============
-
+Getting Started (WIP)
+=====================
 
 
 To build project documents:
