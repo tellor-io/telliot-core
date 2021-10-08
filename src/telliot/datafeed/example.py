@@ -43,7 +43,7 @@ data_feeds = {
     "btc-usd-median": AssetPriceFeed(
         name="BTC USD Median Price Feed",
         uid="btc-usd-median",
-        qid="qid-0002",
+        qid="qid-2",
         asset="btc",
         currency="usd",
         sources=data_sources,
