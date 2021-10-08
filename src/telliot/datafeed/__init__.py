@@ -1,1 +1,4 @@
-"""Base classes and utils for datafeeds."""
+""" Data Feed Package
+
+Contains base classes and utils for datafeeds.
+"""

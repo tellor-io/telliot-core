@@ -1,3 +1,8 @@
+""" Data Source Module
+
+"""
+# Copyright (c) 2021-, Tellor Development Community
+# Distributed under the terms of the MIT License.
 from abc import ABC
 from abc import abstractmethod
 from typing import Any

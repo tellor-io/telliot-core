@@ -1,3 +1,8 @@
+""" Data Feed Module
+
+"""
+# Copyright (c) 2021-, Tellor Development Community
+# Distributed under the terms of the MIT License.
 import asyncio
 from typing import Any
 from typing import Dict
