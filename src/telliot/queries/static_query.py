@@ -1,4 +1,4 @@
-""" Static Query Class
+""" :mod:`telliot.queries.static_query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community

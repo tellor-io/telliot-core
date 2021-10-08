@@ -11,8 +11,7 @@ def test_constructor():
     q = PriceQuery(asset="BTC", currency="USD")
 
     exp = (
-        b"qid-101?what is the current value of btc "
-        b"in usd?abi_type=ufixed64x6,packed=true"
+        b"qid-101?what is the current value of btc in usd?abi_type=ufixed64x6,packed=true"
     )
 
     assert q.tip_data == exp

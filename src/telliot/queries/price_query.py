@@ -1,10 +1,12 @@
-""" Price Query Class
+""" :mod:`telliot.queries.price_query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
 from typing import Any
 from typing import Literal
+from typing import ClassVar
+from typing import List
 
 from pydantic import Field
 from pydantic import PrivateAttr
@@ -19,6 +21,8 @@ response_type = ResponseType(abi_type="ufixed64x6", packed=True)
 
 class PriceQuery(DynamicQuery):
     """A dynamic query for the price of an asset in a specified currency."""
+
+    parameters: ClassVar[List[str]]
 
     type: str = Field("PriceQuery", constant=True)
 

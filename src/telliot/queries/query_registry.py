@@ -1,8 +1,9 @@
-""" Query Registry
+""" :mod:`telliot.queries.query_registry`
 
-Copyright (c) 2021-, Tellor Development Community
-Distributed under the terms of the MIT License.
 """
+# Copyright (c) 2021-, Tellor Development Community
+# Distributed under the terms of the MIT License.
+
 import csv
 from pathlib import Path
 from typing import Dict

@@ -1,5 +1,5 @@
-""" Queries module
+""" :mod:`telliot.queries`
 
-Copyright (c) 2021-, Tellor Development Community
-Distributed under the terms of the MIT License.
 """
+# Copyright (c) 2021-, Tellor Development Community
+# Distributed under the terms of the MIT License.

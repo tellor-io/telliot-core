@@ -1,4 +1,4 @@
-""" Base Query Classes
+"""  :mod:`telliot.queries.query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community
@@ -54,22 +54,9 @@ def to_request_id(value: CoerceToRequestId) -> bytes:
 
 
 class SerializableSubclassModel(BaseModel):
-    """Pydantic subclass that allows nested serialization of subclasses
+    """A helper subclass that allows nested serialization of subclasses
 
-    The following machinery is used to force Pydantic to properly
-    serialize and deserialize OracleQuery subclasses by including
-    type info in the JSON stream, per the following:
-
-    - https://github.com/samuelcolvin/pydantic/issues/2177
-    - https://github.com/samuelcolvin/pydantic/discussions/3091
-
-    This pydantic Config is required to prevent the following error:
-    ``cls._subtypes_[type or cls.__name__.lower()] = cls``
-    ``TypeError: 'member_descriptor' object does not support item assignment``
     """
-
-    # class Config:
-    #    underscore_attrs_are_private = False
 
     #: Container to register subclasses for pydantic export hack (see below)
     _subtypes_: ClassVar[Dict[str, Type[BaseModel]]] = dict()
@@ -102,34 +89,52 @@ class SerializableSubclassModel(BaseModel):
 
 
 class OracleQuery(SerializableSubclassModel, ABC):
-    """Abstract Base class for all tellorX queries"""
+    """Abstract Base class for all TellorX queries
 
-    #: Type field is required to support registry export/import through json
-    #: Must be overridden in all OracleQuery subclasses
+    An OracleQuery specifies how to pose a question to the
+    Tellor Oracle and how to format/interpret the response.
+
+
+    The base class provides:
+
+    - An identifier (:attr:`uid`) that uniquely identifies the query
+      it within the TellorX network.
+    - Calculation of the contents of the ``data`` field to include with the
+      ``TellorX.Oracle.addTip()`` contract call.
+    - Calculation of the `id` field field to include with the
+      ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
+      contract calls
+    - serialization/deserialization using the :meth:`OracleQuery.json` method.
+    """
+
     type: str = Field("OracleQuery", constant=True)
+    """ Type String
 
-    #: Unique query ID (Tellor Assigned)
+    Required to support registry serialization/deserialization
+    Must be overridden with the Class Name in all subclasses
+    """
+
+    #: Unique query ID (Tellor Assigned).
     uid: str
 
-    #: Descriptive name
+    #: A descriptive name for the query.
     name: str
 
     @property
     @abstractmethod
     def response_type(self) -> ResponseType:
-        """Return the response type the current Query configuration
+        """Returns the response type the current Query configuration
 
-        The response type defines required data type of
-        `value` in the corresponding `TellorX.submitValue` function call
+        The response type defines required data type/structure of the
+        ``value`` submitted to the contract through
+        ``TellorX.Oracle.submitValue()``
         """
         pass
 
     @property
     def tip_data(self) -> bytes:
-        """Return the tip data for the current Query configuration
-
-        Returns:
-            `data` field for use in `TellorX.addTip()` function
+        """Returns the ``data`` field for use in ``TellorX.Oracle.addTip()``
+        contract call
         """
 
         rtype = (
@@ -143,10 +148,9 @@ class OracleQuery(SerializableSubclassModel, ABC):
     @property
     @abstractmethod
     def request_id(self) -> bytes:
-        """Return the request ID for the current Query configuration
-
-        Returns:
-            bytes: 32-byte Request ID
+        """Returns the request ID for use with the
+        ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
+        contract calls.
         """
         pass
 

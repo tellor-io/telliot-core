@@ -1,4 +1,4 @@
-""" Legacy Query Classes
+""" :mod:`telliot.queries.legacy_query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community

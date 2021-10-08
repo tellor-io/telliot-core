@@ -1,25 +1,27 @@
-""" Dynamic Query Class
+""" :mod:`telliot.queries.dynamic_query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
 from abc import ABC
 from abc import abstractmethod
-
+from typing import ClassVar
+from typing import List
 from pydantic import Field
 from telliot.queries.query import OracleQuery
 from web3 import Web3
 
 
 class DynamicQuery(OracleQuery, ABC):
-    """Dynamic OracleQuery
+    """ Dynamic OracleQuery
 
-    A dynamic OracleQuery is a parameterized query that supports multiple
-    values for tip data and request ID, depending upon its configuration.
+    A parameterized OracleQuery that generates different values for tip data
+    and request ID, depending upon its configuration.
     """
 
-    #: type identifier to help serialization
     type: str = Field("DynamicQuery", constant=True)
+
+    parameters: ClassVar[List[str]]
 
     @property
     def request_id(self) -> bytes:
