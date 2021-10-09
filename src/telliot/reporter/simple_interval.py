@@ -130,7 +130,7 @@ class IntervalReporter(Reporter):
                         # TODO: Should use query to encode value.  Request ID
                         #       from query is already in bytes.  Probably
                         #       be part of submitter
-                        encoded_value = q.response_type.encode(datafeed.value.val)
+                        encoded_value = q.value_type.encode(datafeed.value.val)
                         print(encoded_value)  # Dummy print to pass tox style
                         request_id_str = "0x" + q.tip_id.hex()
                         self.submitter.submit_data(datafeed.value.val, request_id_str)

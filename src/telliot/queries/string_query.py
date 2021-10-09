@@ -7,7 +7,7 @@ from typing import ClassVar
 from typing import List
 
 from telliot.queries.query import OracleQuery
-from telliot.response_type import ResponseType
+from telliot.queries.value_type import ValueType
 
 
 class StringQuery(OracleQuery):
@@ -17,15 +17,15 @@ class StringQuery(OracleQuery):
     string.
     """
 
-    parameters: ClassVar[List[str]] = ["string"]
+    inputs: ClassVar[List[str]] = ["string"]
 
     #: Static query string
     string: str
 
     #: Static response type
-    static_response_type: ResponseType
+    static_response_type: ValueType
 
     @property
-    def response_type(self) -> ResponseType:
+    def value_type(self) -> ValueType:
         """Returns the static response type."""
         return self.static_response_type

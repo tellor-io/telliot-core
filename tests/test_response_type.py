@@ -6,13 +6,13 @@ Distributed under the terms of the MIT License.
 from decimal import Decimal
 
 from eth_abi import encode_single
-from telliot.response_type import ResponseType
+from telliot.queries.value_type import ValueType
 
 
 def test_fixed_response_type():
     """Demonstrate encoding a fixed value with precision=9"""
     value = Decimal("1.0")
-    r1 = ResponseType(abi_type="ufixed256x9", packed=False)
+    r1 = ValueType(abi_type="ufixed256x9", packed=False)
     bytes_val = encode_single(r1.abi_type, value)
     assert (
         bytes_val.hex()
@@ -24,7 +24,7 @@ def test_fixed_response_type():
 
 def test_complex_response_type():
     """Demonstrate a complex response to a query"""
-    r1 = ResponseType(abi_type="(int8,bytes,ufixed32x9,bool[])[2]", packed=True)
+    r1 = ValueType(abi_type="(int8,bytes,ufixed32x9,bool[])[2]", packed=True)
 
     value = ((1, b"abc", 1, (True, True)), (1, b"def", 1, (True, True)))
 

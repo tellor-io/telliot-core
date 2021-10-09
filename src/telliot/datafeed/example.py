@@ -7,7 +7,7 @@ from telliot.pricing.bittrex import BittrexPriceService
 from telliot.pricing.coinbase import CoinbasePriceService
 from telliot.pricing.coingecko import CoinGeckoPriceService
 from telliot.pricing.gemini import GeminiPriceService
-from telliot.queries.price_query import PriceQuery
+from telliot.queries.coin_price import CoinPrice
 
 data_sources = {
     "btc-usd-coinbase": AssetPriceSource(
@@ -40,7 +40,7 @@ data_sources = {
     ),
 }
 
-target_query = PriceQuery(asset="btc", currency="usd", price_type="current")
+target_query = CoinPrice(coin="btc", currency="usd", price_type="current")
 
 data_feeds = {
     "btc-usd-median": AssetPriceFeed(

@@ -1,3 +1,6 @@
+""" :mod:`telliot.queries.value_type`
+
+"""
 from typing import Any
 
 import eth_abi.grammar
@@ -8,11 +11,18 @@ from pydantic import BaseModel
 from pydantic import validator
 
 
-class ResponseType(BaseModel):
-    """Specify format of Query Response"""
+class ValueType(BaseModel):
+    """Value Type
 
-    #: Type string per eth-abi grammar
-    #: https://eth-abi.readthedocs.io/en/latest/grammar.html
+    A ValueType specifies the data structure of ``value`` used
+    the ``TellorX.Oracle.submitValue()`` used in response to
+    tip request.
+
+    The type is specified per eth-abi grammar, i.e.
+    - https://eth-abi.readthedocs.io/en/latest/grammar.html
+    """
+
+    # response per eth-abi grammar
     abi_type: str = "uint256"
 
     #: True if response should be packed

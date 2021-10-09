@@ -3,8 +3,6 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from abc import ABC
-from abc import abstractmethod
 from typing import Any
 from typing import ClassVar
 from typing import Dict
@@ -12,7 +10,7 @@ from typing import List
 from typing import Union
 
 from pydantic import BaseModel
-from telliot.response_type import ResponseType
+from telliot.queries.value_type import ValueType
 from web3 import Web3
 
 
@@ -50,7 +48,7 @@ def dict2argstr(d: Dict[str, Any]) -> str:
     return ",".join("{!s}={!r}".format(key, val) for (key, val) in d.items())
 
 
-class OracleQuery(BaseModel, ABC):
+class OracleQuery(BaseModel):
     """Oracle Query
 
     An :class:`OracleQuery` specifies how to pose a question to the
@@ -63,29 +61,31 @@ class OracleQuery(BaseModel, ABC):
 
     The base class provides:
 
-    - Query :attr:`parameters` attributes that enable customization of
-      the query type.
+    - Query :attr:`inputs` that enable customization of
+      the query type.  Each input corresponds to a class attribute.
 
     - Calculation of the contents of the ``data`` field to include with the
       ``TellorX.Oracle.addTip()`` contract call.
 
-    - Calculation of the `id` field field to include with the
+    - Calculation of the ``id`` field field to include with the
       ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
-      contract calls
+      contract calls.
 
     """
 
-    #: A list of parameter names used to customize the query
-    parameters: ClassVar[List[str]]
+    #: A list of input names used to customize the query.  This should
+    #: be overridden by all subclass Query Types.
+    inputs: ClassVar[List[str]]
 
     @property
-    @abstractmethod
-    def response_type(self) -> ResponseType:
-        """Returns the response type the current Query configuration
+    def value_type(self) -> ValueType:
+        """Returns the value type the current Query configuration
 
-        The response type defines required data type/structure of the
+        The value type defines required data type/structure of the
         ``value`` submitted to the contract through
         ``TellorX.Oracle.submitValue()``
+
+        This method must be overridden by subclasses
         """
         pass
 
@@ -95,24 +95,18 @@ class OracleQuery(BaseModel, ABC):
         contract call.
 
         By convention, the tip data includes the unique ID, a query string
-        and the expected response type in the following format:
+        and the expected value type in the following format:
 
-        <:attr:`uid`> : <:attr:`query`> ? <:attr:`response_type`>
+        <:attr:`uid`> : <:attr:`query`> ? <:attr:`value_type`>
+
+        This method may be overridden by subclasses
         """
 
-        rtype_str = dict2argstr(self.response_type.dict())
+        rtype_str = dict2argstr(self.value_type.dict())
 
         q = f"{self.query}?{rtype_str}"
 
         return q.encode("utf-8")
-
-    def get_params(self) -> Dict[str, Any]:
-        """Returns a dictionary of all query parameter values"""
-        result = {}
-        for p in self.parameters:
-            result[p] = self.__getattribute__(p)
-
-        return result
 
     @property
     def tip_id(self) -> bytes:
@@ -127,7 +121,7 @@ class OracleQuery(BaseModel, ABC):
         """Returns the default query
 
         By default, a query will create a customized query string
-        using currently configured values of each parameter.
+        using currently configured values of each input.
         """
 
         params = self.get_params()
@@ -137,3 +131,11 @@ class OracleQuery(BaseModel, ABC):
         q = f"{self.__class__.__name__}({param_str})"
 
         return q
+
+    def get_params(self) -> Dict[str, Any]:
+        """Returns a dictionary of all query input values"""
+        result = {}
+        for p in self.inputs:
+            result[p] = self.__getattribute__(p)
+
+        return result

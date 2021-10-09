@@ -13,8 +13,8 @@ def test_legacy_query():
         name="name",
         legacy_tip_id=100,
     )
-    assert q.response_type.abi_type == "ufixed256x6"
-    assert q.response_type.packed is False
+    assert q.value_type.abi_type == "ufixed256x6"
+    assert q.value_type.packed is False
 
     assert (
         q.tip_data

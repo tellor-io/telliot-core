@@ -16,7 +16,7 @@ class ConfigOptions(Base):
     Each attribute represents a configuration option.
 
     if `config_file` is provided, load and store methods will be available.
-    This object can be subclassed to add parameters.
+    This object can be subclassed to add inputs.
 
     """
 

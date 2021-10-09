@@ -3,35 +3,35 @@
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
-from telliot.queries.price_query import PriceQuery
+from telliot.queries.coin_price import CoinPrice
 
 
 def test_constructor():
     """Validate price query"""
-    q = PriceQuery(asset="BTC", currency="USD")
+    q = CoinPrice(coin="BTC", currency="USD")
 
     exp = (
-        b"PriceQuery(asset='btc',currency='usd',price_type='current')?"
+        b"CoinPrice(coin='btc',currency='usd',price_type='current')?"
         b"abi_type='ufixed64x6',packed=True"
     )
 
     assert q.tip_data == exp
 
-    exp = "067301891b463794433b722e176d8dac5e3e5e8152342ca85212dd562ac8128c"
+    exp = "fb4247810138c3cc5c53f70e0aa53eb1854bb12cbf828a1e3298b4a24f237780"
     assert q.tip_id.hex() == exp
 
 
 def test_price_type():
     """Validate price_type setting"""
-    q = PriceQuery(asset="ETH", currency="USD", price_type="24hr_twap")
+    q = CoinPrice(coin="ETH", currency="USD", price_type="24hr_twap")
 
     exp = (
-        b"PriceQuery(asset='eth',currency='usd',price_type='24hr_twap')?"
+        b"CoinPrice(coin='eth',currency='usd',price_type='24hr_twap')?"
         b"abi_type='ufixed64x6',packed=True"
     )
 
     assert q.tip_data == exp
     print(q.tip_data)
 
-    exp = "3b78e54622a770904d047cbb72a7fff611a3561eebc86a4922c3e4a6d1d237cb"
+    exp = "cbcc7a822c0c5225aac4cdb9f3c368f4aa15da8b11c3f5829476453381fd3475"
     assert q.tip_id.hex() == exp
