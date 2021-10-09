@@ -6,13 +6,9 @@
 from typing import ClassVar
 from typing import List
 
-from pydantic import Field
 from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.response_type import ResponseType
-
-# The default response type applicable to most legacy queries
-default_legacy_response_type = ResponseType(abi_type="ufixed256x6", packed=False)
 
 
 class LegacyQuery(OracleQuery):
@@ -28,13 +24,12 @@ class LegacyQuery(OracleQuery):
     #: The request ID of all legacy queries is a static integer 1 < N <=100
     legacy_tip_id: int
 
-    #: The response type of the query, default for most legacy queries
-    value_type: ResponseType = Field(default=default_legacy_response_type)
-
     @property
     def response_type(self) -> ResponseType:
-        """Abstract method implementation."""
-        return self.value_type
+        """ All legacy queries
+
+        """
+        return ResponseType(abi_type="ufixed256x6", packed=False)
 
     @property
     def tip_id(self) -> bytes:

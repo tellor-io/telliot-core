@@ -78,9 +78,6 @@ class OracleQuery(BaseModel, ABC):
     #: A list of parameter names used to customize the query
     parameters: ClassVar[List[str]]
 
-    #: A descriptive name for the query.
-    name: str
-
     @property
     @abstractmethod
     def response_type(self) -> ResponseType:

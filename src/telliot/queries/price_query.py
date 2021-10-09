@@ -24,13 +24,9 @@ price_query_params = ["asset", "currency", "price_type"]
 
 
 class PriceQuery(OracleQuery):
-    """A dynamic query for the price of an asset in a specified currency."""
+    """ Query the price of a cryptocurrency asset."""
 
     parameters: ClassVar[List[str]] = price_query_params
-
-    name: str = Field("Price Query", constant=True)
-
-    uid: str = Field("qid-101", constant=True)
 
     #: Asset symbol
     asset: str = ""

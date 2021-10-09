@@ -1,12 +1,14 @@
-from typing import Any, ClassVar, Dict, Optional, Type
+from typing import Any
+from typing import ClassVar
+from typing import Dict
+from typing import Optional
+from typing import Type
 
 from pydantic import BaseModel
 
 
 class SerializableSubclassModel(BaseModel):
-    """A helper subclass that allows nested serialization of subclasses
-
-    """
+    """A helper subclass that allows nested serialization of subclasses"""
 
     #: Container to register subclasses for pydantic export hack (see below)
     _subtypes_: ClassVar[Dict[str, Type[BaseModel]]] = dict()

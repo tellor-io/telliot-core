@@ -4,9 +4,6 @@ Queries Package
 
 .. automodule:: telliot.queries
 
-The Queries package provides a mechanism to define Oracle queries
-and specify the format of the query and the response.
-
 Contents
 ========
 
@@ -63,9 +60,3 @@ Legacy Query
    :members:
 
 
-Helper Classes
-==============
-
-
-.. autoclass:: telliot.queries.query.SerializableSubclassModel
-    :members:
