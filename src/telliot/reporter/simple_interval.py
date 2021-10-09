@@ -120,7 +120,7 @@ class IntervalReporter(Reporter):
             for uid, datafeed in self.datafeeds.items():
                 if datafeed.value:
                     print(f"Submitting value for {uid}: {datafeed.value.val}")
-                    q = datafeed.get_query()
+                    q = datafeed.query
                     if q is not None:
                         """TODO:
                         - Should encode value using query response type.

@@ -1,4 +1,4 @@
-""" Data Feed Module
+""" :mod:`telliot.datafeed.data_feed`
 
 """
 # Copyright (c) 2021-, Tellor Development Community
@@ -6,7 +6,6 @@
 import asyncio
 from typing import Any
 from typing import Dict
-from typing import Optional
 
 from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
@@ -40,4 +39,3 @@ class DataFeed(DataSourceDb):
             return dict(zip(keys, values))
 
         return await gather_inputs()
-

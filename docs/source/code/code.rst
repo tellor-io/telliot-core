@@ -7,7 +7,6 @@ Telliot Code Reference
     :hidden:
 
     Queries <queries>
-    Query Registry <queries.query_registry>
     Data Feeds <datafeed>
 
 

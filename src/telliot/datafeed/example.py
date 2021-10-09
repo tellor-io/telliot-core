@@ -40,7 +40,7 @@ data_sources = {
     ),
 }
 
-target_query = PriceQuery(asset='btc', currency='usd', price_type='current')
+target_query = PriceQuery(asset="btc", currency="usd", price_type="current")
 
 data_feeds = {
     "btc-usd-median": AssetPriceFeed(
@@ -52,7 +52,6 @@ data_feeds = {
         sources=data_sources,
         algorithm=statistics.median,
     )
-
 }
 
 pass
