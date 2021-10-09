@@ -3,11 +3,11 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from pydantic import Field
-from telliot.queries.query import OracleQuery
-from telliot.response_type import ResponseType
 from typing import ClassVar
 from typing import List
+
+from telliot.queries.query import OracleQuery
+from telliot.response_type import ResponseType
 
 
 class StringQuery(OracleQuery):
@@ -17,9 +17,7 @@ class StringQuery(OracleQuery):
     string.
     """
 
-    type: str = Field("StringQuery", constant=True)
-
-    parameters: ClassVar[List[str]] = ['string']
+    parameters: ClassVar[List[str]] = ["string"]
 
     #: Static query string
     string: str

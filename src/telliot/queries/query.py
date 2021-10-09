@@ -8,24 +8,19 @@ from abc import abstractmethod
 from typing import Any
 from typing import ClassVar
 from typing import Dict
-from typing import Optional
-from typing import Type
-from typing import Union
 from typing import List
-from web3 import Web3
+from typing import Union
 
 from pydantic import BaseModel
-from pydantic import Field
 from telliot.response_type import ResponseType
+from web3 import Web3
 
 
 CoerceToTipId = Union[bytearray, bytes, int, str]
 
 
 def to_tip_id(value: CoerceToTipId) -> bytes:
-    """Coerce input type to tip id in Bytes32 format
-
-    """
+    """Coerce input type to tip id in Bytes32 format"""
     if isinstance(value, bytearray):
         value = bytes(value)
 
@@ -50,84 +45,41 @@ def to_tip_id(value: CoerceToTipId) -> bytes:
     return bytes_value
 
 
-def dict2argstr(d: dict) -> str:
-    """ Convert a dict to a string of kwd=arg pairs
-
-    """
-    return ','.join("{!s}={!r}".format(key, val) for (key, val) in d.items())
-
-class SerializableSubclassModel(BaseModel):
-    """A helper subclass that allows nested serialization of subclasses
-
-    """
-
-    #: Container to register subclasses for pydantic export hack (see below)
-    _subtypes_: ClassVar[Dict[str, Type[BaseModel]]] = dict()
-
-    # used to register automatically all the submodels in `_subtypes_`.
-    def __init_subclass__(cls, type: Optional[str] = None) -> None:
-        cls._subtypes_[type or cls.__name__] = cls
-
-    @classmethod
-    def __get_validators__(cls) -> Any:
-        yield cls._convert_to_real_type_
-
-    @classmethod
-    def _convert_to_real_type_(cls, data: Any) -> BaseModel:
-
-        if isinstance(data, BaseModel):
-            return data
-
-        data_type = data.get("type")
-
-        if data_type is None:
-            raise ValueError("Missing 'type'")
-
-        sub = cls._subtypes_.get(data_type)
-
-        if sub is None:
-            raise TypeError(f"Unsupported sub-type: {data_type}")
-
-        return sub(**data)
-
-    @classmethod
-    def parse_obj(cls, obj: Dict[str, Any]) -> Any:
-        return cls._convert_to_real_type_(obj)
+def dict2argstr(d: Dict[str, Any]) -> str:
+    """Convert a dict to a string of kwd=arg pairs"""
+    return ",".join("{!s}={!r}".format(key, val) for (key, val) in d.items())
 
 
-class OracleQuery(SerializableSubclassModel, ABC):
-    """Abstract Base class for all TellorX queries
+class OracleQuery(BaseModel, ABC):
+    """Oracle Query
 
-    An OracleQuery specifies how to pose a question to the
+    An :class:`OracleQuery` specifies how to pose a question to the
     Tellor Oracle and how to format/interpret the response.
+
+    The :class:`OracleQuery` class serves
+    as the base class for all Queries, and implements default behaviors.
+    Each subclass corresponds to a unique Query Type supported
+    by the TellorX network.
 
     The base class provides:
 
-    - An identifier (:attr:`uid`) that uniquely identifies the query
-      it within the TellorX network.
+    - Query :attr:`parameters` attributes that enable customization of
+      the query type.
+
     - Calculation of the contents of the ``data`` field to include with the
       ``TellorX.Oracle.addTip()`` contract call.
+
     - Calculation of the `id` field field to include with the
       ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
       contract calls
-    - serialization/deserialization using the :meth:`OracleQuery.json` method.
+
     """
-
-    type: str = Field("OracleQuery", constant=True)
-    """ Type String
-
-    Required to support registry serialization/deserialization
-    Must be overridden with the Class Name in all subclasses
-    """
-
-    #: Unique query ID (Tellor Assigned).
-    uid: str
-
-    #: A descriptive name for the query.
-    name: str
 
     #: A list of parameter names used to customize the query
     parameters: ClassVar[List[str]]
+
+    #: A descriptive name for the query.
+    name: str
 
     @property
     @abstractmethod
@@ -153,18 +105,12 @@ class OracleQuery(SerializableSubclassModel, ABC):
 
         rtype_str = dict2argstr(self.response_type.dict())
 
-        # rtype = (
-        #     f"abi_type={self.response_type.abi_type},packed={self.response_type.packed}"
-        # )
-
         q = f"{self.query}?{rtype_str}"
 
         return q.encode("utf-8")
 
     def get_params(self) -> Dict[str, Any]:
-        """ Returns a dictionary of all query parameter values
-
-        """
+        """Returns a dictionary of all query parameter values"""
         result = {}
         for p in self.parameters:
             result[p] = self.__getattribute__(p)

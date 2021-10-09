@@ -17,10 +17,9 @@ def test_static_query():
         static_response_type=ResponseType(abi_type="string"),
     )
 
-    assert (
-            q.tip_data
-            == (b"StringQuery(string='What is the meaning of life')?"
-                b"abi_type='string',packed=False")
+    assert q.tip_data == (
+        b"StringQuery(string='What is the meaning of life')?"
+        b"abi_type='string',packed=False"
     )
 
     response = q.response_type.encode(

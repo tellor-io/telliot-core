@@ -3,16 +3,13 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from typing import Any
-from typing import Literal
+from typing import ClassVar
+from typing import List
 
 from pydantic import Field
 from pydantic import validator
-from telliot.queries.price_query import price_types
 from telliot.queries.query import OracleQuery
 from telliot.response_type import ResponseType
-from typing import ClassVar
-from typing import List
 
 # The default response type applicable to most legacy queries
 default_legacy_response_type = ResponseType(abi_type="ufixed256x6", packed=False)
@@ -26,9 +23,7 @@ class LegacyQuery(OracleQuery):
     The request ID is always an integer less than 100.
     """
 
-    type: str = Field("LegacyQuery", constant=True)
-
-    parameters: ClassVar[List[str]] = ['legacy_tip_id']
+    parameters: ClassVar[List[str]] = ["legacy_tip_id"]
 
     #: The request ID of all legacy queries is a static integer 1 < N <=100
     legacy_tip_id: int
@@ -53,5 +48,3 @@ class LegacyQuery(OracleQuery):
             if v > 100:
                 raise ValueError("Legacy request ID must be less than 100")
         return v
-
-

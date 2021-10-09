@@ -4,33 +4,29 @@
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
 from typing import Any
-from typing import Literal
 from typing import ClassVar
 from typing import List
+from typing import Literal
 
 from pydantic import Field
 from pydantic import PrivateAttr
 from pydantic import validator
 from telliot.queries.query import OracleQuery
-from telliot.queries.dynamic_query import DynamicQuery
 from telliot.response_type import ResponseType
 
-price_types = Literal[
-    "current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
+price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
 
 # Standard response type for price query
 response_type = ResponseType(abi_type="ufixed64x6", packed=True)
 
 # List of parameters used to customize a PriceQuery object
-price_query_params = ['asset', 'currency', 'price_type']
+price_query_params = ["asset", "currency", "price_type"]
 
 
 class PriceQuery(OracleQuery):
     """A dynamic query for the price of an asset in a specified currency."""
 
     parameters: ClassVar[List[str]] = price_query_params
-
-    type: str = Field("PriceQuery", constant=True)
 
     name: str = Field("Price Query", constant=True)
 

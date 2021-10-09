@@ -16,11 +16,12 @@ def test_legacy_query():
     assert q.response_type.abi_type == "ufixed256x6"
     assert q.response_type.packed is False
 
-    assert q.tip_data == b"LegacyQuery(legacy_tip_id=100)?abi_type='ufixed256x6',packed=False"
+    assert (
+        q.tip_data
+        == b"LegacyQuery(legacy_tip_id=100)?abi_type='ufixed256x6',packed=False"
+    )
 
     assert (
         q.tip_id.hex()
         == "0000000000000000000000000000000000000000000000000000000000000064"
     )
-
-

@@ -12,7 +12,8 @@ def test_constructor():
 
     exp = (
         b"PriceQuery(asset='btc',currency='usd',price_type='current')?"
-        b"abi_type='ufixed64x6',packed=True")
+        b"abi_type='ufixed64x6',packed=True"
+    )
 
     assert q.tip_data == exp
 
@@ -24,8 +25,10 @@ def test_price_type():
     """Validate price_type setting"""
     q = PriceQuery(asset="ETH", currency="USD", price_type="24hr_twap")
 
-    exp =(b"PriceQuery(asset='eth',currency='usd',price_type='24hr_twap')?"
-          b"abi_type='ufixed64x6',packed=True")
+    exp = (
+        b"PriceQuery(asset='eth',currency='usd',price_type='24hr_twap')?"
+        b"abi_type='ufixed64x6',packed=True"
+    )
 
     assert q.tip_data == exp
     print(q.tip_data)
