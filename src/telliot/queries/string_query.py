@@ -1,4 +1,4 @@
-""" :mod:`telliot.queries.string`
+""" :mod:`telliot.queries.string_query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community
@@ -10,14 +10,14 @@ from telliot.queries.value_type import ValueType
 class StringQuery(OracleQuery):
     """Static Oracle Query
 
-    A string query supports a question in the form of an arbitrary
-    string.
+    A text query supports a question in the form of an arbitrary
+    text.
     """
 
-    #: Static query string
-    string: str
+    #: Static query text
+    text: str
 
     @property
     def value_type(self) -> ValueType:
-        """Returns a default string response type."""
+        """Returns a default text response type."""
         return ValueType(abi_type="string", packed=False)

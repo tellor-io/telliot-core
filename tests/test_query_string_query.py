@@ -8,10 +8,10 @@ from telliot.queries.string_query import StringQuery
 
 def test_static_query():
     """Test static query"""
-    q = StringQuery(string="What is the meaning of life")
+    q = StringQuery(text="What is the meaning of life")
 
     assert q.tip_data == (
-        b"StringQuery(string='What is the meaning of life')?"
+        b"StringQuery(text='What is the meaning of life')?"
         b"ValueType(abi_type='string', packed=False)"
     )
 

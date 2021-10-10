@@ -30,13 +30,13 @@ class ValueType(BaseModel):
 
     @validator("abi_type")
     def require_valid_grammar(cls, v):  # type: ignore
-        """Validate and normalize abi type string"""
+        """Validate and normalize abi type text"""
         t = eth_abi.grammar.parse(v)
         t.validate()
         return eth_abi.grammar.normalize(v)  # type: ignore
 
     def encode(self, value: Any) -> bytes:
-        """Encode a response using abi type string
+        """Encode a response using abi type text
 
         Args:
             value: Value to encode
@@ -50,7 +50,7 @@ class ValueType(BaseModel):
             return encode_single(self.abi_type, value)
 
     def decode(self, bytes_val: bytes) -> Any:
-        """Decode bytes into a value using abi type string
+        """Decode bytes into a value using abi type text
 
         Args:
             bytes_val: Bytes to decode

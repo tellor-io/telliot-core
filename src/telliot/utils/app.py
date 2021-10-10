@@ -158,7 +158,7 @@ class Application(BaseModel):
         assert self.config is not None
         assert isinstance(self.homedir, Path)
 
-        # Convert loglevel string to log type
+        # Convert loglevel text to log type
         loglevel = eval("logging." + self.config.loglevel.upper())
 
         logfile = self.homedir / (self.name + ".log")

@@ -16,7 +16,7 @@ def test_legacy_query():
 
     exp = (
         b"LegacyQuery(legacy_tip_id=100)?"
-        b"ValueType(abi_type='ufixed256x6', packed=False)"
+        b"LegacyValueType(abi_type='ufixed256x6', packed=False)"
     )
 
     assert q.tip_data == exp

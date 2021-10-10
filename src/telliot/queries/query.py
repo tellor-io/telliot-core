@@ -80,7 +80,7 @@ class OracleQuery(Base):
         """Returns the ``data`` field for use in ``TellorX.Oracle.addTip()``
         contract call.
 
-        By convention, the tip data includes the string representation
+        By convention, the tip data includes the text representation
         of the OracleQuery and the :class:`ValueType` of its response.
 
         <:attr:`query`> ? <:attr:`value_type`>

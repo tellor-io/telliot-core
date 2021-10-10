@@ -3,8 +3,8 @@
 tellor_playground_abi = [
     {
         "inputs": [
-            {"internalType": "string", "name": "_iName", "type": "string"},
-            {"internalType": "string", "name": "_iSymbol", "type": "string"},
+            {"internalType": "text", "name": "_iName", "type": "text"},
+            {"internalType": "text", "name": "_iSymbol", "type": "text"},
         ],
         "stateMutability": "nonpayable",
         "type": "constructor",
@@ -226,7 +226,7 @@ tellor_playground_abi = [
     {
         "inputs": [],
         "name": "name",
-        "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+        "outputs": [{"internalType": "text", "name": "", "type": "text"}],
         "stateMutability": "view",
         "type": "function",
     },
@@ -254,7 +254,7 @@ tellor_playground_abi = [
     {
         "inputs": [],
         "name": "symbol",
-        "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+        "outputs": [{"internalType": "text", "name": "", "type": "text"}],
         "stateMutability": "view",
         "type": "function",
     },

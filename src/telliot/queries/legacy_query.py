@@ -3,11 +3,39 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
+from decimal import Decimal
+from typing import Any
+
 from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.queries.value_type import ValueType
 
-LegacyValueType = ValueType(abi_type="ufixed256x6", packed=False)
+
+class LegacyValueType(ValueType):
+    """Value type for a LegacyQuery"""
+
+    def __init__(self) -> None:
+        super().__init__(abi_type="ufixed256x6", packed=False)
+
+    def encode(self, value: float) -> bytes:
+        """A custom encoder for float values
+
+        This encoder converts the float to Decimal as required
+        by the eth-abi encoder.
+        """
+
+        decimal_value = Decimal(value).quantize(Decimal(10) ** -6)
+
+        return super().encode(decimal_value)
+
+    def decode(self, bytes_val: bytes) -> Any:
+        """A custom decoder to handle the packed fixed data type"""
+        if len(bytes_val) != 32:
+            raise ValueError("Value must be 32 bytes")
+
+        intval = int.from_bytes(bytes_val, "big", signed=False)
+
+        return intval / 10.0 ** 6
 
 
 class LegacyQuery(OracleQuery):
@@ -35,7 +63,7 @@ class LegacyQuery(OracleQuery):
     @property
     def value_type(self) -> ValueType:
         """Returns the Legacy Value Type for all legacy queries"""
-        return LegacyValueType
+        return LegacyValueType()
 
     @property
     def tip_id(self) -> bytes:
