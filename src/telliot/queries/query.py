@@ -3,16 +3,13 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from typing import Any
 from typing import ClassVar
-from typing import Dict
 from typing import List
 from typing import Union
 
 from pydantic import BaseModel
 from telliot.queries.value_type import ValueType
 from web3 import Web3
-
 
 CoerceToTipId = Union[bytearray, bytes, int, str]
 
@@ -41,11 +38,6 @@ def to_tip_id(value: CoerceToTipId) -> bytes:
         raise ValueError("Tip ID must have 32 bytes")
 
     return bytes_value
-
-
-def dict2argstr(d: Dict[str, Any]) -> str:
-    """Convert a dict to a string of kwd=arg pairs"""
-    return ",".join("{!s}={!r}".format(key, val) for (key, val) in d.items())
 
 
 class OracleQuery(BaseModel):
@@ -97,14 +89,17 @@ class OracleQuery(BaseModel):
         By convention, the tip data includes the unique ID, a query string
         and the expected value type in the following format:
 
-        <:attr:`uid`> : <:attr:`query`> ? <:attr:`value_type`>
+        <:attr:`query`> ? <:attr:`value_type`>
 
         This method may be overridden by subclasses
         """
 
-        rtype_str = dict2argstr(self.value_type.dict())
+        # rtype_str = dict2argstr(self.value_type.dict())
 
-        q = f"{self.query}?{rtype_str}"
+        qry = repr(self)
+        rsp = repr(self.value_type)
+
+        q = f"{qry}?{rsp}"
 
         return q.encode("utf-8")
 
@@ -116,26 +111,26 @@ class OracleQuery(BaseModel):
         """
         return bytes(Web3.keccak(self.tip_data))
 
-    @property
-    def query(self) -> str:
-        """Returns the default query
+    # @property
+    # def query(self) -> str:
+    #     """Returns the default query
+    #
+    #     By default, a query will create a customized query string
+    #     using currently configured values of each input.
+    #     """
+    #
+    #     params = self.get_params()
+    #
+    #     param_str = dict2argstr(params)
+    #
+    #     q = f"{self.__class__.__name__}({param_str})"
+    #
+    #     return q
 
-        By default, a query will create a customized query string
-        using currently configured values of each input.
-        """
-
-        params = self.get_params()
-
-        param_str = dict2argstr(params)
-
-        q = f"{self.__class__.__name__}({param_str})"
-
-        return q
-
-    def get_params(self) -> Dict[str, Any]:
-        """Returns a dictionary of all query input values"""
-        result = {}
-        for p in self.inputs:
-            result[p] = self.__getattribute__(p)
-
-        return result
+    # def get_params(self) -> Dict[str, Any]:
+    #     """Returns a dictionary of all query input values"""
+    #     result = {}
+    #     for p in self.inputs:
+    #         result[p] = self.__getattribute__(p)
+    #
+    #     return result

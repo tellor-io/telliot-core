@@ -16,10 +16,12 @@ def test_legacy_query():
     assert q.value_type.abi_type == "ufixed256x6"
     assert q.value_type.packed is False
 
-    assert (
-        q.tip_data
-        == b"LegacyQuery(legacy_tip_id=100)?abi_type='ufixed256x6',packed=False"
+    exp = (
+        b"LegacyQuery(legacy_tip_id=100)?"
+        b"ValueType(abi_type='ufixed256x6', packed=False)"
     )
+
+    assert q.tip_data == exp
 
     assert (
         q.tip_id.hex()

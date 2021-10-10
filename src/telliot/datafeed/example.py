@@ -53,5 +53,3 @@ data_feeds = {
         algorithm=statistics.median,
     )
 }
-
-pass

@@ -10,11 +10,13 @@ from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.queries.value_type import ValueType
 
+LegacyValueType = ValueType(abi_type="ufixed256x6", packed=False)
+
 
 class LegacyQuery(OracleQuery):
     """Legacy Query
 
-    Legacy queries are queries that existed prior to TellorX
+    Legacy queries are queries that existed prior to TellorX.
     A legacy query uses arbitrary tip ``data`` and a static tip ``id``.
     The tip ``id`` is always an integer less than 100.
     """
@@ -27,7 +29,7 @@ class LegacyQuery(OracleQuery):
     @property
     def value_type(self) -> ValueType:
         """Returns the same ValueType for all legacy queries"""
-        return ValueType(abi_type="ufixed256x6", packed=False)
+        return LegacyValueType
 
     @property
     def tip_id(self) -> bytes:
@@ -36,7 +38,9 @@ class LegacyQuery(OracleQuery):
 
     @validator("legacy_tip_id")
     def must_be_less_than_100(cls, v):  # type: ignore
-        """Ensure legacy request ID is less than or equal to 100"""
+        """Validator to ensure that legacy request ID is less than
+        or equal to 100.
+        """
         if v is not None:
             if v > 100:
                 raise ValueError("Legacy request ID must be less than 100")

@@ -11,13 +11,13 @@ def test_constructor():
     q = CoinPrice(coin="BTC", currency="USD")
 
     exp = (
-        b"CoinPrice(coin='btc',currency='usd',price_type='current')?"
-        b"abi_type='ufixed64x6',packed=True"
+        b"CoinPrice(coin='btc', currency='usd', price_type='current')?"
+        b"ValueType(abi_type='ufixed64x6', packed=True)"
     )
 
     assert q.tip_data == exp
 
-    exp = "fb4247810138c3cc5c53f70e0aa53eb1854bb12cbf828a1e3298b4a24f237780"
+    exp = "df872ce15bdfe08ca4f3862bc7a3381deb1a1c33f0fa6fff9c5c4f902f4d2062"
     assert q.tip_id.hex() == exp
 
 
@@ -26,12 +26,11 @@ def test_price_type():
     q = CoinPrice(coin="ETH", currency="USD", price_type="24hr_twap")
 
     exp = (
-        b"CoinPrice(coin='eth',currency='usd',price_type='24hr_twap')?"
-        b"abi_type='ufixed64x6',packed=True"
+        b"CoinPrice(coin='eth', currency='usd', price_type='24hr_twap')?"
+        b"ValueType(abi_type='ufixed64x6', packed=True)"
     )
 
     assert q.tip_data == exp
-    print(q.tip_data)
 
-    exp = "cbcc7a822c0c5225aac4cdb9f3c368f4aa15da8b11c3f5829476453381fd3475"
+    exp = "2ca3ad01b0746a57aa4005af40e0c70e26841b2d0c6da9291ee365c5f157e81c"
     assert q.tip_id.hex() == exp

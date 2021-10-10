@@ -30,14 +30,14 @@ class CoinPrice(OracleQuery):
     #: Asset symbol
     coin: str = ""
 
-    #: Price currency symbol
-    currency: str = ""
+    #: Price currency symbol (default = USD)
+    currency: str = "usd"
 
-    #: Price Type
+    #: Price Type (default = current)
     price_type: price_types = "current"
 
     #: Private storage for response_type
-    _response_type: ValueType = PrivateAttr()
+    _value_type: ValueType = PrivateAttr()
 
     def __init__(self, **kwargs: Any):
         # Fixed response type for all queries
@@ -45,12 +45,12 @@ class CoinPrice(OracleQuery):
 
         super().__init__(**kwargs)
 
-        self._response_type = fixed_rtype
+        self._value_type = fixed_rtype
 
     @property
     def value_type(self) -> ValueType:
         """Abstract method implementation."""
-        return self._response_type
+        return self._value_type
 
     @validator("coin")
     def asset_must_be_lower_case(cls, v: str) -> str:
@@ -61,3 +61,14 @@ class CoinPrice(OracleQuery):
     def currency_must_be_lower_case(cls, v: str) -> str:
         """Ensure coin/currency are lower case"""
         return v.lower()
+
+
+if __name__ == "__main__":
+
+    """CoinPrice Example."""
+
+    q = CoinPrice(coin="btc")
+    print(q.__repr__())
+
+    print(q.tip_data)
+    print("0x" + q.tip_id.hex())
