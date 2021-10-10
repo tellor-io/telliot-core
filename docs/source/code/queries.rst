@@ -13,9 +13,9 @@ Contents
     :nosignatures:
 
     query
-    string_query
-    price_query
     legacy_query
+    coin_price
+    string_query
 
 .. rubric:: Classes
 
@@ -23,9 +23,9 @@ Contents
     :nosignatures:
 
     telliot.queries.query.OracleQuery
-    telliot.queries.string_query.StringQuery
-    telliot.queries.price_query.CoinPrice
     telliot.queries.legacy_query.LegacyQuery
+    telliot.queries.coin_price.CoinPrice
+    telliot.queries.string_query.StringQuery
 
 Oracle Query Base Class
 =======================
@@ -42,20 +42,17 @@ Legacy Query
 .. autoclass:: telliot.queries.legacy_query.LegacyQuery
    :members:
 
-String Query
-------------
-
-.. autoclass:: telliot.queries.string_query.StringQuery
-   :members:
-
-
 Coin Price
 ----------
 
 .. autoclass:: telliot.queries.coin_price.CoinPrice
    :members:
 
+String Query
+------------
 
+.. autoclass:: telliot.queries.string_query.StringQuery
+   :members:
 
 
 Value Types

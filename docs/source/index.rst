@@ -59,9 +59,10 @@ Contents
 .. toctree::
    :maxdepth: 1
 
+   Code Reference <code/code>
+   Examples <examples>
    Getting Started <getting_started>
    Reporter Application <reporter_app>
-   Code Reference <code/code>
 
 
 

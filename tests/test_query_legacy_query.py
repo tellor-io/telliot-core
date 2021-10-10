@@ -9,8 +9,6 @@ from telliot.queries.legacy_query import LegacyQuery
 def test_legacy_query():
     """Validate legacy query"""
     q = LegacyQuery(
-        uid="qid-100",
-        name="name",
         legacy_tip_id=100,
     )
     assert q.value_type.abi_type == "ufixed256x6"

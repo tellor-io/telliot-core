@@ -4,6 +4,7 @@ Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
 from telliot.queries.coin_price import CoinPrice
+from telliot.queries.coin_price import CoinPriceValue
 
 
 def test_constructor():
@@ -12,12 +13,12 @@ def test_constructor():
 
     exp = (
         b"CoinPrice(coin='btc', currency='usd', price_type='current')?"
-        b"ValueType(abi_type='ufixed64x6', packed=True)"
+        b"CoinPriceValue(abi_type='ufixed64x6', packed=True)"
     )
 
     assert q.tip_data == exp
 
-    exp = "df872ce15bdfe08ca4f3862bc7a3381deb1a1c33f0fa6fff9c5c4f902f4d2062"
+    exp = "5f01defef41c0e66adefd7637657c13c7a8f415233d817a51a83e6bc517b33ef"
     assert q.tip_id.hex() == exp
 
 
@@ -27,10 +28,29 @@ def test_price_type():
 
     exp = (
         b"CoinPrice(coin='eth', currency='usd', price_type='24hr_twap')?"
-        b"ValueType(abi_type='ufixed64x6', packed=True)"
+        b"CoinPriceValue(abi_type='ufixed64x6', packed=True)"
     )
 
     assert q.tip_data == exp
 
-    exp = "2ca3ad01b0746a57aa4005af40e0c70e26841b2d0c6da9291ee365c5f157e81c"
+    exp = "f24a500b7e59df12c2dd9c158b55f28c6fb417f3eb5ad935648509803f5fac84"
     assert q.tip_id.hex() == exp
+
+
+def test_value_type():
+    """Test CoinPrice Value Type coding/decoding"""
+
+    decimals = 6
+
+    value = 99.9
+
+    r1 = CoinPriceValue()
+    bytes_val = r1.encode(value)
+    assert bytes_val.hex() == "0000000005f45a60"
+
+    int_val = int.from_bytes(bytes_val, "big", signed=False)
+    assert int_val == value * 10 ** decimals
+
+    decoded = r1.decode(bytes_val)
+    print(decoded)
+    assert decoded == value

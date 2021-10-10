@@ -14,8 +14,11 @@ from telliot.queries.query import OracleQuery
 
 
 class DataFeed(DataSourceDb):
+    """Data feed
 
-    """Data feed"""
+    A data feed creates a response value for an
+    :class:`~telliot.queries.query.OracleQuery`.
+    """
 
     #: Data feed sources
     sources: Dict[str, DataSource]

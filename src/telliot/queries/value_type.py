@@ -35,27 +35,27 @@ class ValueType(BaseModel):
         t.validate()
         return eth_abi.grammar.normalize(v)  # type: ignore
 
-    def encode(self, response: Any) -> bytes:
+    def encode(self, value: Any) -> bytes:
         """Encode a response using abi type string
 
         Args:
-            response: Value to encode
+            value: Value to encode
 
         Returns:
             Encoded value
         """
         if self.packed:
-            return encode_single(self.abi_type, response)
+            return encode_single_packed(self.abi_type, value)
         else:
-            return encode_single_packed(self.abi_type, response)
+            return encode_single(self.abi_type, value)
 
     def decode(self, bytes_val: bytes) -> Any:
-        """Decode bytes into a response using abi type string
+        """Decode bytes into a value using abi type string
 
         Args:
             bytes_val: Bytes to decode
 
         Returns:
-            Decoded response
+            Decoded value
         """
         return decode_single(self.abi_type, bytes_val)

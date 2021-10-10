@@ -3,12 +3,10 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from typing import ClassVar
-from typing import List
 from typing import Union
 
-from pydantic import BaseModel
 from telliot.queries.value_type import ValueType
+from telliot.utils.base import Base
 from web3 import Web3
 
 CoerceToTipId = Union[bytearray, bytes, int, str]
@@ -40,7 +38,7 @@ def to_tip_id(value: CoerceToTipId) -> bytes:
     return bytes_value
 
 
-class OracleQuery(BaseModel):
+class OracleQuery(Base):
     """Oracle Query
 
     An :class:`OracleQuery` specifies how to pose a question to the
@@ -51,10 +49,10 @@ class OracleQuery(BaseModel):
     Each subclass corresponds to a unique Query Type supported
     by the TellorX network.
 
-    The base class provides:
+    All public attributes of an OracleQuery represent an input that can
+    be used to customize the query.
 
-    - Query :attr:`inputs` that enable customization of
-      the query type.  Each input corresponds to a class attribute.
+    The base class provides:
 
     - Calculation of the contents of the ``data`` field to include with the
       ``TellorX.Oracle.addTip()`` contract call.
@@ -65,13 +63,9 @@ class OracleQuery(BaseModel):
 
     """
 
-    #: A list of input names used to customize the query.  This should
-    #: be overridden by all subclass Query Types.
-    inputs: ClassVar[List[str]]
-
     @property
     def value_type(self) -> ValueType:
-        """Returns the value type the current Query configuration
+        """Returns the ValueType expected by the current Query configuration
 
         The value type defines required data type/structure of the
         ``value`` submitted to the contract through
@@ -86,15 +80,13 @@ class OracleQuery(BaseModel):
         """Returns the ``data`` field for use in ``TellorX.Oracle.addTip()``
         contract call.
 
-        By convention, the tip data includes the unique ID, a query string
-        and the expected value type in the following format:
+        By convention, the tip data includes the string representation
+        of the OracleQuery and the :class:`ValueType` of its response.
 
         <:attr:`query`> ? <:attr:`value_type`>
 
         This method may be overridden by subclasses
         """
-
-        # rtype_str = dict2argstr(self.value_type.dict())
 
         qry = repr(self)
         rsp = repr(self.value_type)
@@ -110,27 +102,3 @@ class OracleQuery(BaseModel):
         contract calls.
         """
         return bytes(Web3.keccak(self.tip_data))
-
-    # @property
-    # def query(self) -> str:
-    #     """Returns the default query
-    #
-    #     By default, a query will create a customized query string
-    #     using currently configured values of each input.
-    #     """
-    #
-    #     params = self.get_params()
-    #
-    #     param_str = dict2argstr(params)
-    #
-    #     q = f"{self.__class__.__name__}({param_str})"
-    #
-    #     return q
-
-    # def get_params(self) -> Dict[str, Any]:
-    #     """Returns a dictionary of all query input values"""
-    #     result = {}
-    #     for p in self.inputs:
-    #         result[p] = self.__getattribute__(p)
-    #
-    #     return result

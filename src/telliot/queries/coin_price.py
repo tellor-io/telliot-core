@@ -3,6 +3,7 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
+from decimal import Decimal
 from typing import Any
 from typing import ClassVar
 from typing import List
@@ -15,8 +16,33 @@ from telliot.queries.value_type import ValueType
 
 price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
 
-# Standard response type for price query
-response_type = ValueType(abi_type="ufixed64x6", packed=True)
+
+class CoinPriceValue(ValueType):
+    """Value type for a CoinPrice Query"""
+
+    def __init__(self) -> None:
+        super().__init__(abi_type="ufixed64x6", packed=True)
+
+    def encode(self, value: float) -> bytes:
+        """A custom encoder for float values
+
+        This encoder converts the float to Decimal as required
+        by the eth-abi encoder.
+        """
+
+        decimal_value = Decimal(value).quantize(Decimal(10) ** -6)
+
+        return super().encode(decimal_value)
+
+    def decode(self, bytes_val: bytes) -> Any:
+        """A custom decoder to handle the packed fixed data type"""
+        if len(bytes_val) != 64 / 8:
+            raise ValueError("Value must be 8 bytes")
+
+        intval = int.from_bytes(bytes_val, "big", signed=False)
+
+        return intval / 10.0 ** 6
+
 
 # List of inputs used to customize a CoinPrice object
 price_query_params = ["coin", "currency", "price_type"]
@@ -33,7 +59,7 @@ class CoinPrice(OracleQuery):
     #: Price currency symbol (default = USD)
     currency: str = "usd"
 
-    #: Price Type (default = current)
+    #: Price Type (default= 'current')
     price_type: price_types = "current"
 
     #: Private storage for response_type
@@ -41,30 +67,28 @@ class CoinPrice(OracleQuery):
 
     def __init__(self, **kwargs: Any):
         # Fixed response type for all queries
-        fixed_rtype = ValueType(abi_type="ufixed64x6", packed=True)
 
         super().__init__(**kwargs)
 
-        self._value_type = fixed_rtype
+        self._value_type = CoinPriceValue()
 
     @property
     def value_type(self) -> ValueType:
-        """Abstract method implementation."""
+        """Returns the fixed value type for a CoinPrice."""
         return self._value_type
 
     @validator("coin")
     def asset_must_be_lower_case(cls, v: str) -> str:
-        """Ensure coin/currency are lower case"""
+        """Force coin/currency to lower case"""
         return v.lower()
 
     @validator("currency")
     def currency_must_be_lower_case(cls, v: str) -> str:
-        """Ensure coin/currency are lower case"""
+        """Force coin/currency to lower case"""
         return v.lower()
 
 
 if __name__ == "__main__":
-
     """CoinPrice Example."""
 
     q = CoinPrice(coin="btc")
