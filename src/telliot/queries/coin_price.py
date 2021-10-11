@@ -18,16 +18,21 @@ price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manu
 
 
 class CoinPriceValue(ValueType):
-    """Value type for a CoinPrice Query"""
+    """Legacy Value Type.
+
+    This class specifies the fixed CoinPrice ABI data type (ufixed64x6
+    in packed format) [TBD] and  provides encoding/decoding to/from
+    floating point values.
+    """
 
     def __init__(self) -> None:
         super().__init__(abi_type="ufixed64x6", packed=True)
 
     def encode(self, value: float) -> bytes:
-        """A custom encoder for float values
+        """An encoder for float values
 
-        This encoder converts the float to Decimal as required
-        by the eth-abi encoder.
+        This encoder converts a float value to the CoinPrice ABI
+        data type.
         """
 
         decimal_value = Decimal(value).quantize(Decimal(10) ** -6)
@@ -35,7 +40,11 @@ class CoinPriceValue(ValueType):
         return super().encode(decimal_value)
 
     def decode(self, bytes_val: bytes) -> Any:
-        """A custom decoder to handle the packed fixed data type"""
+        """A decoder for float values
+
+        This decoder converts from the CoinPrice ABI data type to
+        a floating point value.
+        """
         if len(bytes_val) != 64 / 8:
             raise ValueError("Value must be 8 bytes")
 

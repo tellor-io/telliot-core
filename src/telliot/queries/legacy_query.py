@@ -12,16 +12,20 @@ from telliot.queries.value_type import ValueType
 
 
 class LegacyValueType(ValueType):
-    """Value type for a LegacyQuery"""
+    """Legacy Value Type.
+
+    This class specifies the fixed Legacy ABI data type (ufixed256x6) and
+    provides encoding/decoding to/from floating point values.
+    """
 
     def __init__(self) -> None:
         super().__init__(abi_type="ufixed256x6", packed=False)
 
     def encode(self, value: float) -> bytes:
-        """A custom encoder for float values
+        """An encoder for float values
 
-        This encoder converts the float to Decimal as required
-        by the eth-abi encoder.
+        This encoder converts a float value to the Legacy ABI
+        data type.
         """
 
         decimal_value = Decimal(value).quantize(Decimal(10) ** -6)
@@ -29,7 +33,11 @@ class LegacyValueType(ValueType):
         return super().encode(decimal_value)
 
     def decode(self, bytes_val: bytes) -> Any:
-        """A custom decoder to handle the packed fixed data type"""
+        """A decoder for float values
+
+        This decoder converts from the Legacy ABI data type to
+        a floating point value.
+        """
         if len(bytes_val) != 32:
             raise ValueError("Value must be 32 bytes")
 

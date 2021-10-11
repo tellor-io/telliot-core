@@ -10,8 +10,11 @@ Query Examples
     from decimal import Decimal
     sys.path.insert(0, os.path.abspath('../src'))
 
-Legacy Query
-------------
+
+.. _legacy_query_example:
+
+Legacy Query Example
+--------------------
 
 Create a LegacyQuery query:
 
@@ -56,10 +59,10 @@ Validate the decoded bytes, with 6 decimals of precision:
     print(decoded_value)
 
 
+.. _coinprice_query_example:
 
-
-CoinPrice Query
----------------
+CoinPrice Query Example
+-----------------------
 
 Create a CoinPrice query:
 
@@ -105,9 +108,10 @@ Validate the decoded bytes, with 6 decimals of precision:
     decoded_value = q.value_type.decode(encoded_bytes)
     print(decoded_value)
 
+.. _text_query_example:
 
-String Query
-------------
+Text Query Example
+--------------------
 
 Create a CoinPrice query:
 
