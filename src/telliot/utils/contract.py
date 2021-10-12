@@ -55,24 +55,24 @@ class Contract(Base):
         func_name (str): name of contract function to call
 
         returns:
-        Tuple: contains contract function outputs (tuple) and success (bool)
+        Tuple: contract function outpus
+        Bool: success
         """
 
         if self.contract:
             try:
                 contract_function = self.contract.get_function_by_name(func_name)
-                print(contract_function)
-                return (contract_function(**kwargs).transact(), True)
+                return (contract_function(**kwargs).call(),), True
             except ValueError:
                 print(f"function '{func_name}' not found in contract abi")
-                return ((), False)
+                return (), False
         else:
             if self.connect():
                 print("now connected to contract")
                 return self.read(func_name=func_name, **kwargs)
             else:
                 print("unable to connect to contract")
-                return ((), False)
+                return (), False
 
     # def write(self, func_name: str, **kwargs: Any) -> bool:
     #     """
