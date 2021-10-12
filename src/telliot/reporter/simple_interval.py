@@ -34,7 +34,8 @@ class RinkebySubmitter(Submitter):
         self.acc = self.w3.eth.account.from_key(config["private_key"])
 
         self.playground = self.w3.eth.contract(
-            "0x4699845F22CA2705449CFD532060e04abE3F1F31", abi=tellor_playground_abi
+            Web3.toChecksumAddress("0x4699845F22CA2705449CFD532060e04abE3F1F31"),
+            abi=tellor_playground_abi,
         )
 
     def tobytes32(self, request_id: str) -> bytes:
@@ -68,7 +69,7 @@ class RinkebySubmitter(Submitter):
         built_tx = transaction.buildTransaction(
             {
                 "nonce": acc_nonce,
-                "gas": estimated_gas,
+                "gas": self.w3.toWei(estimated_gas, "gwei"),
                 "gasPrice": self.w3.toWei(gas_price, "gwei"),
                 "chainId": 4,  # rinkeby
             }
