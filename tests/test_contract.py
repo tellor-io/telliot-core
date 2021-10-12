@@ -53,5 +53,5 @@ def test_attempt_read_not_connected():
     c = Contract(node=endpt, address=address, abi=tellor_playground_abi)
     assert c.contract is None
     # read will succeed even if contract is initially diconnected
-    assert c.read(func_name=func_name, _requestId=requestId)[0] == (214,)
+    assert c.read(func_name=func_name, _requestId=requestId)[0][0] > 0
     assert c.read(func_name=func_name, _requestId=requestId)[1]
