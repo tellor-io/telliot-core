@@ -16,7 +16,9 @@ Query Examples
 Legacy Query Example
 --------------------
 
-Create a LegacyQuery query:
+**WORK IN PROGESS: Tip data formats still under development**
+
+Create a :class:`~telliot.queries.legacy_query.LegacyQuery`:
 
 .. jupyter-execute::
 
@@ -64,7 +66,9 @@ Validate the decoded bytes, with 6 decimals of precision:
 CoinPrice Query Example
 -----------------------
 
-Create a CoinPrice query:
+**WORK IN PROGESS: Tip data formats still under development**
+
+Create a :class:`~telliot.queries.coin_price.CoinPrice` query:
 
 .. jupyter-execute::
 
@@ -113,7 +117,9 @@ Validate the decoded bytes, with 6 decimals of precision:
 Text Query Example
 --------------------
 
-Create a CoinPrice query:
+**WORK IN PROGESS: Tip data formats still under development**
+
+Create a :class:`~telliot.queries.string_query.StringQuery`:
 
 .. jupyter-execute::
 
@@ -150,7 +156,7 @@ ValueType.encode() method:
     encoded_bytes = q.value_type.encode(value)
     print(f"0x{encoded_bytes.hex()}")
 
-Validate the decoded bytes, with 6 decimals of precision:
+Validate the decoded bytes:
 
 .. jupyter-execute::
 
