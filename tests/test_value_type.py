@@ -7,7 +7,8 @@ from decimal import Decimal
 
 import pytest
 from eth_abi.exceptions import InsufficientDataBytes
-from telliot.queries.value_type import ValueType
+from telliot.types.float_value import UnsignedFloatType
+from telliot.types.value_type import ValueType
 
 
 def test_fixed_response_type():
@@ -53,3 +54,22 @@ def test_packed_response_type_FAILS():
     with pytest.raises(InsufficientDataBytes):
         decoded = r1.decode(bytes_val)
         print(decoded)
+
+
+def test_unsigned_float_value():
+    f = UnsignedFloatType(abi_type="ufixed64x6")
+    assert not f.packed
+    assert f.decimals == 6
+    # Note encoded value is still 256 bits because packed = False
+    assert f.nbits == 64
+    print(f.json())
+    encoded_value = f.encode(99.0000009)
+    print(encoded_value.hex())
+    assert (
+        encoded_value.hex()
+        == "0000000000000000000000000000000000000000000000000000000005e69ec1"
+    )
+
+    decoded_value = f.decode(encoded_value)
+    assert isinstance(decoded_value, float)
+    assert decoded_value == 99.000001

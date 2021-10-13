@@ -3,7 +3,6 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from decimal import Decimal
 from typing import Any
 from typing import ClassVar
 from typing import List
@@ -12,45 +11,46 @@ from typing import Literal
 from pydantic import PrivateAttr
 from pydantic import validator
 from telliot.queries.query import OracleQuery
-from telliot.queries.value_type import ValueType
+from telliot.types.float_value import UnsignedFloatType
+from telliot.types.value_type import ValueType
 
 price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
 
-
-class CoinPriceValue(ValueType):
-    """Legacy Value Type.
-
-    This class specifies the fixed CoinPrice ABI data type (ufixed64x6
-    in packed format) [TBD] and  provides encoding/decoding to/from
-    floating point values.
-    """
-
-    def __init__(self) -> None:
-        super().__init__(abi_type="ufixed64x6", packed=True)
-
-    def encode(self, value: float) -> bytes:
-        """An encoder for float values
-
-        This encoder converts a float value to the CoinPrice ABI
-        data type.
-        """
-
-        decimal_value = Decimal(value).quantize(Decimal(10) ** -6)
-
-        return super().encode(decimal_value)
-
-    def decode(self, bytes_val: bytes) -> Any:
-        """A decoder for float values
-
-        This decoder converts from the CoinPrice ABI data type to
-        a floating point value.
-        """
-        if len(bytes_val) != 64 / 8:
-            raise ValueError("Value must be 8 bytes")
-
-        intval = int.from_bytes(bytes_val, "big", signed=False)
-
-        return intval / 10.0 ** 6
+#
+# class CoinPriceValue(ValueType):
+#     """Legacy Value Type.
+#
+#     This class specifies the fixed CoinPrice ABI data type (ufixed64x6
+#     in packed format) [TBD] and  provides encoding/decoding to/from
+#     floating point values.
+#     """
+#
+#     def __init__(self) -> None:
+#         super().__init__(abi_type="ufixed64x6", packed=True)
+#
+#     def encode(self, value: float) -> bytes:
+#         """An encoder for float values
+#
+#         This encoder converts a float value to the CoinPrice ABI
+#         data type.
+#         """
+#
+#         decimal_value = Decimal(value).quantize(Decimal(10) ** -6)
+#
+#         return super().encode(decimal_value)
+#
+#     def decode(self, bytes_val: bytes) -> Any:
+#         """A decoder for float values
+#
+#         This decoder converts from the CoinPrice ABI data type to
+#         a floating point value.
+#         """
+#         if len(bytes_val) != 64 / 8:
+#             raise ValueError("Value must be 8 bytes")
+#
+#         intval = int.from_bytes(bytes_val, "big", signed=False)
+#
+#         return intval / 10.0 ** 6
 
 
 # List of inputs used to customize a CoinPrice object
@@ -79,7 +79,7 @@ class CoinPrice(OracleQuery):
 
         super().__init__(**kwargs)
 
-        self._value_type = CoinPriceValue()
+        self._value_type = UnsignedFloatType(abi_type="ufixed64x6", packed=True)
 
     @property
     def value_type(self) -> ValueType:

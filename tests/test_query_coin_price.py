@@ -4,7 +4,6 @@ Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
 from telliot.queries.coin_price import CoinPrice
-from telliot.queries.coin_price import CoinPriceValue
 
 
 def test_constructor():
@@ -12,13 +11,17 @@ def test_constructor():
     q = CoinPrice(coin="BTC", currency="USD")
 
     exp = (
-        b"CoinPrice(coin='btc', currency='usd', price_type='current')?"
-        b"CoinPriceValue(abi_type='ufixed64x6', packed=True)"
+        b'{"type": "CoinPrice", '
+        b'"inputs": '
+        b'{"coin": "btc", "currency": "usd", "price_type": "current"}}?'
+        b'{"type": "UnsignedFloatType", '
+        b'"inputs": {"abi_type": "ufixed64x6", "packed": true}}'
     )
 
+    print(q.tip_data)
     assert q.tip_data == exp
 
-    exp = "5f01defef41c0e66adefd7637657c13c7a8f415233d817a51a83e6bc517b33ef"
+    exp = "0202f9d405bcee6f34f49deab26d448734fe0a4e6a1f61444851e1ee3f43ed3c"
     assert q.tip_id.hex() == exp
 
 
@@ -27,30 +30,15 @@ def test_price_type():
     q = CoinPrice(coin="ETH", currency="USD", price_type="24hr_twap")
 
     exp = (
-        b"CoinPrice(coin='eth', currency='usd', price_type='24hr_twap')?"
-        b"CoinPriceValue(abi_type='ufixed64x6', packed=True)"
+        b'{"type": "CoinPrice", '
+        b'"inputs": '
+        b'{"coin": "eth", "currency": "usd", "price_type": "24hr_twap"}}?'
+        b'{"type": "UnsignedFloatType", '
+        b'"inputs": {"abi_type": "ufixed64x6", "packed": true}}'
     )
 
+    print(q.tip_data)
     assert q.tip_data == exp
 
-    exp = "f24a500b7e59df12c2dd9c158b55f28c6fb417f3eb5ad935648509803f5fac84"
+    exp = "e38918373558af60b44db8b9bc69cec05c7a4fd185806d71ead6188300372158"
     assert q.tip_id.hex() == exp
-
-
-def test_value_type():
-    """Test CoinPrice Value Type coding/decoding"""
-
-    decimals = 6
-
-    value = 99.9
-
-    r1 = CoinPriceValue()
-    bytes_val = r1.encode(value)
-    assert bytes_val.hex() == "0000000005f45a60"
-
-    int_val = int.from_bytes(bytes_val, "big", signed=False)
-    assert int_val == value * 10 ** decimals
-
-    decoded = r1.decode(bytes_val)
-    print(decoded)
-    assert decoded == value
