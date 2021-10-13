@@ -8,7 +8,6 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
-from telliot.datafeed.data_feed import DataFeed
 from telliot.reporter.base import Reporter
 from telliot.reporter.config import ReporterConfig
 from telliot.submitter.base import Submitter
@@ -19,9 +18,7 @@ class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
     every 10 seconds."""
 
-    def __init__(
-        self, config: ReporterConfig, datafeeds: Mapping[str, DataFeed]
-    ) -> None:
+    def __init__(self, config: ReporterConfig, datafeeds: Mapping[str, Any]) -> None:
         self.config = config
         self.datafeeds = datafeeds
         self.submitter = Submitter(self.config, tellor_playground_abi)
@@ -41,13 +38,11 @@ class IntervalReporter(Reporter):
                     f"""
                     Submitting value for {uid}:
                         float {datafeed.value.val}
-                        int {datafeed.value.int}"""  # type: ignore
+                        int {datafeed.value.int}"""
                 )
                 query = datafeed.get_query()
                 if query is not None:
-                    encoded_value = query.response_type.encode(
-                        datafeed.value.int  # type: ignore
-                    )
+                    encoded_value = query.response_type.encode(datafeed.value.int)
                     request_id_str = "0x" + query.request_id.hex()
                     transaction_receipt = self.submitter.submit_data(
                         encoded_value, request_id_str
