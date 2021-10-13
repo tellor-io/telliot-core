@@ -7,7 +7,7 @@ from decimal import Decimal
 
 import pytest
 from eth_abi.exceptions import InsufficientDataBytes
-from telliot.types.float_value import UnsignedFloatType
+from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
 
 

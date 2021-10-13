@@ -1,7 +1,11 @@
-from telliot.types.value_type import ValueType
+""" :mod:`telliot.types.float_type`
+
+"""
 from decimal import Decimal
 from typing import Any
+
 from pydantic import validator
+from telliot.types.value_type import ValueType
 
 
 class UnsignedFloatType(ValueType):
@@ -22,10 +26,8 @@ class UnsignedFloatType(ValueType):
 
     @validator("abi_type")
     def require_ufixed_abi_type(cls, v: str) -> str:
-        """Validator to require a ufixed abi type
-
-        """
-        if v[:6] != 'ufixed':
+        """Validator to require a ufixed abi type"""
+        if v[:6] != "ufixed":
             raise ValueError("Abi Type must be ufixedMxN")
 
         return v.lower()
@@ -34,14 +36,14 @@ class UnsignedFloatType(ValueType):
     def decimals(self) -> int:
         """Get precision from abi type"""
         mxn = self.abi_type[6:]
-        m, n = mxn.split('x')
+        m, n = mxn.split("x")
         return int(n)
 
     @property
     def nbits(self) -> int:
         """Get number of bits from abi type"""
         mxn = self.abi_type[6:]
-        m, n = mxn.split('x')
+        m, n = mxn.split("x")
         return int(m)
 
     def encode(self, value: float) -> bytes:

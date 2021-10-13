@@ -58,26 +58,3 @@ See Also: :ref:`Text Query Example <text_query_example>`
 
 .. autoclass:: telliot.queries.string_query.StringQuery
    :members:
-
-
-Value Types
-============
-
-Base Value Type
----------------
-
-.. autoclass:: telliot.queries.value_type.ValueType
-   :members:
-
-Legacy Value Type
------------------
-
-.. autoclass:: telliot.queries.legacy_query.LegacyValueType
-   :members:
-
-CoinPrice Value Type
---------------------
-
-.. autoclass:: telliot.queries.coin_price.CoinPriceValue
-   :members:
-

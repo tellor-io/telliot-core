@@ -1,6 +1,6 @@
 .. module:: telliot.datafeed
 
-Data Feed Module
+Datafeed Package
 ================
 
 .. rubric:: Submodules

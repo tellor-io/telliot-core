@@ -5,7 +5,7 @@
 # Distributed under the terms of the MIT License.
 from pydantic import validator
 from telliot.queries.query import OracleQuery
-from telliot.types.float_value import UnsignedFloatType
+from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
 
 

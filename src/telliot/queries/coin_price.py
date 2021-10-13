@@ -11,7 +11,7 @@ from typing import Literal
 from pydantic import PrivateAttr
 from pydantic import validator
 from telliot.queries.query import OracleQuery
-from telliot.types.float_value import UnsignedFloatType
+from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
 
 price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
