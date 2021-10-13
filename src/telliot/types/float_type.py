@@ -17,20 +17,12 @@ class UnsignedFloatType(ValueType):
 
     """
 
-    # Default ABI Encoding for Unsigned Float value
+    #: ABI Encoding for Unsigned Float value (default = ufixed256x6)
     abi_type: str = "ufixed256x6"
 
     def __init__(self, **data: Any) -> None:
 
         super().__init__(**data)
-
-    @validator("abi_type")
-    def require_ufixed_abi_type(cls, v: str) -> str:
-        """Validator to require a ufixed abi type"""
-        if v[:6] != "ufixed":
-            raise ValueError("Abi Type must be ufixedMxN")
-
-        return v.lower()
 
     @property
     def decimals(self) -> int:
@@ -72,3 +64,11 @@ class UnsignedFloatType(ValueType):
         intval = int.from_bytes(bytes_val, "big", signed=False)
 
         return intval / 10.0 ** self.decimals
+
+    @validator("abi_type")
+    def require_ufixed_abi_type(cls, v: str) -> str:
+        """Validator to require a ufixed abi type"""
+        if v[:6] != "ufixed":
+            raise ValueError("Abi Type must be ufixedMxN")
+
+        return v.lower()

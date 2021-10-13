@@ -29,13 +29,6 @@ class ValueType(SerializableModel):
     #: True if the value should be encoded using packed bytes format.
     packed: bool = False
 
-    @validator("abi_type")
-    def require_valid_grammar(cls, v):  # type: ignore
-        """A method to validate the ABI type string grammar."""
-        t = eth_abi.grammar.parse(v)
-        t.validate()
-        return eth_abi.grammar.normalize(v)  # type: ignore
-
     def encode(self, value: Any) -> bytes:
         """Encode a value using the ABI Type string."""
         if self.packed:
@@ -46,3 +39,10 @@ class ValueType(SerializableModel):
     def decode(self, bytes_val: bytes) -> Any:
         """Decode bytes into a value using abi type string."""
         return decode_single(self.abi_type, bytes_val)
+
+    @validator("abi_type")
+    def require_valid_grammar(cls, v: str) -> str:
+        """A validator to require well formed ABI type string grammar."""
+        t = eth_abi.grammar.parse(v)
+        t.validate()
+        return eth_abi.grammar.normalize(v)  # type: ignore

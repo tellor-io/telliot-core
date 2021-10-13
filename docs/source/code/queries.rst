@@ -24,11 +24,9 @@ Queries Package
     telliot.queries.coin_price.CoinPrice
     telliot.queries.string_query.StringQuery
 
-Query Types
-===========
 
 Base Query Class
-----------------
+================
 
 
 .. autoclass:: telliot.queries.query.OracleQuery
@@ -36,7 +34,7 @@ Base Query Class
 
 
 Legacy Query
-------------
+============
 
 See Also: :ref:`Legacy Query Example <legacy_query_example>`
 
@@ -44,7 +42,7 @@ See Also: :ref:`Legacy Query Example <legacy_query_example>`
    :members:
 
 Coin Price
-----------
+==========
 
 See Also: :ref:`CoinPrice Example <coinprice_query_example>`
 
@@ -52,7 +50,7 @@ See Also: :ref:`CoinPrice Example <coinprice_query_example>`
    :members:
 
 String Query
-------------
+============
 
 See Also: :ref:`Text Query Example <text_query_example>`
 
