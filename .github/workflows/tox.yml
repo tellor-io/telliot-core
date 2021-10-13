@@ -37,6 +37,11 @@ jobs:
           python -c 'import os;print(os.environ)';
           python -c 'import os;print("TEST_SECRET" in os.environ)';
           tox
+        env:
+          USING_COVERAGE: '3.8,3.9'
+          NODE_URL: ${{ secrets.TEST_NODE_URL }} 
+          PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+          TEST_SECRET: ${{ secrets.TEST_SECRET }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
