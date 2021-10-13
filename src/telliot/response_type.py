@@ -13,7 +13,7 @@ class ResponseType(BaseModel):
 
     #: Type string per eth-abi grammar
     #: https://eth-abi.readthedocs.io/en/latest/grammar.html
-    abi_type: str
+    abi_type: str = "uint256"
 
     #: True if response should be packed
     packed: bool = False

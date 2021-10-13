@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 """
 Unit tests covering telliot query response types.
+=======
+""" Unit tests for response type
+
+Copyright (c) 2021-, Tellor Development Community
+Distributed under the terms of the MIT License.
+>>>>>>> a5fc9b1327a21049accfa59c028e8144a966eb5f
 """
 from decimal import Decimal
 
@@ -21,6 +28,7 @@ def test_fixed_response_type():
 
 
 def test_complex_response_type():
+    """Demonstrate a complex response to a query"""
     r1 = ResponseType(abi_type="(int8,bytes,ufixed32x9,bool[])[2]", packed=True)
 
     value = ((1, b"abc", 1, (True, True)), (1, b"def", 1, (True, True)))

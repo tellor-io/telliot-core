@@ -5,7 +5,7 @@ import statistics
 
 import pytest
 from telliot.datafeed.example import data_feeds
-from telliot.query import OracleQuery
+from telliot.queries.query import OracleQuery
 
 
 @pytest.mark.asyncio

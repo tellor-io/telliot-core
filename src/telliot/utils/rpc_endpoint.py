@@ -5,6 +5,7 @@ from typing import Optional
 
 from telliot.utils.base import Base
 from web3 import Web3
+from web3.middleware import geth_poa_middleware
 
 
 class RPCEndpoint(Base):
@@ -37,6 +38,13 @@ class RPCEndpoint(Base):
             return True
 
         self._web3 = Web3(Web3.HTTPProvider(self.url))
+        # Inject middlware if connecting to rinkeby
+        try:
+            if self.network == "rinkeby":
+                self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
+        except Exception:
+            print("unable to connect to rinkeby")
+
         try:
             connected = self._web3.isConnected()
         # Pokt nodes won't submit isConnected rpc call
