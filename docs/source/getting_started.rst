@@ -1,5 +1,5 @@
-Getting Started (WIP)
-=====================
+Getting Started (Work In Progress)
+==================================
 
 
 To build project documents:

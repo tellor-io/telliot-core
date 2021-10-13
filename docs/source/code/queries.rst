@@ -1,7 +1,8 @@
-.. module:: telliot.queries
+===============
+Queries Package
+===============
 
-Queries Module
-==============
+.. automodule:: telliot.queries
 
 .. rubric:: Submodules
 
@@ -9,40 +10,49 @@ Queries Module
     :nosignatures:
 
     query
-    query_registry
-    static_query
-    price_query
     legacy_query
+    coin_price
+    string_query
+
+.. rubric:: Classes
+
+.. autosummary::
+    :nosignatures:
+
+    telliot.queries.query.OracleQuery
+    telliot.queries.legacy_query.LegacyQuery
+    telliot.queries.coin_price.CoinPrice
+    telliot.queries.string_query.StringQuery
 
 
-Base Query Classes
-------------------
+Base Query Class
+================
 
-.. automodule:: telliot.queries.query
-   :members:
 
-Query Registry
---------------
+.. autoclass:: telliot.queries.query.OracleQuery
+    :members:
 
-.. automodule:: telliot.queries.query_registry
-   :members:
-
-Static Query
-------------
-
-.. automodule:: telliot.queries.static_query
-   :members:
-
-Price Query
------------
-
-.. automodule:: telliot.queries.price_query
-   :members:
 
 Legacy Query
-------------
+============
 
-.. automodule:: telliot.queries.legacy_query
+See Also: :ref:`Legacy Query Example <legacy_query_example>`
+
+.. autoclass:: telliot.queries.legacy_query.LegacyQuery
    :members:
 
+Coin Price
+==========
 
+See Also: :ref:`CoinPrice Example <coinprice_query_example>`
+
+.. autoclass:: telliot.queries.coin_price.CoinPrice
+   :members:
+
+String Query
+============
+
+See Also: :ref:`Text Query Example <text_query_example>`
+
+.. autoclass:: telliot.queries.string_query.StringQuery
+   :members:

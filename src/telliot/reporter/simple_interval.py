@@ -121,7 +121,7 @@ class IntervalReporter(Reporter):
             for uid, datafeed in self.datafeeds.items():
                 if datafeed.value:
                     print(f"Submitting value for {uid}: {datafeed.value.val}")
-                    q = datafeed.get_query()
+                    q = datafeed.query
                     if q is not None:
                         """TODO:
                         - Should encode value using query response type.
@@ -131,9 +131,9 @@ class IntervalReporter(Reporter):
                         # TODO: Should use query to encode value.  Request ID
                         #       from query is already in bytes.  Probably
                         #       be part of submitter
-                        encoded_value = q.response_type.encode(datafeed.value.val)
+                        encoded_value = q.value_type.encode(datafeed.value.val)
                         print(encoded_value)  # Dummy print to pass tox style
-                        request_id_str = "0x" + q.request_id.hex()
+                        request_id_str = "0x" + q.tip_id.hex()
                         self.submitter.submit_data(datafeed.value.val, request_id_str)
                 else:
                     print(f"Skipping submission for {uid}, datafeed value not updated")

@@ -1,94 +1,52 @@
-""" Legacy Query Classes
+""" :mod:`telliot.queries.legacy_query`
 
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from typing import Any
-from typing import Literal
-
-from pydantic import Field
 from pydantic import validator
-from telliot.queries.price_query import price_types
 from telliot.queries.query import OracleQuery
-from telliot.response_type import ResponseType
-
-# The default response type applicable to most legacy queries
-default_legacy_response_type = ResponseType(abi_type="ufixed256x6", packed=False)
+from telliot.types.float_type import UnsignedFloatType
+from telliot.types.value_type import ValueType
 
 
 class LegacyQuery(OracleQuery):
     """Legacy Query
 
     Legacy queries are queries that existed prior to TellorX
-    A legacy query uses static tip data and a static request ID.
-    The request ID is always an integer less than 100.
+    A legacy query uses arbitrary tip ``data`` and a static tip ``id``.
+    The tip ``id`` is always an integer less than 100.
+
+    The LegacyQuery class is deprecated and should not be used by
+    new projects.  Instead, use the
+    :class:`~telliot.queries.coin_price.CoinPrice` query or create
+    a new query.
+
+    Refer to tellor documentation for a description of each ``id``
+
+    - https://docs.tellor.io/tellor/integration/data-ids
+
+
     """
 
-    type: str = Field("LegacyQuery", constant=True)
-
     #: The request ID of all legacy queries is a static integer 1 < N <=100
-    legacy_request_id: int
-
-    #: The question used by a legacy query (and submitted with tip data).
-    #: Per the contract, this could be anything
-    legacy_question: str
-
-    #: The response type of the query, default for most legacy queries
-    value_type: ResponseType = Field(default=default_legacy_response_type)
+    legacy_tip_id: int
 
     @property
-    def response_type(self) -> ResponseType:
-        """Abstract method implementation."""
-        return self.value_type
+    def value_type(self) -> ValueType:
+        """Returns the Legacy Value Type for all legacy queries"""
+        return UnsignedFloatType(abi_type="ufixed256x6", packed=False)
 
     @property
-    def request_id(self) -> bytes:
-        """Abstract method implementation."""
-        return self.legacy_request_id.to_bytes(32, "big", signed=False)
+    def tip_id(self) -> bytes:
+        """Override tip ``id`` with the legacy value."""
+        return self.legacy_tip_id.to_bytes(32, "big", signed=False)
 
-    @property
-    def question(self) -> str:
-        """Abstract method implementation."""
-        return self.legacy_question
-
-    @validator("legacy_request_id")
+    @validator("legacy_tip_id")
     def must_be_less_than_100(cls, v):  # type: ignore
-        """Ensure legacy request ID is valid"""
+        """Validator to ensure that legacy request ID is less than
+        or equal to 100.
+        """
         if v is not None:
             if v > 100:
                 raise ValueError("Legacy request ID must be less than 100")
         return v
-
-
-class LegacyPriceQuery(LegacyQuery):
-    type: Literal["LegacyPriceQuery"] = "LegacyPriceQuery"
-
-    #: Asset symbol
-    asset: str
-
-    #: Price currency symbol
-    currency: str
-
-    #: Price Type
-    price_type: price_types = "current"
-
-    def __init__(self, **data: Any) -> None:
-
-        # Handle deserialization when legacy_question is defined
-        if "legacy_question" in data:
-            legacy_question = data.pop("legacy_question")
-        else:
-            legacy_question = ""
-
-        super().__init__(legacy_question=legacy_question, **data)
-
-        question = (
-            f"what is the {self.price_type} value of {self.asset}"
-            f" in {self.currency} (warning:deprecated)"
-        )
-
-        if self.legacy_question:
-            if self.legacy_question != question:
-                raise ValueError("Unexpected question")
-        else:
-            self.legacy_question = question

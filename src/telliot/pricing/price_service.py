@@ -11,7 +11,7 @@ from telliot.answer import TimeStampedFloat
 class PriceServiceInterface(ABC):
     """Price Service Interface
 
-    Interface to get asset pricing information
+    Interface to get coin pricing information
     As an interface, this class stores no state and all methods are abstract.
     Classes that inherit this interface must provide concrete implementations
     of each method.
@@ -19,9 +19,9 @@ class PriceServiceInterface(ABC):
 
     @abstractmethod
     async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
-        """Fetch the price of an asset
+        """Fetch the price of an coin
 
-        TODO: Strictly specify compliant asset/currency symbols so concrete
+        TODO: Strictly specify compliant coin/currency symbols so concrete
             classes can comply.
 
         Args:
@@ -29,7 +29,7 @@ class PriceServiceInterface(ABC):
             currency: Currency of returned price (Ticker Symbol)
 
         Returns:
-            Time-stamped asset price or None if an exception occurs
+            Time-stamped coin price or None if an exception occurs
         """
         raise NotImplementedError
 
