@@ -5,8 +5,8 @@
 # Distributed under the terms of the MIT License.
 from typing import Union
 
-from telliot.queries.value_type import ValueType
-from telliot.utils.base import Base
+from telliot.types.value_type import ValueType
+from telliot.utils.serializable import SerializableModel
 from web3 import Web3
 
 CoerceToTipId = Union[bytearray, bytes, int, str]
@@ -38,7 +38,7 @@ def to_tip_id(value: CoerceToTipId) -> bytes:
     return bytes_value
 
 
-class OracleQuery(Base):
+class OracleQuery(SerializableModel):
     """Oracle Query
 
     An :class:`OracleQuery` specifies how to pose a question to the
@@ -90,10 +90,7 @@ class OracleQuery(Base):
         This method may be overridden by subclasses
         """
 
-        qry = repr(self)
-        rsp = repr(self.value_type)
-
-        q = f"{qry}?{rsp}"
+        q = f"{self.json()}?{self.value_type.json()}"
 
         return q.encode("utf-8")
 
