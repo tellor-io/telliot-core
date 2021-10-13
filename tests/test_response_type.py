@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-"""
-Unit tests covering telliot query response types.
-=======
 """ Unit tests for response type
 
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
->>>>>>> a5fc9b1327a21049accfa59c028e8144a966eb5f
 """
 from decimal import Decimal
 
