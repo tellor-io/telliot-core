@@ -11,9 +11,8 @@ from typing import Mapping
 from typing import Sequence
 
 import requests
-from telliot.reporter.config import ReporterConfig
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.rpc_endpoint import RPCEndpoint
+from telliot.utils.app import TelliotConfig
 
 
 class Submitter(ABC):
@@ -23,19 +22,18 @@ class Submitter(ABC):
     on the Rinkeby test network."""
 
     def __init__(
-        self, config: ReporterConfig, abi: Sequence[Mapping[str, Any]]
+        self,
+        config: Any,
+        telliot_config: TelliotConfig,
+        abi: Sequence[Mapping[str, Any]],
     ) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
+
         self.config = config
-
-        self.endpt = RPCEndpoint(
-            network=self.config.network,
-            provider=self.config.provider,
-            url=self.config.node_url,
-        )
-
+        self.telliot_config = telliot_config
+        self.endpt = self.telliot_config.default_endpoint
         self.endpt.connect()
 
         self.acc = self.endpt.web3.eth.account.from_key(self.config.private_key)
@@ -75,7 +73,7 @@ class Submitter(ABC):
 
         req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
         prices = json.loads(req.content)
-        gas_price = str(prices[self.config.gasprice_speed])
+        gas_price = str(prices["fast"])
         print("retrieved gas price:", gas_price)
         gas_price = "3"
         print("gas price used:", gas_price)

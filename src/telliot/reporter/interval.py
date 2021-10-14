@@ -9,19 +9,28 @@ from typing import Mapping
 from typing import Union
 
 from telliot.reporter.base import Reporter
-from telliot.reporter.config import ReporterConfig
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
+from telliot.utils.app import AppConfig
+from telliot.utils.app import TelliotConfig
 
 
 class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
     every 10 seconds."""
 
-    def __init__(self, config: ReporterConfig, datafeeds: Mapping[str, Any]) -> None:
-        self.config = config
+    def __init__(
+        self,
+        config: AppConfig,
+        telliot_config: TelliotConfig,
+        datafeeds: Mapping[str, Any],
+    ) -> None:
         self.datafeeds = datafeeds
-        self.submitter = Submitter(self.config, tellor_playground_abi)
+        self.config = config
+        self.telliot_config = telliot_config
+        self.submitter = Submitter(
+            self.config, self.telliot_config, tellor_playground_abi
+        )
 
     async def report_once(self) -> List[Union[None, Mapping[str, Any]]]:
         transaction_receipts = []
