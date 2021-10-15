@@ -45,7 +45,7 @@ class LogLevel(str, enum.Enum):
 
 
 DefaultRPCEndpoint = RPCEndpoint(
-    network="Network Name (e.g. 'mainnet', 'testnet', 'rinkebey')",
+    network="Network Name (e.g. 'mainnet', 'testnet', 'rinkeby')",
     provider="Provider Name (e.g. 'Infura')",
     url="URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')",
 )
