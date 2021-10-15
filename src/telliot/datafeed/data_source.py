@@ -1,4 +1,4 @@
-""" Data Source Module
+""" :mod:`telliot.datafeed.data_source`
 
 """
 # Copyright (c) 2021-, Tellor Development Community

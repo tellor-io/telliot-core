@@ -7,6 +7,7 @@ Telliot Code Reference
     :hidden:
 
     Queries <queries>
+    Types <types>
     Data Feeds <datafeed>
 
 
@@ -16,6 +17,7 @@ Telliot Code Reference
     :nosignatures:
 
     queries <queries>
+    types <types>
     datafeed <datafeed>
 
 

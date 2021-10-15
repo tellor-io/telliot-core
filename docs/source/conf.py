@@ -30,6 +30,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.coverage',
               'sphinx.ext.napoleon',
               'sphinx.ext.autosummary',
+              'jupyter_sphinx',
               'sphinx_autodoc_typehints',
               'sphinx.ext.viewcode']
 
@@ -60,7 +61,7 @@ html_static_path = ['_static']
 # AUtodoc options
 autodoc_member_order = 'bysource'
 autodoc_default_options = {
-    'show-inheritance': True,
+     'show-inheritance': True,
 #    'members': None,
 #    'special-members': None
 }

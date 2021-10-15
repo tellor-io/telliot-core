@@ -9,7 +9,7 @@ from telliot.pricing.price_service import WebPriceService
 class AssetPriceSource(DataSourceDb):
     """Current Asset Price
 
-    The Current Asset Price data source retrieves the price of an asset
+    The Current Asset Price data source retrieves the price of a coin
     in the specified current from a `WebPriceService`.
     """
 
