@@ -66,7 +66,7 @@ async def test_interval_reporter_submit_once(app):
     )
 
     for _ in range(3):
-        tx_receipts = await reporter.report_once()
+        tx_receipts = await reporter.report_once(name="BTC USD Median Price Feed")
         if tx_receipts:
             break
 

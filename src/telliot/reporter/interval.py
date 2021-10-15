@@ -32,7 +32,7 @@ class IntervalReporter(Reporter):
             self.config, self.telliot_config, tellor_playground_abi
         )
 
-    async def report_once(self) -> List[Union[None, Mapping[str, Any]]]:
+    async def report_once(self, name: str = "") -> List[Union[None, Mapping[str, Any]]]:
         transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds.values():
@@ -42,6 +42,9 @@ class IntervalReporter(Reporter):
         _ = await asyncio.gather(*jobs)
 
         for uid, datafeed in self.datafeeds.items():
+            if name and name != datafeed.name:
+                continue
+
             if datafeed.value:
                 print(
                     f"""
