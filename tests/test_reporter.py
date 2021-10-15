@@ -30,7 +30,7 @@ def app():
     if not test_app.config.private_key:
         test_app.config.private_key = os.environ["PRIVATE_KEY"]
 
-    if not test_app.telliot_config.default_endpoint.url:
+    if "e.g." in test_app.telliot_config.default_endpoint.url:
         test_app.telliot_config.default_endpoint.url = os.environ["NODE_URL"]
 
     return test_app
