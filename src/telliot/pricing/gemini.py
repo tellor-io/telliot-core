@@ -2,12 +2,12 @@ from typing import Any
 from typing import Dict
 from typing import Optional
 
-from pydantic import BaseModel
 from telliot.answer import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
+from telliot.utils.base import Base
 
 
-class PriceResponse(BaseModel):
+class PriceResponse(Base):
     bid: float
     ask: float
     last: float

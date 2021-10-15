@@ -11,9 +11,9 @@ from typing import Optional
 from typing import Type
 from typing import Union
 
-from pydantic import BaseModel
 from pydantic import Field
 from pydantic import PrivateAttr
+from telliot.utils.base import Base
 from telliot.utils.config import ConfigOptions
 from telliot.utils.rpc_endpoint import RPCEndpoint
 
@@ -72,7 +72,7 @@ class AppConfig(ConfigOptions):
     loglevel: LogLevel = LogLevel.INFO
 
 
-class Application(BaseModel):
+class Application(Base):
     """Application base class"""
 
     #: Application Name

@@ -1,18 +1,18 @@
 from typing import Any
 from typing import Optional
 
-from pydantic import BaseModel
 from telliot.answer import TimeStampedFloat
 from telliot.pricing.price_service import WebPriceService
+from telliot.utils.base import Base
 
 
-class BittrexQuote(BaseModel):
+class BittrexQuote(Base):
     Bid: float
     Ask: float
     Last: float
 
 
-class PriceResponse(BaseModel):
+class PriceResponse(Base):
     success: bool
     message: str
     result: Optional[BittrexQuote]
