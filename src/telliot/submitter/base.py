@@ -75,8 +75,8 @@ class Submitter(ABC):
         prices = json.loads(req.content)
         gas_price = str(prices["fast"])
         print("retrieved gas price:", gas_price)
-        gas_price = "3"
-        print("gas price used:", gas_price)
+        # gas_price = "3"
+        # print("gas price used:", gas_price)
 
         tx = self.build_tx(value, request_id, gas_price)
 
