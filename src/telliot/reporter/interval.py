@@ -52,10 +52,10 @@ class IntervalReporter(Reporter):
                         float {datafeed.value.val}
                         int {datafeed.value.int}"""
                 )
-                query = datafeed.get_query()
+                query = datafeed.query
                 if query is not None:
-                    encoded_value = query.response_type.encode(datafeed.value.int)
-                    request_id_str = "0x" + query.request_id.hex()
+                    encoded_value = query.value_type.encode(datafeed.value.int)
+                    request_id_str = "0x" + query.tip_id.hex()
                     transaction_receipt = self.submitter.submit_data(
                         encoded_value, request_id_str
                     )
