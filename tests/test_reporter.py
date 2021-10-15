@@ -36,6 +36,9 @@ def app():
     if "e.g." in test_app.telliot_config.default_endpoint.url:
         test_app.telliot_config.default_endpoint.url = os.environ["NODE_URL"]
 
+    if "e.g." in test_app.telliot_config.default_endpoint.network:
+        test_app.telliot_config.default_endpoint.network = "rinkeby"
+
     return test_app
 
 
