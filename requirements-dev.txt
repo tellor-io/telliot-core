@@ -11,3 +11,4 @@ mypy
 mypy-extensions
 types-requests
 types-PyYAML
+tox
