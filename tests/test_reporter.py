@@ -51,10 +51,10 @@ def test_reporter_config(app):
     )
 
     assert reporter.telliot_config.default_endpoint.network == "rinkeby"
-    assert reporter.telliot_config.default_endpoint.provider == "pokt"
+    assert reporter.telliot_config.default_endpoint.provider
     assert reporter.telliot_config.default_endpoint.url
 
-    assert reporter.config.chain_id == 4
+    assert reporter.config.chain_id
     assert reporter.config.private_key
     assert (
         reporter.config.contract_address == "0x4699845F22CA2705449CFD532060e04abE3F1F31"
