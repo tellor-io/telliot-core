@@ -9,8 +9,7 @@ from telliot.examples.example import data_feeds
 from telliot.reporter.interval import IntervalReporter
 from telliot.utils.app import AppConfig
 from telliot.utils.app import Application
-
-# from web3.datastructures import AttributeDict
+from web3.datastructures import AttributeDict
 
 
 @pytest.fixture
@@ -62,27 +61,28 @@ def test_reporter_config(app):
     )
 
 
-# @pytest.mark.asyncio
-# async def test_interval_reporter_submit_once(app):
-#     """Test reporting once to the TellorX playground on Rinkeby
-#     with three retries."""
-#     reporter = IntervalReporter(
-#         config=app.config,
-#         telliot_config=app.telliot_config,
-#         datafeeds=data_feeds,
-#     )
+@pytest.mark.skip(reason="fails sometimes due to wrong gasprice & connection failures")
+@pytest.mark.asyncio
+async def test_interval_reporter_submit_once(app):
+    """Test reporting once to the TellorX playground on Rinkeby
+    with three retries."""
+    reporter = IntervalReporter(
+        config=app.config,
+        telliot_config=app.telliot_config,
+        datafeeds=data_feeds,
+    )
 
-#     for _ in range(3):
-#         tx_receipts = await reporter.report_once(name="BTC USD Median Price Feed")
-#         if tx_receipts:
-#             break
+    for _ in range(3):
+        tx_receipts = await reporter.report_once(name="BTC USD Median Price Feed")
+        if tx_receipts:
+            break
 
-#     assert tx_receipts
+    assert tx_receipts
 
-#     for receipt in tx_receipts:
-#         assert isinstance(receipt, AttributeDict)
-#         assert receipt.status == 1
-#         assert receipt.to == "0x4699845F22CA2705449CFD532060e04abE3F1F31"
+    for receipt in tx_receipts:
+        assert isinstance(receipt, AttributeDict)
+        assert receipt.status == 1
+        assert receipt.to == "0x4699845F22CA2705449CFD532060e04abE3F1F31"
 
 
 # TODO: choose datafeeds in reporter config
