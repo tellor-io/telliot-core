@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 from telliot.answer import TimeStampedFloat
-from telliot.pricing.price_service import WebPriceService
+from telliot.datafeed.pricing.price_service import WebPriceService
 
 
 class BittrexQuote(BaseModel):

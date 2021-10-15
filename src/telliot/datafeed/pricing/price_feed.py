@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Callable
 from typing import List
 from typing import Optional
@@ -6,14 +7,14 @@ from telliot.answer import TimeStampedFixed
 from telliot.datafeed.data_feed import DataFeed
 
 
-class AssetPriceFeed(DataFeed):
+class PriceFeed(DataFeed, ABC):
     #: Override data type for this feed
     value: Optional[TimeStampedFixed]
 
     #: Asset
     asset: str
 
-    #: Currency of returned pricd
+    #: Currency of returned price
     currency: str
 
     #: Callable algorithm that accepts an iterable of floats

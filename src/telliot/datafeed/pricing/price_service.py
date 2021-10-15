@@ -11,7 +11,7 @@ from telliot.answer import TimeStampedFloat
 class PriceServiceInterface(ABC):
     """Price Service Interface
 
-    Interface to get coin pricing information
+    Interface to get pricing information
     As an interface, this class stores no state and all methods are abstract.
     Classes that inherit this interface must provide concrete implementations
     of each method.

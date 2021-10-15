@@ -4,6 +4,7 @@
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
 import asyncio
+from abc import ABC
 from typing import Any
 from typing import Dict
 
@@ -13,7 +14,7 @@ from telliot.datafeed.data_source import DataSourceDb
 from telliot.queries.query import OracleQuery
 
 
-class DataFeed(DataSourceDb):
+class DataFeed(DataSourceDb, ABC):
     """Data feed
 
     A data feed creates a response value for an
