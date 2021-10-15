@@ -5,7 +5,7 @@ telliot's reporter subpackage.
 import os
 
 import pytest
-from telliot.datafeed.example import data_feeds
+from telliot.examples.example import data_feeds
 from telliot.reporter.interval import IntervalReporter
 from telliot.utils.app import AppConfig
 from telliot.utils.app import Application
