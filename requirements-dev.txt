@@ -2,6 +2,7 @@
 sphinx==4.1.2
 sphinx_autodoc_typehints==1.12.0
 sphinx_rtd_theme==1.0.0
+jupyter_sphinx
 pytest
 pytest-cov
 pytest-dotenv
@@ -12,3 +13,4 @@ mypy-extensions
 types-requests
 types-PyYAML
 tox
+
