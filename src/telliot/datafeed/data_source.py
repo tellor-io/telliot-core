@@ -12,13 +12,13 @@ from typing import Optional
 from typing import TypeVar
 
 import requests
-from pydantic import BaseModel
 from telliot.answer import TimeStampedAnswer
+from telliot.utils.base import Base
 
 T = TypeVar("T")
 
 
-class DataSource(BaseModel, ABC):
+class DataSource(Base, ABC):
     """Base Class for a DataSource.
 
     A DataSource provides an input to a `DataFeed`

@@ -6,10 +6,10 @@ with the datafeed api.
 """
 import datetime
 
-from pydantic import BaseModel
+from telliot.utils.base import Base
 
 
-class DataIn(BaseModel):
+class DataIn(Base):
     """Ingested data model.
 
     Standardize data ingested to database using typing.
@@ -21,7 +21,7 @@ class DataIn(BaseModel):
     timestamp: datetime.datetime
 
 
-class Data(BaseModel):
+class Data(Base):
     """Retrieved data model.
 
     Standardize data queried from the database using typing.

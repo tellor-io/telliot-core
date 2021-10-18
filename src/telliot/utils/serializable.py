@@ -4,10 +4,10 @@ from typing import Dict
 from typing import Optional
 from typing import Type
 
-from pydantic import BaseModel
+from telliot.utils.base import Base
 
 
-class SerializableModel(BaseModel):
+class SerializableModel(Base):
     """A helper subclass that allows nested serialization
 
     The serialized format contains the class name, which can be used
@@ -18,7 +18,7 @@ class SerializableModel(BaseModel):
     """
 
     #: Type Registry
-    _registry_: ClassVar[Dict[str, Type[BaseModel]]] = dict()
+    _registry_: ClassVar[Dict[str, Type[Base]]] = dict()
 
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
         """Register all subclasses"""
@@ -29,7 +29,7 @@ class SerializableModel(BaseModel):
         yield cls._convert_to_model
 
     @classmethod
-    def _convert_to_model(cls, data: Any) -> BaseModel:
+    def _convert_to_model(cls, data: Any) -> Base:
         """Convert input to a class instance
 
         When input is a JSON string, it should have two attributes:
@@ -39,7 +39,7 @@ class SerializableModel(BaseModel):
 
         """
 
-        if isinstance(data, BaseModel):
+        if isinstance(data, Base):
             return data
 
         data_type = data.get("type")
