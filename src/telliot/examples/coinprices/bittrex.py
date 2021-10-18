@@ -1,35 +1,29 @@
 from typing import Any
-from typing import Dict
 from typing import Optional
 
 from telliot.answer import TimeStampedFloat
-from telliot.pricing.price_service import WebPriceService
+from telliot.datafeed.pricing.price_service import WebPriceService
 from telliot.utils.base import Base
 
 
+class BittrexQuote(Base):
+    Bid: float
+    Ask: float
+    Last: float
+
+
 class PriceResponse(Base):
-    bid: float
-    ask: float
-    last: float
-    volume: Dict[str, Any]
+    success: bool
+    message: str
+    result: Optional[BittrexQuote]
 
 
-# Example output
-# {'bid': '46696.49',
-#  'ask': '46706.28',
-#  'volume':
-#      {'BTC': '1478.8403795849',
-#       'USD': '67545338.339627693826',
-#       'timestamp': 1631636700000},
-#  'last': '46703.47'}}
-
-
-class GeminiPriceService(WebPriceService):
-    """Gemini Price Service"""
+class BittrexPriceService(WebPriceService):
+    """Bittrex Price Service"""
 
     def __init__(self, **kwargs: Any):
         super().__init__(
-            name="Gemini Price Service", url="https://api.gemini.com", **kwargs
+            name="Bittrex Price Service", url="https://api.bittrex.com", **kwargs
         )
 
     async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
@@ -41,10 +35,12 @@ class GeminiPriceService(WebPriceService):
         instead of the locally generated timestamp.
         """
 
-        request_url = "/v1/pubticker/{}{}".format(asset.lower(), currency.lower())
+        request_url = "/api/v1.1/public/getticker?market={}-{}".format(
+            currency.lower(), asset.lower()
+        )
 
         d = self.get_url(request_url)
-        # print(d)
+
         if "error" in d:
             print(d)  # TODO: Log
             return None
@@ -52,7 +48,11 @@ class GeminiPriceService(WebPriceService):
         else:
             r = PriceResponse.parse_obj(d["response"])
 
-            if r.last is not None:
-                return TimeStampedFloat(r.last)
+            if r.success:
+                if r.result is not None:
+                    return TimeStampedFloat(r.result.Last)
+                else:
+                    return None
             else:
+                print(r.message)
                 return None

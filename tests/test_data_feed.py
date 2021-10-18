@@ -4,7 +4,7 @@
 import statistics
 
 import pytest
-from telliot.datafeed.example import data_feeds
+from telliot.examples.btc_usd_feed import data_feeds
 from telliot.queries.query import OracleQuery
 
 

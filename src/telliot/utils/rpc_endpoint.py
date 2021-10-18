@@ -14,7 +14,7 @@ class RPCEndpoint(Base):
     #: Blockchain Name
     # chain = Enum(*supported_networks)
 
-    #: Network Name (e.g. 'mainnet', 'testnet', 'rinkebey')
+    #: Network Name (e.g. 'mainnet', 'testnet', 'rinkeby')
     network: str
 
     #: Provider Name (e.g. 'Infura')

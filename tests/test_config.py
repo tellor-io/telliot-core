@@ -1,3 +1,6 @@
+"""
+Unit tests covering telliot config options.
+"""
 import os
 from pathlib import Path
 
