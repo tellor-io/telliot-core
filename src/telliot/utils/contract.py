@@ -10,6 +10,7 @@ from typing import Union
 
 import web3
 from eth_typing.evm import ChecksumAddress
+from telliot.utils.app import TelliotConfig
 from telliot.utils.base import Base
 from telliot.utils.rpc_endpoint import RPCEndpoint
 from web3 import Web3
@@ -19,7 +20,7 @@ class Contract(Base):
     """Convenience wrapper for connecting to an Ethereum contract"""
 
     #: RPCNode connection to Ethereum network
-    node: RPCEndpoint
+    # node: RPCEndpoint
 
     #: Contract address
     address: Union[str, ChecksumAddress]
@@ -31,19 +32,19 @@ class Contract(Base):
     contract: Optional[web3.contract.Contract]
 
     #: global pytelliot configurations
-    # config: ConfigOptions
+    config: TelliotConfig
 
     def connect(self) -> bool:
         """Connect to EVM contract through an RPC Endpoint"""
-        if self.node.web3 is None:
+        if self.config.default_endpoint.web3 is None:
             print("node is not instantiated")
             return False
         else:
-            if not self.node.connect():
+            if not self.config.default_endpoint.connect():
                 print("node is not connected")
                 return False
             self.address = Web3.toChecksumAddress(self.address)
-            self.contract = self.node.web3.eth.contract(
+            self.contract = self.config.default_endpoint.web3.eth.contract(
                 address=self.address, abi=self.abi
             )
             return True
@@ -85,9 +86,9 @@ class Contract(Base):
     #     """
     #     try:
     #         # load account from private key
-    #         self.acc = self.node.web3.eth.account.from_key(self.config.private_key)
+    #         self.acc = self.config.default_endpoint.web3.eth.account.from_key(self.config.private_key)
     #         # get account nonce
-    #         acc_nonce = self.node.web3.eth.get_transaction_count(self.acc.address)
+    #         acc_nonce = self.config.default_endpoint.web3.eth.get_transaction_count(self.acc.address)
     #         # get fast gas price
     #         req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
     #         prices = json.loads(req.content)
@@ -103,19 +104,19 @@ class Contract(Base):
     #             {
     #                 "nonce": acc_nonce,
     #                 "gas": estimated_gas,
-    #                 "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
+    #                 "gasPrice": self.config.default_endpoint.web3.toWei(gas_price, "gwei"),
     #                 "chainId": self.config.chain_id,
     #             }
     #         )
 
     #         tx_signed = self.acc.sign_transaction(tx_built)
 
-    #         tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
+    #         tx_hash = self.config.default_endpoint.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
     #         print(
     #             f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}"
     #         )
 
-    #         _ = self.node.web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
+    #         _ = self.config.default_endpoint.web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
 
     #         return True
     #     except Exception:
