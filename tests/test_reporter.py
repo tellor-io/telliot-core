@@ -30,7 +30,7 @@ def cfg():
 
     # Optionally override private key and URL with ENV vars for testing
     if os.getenv("PRIVATE_KEY", None):
-        rinkeby_endpoint.private_key = os.environ["PRIVATE_KEY"]
+        cfg.private_key = os.environ["PRIVATE_KEY"]
 
     if os.getenv("NODE_URL", None):
         rinkeby_endpoint.url = os.environ["NODE_URL"]
