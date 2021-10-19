@@ -8,11 +8,10 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
+from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.app import AppConfig
-from telliot.utils.app import TelliotConfig
 
 
 class IntervalReporter(Reporter):
@@ -21,15 +20,20 @@ class IntervalReporter(Reporter):
 
     def __init__(
         self,
-        config: AppConfig,
-        telliot_config: TelliotConfig,
+        endpoint: RPCEndpoint,
+        private_key: str,
+        contract_address: str,
         datafeeds: Mapping[str, Any],
     ) -> None:
+
+        self.endpoint = endpoint
         self.datafeeds = datafeeds
-        self.config = config
-        self.telliot_config = telliot_config
+
         self.submitter = Submitter(
-            self.config, self.telliot_config, tellor_playground_abi
+            endpoint=self.endpoint,
+            private_key=private_key,
+            contract_address=contract_address,
+            abi=tellor_playground_abi,
         )
 
     async def report_once(self, name: str = "") -> List[Union[None, Mapping[str, Any]]]:

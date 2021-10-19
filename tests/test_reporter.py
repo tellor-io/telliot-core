@@ -5,70 +5,70 @@ telliot's reporter subpackage.
 import os
 
 import pytest
+from telliot.apps.telliot_config import TelliotConfig
 from telliot.examples.btc_usd_feed import data_feeds
 from telliot.reporter.interval import IntervalReporter
-from telliot.utils.app import AppConfig
-from telliot.utils.app import Application
 from web3.datastructures import AttributeDict
+
+# Tellor playground contract used for test
+playground_address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"
 
 
 @pytest.fixture
-def app():
-    class NewAppConfig(AppConfig):
-        private_key: str = ""
-        contract_address: str = (
-            "0x4699845F22CA2705449CFD532060e04abE3F1F31"  # tellorX playground
-        )
-        chain_id: int = 4  # rinkeby
+def cfg():
+    """Get rinkeby endpoint from config
 
-    class TestApp(Application):
-        def __init__(self, **data):
-            super().__init__(name="reporter", config_class=NewAppConfig, **data)
+    If environment variables are defined, they will override the values in config files
+    """
+    cfg = TelliotConfig()
 
-    test_app = TestApp()
+    # Override configuration for rinkeby testnet
+    cfg.main.chain_id = 4
 
-    if not test_app.config.private_key:
-        test_app.config.private_key = os.environ["PRIVATE_KEY"]
+    rinkeby_endpoint = cfg.get_endpoint()
+    assert rinkeby_endpoint.network == "rinkeby"
 
-    if "e.g." in test_app.telliot_config.default_endpoint.provider:
-        test_app.telliot_config.default_endpoint.provider = "pokt"
+    # Optionally override private key and URL with ENV vars for testing
+    if os.getenv("PRIVATE_KEY", None):
+        cfg.main.private_key = os.environ["PRIVATE_KEY"]
 
-    if "e.g." in test_app.telliot_config.default_endpoint.url:
-        test_app.telliot_config.default_endpoint.url = os.environ["NODE_URL"]
+    if os.getenv("NODE_URL", None):
+        rinkeby_endpoint.url = os.environ["NODE_URL"]
 
-    if "e.g." in test_app.telliot_config.default_endpoint.network:
-        test_app.telliot_config.default_endpoint.network = "rinkeby"
-
-    return test_app
+    return cfg
 
 
-def test_reporter_config(app):
+def test_reporter_config(cfg):
     """Test instantiating an IntervalReporter using default telliot configs."""
-    reporter = IntervalReporter(
-        config=app.config,
-        telliot_config=app.telliot_config,
+
+    rinkeby_endpoint = cfg.get_endpoint()
+
+    _ = IntervalReporter(
+        endpoint=rinkeby_endpoint,
+        private_key=cfg.main.private_key,
+        contract_address=playground_address,
         datafeeds=data_feeds,
     )
 
-    assert reporter.telliot_config.default_endpoint.network == "rinkeby"
-    assert reporter.telliot_config.default_endpoint.provider
-    assert reporter.telliot_config.default_endpoint.url
+    assert rinkeby_endpoint.network == "rinkeby"
+    assert rinkeby_endpoint.provider
+    assert rinkeby_endpoint.url
 
-    assert reporter.config.chain_id
-    assert reporter.config.private_key
-    assert (
-        reporter.config.contract_address == "0x4699845F22CA2705449CFD532060e04abE3F1F31"
-    )
+    assert rinkeby_endpoint.chain_id == 4
 
 
 @pytest.mark.skip(reason="fails sometimes due to wrong gasprice & connection failures")
 @pytest.mark.asyncio
-async def test_interval_reporter_submit_once(app):
+async def test_interval_reporter_submit_once(cfg):
     """Test reporting once to the TellorX playground on Rinkeby
     with three retries."""
+
+    rinkeby_endpoint = cfg.get_endpoint()
+
     reporter = IntervalReporter(
-        config=app.config,
-        telliot_config=app.telliot_config,
+        endpoint=rinkeby_endpoint,
+        private_key=cfg.main.private_key,
+        contract_address=playground_address,
         datafeeds=data_feeds,
     )
 

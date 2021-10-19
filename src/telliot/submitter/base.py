@@ -11,8 +11,8 @@ from typing import Mapping
 from typing import Sequence
 
 import requests
+from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.app import TelliotConfig
 
 
 class Submitter(ABC):
@@ -23,23 +23,25 @@ class Submitter(ABC):
 
     def __init__(
         self,
-        config: Any,
-        telliot_config: TelliotConfig,
+        endpoint: RPCEndpoint,
+        private_key: str,
+        contract_address: str,
         abi: Sequence[Mapping[str, Any]],
     ) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
         smart contract."""
 
-        self.config = config
-        self.telliot_config = telliot_config
-        self.endpt = self.telliot_config.default_endpoint
-        self.endpt.connect()
+        self.endpoint = endpoint
+        self.private_key = private_key
+        self.contract_address = contract_address
 
-        self.acc = self.endpt.web3.eth.account.from_key(self.config.private_key)
+        self.endpoint.connect()
 
-        self.contract = self.endpt.web3.eth.contract(
-            self.config.contract_address, abi=tellor_playground_abi
+        self.acc = self.endpoint.web3.eth.account.from_key(self.private_key)
+
+        self.contract = self.endpoint.web3.eth.contract(
+            self.contract_address, abi=tellor_playground_abi
         )
 
     def build_tx(self, value: bytes, request_id: str, gas_price: str) -> Any:
@@ -49,7 +51,7 @@ class Submitter(ABC):
 
         print("nonce:", nonce)
 
-        acc_nonce = self.endpt.web3.eth.get_transaction_count(self.acc.address)
+        acc_nonce = self.endpoint.web3.eth.get_transaction_count(self.acc.address)
 
         transaction = self.contract.functions.submitValue(request_id, value, nonce)
 
@@ -60,8 +62,8 @@ class Submitter(ABC):
             {
                 "nonce": acc_nonce,
                 "gas": estimated_gas,
-                "gasPrice": self.endpt.web3.toWei(gas_price, "gwei"),
-                "chainId": self.config.chain_id,
+                "gasPrice": self.endpoint.web3.toWei(gas_price, "gwei"),
+                "chainId": self.endpoint.chain_id,
             }
         )
 
@@ -82,9 +84,9 @@ class Submitter(ABC):
 
         tx_signed = self.acc.sign_transaction(tx)
 
-        tx_hash = self.endpt.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
+        tx_hash = self.endpoint.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
 
-        tx_receipt = self.endpt.web3.eth.wait_for_transaction_receipt(
+        tx_receipt = self.endpoint.web3.eth.wait_for_transaction_receipt(
             tx_hash, timeout=360
         )
         print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")

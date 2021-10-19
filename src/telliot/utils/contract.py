@@ -10,8 +10,8 @@ from typing import Union
 
 import web3
 from eth_typing.evm import ChecksumAddress
+from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.base import Base
-from telliot.utils.rpc_endpoint import RPCEndpoint
 from web3 import Web3
 
 

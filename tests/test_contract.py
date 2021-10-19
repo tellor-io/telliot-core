@@ -2,9 +2,9 @@
 Test covering Pytelliot EVM contract connection utils.
 """
 import web3
+from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.abi import tellor_playground_abi
 from telliot.utils.contract import Contract
-from telliot.utils.rpc_endpoint import RPCEndpoint
 
 
 network = "rinkeby"
