@@ -1,6 +1,7 @@
 import pathlib
 from pathlib import Path
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
 
 def default_homedir() -> pathlib.Path:
@@ -18,7 +19,7 @@ def default_homedir() -> pathlib.Path:
 
 
 def telliot_homedir(homedir: Optional[Union[str, Path]] = None) -> Path:
-    """ Telliot home directory
+    """Telliot home directory
 
     Returns the telliot home Path, using a default if none is provided.
     The default directory is created if it does not exist.

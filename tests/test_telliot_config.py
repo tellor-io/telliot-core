@@ -1,17 +1,18 @@
-from telliot.apps.telliot_config import TelliotConfig
-from pathlib import Path
 import os
+from pathlib import Path
+
+from telliot.apps.telliot_config import TelliotConfig
 from telliot.model.endpoints import RPCEndpoint
 
+
 def prep_dir(clean=False):
-    """ Prepare temporary test directory
-    """
+    """Prepare temporary test directory"""
     tmpdir = Path("./temp").resolve().absolute()
     tmpdir.mkdir(parents=True, exist_ok=True)
 
-    main_file = tmpdir / 'main.yaml'
-    ep_file = tmpdir / 'endpoints.yaml'
-    chain_file = tmpdir / 'chains.json'
+    main_file = tmpdir / "main.yaml"
+    ep_file = tmpdir / "endpoints.yaml"
+    chain_file = tmpdir / "chains.json"
 
     if clean:
         if main_file.exists():
@@ -34,5 +35,3 @@ def test_telliot_config():
     assert isinstance(ep, RPCEndpoint)
 
     tmpdir = prep_dir(clean=True)
-
-

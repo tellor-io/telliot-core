@@ -5,18 +5,18 @@ telliot's reporter subpackage.
 import os
 
 import pytest
+from telliot.apps.telliot_config import TelliotConfig
 from telliot.examples.btc_usd_feed import data_feeds
 from telliot.reporter.interval import IntervalReporter
 from web3.datastructures import AttributeDict
-from telliot.apps.telliot_config import TelliotConfig
 
 # Tellor playground contract used for test
-playground_address = '0x4699845F22CA2705449CFD532060e04abE3F1F31'
+playground_address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"
 
 
 @pytest.fixture
 def cfg():
-    """ Get rinkeby endpoint from config
+    """Get rinkeby endpoint from config
 
     If environment variables are defined, they will override the values in config files
     """
@@ -26,7 +26,7 @@ def cfg():
     cfg.main.chain_id = 4
 
     rinkeby_endpoint = cfg.get_endpoint()
-    assert rinkeby_endpoint.network == 'rinkeby'
+    assert rinkeby_endpoint.network == "rinkeby"
 
     # Optionally override private key and URL with ENV vars for testing
     if os.getenv("PRIVATE_KEY", None):
@@ -43,11 +43,11 @@ def test_reporter_config(cfg):
 
     rinkeby_endpoint = cfg.get_endpoint()
 
-    reporter = IntervalReporter(
+    _ = IntervalReporter(
         endpoint=rinkeby_endpoint,
         private_key=cfg.main.private_key,
         contract_address=playground_address,
-        datafeeds=data_feeds
+        datafeeds=data_feeds,
     )
 
     assert rinkeby_endpoint.network == "rinkeby"
@@ -69,7 +69,7 @@ async def test_interval_reporter_submit_once(cfg):
         endpoint=rinkeby_endpoint,
         private_key=cfg.main.private_key,
         contract_address=playground_address,
-        datafeeds=data_feeds
+        datafeeds=data_feeds,
     )
 
     for _ in range(3):
@@ -83,5 +83,6 @@ async def test_interval_reporter_submit_once(cfg):
         assert isinstance(receipt, AttributeDict)
         assert receipt.status == 1
         assert receipt.to == "0x4699845F22CA2705449CFD532060e04abE3F1F31"
+
 
 # TODO: choose datafeeds in reporter config

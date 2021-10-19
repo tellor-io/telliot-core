@@ -1,17 +1,15 @@
-import pathlib
+import logging
 from pathlib import Path
-from typing import Any
+from typing import Literal
 from typing import Optional
-from typing import Union
 from typing import Type
-from telliot.utils.home import telliot_homedir
-from dataclasses import dataclass
+from typing import Union
+
 import yaml
 from telliot.utils.base import Base
+from telliot.utils.home import telliot_homedir
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
-from typing import Literal
-import logging
 
 
 logger = logging.getLogger(__name__)
@@ -28,20 +26,19 @@ class ConfigOptions(Base):
 
 
 class ConfigFile:
-    """ ConfigFile
-
-    """
+    """ConfigFile"""
 
     @property
     def config_file(self) -> Path:
         return self.config_dir / f"{self.name}.{self.config_format}"
 
-    def __init__(self,
-                 name: str,
-                 config_type: Type[ConfigOptions],
-                 config_dir: Optional[Union[str, Path]] = None,
-                 config_format: config_formats = 'yaml'
-                 ) -> None:
+    def __init__(
+        self,
+        name: str,
+        config_type: Type[ConfigOptions],
+        config_dir: Optional[Union[str, Path]] = None,
+        config_format: config_formats = "yaml",
+    ) -> None:
         """Construct a new ConfigFile object
 
         Args:
@@ -79,14 +76,12 @@ class ConfigFile:
             print(f"Creating default {self.name} config file")
             options = self.config_type()
             self.save_config(options)
-            print(f'Saved config file: {self.config_file}')
+            print(f"Saved config file: {self.config_file}")
 
     def get_config(self) -> ConfigOptions:
-        """Load Configuration from a .yaml file
+        """Load Configuration from a .yaml file"""
 
-        """
-
-        if self.config_format == 'yaml':
+        if self.config_format == "yaml":
 
             with open(self.config_file, "r") as f:
 
@@ -95,12 +90,12 @@ class ConfigFile:
                 # Try to parse file
                 config = self.config_type.parse_obj(state)
 
-        elif self.config_format == 'json':
+        elif self.config_format == "json":
 
             config = self.config_type.parse_file(self.config_file)
 
         else:
-            raise AttributeError(f'Invalid config file type: {self.config_format}')
+            raise AttributeError(f"Invalid config file type: {self.config_format}")
 
         return config
 
@@ -115,21 +110,21 @@ class ConfigFile:
 
             # Back up existing file
             if self.config_file.exists():
-                self.config_file.rename(self.config_file.with_suffix('.bak'))
+                self.config_file.rename(self.config_file.with_suffix(".bak"))
 
-            if self.config_format == 'yaml':
+            if self.config_format == "yaml":
                 with open(self.config_file, "w") as f:
                     state = config.dict()
                     print(state)
                     yaml.dump(state, f, Dumper=Dumper, sort_keys=False)
 
-            elif self.config_format == 'json':
+            elif self.config_format == "json":
 
                 with open(self.config_file, "w") as f:
                     jstr = config.json(indent=2)
                     f.write(jstr)
 
-            print("Saved {} to {}".format(self.name, self.config_file) )
+            print("Saved {} to {}".format(self.name, self.config_file))
 
         except FileNotFoundError as e:
             print(

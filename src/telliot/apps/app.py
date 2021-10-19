@@ -1,16 +1,16 @@
 """ Telliot application helpers
 
 """
-import enum
 import logging
 import threading
 from pathlib import Path
 from typing import Any
 from typing import Optional
+
 from pydantic import Field
 from pydantic import PrivateAttr
-from telliot.utils.base import Base
 from telliot.apps.telliot_config import TelliotConfig
+from telliot.utils.base import Base
 from telliot.utils.home import telliot_homedir
 
 logger = logging.getLogger(__name__)
@@ -32,12 +32,12 @@ class Application(Base):
     _thread: Optional[threading.Thread] = PrivateAttr()
     _shutdown: threading.Event = PrivateAttr(default_factory=threading.Event)
 
-    def __init__(self, **kwargs: Any ) -> None:
+    def __init__(self, **kwargs: Any) -> None:
 
         super().__init__(**kwargs)
 
         # Init configuration
-        self.config = TelliotConfig(config_dir = self.homedir)
+        self.config = TelliotConfig(config_dir=self.homedir)
 
         # Logging
         self.configure_logging()

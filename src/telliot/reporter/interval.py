@@ -8,10 +8,10 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
+from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.model.endpoints import RPCEndpoint
 
 
 class IntervalReporter(Reporter):
@@ -19,20 +19,22 @@ class IntervalReporter(Reporter):
     every 10 seconds."""
 
     def __init__(
-            self,
-            endpoint: RPCEndpoint,
-            private_key: str,
-            contract_address: str,
-            datafeeds: Mapping[str, Any]
+        self,
+        endpoint: RPCEndpoint,
+        private_key: str,
+        contract_address: str,
+        datafeeds: Mapping[str, Any],
     ) -> None:
 
         self.endpoint = endpoint
         self.datafeeds = datafeeds
 
-        self.submitter = Submitter(endpoint=self.endpoint,
-                                   private_key=private_key,
-                                   contract_address=contract_address,
-                                   abi=tellor_playground_abi)
+        self.submitter = Submitter(
+            endpoint=self.endpoint,
+            private_key=private_key,
+            contract_address=contract_address,
+            abi=tellor_playground_abi,
+        )
 
     async def report_once(self, name: str = "") -> List[Union[None, Mapping[str, Any]]]:
         transaction_receipts = []

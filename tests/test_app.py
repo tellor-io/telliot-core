@@ -1,14 +1,12 @@
 """ Test application utilities
 
 """
-import os
 import pathlib
 import shutil
 import threading
 import time
 from pathlib import Path
 
-import pytest
 from telliot.apps.app import Application
 from telliot.utils.home import default_homedir
 

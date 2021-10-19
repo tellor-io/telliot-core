@@ -11,9 +11,8 @@ from typing import Mapping
 from typing import Sequence
 
 import requests
-from telliot.utils.abi import tellor_playground_abi
 from telliot.model.endpoints import RPCEndpoint
-
+from telliot.utils.abi import tellor_playground_abi
 
 
 class Submitter(ABC):

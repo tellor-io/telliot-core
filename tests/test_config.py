@@ -4,19 +4,17 @@ Unit tests covering telliot config options.
 import os
 from pathlib import Path
 
-from telliot.apps.config import ConfigOptions
 from telliot.apps.config import ConfigFile
+from telliot.apps.config import ConfigOptions
 
 
 def main(config_format):
-    """ Test default configs
-
-    """
+    """Test default configs"""
 
     # Make sure that config file does not exist
     tmpdir = Path("./temp").resolve().absolute()
     config_file = tmpdir / f"myconfig.{config_format}"
-    config_file_bak = config_file.with_suffix('.bak')
+    config_file_bak = config_file.with_suffix(".bak")
     if config_file.exists():
         os.remove(config_file)
     if config_file_bak.exists():
@@ -29,12 +27,15 @@ def main(config_format):
     assert not config_file.exists()
     assert not config_file_bak.exists()
 
-
-
     class MyOptions(ConfigOptions):
         option_a: int = 2
 
-    cf = ConfigFile(name='myconfig', config_type=MyOptions, config_dir=tmpdir, config_format=config_format)
+    cf = ConfigFile(
+        name="myconfig",
+        config_type=MyOptions,
+        config_dir=tmpdir,
+        config_format=config_format,
+    )
 
     # Make sure default was created and verify default value
     assert cf.config_file.exists()
@@ -47,7 +48,12 @@ def main(config_format):
     assert config_file_bak.exists()
 
     # Create a new config object from the existing file.  Verify new values
-    cf2 = ConfigFile(name='myconfig', config_type=MyOptions, config_dir=tmpdir, config_format=config_format)
+    cf2 = ConfigFile(
+        name="myconfig",
+        config_type=MyOptions,
+        config_dir=tmpdir,
+        config_format=config_format,
+    )
     op2 = cf2.get_config()
     assert op2.option_a == 3
 
@@ -57,10 +63,10 @@ def main(config_format):
 
 
 def test_yaml():
-    """ Test YAML format """
-    main('yaml')
+    """Test YAML format"""
+    main("yaml")
 
 
 def test_json():
-    """ Test JSON format"""
-    main('json')
+    """Test JSON format"""
+    main("json")

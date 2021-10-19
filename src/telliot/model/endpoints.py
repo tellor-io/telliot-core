@@ -1,15 +1,15 @@
 """
 Utils for creating a JSON RPC connection to an EVM blockchain
 """
-from typing import Optional, List
-from pydantic import Field
+from typing import List
+from typing import Optional
 
+from pydantic import Field
+from telliot.apps.config import ConfigFile
+from telliot.apps.config import ConfigOptions
 from telliot.utils.base import Base
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
-
-from telliot.apps.config import ConfigOptions
-from telliot.apps.config import ConfigFile
 
 
 class RPCEndpoint(Base):
@@ -66,24 +66,27 @@ class RPCEndpoint(Base):
 
 
 default_endpoint_list = [
-    RPCEndpoint(chain_id=1,
-                provider='Infura',
-                network='mainnet',
-                url='https://mainnet.infura.io/v3/{INFURA_API_KEY}',
-                explorer='https://etherscan.io'
-                ),
-    RPCEndpoint(chain_id=4,
-                provider='Infura',
-                network='rinkeby',
-                url='https://rinkeby.infura.io/v3/{INFURA_API_KEY}',
-                explorer='https://rinkeby.etherscan.io'
-                ),
-    RPCEndpoint(chain_id=137,
-                provider='Matic',
-                network='mainnet',
-                url='https://rpc-mainnet.matic.network',
-                explorer='https://matic.network'
-                ),
+    RPCEndpoint(
+        chain_id=1,
+        provider="Infura",
+        network="mainnet",
+        url="https://mainnet.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://etherscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=4,
+        provider="Infura",
+        network="rinkeby",
+        url="https://rinkeby.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://rinkeby.etherscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=137,
+        provider="Matic",
+        network="mainnet",
+        url="https://rpc-mainnet.matic.network",
+        explorer="https://matic.network",
+    ),
 ]
 
 
@@ -92,9 +95,7 @@ class EndpointList(ConfigOptions):
     endpoints: List[RPCEndpoint] = Field(default=default_endpoint_list)
 
     def get_chain_endpoint(self, chain_id: int = 1) -> Optional[RPCEndpoint]:
-        """ Get an Endpoint for the specified chain_id
-
-        """
+        """Get an Endpoint for the specified chain_id"""
 
         for endpoint in self.endpoints:
             if endpoint.chain_id == chain_id:
@@ -103,9 +104,9 @@ class EndpointList(ConfigOptions):
         return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
-    cf = ConfigFile(name='endpoints', config_type=EndpointList, config_format='yaml')
+    cf = ConfigFile(name="endpoints", config_type=EndpointList, config_format="yaml")
 
     config_endpoints = cf.get_config()
 
