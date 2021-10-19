@@ -4,69 +4,63 @@ Unit tests covering telliot config options.
 import os
 from pathlib import Path
 
-import pytest
-from telliot.utils.config import ConfigOptions
-
-tmpdir = Path("./temp").resolve().absolute()
+from telliot.apps.config import ConfigOptions
+from telliot.apps.config import ConfigFile
 
 
-def test_config_constructor():
-    """Test Constructor"""
-    cfg = ConfigOptions()
-    assert cfg.config_version == "0.0.1"
+def main(config_format):
+    """ Test default configs
 
-    assert cfg.config_file is None
-    with pytest.raises(AttributeError):
-        cfg.save()
+    """
+
+    # Make sure that config file does not exist
+    tmpdir = Path("./temp").resolve().absolute()
+    config_file = tmpdir / f"myconfig.{config_format}"
+    config_file_bak = config_file.with_suffix('.bak')
+    if config_file.exists():
+        os.remove(config_file)
+    if config_file_bak.exists():
+        os.remove(config_file_bak)
+
+    # Create folder if it doesn't exist
+    tmpdir.mkdir(parents=True, exist_ok=True)
+
+    # Make sure starting with clean folder
+    assert not config_file.exists()
+    assert not config_file_bak.exists()
 
 
-def test_config_save():
-    """Test Constructor"""
-    config_file = tmpdir / "myconfig.yaml"
-    cfg = ConfigOptions(config_file=config_file)
-    print(cfg.config_file)
-    print(cfg.config_file.parent)
-    cfg.save()
 
+    class MyOptions(ConfigOptions):
+        option_a: int = 2
+
+    cf = ConfigFile(name='myconfig', config_type=MyOptions, config_dir=tmpdir, config_format=config_format)
+
+    # Make sure default was created and verify default value
+    assert cf.config_file.exists()
+    options = cf.get_config()
+    assert options.option_a == 2
+
+    # Make a change to the config and save it
+    options.option_a = 3
+    cf.save_config(options)
+    assert config_file_bak.exists()
+
+    # Create a new config object from the existing file.  Verify new values
+    cf2 = ConfigFile(name='myconfig', config_type=MyOptions, config_dir=tmpdir, config_format=config_format)
+    op2 = cf2.get_config()
+    assert op2.option_a == 3
+
+    # Cleanup
     os.remove(config_file)
-    os.rmdir(tmpdir)
+    os.remove(config_file_bak)
 
 
-def test_config_load():
-    """Test configuration loading"""
-
-    # Create a config file
-    config_file = tmpdir / "myconfig.yaml"
-    config_file.parent.mkdir(parents=True, exist_ok=True)
-
-    lines = ["config_version: 9.9.9"]
-    with open(config_file, "w") as f:
-        f.write("\n".join(lines))
-
-    # Test from_file class method
-    cfg1 = ConfigOptions.from_file(config_file)
-    assert cfg1.config_version == "9.9.9"
-    assert cfg1.config_file == config_file
-
-    os.remove(config_file)
-    os.rmdir(tmpdir)
+def test_yaml():
+    """ Test YAML format """
+    main('yaml')
 
 
-def test_subclass_example():
-    class MyConfigOptions(ConfigOptions):
-        network: str
-        id: int
-
-    config_file = tmpdir / "subclass.yaml"
-
-    cfg = MyConfigOptions(network="rinkeby", id=4, config_file=config_file)
-    cfg.save()
-
-    # Create a new config from file
-    cfg2 = cfg.from_file(config_file)
-    assert cfg2.config_version == cfg.config_version
-    assert cfg2.id == 4
-    assert cfg2.network == "rinkeby"
-
-    os.remove(config_file)
-    os.rmdir(tmpdir)
+def test_json():
+    """ Test JSON format"""
+    main('json')
