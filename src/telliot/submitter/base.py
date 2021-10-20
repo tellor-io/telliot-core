@@ -102,5 +102,5 @@ class Submitter(ABC):
             return tx_receipt, status
 
         except Exception as e:
-            status.error = e
+            status.error = str(e.args)
             return None, status
