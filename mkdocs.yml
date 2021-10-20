@@ -1,0 +1,75 @@
+site_name: Telliot Documentation
+
+# Project information
+site_name: Telliot Documentation
+site_url: https://tellor-io.github.io/pytelliot/
+site_author: Tellor Development Community
+site_description: >-
+  Telliot is a Python framework for interacting with the decentralized TellorX network
+
+# Repository
+repo_name: tellor-io/pytelliot
+repo_url: https://github.com/tellor-io/pytelliot
+edit_uri: ""
+
+# Copyright
+copyright: Copyright (c) 2020-, Tellor Development Community
+
+
+theme:
+  name: material
+  logo: assets/tellor_swoosh.png
+  favicon: assets/favicon-32x32.png
+  features:
+    - navigation.tabs
+    - navigation.sections
+  palette:
+    primary: black
+    scheme: default
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      enable_inventory: true
+      watch:
+        - src
+      handlers:
+        python:
+          rendering:
+            show_root_heading: true
+            show_root_full_path: false
+            # show_category_heading: true
+            members_order: source
+            heading_level: 2
+
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - codehilite
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - toc:
+      permalink: true
+  - markdown.extensions.codehilite:
+      guess_lang: false
+
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Examples:
+      - Legacy Query: examples/legacy_query_example.md
+      - Text Query: examples/text_query_example.md
+  - Code Reference:
+      - Queries Module: code/queries.md
+      - Types Module: code/types.md
+      - Data Feed Module: code/datafeed.md
+
