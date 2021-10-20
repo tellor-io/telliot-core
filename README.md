@@ -10,7 +10,7 @@ Telliot is a Python framework for interacting with the decentralized TellorX net
 
 Please referto the following for additional information
 
-- [DRAFT Telliot Documentation](https://tellor-io.github.io/pytelliot/) 
+- [DRAFT Telliot Documentation](https://tellor-io.github.io/pytelliot/)
 - [TellorX Whitepaper](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf).
 
 # Development Status
@@ -37,4 +37,3 @@ pip install telliot
 ```
 telliot report btc-usd-median
 ```
-
