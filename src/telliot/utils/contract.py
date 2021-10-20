@@ -36,7 +36,7 @@ class Contract(Base):
     #: global pytelliot configurations
     # config: ConfigOptions
 
-    def connect(self) -> bool:
+    def connect(self) -> ContractResponse:
         """Connect to EVM contract through an RPC Endpoint"""
         if self.node.web3 is None:
             msg = "node is not instantiated"
@@ -51,15 +51,14 @@ class Contract(Base):
             )
             return ContractResponse(ok=True, endpoint=self.node)
 
-    def read(self, func_name: str, **kwargs: Any) -> Tuple[Any, bool]:
+    def read(self, func_name: str, **kwargs: Any) -> ContractResponse:
         """
         Reads data from contract
         inputs:
         func_name (str): name of contract function to call
 
         returns:
-        Tuple: contract function outpus
-        Bool: success
+        ContractResponse: standard response for contract data
         """
 
         if self.contract:
