@@ -19,6 +19,7 @@ copyright: Copyright (c) 2020-, Tellor Development Community
 theme:
   name: material
   logo: assets/tellor_swoosh.png
+  favicon: assets/favicon-32x32.png
   features:
     - navigation.tabs
     - navigation.sections
