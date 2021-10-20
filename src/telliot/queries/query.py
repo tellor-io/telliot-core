@@ -1,8 +1,10 @@
-"""  :mod:`telliot.queries.query`
+"""  Oracle Query Module
 
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
+from typing import Any
+
 from telliot.types.value_type import ValueType
 from telliot.utils.serializable import SerializableModel
 from web3 import Web3
@@ -11,10 +13,10 @@ from web3 import Web3
 class OracleQuery(SerializableModel):
     """Oracle Query
 
-    An :class:`OracleQuery` specifies how to pose a question to the
+    An OracleQuery specifies how to pose a question to the
     Tellor Oracle and how to format/interpret the response.
 
-    The :class:`OracleQuery` class serves
+    The OracleQuery class serves
     as the base class for all Queries, and implements default behaviors.
     Each subclass corresponds to a unique Query Type supported
     by the TellorX network.
@@ -31,24 +33,21 @@ class OracleQuery(SerializableModel):
       ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
       contract calls.
 
+    WORK IN PROGRESS - Descriptor formats still under development
+
     """
 
     @property
     def descriptor(self) -> str:
-        """Query Descriptor
-
+        """Get the query descriptor string.
         The Query descriptor is a unique string representation of the query.
         The descriptor is required for users to specify the query to TellorX
         through the ``TellorX.Oracle.addTip()`` contract call.
 
-        **WORK IN PROGRESS - Descriptor formats still under development**
-
         By convention, the descriptor includes the text representation
         of the OracleQuery and the :class:`ValueType` of its response.
 
-        <:attr:`query`> ? <:attr:`value_type`>
-
-        This method may be overridden by subclasses
+            `query` ? `value_type`
         """
         return f"{self.json()}?{self.value_type.json()}"
 
@@ -79,3 +78,8 @@ class OracleQuery(SerializableModel):
         contract calls.
         """
         return bytes(Web3.keccak(self.tip_data))
+
+    def json(self, **kwargs: Any) -> str:
+        """Convert to compact JSON format used in query descriptor"""
+
+        return super().json(**kwargs, separators=(",", ":"))

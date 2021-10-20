@@ -15,9 +15,9 @@ def test_legacy_query():
     assert q.value_type.packed is False
 
     exp = (
-        b'{"type": "LegacyQuery", "inputs": {"legacy_tip_id": 100}}?'
-        b'{"type": "UnsignedFloatType", '
-        b'"inputs": {"abi_type": "ufixed256x6", "packed": false}}'
+        b'{"type":"LegacyQuery","inputs":{"legacy_tip_id":100}}?'
+        b'{"type":"UnsignedFloatType",'
+        b'"inputs":{"abi_type":"ufixed256x6","packed":false}}'
     )
 
     # print(q.tip_data)
