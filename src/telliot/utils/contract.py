@@ -1,6 +1,7 @@
 """
 Utils for connecting to an EVM contract
 """
+from os import error
 from typing import Any
 from typing import Dict
 from typing import List
@@ -13,6 +14,8 @@ from eth_typing.evm import ChecksumAddress
 from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.base import Base
 from web3 import Web3
+
+from telliot.utils.response import ContractResponse
 
 
 class Contract(Base):
@@ -36,17 +39,17 @@ class Contract(Base):
     def connect(self) -> bool:
         """Connect to EVM contract through an RPC Endpoint"""
         if self.node.web3 is None:
-            print("node is not instantiated")
-            return False
+            msg = "node is not instantiated"
+            return ContractResponse(ok=False, error_msg=msg)
         else:
             if not self.node.connect():
-                print("node is not connected")
-                return False
+                msg = "node is not connected"
+                return ContractResponse(ok=False, error_msg=msg, endpoint=self.node)
             self.address = Web3.toChecksumAddress(self.address)
             self.contract = self.node.web3.eth.contract(
                 address=self.address, abi=self.abi
             )
-            return True
+            return ContractResponse(ok=True, endpoint=self.node)
 
     def read(self, func_name: str, **kwargs: Any) -> Tuple[Any, bool]:
         """
@@ -62,17 +65,18 @@ class Contract(Base):
         if self.contract:
             try:
                 contract_function = self.contract.get_function_by_name(func_name)
-                return (contract_function(**kwargs).call(),), True
-            except ValueError:
-                print(f"function '{func_name}' not found in contract abi")
-                return (), False
+                output = contract_function(**kwargs).call()
+                return ContractResponse(ok=True, result=output)
+            except ValueError as e:
+                msg = f"function '{func_name}' not found in contract abi"
+                return ContractResponse(ok=False, error=e, error_msg=msg, endpoint=self.node)
         else:
             if self.connect():
-                print("now connected to contract")
+                msg = "now connected to contract"
                 return self.read(func_name=func_name, **kwargs)
             else:
-                print("unable to connect to contract")
-                return (), False
+                msg = "unable to connect to contract"
+                return ContractResponse(ok=False, error_msg=msg, endpoint=self.node)
 
     # def write(self, func_name: str, **kwargs: Any) -> bool:
     #     """
