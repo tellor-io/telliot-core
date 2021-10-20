@@ -36,7 +36,7 @@ jobs:
         run:
           python -c 'import os;print(os.environ)';
           python -c 'import os;print("TEST_SECRET" in os.environ)';
-          tox
+          tox -p
         env:
           USING_COVERAGE: '3.8,3.9'
           NODE_URL: ${{ secrets.TEST_NODE_URL }} 
