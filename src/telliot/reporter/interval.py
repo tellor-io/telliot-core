@@ -64,14 +64,15 @@ class IntervalReporter(Reporter):
                             encoded_value, request_id_str, extra_gas_price
                         )
 
-                        if transaction_receipt and not status.error:
+                        if transaction_receipt and status.ok:
                             transaction_receipts.append(transaction_receipt)
                             break
                         elif (
-                            status.error
+                            not status.ok
+                            and status.error
                             and "replacement transaction underpriced" in status.error
                         ):
-                            extra_gas_price += int(status.gas_price)
+                            extra_gas_price += status.gas_price
                         else:
                             extra_gas_price = 0
 
