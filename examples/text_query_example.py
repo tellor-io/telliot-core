@@ -1,6 +1,6 @@
 from telliot.queries import StringQuery
 
-q = StringQuery(text='What is the meaning of life?')
+q = StringQuery(text="What is the meaning of life?")
 print(q.descriptor)
 print(f"addTip data: 0x{q.tip_data.hex()}")
 print(f"addTip ID: 0x{q.tip_id.hex()}")
