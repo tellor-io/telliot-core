@@ -18,7 +18,7 @@ With Telliot, you (or your smart contract) can:
 Of course, TellorX supports DeFi with questions such as "What is the
 current price of Bitcoin in US Dollars?"  But that is just the beginning.
 TellorX also supports arbitrary questions and answers.  Any question is OK, provided
-that the We are Tellor community can answer it with a reasonable
+that the Tellor community can answer it with a reasonable
 degree of confidence (remember, Reporters may lose TRB if the network votes
 the answer incorrect!)
 
