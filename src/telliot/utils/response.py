@@ -1,6 +1,9 @@
-from typing import Any, Optional
-from telliot.utils.base import Base
+from typing import Any
+from typing import Optional
+
 from telliot.model.endpoints import RPCEndpoint
+from telliot.utils.base import Base
+
 
 class ContractResponse(Base):
 

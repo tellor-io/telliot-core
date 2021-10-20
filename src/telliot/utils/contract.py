@@ -1,21 +1,18 @@
 """
 Utils for connecting to an EVM contract
 """
-from os import error
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import Tuple
 from typing import Union
 
 import web3
 from eth_typing.evm import ChecksumAddress
 from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.base import Base
-from web3 import Web3
-
 from telliot.utils.response import ContractResponse
+from web3 import Web3
 
 
 class Contract(Base):
@@ -68,7 +65,9 @@ class Contract(Base):
                 return ContractResponse(ok=True, result=output)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
-                return ContractResponse(ok=False, error=e, error_msg=msg, endpoint=self.node)
+                return ContractResponse(
+                    ok=False, error=e, error_msg=msg, endpoint=self.node
+                )
         else:
             if self.connect():
                 msg = "now connected to contract"
