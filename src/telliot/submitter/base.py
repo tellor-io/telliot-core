@@ -17,10 +17,6 @@ from telliot.utils.abi import tellor_playground_abi
 from telliot.utils.response import ResponseStatus
 
 
-class SubmitResponse(ResponseStatus):
-    gas_price: int = 0
-
-
 class Submitter(ABC):
     """Submits BTC on testnet.
 
@@ -77,19 +73,17 @@ class Submitter(ABC):
 
     def submit_data(
         self, value: bytes, request_id: str, extra_gas_price: int = 0
-    ) -> Tuple[Any, SubmitResponse]:
+    ) -> Tuple[ResponseStatus, Any, int]:
         """Submits data on-chain & provides a link to view the
         successful transaction."""
         try:
-            status = SubmitResponse()
+            status = ResponseStatus()
 
             rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
             prices = json.loads(rsp.content)
-            gas_price = prices["fast"] + extra_gas_price
-            status.gas_price = gas_price
-            gas_price = str(gas_price)
+            gas_price = int(prices["fast"] + extra_gas_price)
 
-            tx = self.build_tx(value, request_id, gas_price)
+            tx = self.build_tx(value, request_id, str(gas_price))
 
             tx_signed = self.acc.sign_transaction(tx)
 
@@ -104,10 +98,10 @@ class Submitter(ABC):
                 f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}"
             )
 
-            return tx_receipt, status
+            return status, tx_receipt, gas_price
 
         except Exception as e:
             status.ok = False
             status.error = str(e.args)
             status.e = e
-            return None, status
+            return status, None, gas_price

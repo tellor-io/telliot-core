@@ -60,7 +60,11 @@ class IntervalReporter(Reporter):
                     extra_gas_price = 0
 
                     for _ in range(retries + 1):
-                        transaction_receipt, status = self.submitter.submit_data(
+                        (
+                            status,
+                            transaction_receipt,
+                            gas_price,
+                        ) = self.submitter.submit_data(
                             encoded_value, request_id_str, extra_gas_price
                         )
 
@@ -72,7 +76,7 @@ class IntervalReporter(Reporter):
                             and status.error
                             and "replacement transaction underpriced" in status.error
                         ):
-                            extra_gas_price += status.gas_price
+                            extra_gas_price += gas_price
                         else:
                             extra_gas_price = 0
 
