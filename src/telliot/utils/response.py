@@ -5,6 +5,12 @@ from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.base import Base
 
 
+class ResponseStatus(Base):
+    ok: bool = True
+    error: Optional[str] = None
+    e: Optional[Exception] = None
+
+
 class ContractResponse(Base):
 
     ok: bool
