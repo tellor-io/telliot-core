@@ -18,18 +18,16 @@ class LegacyQuery(OracleQuery):
 
     The LegacyQuery class is deprecated and should not be used by
     new projects.  Instead, use the
-    :class:`~telliot.queries.coin_price.CoinPrice` query or create
-    a new query.
+    [`CoinPrice`][telliot.queries.coin_price.CoinPrice]
+    query or create a new query.
 
-    Refer to tellor documentation for a description of each ``id``
-
-    - https://docs.tellor.io/tellor/integration/data-ids
-
+    Refer to [tellor documentation](https://docs.tellor.io/tellor/integration/data-ids)
+    for a description of each ``id``
 
     """
 
-    #: The request ID of all legacy queries is a static integer 1 < N <=100
     legacy_tip_id: int
+    """The request ID of all legacy queries is a static integer 1 < N <=100"""
 
     @property
     def value_type(self) -> ValueType:

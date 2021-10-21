@@ -22,17 +22,21 @@ price_query_params = ["coin", "currency", "price_type"]
 
 
 class CoinPrice(OracleQuery):
-    """Query the price of a cryptocurrency coin."""
+    """Query the price of a cryptocurrency coin.
+
+    Attributes:
+        coin: Token symbol
+        currency: Price currency symbol (default = USD)
+        price_type: Price Type (default = current)
+
+    """
 
     inputs: ClassVar[List[str]] = price_query_params
 
-    #: Asset symbol
     coin: str = ""
 
-    #: Price currency symbol (default = USD)
     currency: str = "usd"
 
-    #: Price Type (default= 'current')
     price_type: price_types = "current"
 
     #: Private storage for response_type
@@ -52,12 +56,12 @@ class CoinPrice(OracleQuery):
 
     @validator("coin")
     def asset_must_be_lower_case(cls, v: str) -> str:
-        """Force coin/currency to lower case"""
+        """A validator to force coin to lower case"""
         return v.lower()
 
     @validator("currency")
     def currency_must_be_lower_case(cls, v: str) -> str:
-        """Force coin/currency to lower case"""
+        """A validator to force the currency lower case"""
         return v.lower()
 
 

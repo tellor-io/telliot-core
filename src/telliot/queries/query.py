@@ -1,50 +1,22 @@
-"""  :mod:`telliot.queries.query`
+"""  Oracle Query Module
 
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from typing import Union
+from typing import Any
 
 from telliot.types.value_type import ValueType
 from telliot.utils.serializable import SerializableModel
 from web3 import Web3
 
-CoerceToTipId = Union[bytearray, bytes, int, str]
-
-
-def to_tip_id(value: CoerceToTipId) -> bytes:
-    """Coerce input type to tip id in Bytes32 format"""
-    if isinstance(value, bytearray):
-        value = bytes(value)
-
-    if isinstance(value, bytes):
-        bytes_value = value
-
-    elif isinstance(value, str):
-        value = value.lower()
-        if value.startswith("0x"):
-            value = value[2:]
-        bytes_value = bytes.fromhex(value)
-
-    elif isinstance(value, int):
-        bytes_value = value.to_bytes(32, "big", signed=False)
-
-    else:
-        raise TypeError("Cannot convert {} to tip id".format(value))
-
-    if len(bytes_value) != 32:
-        raise ValueError("Tip ID must have 32 bytes")
-
-    return bytes_value
-
 
 class OracleQuery(SerializableModel):
     """Oracle Query
 
-    An :class:`OracleQuery` specifies how to pose a question to the
+    An OracleQuery specifies how to pose a question to the
     Tellor Oracle and how to format/interpret the response.
 
-    The :class:`OracleQuery` class serves
+    The OracleQuery class serves
     as the base class for all Queries, and implements default behaviors.
     Each subclass corresponds to a unique Query Type supported
     by the TellorX network.
@@ -61,7 +33,23 @@ class OracleQuery(SerializableModel):
       ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
       contract calls.
 
+    WORK IN PROGRESS - Descriptor formats still under development
+
     """
+
+    @property
+    def descriptor(self) -> str:
+        """Get the query descriptor string.
+        The Query descriptor is a unique string representation of the query.
+        The descriptor is required for users to specify the query to TellorX
+        through the ``TellorX.Oracle.addTip()`` contract call.
+
+        By convention, the descriptor includes the text representation
+        of the OracleQuery and the :class:`ValueType` of its response.
+
+            `query` ? `value_type`
+        """
+        return f"{self.json()}?{self.value_type.json()}"
 
     @property
     def value_type(self) -> ValueType:
@@ -80,19 +68,8 @@ class OracleQuery(SerializableModel):
         """Returns the ``data`` field for use in ``TellorX.Oracle.addTip()``
         contract call.
 
-        **WORK IN PROGRESS - Tip data formats still under development**
-
-        By convention, the tip data includes the text representation
-        of the OracleQuery and the :class:`ValueType` of its response.
-
-        <:attr:`query`> ? <:attr:`value_type`>
-
-        This method may be overridden by subclasses
         """
-
-        q = f"{self.json()}?{self.value_type.json()}"
-
-        return q.encode("utf-8")
+        return self.descriptor.encode("utf-8")
 
     @property
     def tip_id(self) -> bytes:
@@ -101,3 +78,8 @@ class OracleQuery(SerializableModel):
         contract calls.
         """
         return bytes(Web3.keccak(self.tip_data))
+
+    def json(self, **kwargs: Any) -> str:
+        """Convert to compact JSON format used in query descriptor"""
+
+        return super().json(**kwargs, separators=(",", ":"))

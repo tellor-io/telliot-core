@@ -8,11 +8,10 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
+from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.app import AppConfig
-from telliot.utils.app import TelliotConfig
 
 
 class IntervalReporter(Reporter):
@@ -21,18 +20,25 @@ class IntervalReporter(Reporter):
 
     def __init__(
         self,
-        config: AppConfig,
-        telliot_config: TelliotConfig,
+        endpoint: RPCEndpoint,
+        private_key: str,
+        contract_address: str,
         datafeeds: Mapping[str, Any],
     ) -> None:
+
+        self.endpoint = endpoint
         self.datafeeds = datafeeds
-        self.config = config
-        self.telliot_config = telliot_config
+
         self.submitter = Submitter(
-            self.config, self.telliot_config, tellor_playground_abi
+            endpoint=self.endpoint,
+            private_key=private_key,
+            contract_address=contract_address,
+            abi=tellor_playground_abi,
         )
 
-    async def report_once(self, name: str = "") -> List[Union[None, Mapping[str, Any]]]:
+    async def report_once(
+        self, name: str = "", retries: int = 0
+    ) -> List[Union[None, Mapping[str, Any]]]:
         transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds.values():
@@ -46,32 +52,51 @@ class IntervalReporter(Reporter):
                 continue
 
             if datafeed.value:
-                print(
-                    f"""
-                    Submitting value for {uid}:
-                        float {datafeed.value.val}
-                        int {datafeed.value.int}"""
-                )
                 query = datafeed.query
-                if query is not None:
+
+                if query:
                     encoded_value = query.value_type.encode(datafeed.value.int)
                     request_id_str = "0x" + query.tip_id.hex()
-                    transaction_receipt = self.submitter.submit_data(
-                        encoded_value, request_id_str
-                    )
-                    transaction_receipts.append(transaction_receipt)
+                    extra_gas_price = 0
+
+                    for _ in range(retries + 1):
+                        (
+                            status,
+                            transaction_receipt,
+                            gas_price,
+                        ) = self.submitter.submit_data(
+                            encoded_value, request_id_str, extra_gas_price
+                        )
+
+                        if transaction_receipt and status.ok:
+                            transaction_receipts.append(transaction_receipt)
+                            break
+                        elif (
+                            not status.ok
+                            and status.error
+                            and "replacement transaction underpriced" in status.error
+                        ):
+                            extra_gas_price += gas_price
+                        else:
+                            extra_gas_price = 0
+
                 else:
-                    print(f"Skipping submission for {uid}, no query for datafeed.")
+                    print(
+                        f"Skipping submission for {uid}, no query for datafeed."
+                    )  # TODO logging
             else:
-                print(f"Skipping submission for {uid}, datafeed value not updated.")
+                print(
+                    f"Skipping submission for {uid}, datafeed value not updated."
+                )  # TODO logging
+
         return transaction_receipts
 
-    async def report(self) -> None:
+    async def report(self, name: str = "") -> None:
         """Update all off-chain values (BTC/USD) & store those values locally."""
         """Submit latest BTC/USD values to the Tellor oracle."""
 
         while True:
-            _ = await self.report_once()
+            _ = await self.report_once(name)
             await asyncio.sleep(10)
 
     def run(self) -> None:  # type: ignore

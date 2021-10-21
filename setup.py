@@ -24,8 +24,6 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "requests",
-        "sphinx",
-        "sphinx-rtd-theme",
         "pydantic",
     ],
     tests_require=[
@@ -35,12 +33,4 @@ setup(
         "tox",
         "tox-travis",
     ],
-    command_options={
-        "build_sphinx": {
-            "project": ("setup.py", name),
-            "version": ("setup.py", version),
-            "release": ("setup.py", release),
-            "source_dir": ("setup.py", "docs/source"),
-        }
-    },
 )
