@@ -57,7 +57,7 @@ def test_reporter_config(cfg):
     assert rinkeby_endpoint.chain_id == 4
 
 
-@pytest.mark.skip(reason="fails sometimes due to wrong gasprice & connection failures")
+# @pytest.mark.skip(reason="fails sometimes due to wrong gasprice & connection failures")
 @pytest.mark.asyncio
 async def test_interval_reporter_submit_once(cfg):
     """Test reporting once to the TellorX playground on Rinkeby
@@ -72,10 +72,9 @@ async def test_interval_reporter_submit_once(cfg):
         datafeeds=data_feeds,
     )
 
-    for _ in range(3):
-        tx_receipts = await reporter.report_once(name="BTC USD Median Price Feed")
-        if tx_receipts:
-            break
+    tx_receipts = await reporter.report_once(
+        name="BTC USD Median Price Feed", retries=3
+    )
 
     assert tx_receipts
 
