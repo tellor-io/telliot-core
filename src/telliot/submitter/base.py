@@ -9,10 +9,12 @@ from abc import ABC
 from typing import Any
 from typing import Mapping
 from typing import Sequence
+from typing import Tuple
 
 import requests
 from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.abi import tellor_playground_abi
+from telliot.utils.response import ResponseStatus
 
 
 class Submitter(ABC):
@@ -69,26 +71,37 @@ class Submitter(ABC):
 
         return built_tx
 
-    def submit_data(self, value: bytes, request_id: str) -> Any:
+    def submit_data(
+        self, value: bytes, request_id: str, extra_gas_price: int = 0
+    ) -> Tuple[ResponseStatus, Any, int]:
         """Submits data on-chain & provides a link to view the
         successful transaction."""
+        try:
+            status = ResponseStatus()
 
-        req = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
-        prices = json.loads(req.content)
-        gas_price = str(prices["fast"])
-        print("retrieved gas price:", gas_price)
-        # gas_price = "3"
-        # print("gas price used:", gas_price)
+            rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
+            prices = json.loads(rsp.content)
+            gas_price = int(prices["fast"] + extra_gas_price)
 
-        tx = self.build_tx(value, request_id, gas_price)
+            tx = self.build_tx(value, request_id, str(gas_price))
 
-        tx_signed = self.acc.sign_transaction(tx)
+            tx_signed = self.acc.sign_transaction(tx)
 
-        tx_hash = self.endpoint.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
+            tx_hash = self.endpoint.web3.eth.send_raw_transaction(
+                tx_signed.rawTransaction
+            )
 
-        tx_receipt = self.endpoint.web3.eth.wait_for_transaction_receipt(
-            tx_hash, timeout=360
-        )
-        print(f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}")
+            tx_receipt = self.endpoint.web3.eth.wait_for_transaction_receipt(
+                tx_hash, timeout=360
+            )
+            print(
+                f"View reported data: https://rinkeby.etherscan.io/tx/{tx_hash.hex()}"
+            )
 
-        return tx_receipt
+            return status, tx_receipt, gas_price
+
+        except Exception as e:
+            status.ok = False
+            status.error = str(e.args)
+            status.e = e
+            return status, None, gas_price
