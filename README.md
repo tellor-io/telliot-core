@@ -1,4 +1,4 @@
-![CI](https://github.com/tellor-io/pytelliot/actions/workflows/tox.yml/badge.svg)
+![CI](https://github.com/tellor-io/pytelliot/actions/workflows/py38.yml/badge.svg)
 ![Docs](https://github.com/tellor-io/pytelliot/actions/workflows/docs.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tellor-io/pytelliot/branch/main/graph/badge.svg?token=S1199HQ2EK)](https://codecov.io/gh/tellor-io/pytelliot)
 [![Discord Chat](https://img.shields.io/discord/461602746336935936)](https://discord.com/invite/n7drGjh)
@@ -36,40 +36,3 @@ pip install telliot
 ```
 telliot report btc-usd-median
 ```
-
-## dev setup
-- Clone repository
-```
-git clone https://github.com/tellor-io/pytelliot.git && cd pytelliot
-```
-- Create virtual environment
-```
-python -m venv env
-```
-- Activate virtual environment
-```
-source env/bin/activate
-```
-- Install dependencies
-```
-pip install -r requirements-dev.txt
-```
-- Once your dev environment is set up, make desired changes, create new tests for those changes,
-and conform to the style & typing format of the project. To do so, in the project home directory:
-
-Run tests:
-```
-pytest
-```
-Check typing:
-```
-mypy src --strict --implicit-reexport --ignore-missing-imports --disable-error-code misc
-```
-Check style:
-```
-tox -e style
-```
-(you may need to make changes and run again)
-- Once all those pass, you're ready to make a pull request to the project's main branch.
-- Link any related issues, tag desired reviewers, and watch the [#pytelliot](https://discord.gg/URXVQdGjAT) channel in the
-community discord for updates.
