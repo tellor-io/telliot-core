@@ -27,9 +27,9 @@ def test_call_read_function():
     """Contract object should be able to call arbitrary contract read function"""
 
     contract = connect_to_contract("0x4699845F22CA2705449CFD532060e04abE3F1F31")
-    data, success = contract.read(func_name=func_name, _requestId=requestId)
-    assert data[0] > 0
-    assert success
+    output = contract.read(func_name=func_name, _requestId=requestId)
+    assert output.result > 0
+    assert output.ok
 
 
 def connect_to_contract(address):
@@ -53,5 +53,5 @@ def test_attempt_read_not_connected():
     c = Contract(node=endpt, address=address, abi=tellor_playground_abi)
     assert c.contract is None
     # read will succeed even if contract is initially diconnected
-    assert c.read(func_name=func_name, _requestId=requestId)[0][0] > 0
-    assert c.read(func_name=func_name, _requestId=requestId)[1]
+    assert c.read(func_name=func_name, _requestId=requestId).result > 0
+    assert c.read(func_name=func_name, _requestId=requestId).ok

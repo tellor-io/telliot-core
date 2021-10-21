@@ -46,3 +46,8 @@ class ValueType(SerializableModel):
         t = eth_abi.grammar.parse(v)
         t.validate()
         return eth_abi.grammar.normalize(v)  # type: ignore
+
+    def json(self, **kwargs: Any) -> str:
+        """Return compact json format used in query descriptor"""
+
+        return super().json(**kwargs, separators=(",", ":"))

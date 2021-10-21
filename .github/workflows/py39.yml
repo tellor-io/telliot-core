@@ -13,14 +13,14 @@ jobs:
     name: "Python ${{ matrix.python-version }}"
     runs-on: "ubuntu-latest"
     env:
-      USING_COVERAGE: '3.8,3.9'
+      USING_COVERAGE: '3.9'
       NODE_URL: ${{ secrets.TEST_NODE_URL }} 
       PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
       TEST_SECRET: ${{ secrets.TEST_SECRET }}
 
     strategy:
       matrix:
-        python-version: ["3.8", "3.9"]
+        python-version: ["3.9"]
 
     steps:
       - uses: "actions/checkout@v2"
@@ -34,14 +34,7 @@ jobs:
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
-          python -c 'import os;print(os.environ)';
-          python -c 'import os;print("TEST_SECRET" in os.environ)';
-          tox
-        env:
-          USING_COVERAGE: '3.8,3.9'
-          NODE_URL: ${{ secrets.TEST_NODE_URL }} 
-          PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
-          TEST_SECRET: ${{ secrets.TEST_SECRET }}
+          tox -e py39
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
