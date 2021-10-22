@@ -50,7 +50,7 @@ default_chain_list = [
         currency=EVMCurrency(name="Matic", symbol="MATIC", decimals=18),
     ),
     Chain(
-        chain_id=137,
+        chain_id=80001,
         name="Matic(Polygon) Testnet Mumbai",
         chain="Matic(Polygon)",
         network="testnet",
@@ -65,10 +65,11 @@ class ChainList(ConfigOptions):
     def get_chain(
         self, chain: str = "ETH", network: str = "rinkeby"
     ) -> Optional[Chain]:
+        """Get chain"""
 
         for ch in self.chains:
-            if ch.chain == chain:
-                if ch.network == network:
+            if chain.lower() in ch.chain.lower():
+                if network.lower() in ch.network.lower():
                     return ch
 
         return None
