@@ -8,7 +8,7 @@
 
 Telliot is a Python framework for interacting with the decentralized TellorX network.
 
-Please refer to the following for additional information
+Please refer to the following for additional information:
 
 - [DRAFT Telliot Documentation](https://tellor-io.github.io/pytelliot/)
 - [TellorX Whitepaper](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf).
