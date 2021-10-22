@@ -1,6 +1,5 @@
 # Copyright (c) 2021-, Tellor Development Community
 # Copyright (c) 2020, Nucleic Development Team.
-
 import os
 
 import pytest
@@ -13,9 +12,7 @@ for (dir_path, _, filenames) in os.walk(example_folder):
 
 @pytest.mark.parametrize("path", examples)
 def test_example(path):
-    """ Run all examples
-
-    """
+    """Run all examples"""
     with open(path, "r") as f:
         # If exec gets two separate objects as globals and locals, the code
         # will be executed as if it were embedded in a class definition, which
