@@ -56,7 +56,7 @@ class IntervalReporter(Reporter):
 
                 if query:
                     encoded_value = query.value_type.encode(datafeed.value.int)
-                    request_id_str = "0x" + query.tip_id.hex()
+                    request_id_str = "0x" + query.query_id.hex()
                     extra_gas_price = 0
 
                     for _ in range(retries + 1):

@@ -71,5 +71,5 @@ if __name__ == "__main__":
     q = CoinPrice(coin="btc")
     print(q.__repr__())
 
-    print(q.tip_data)
-    print("0x" + q.tip_id.hex())
+    print(q.query_data)
+    print("0x" + q.query_id.hex())
