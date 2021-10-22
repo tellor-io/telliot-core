@@ -170,73 +170,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../.." class="md-tabs__link">
-      Home
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../getting-started/" class="md-tabs__link">
-      Getting started
-    </a>
-  </li>
-
-      
-        
-  
-  
-    
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../legacy_query_example/" class="md-tabs__link md-tabs__link--active">
-        Examples
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../code/queries/" class="md-tabs__link">
-        Code Reference
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -249,10 +182,8 @@
                   <div class="md-sidebar__inner">
                     
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Telliot Documentation" class="md-nav__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
@@ -317,7 +248,9 @@
   
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
@@ -389,7 +322,9 @@
   
   
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
@@ -457,6 +392,70 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Contributing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Contributing" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Contributing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        Developer's Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -490,13 +489,14 @@
                 <h1 id="text-query-example">Text Query Example<a class="headerlink" href="#text-query-example" title="Permanent link">&para;</a></h1>
 <p>The following example demonstrates how to create a 
 <a href="../../code/queries/#telliot.queries.string_query.StringQuery"><code>StringQuery</code></a> request.</p>
-<p>Create a <code>StringQuery</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
+<p>Create a <code>StringQuery</code> and view the corresponding query descriptor::</p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
 <span class="hll"><span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 </span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
-</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;addTip data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">tip_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;addTip ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">tip_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life&quot;</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (str): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -509,21 +509,22 @@
 </code></pre></div>
 <p>The query descriptor string uniquely identifies this query to the 
 TellorX Oracle network.</p>
-<div class="highlight"><pre><span></span><code>{&quot;type&quot;:&quot;StringQuery&quot;,&quot;inputs&quot;:{&quot;text&quot;:&quot;What is the meaning of life?&quot;}}?{&quot;type&quot;:&quot;ValueType&quot;,&quot;inputs&quot;:{&quot;abi_type&quot;:&quot;string&quot;,&quot;packed&quot;:false}}
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;StringQuery&quot;</span><span class="p">,</span><span class="nt">&quot;inputs&quot;</span><span class="p">:{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">}}</span><span class="err">?</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;ValueType&quot;</span><span class="p">,</span><span class="nt">&quot;inputs&quot;</span><span class="p">:{</span><span class="nt">&quot;abi_type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="nt">&quot;packed&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span>
 </code></pre></div>
 <p>To make the corresponding on-chain Query request, 
-the <code>TellorX.Oracle.addTip()</code> contract call
-requires two arguments: <code>data</code> and <code>id</code>.  These arguments are provided by 
-the <code>tip_data</code> and <code>tip_id</code> attributes of the <code>LegacyQuery</code> object:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyQuery</span>
+the <code>TellorX.Oracle.tipQuery()</code> contract call
+requires two arguments: <code>queryData</code> and <code>queryId</code>.  These arguments are provided by 
+the <code>query_data</code> and <code>query_id</code> attributes of the <code>StringQuery</code> object:</p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
-<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyQuery</span><span class="p">(</span><span class="n">legacy_tip_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
-<span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;addTip data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">tip_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;addTip ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">tip_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span>
-<span class="n">value</span> <span class="o">=</span> <span class="mf">10000.1234567</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (float): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (str): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">encoded_bytes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">value_type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (bytes): 0x</span><span class="si">{</span><span class="n">encoded_bytes</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -532,27 +533,28 @@ the <code>tip_data</code> and <code>tip_id</code> attributes of the <code>Legacy
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decoded value (float): </span><span class="si">{</span><span class="n">decoded_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>which, for this example, are:</p>
-<div class="highlight"><pre><span></span><code>addTip data: 0x7b2274797065223a22537472696e675175657279222c22696e70757473223a7b2274657874223a225768617420697320746865206d65616e696e67206f66206c6966653f227d7d3f7b2274797065223a2256616c756554797065222c22696e70757473223a7b226162695f74797065223a22737472696e67222c227061636b6564223a66616c73657d7d
-addTip ID: 0xdd349fc565b13987a11bed4cc9e7382863491638769020afad1abe3840ec14b7
+<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a22537472696e675175657279222c22696e70757473223a7b2274657874223a225768617420697320746865206d65616e696e67206f66206c6966653f227d7d3f7b2274797065223a2256616c756554797065222c22696e70757473223a7b226162695f74797065223a22737472696e67222c227061636b6564223a66616c73657d7d
+tipQuery ID: 0xdd349fc565b13987a11bed4cc9e7382863491638769020afad1abe3840ec14b7
 </code></pre></div>
-<p>The StringQuery object also demonstrates how to encode a response
+<p>The <code>StringQuery</code> object also demonstrates how to encode a response
 to submit on-chain using the <code>TellorX.Oracle.submitValue()</code> contract call.</p>
-<p>For example, to submit the answer</p>
-<p><div class="highlight"><pre><span></span><code>Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life
+<p>For example, to submit following the answer</p>
+<div class="highlight"><pre><span></span><code>Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life
 </code></pre></div>
-use the 
+<p>use the 
 <a href="../../code/types/#telliot.types.value_type.ValueType.encode"><code>encode</code></a> and 
 <a href="../../code/types/#telliot.types.value_type.ValueType.decode"><code>decode</code></a> methods of the response
 <a href="../../code/types/#telliot.types.value_type.ValueType"><code>ValueType</code></a>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyQuery</span>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
-<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyQuery</span><span class="p">(</span><span class="n">legacy_tip_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;addTip data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">tip_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;addTip ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">tip_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="hll"><span class="n">value</span> <span class="o">=</span> <span class="mf">10000.1234567</span>
-</span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (float): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="hll"><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life&quot;</span>
+</span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (str): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span class="hll">
 </span><span class="hll"><span class="n">encoded_bytes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">value_type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (bytes): 0x</span><span class="si">{</span><span class="n">encoded_bytes</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -642,7 +644,7 @@ Decoded value (float): Please refer to: https://en.wikipedia.org/wiki/Meaning_of
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
