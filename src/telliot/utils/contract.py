@@ -94,70 +94,51 @@ class Contract(Base):
         """For submitting any contract transaction. Retries supported!"""
         if self.contract:
             try:
-                transaction_receipts = []
-                # Iterate through retry attempts
-                for _ in range(retries + 1):
-                    status = ResponseStatus()
+                status = ResponseStatus()
 
-                    # build transaction
-                    acc_nonce = (
-                        self.config.get_endpoint().web3.eth.get_transaction_count(
-                            self.config.acc.address
-                        )
+                # build transaction
+                acc_nonce = (
+                    self.config.get_endpoint().web3.eth.get_transaction_count(
+                        self.config.acc.address
                     )
-                    contract_function = self.contract.get_function_by_name(func_name)
-                    transaction = contract_function(**kwargs)
-                    estimated_gas = transaction.estimateGas()
-                    print("estimated gas:", estimated_gas)
+                )
+                contract_function = self.contract.get_function_by_name(func_name)
+                transaction = contract_function(**kwargs)
+                estimated_gas = transaction.estimateGas()
+                print("estimated gas:", estimated_gas)
 
-                    built_tx = transaction.buildTransaction(
-                        {
-                            "nonce": acc_nonce,
-                            "gas": estimated_gas,
-                            "gasPrice": self.config.get_endpoint().web3.toWei(gas_price, "gwei"),
-                            "chainId": self.config.get_endpoint().chain_id,
-                        }
-                    )
+                built_tx = transaction.buildTransaction(
+                    {
+                        "nonce": acc_nonce,
+                        "gas": estimated_gas,
+                        "gasPrice": self.config.get_endpoint().web3.toWei(gas_price, "gwei"),
+                        "chainId": self.config.get_endpoint().chain_id,
+                    }
+                )
 
-                    # get gas price
-                    rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
-                    prices = json.loads(rsp.content)
-                    gas_price = int(prices["fast"] + extra_gas_price)
+                # get gas price
+                rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
+                prices = json.loads(rsp.content)
+                gas_price = int(prices["fast"] + extra_gas_price)
 
-                    # submit transaction
-                    tx_signed = self.config.acc.address.sign_transaction(built_tx)
+                # submit transaction
+                tx_signed = self.config.acc.address.sign_transaction(built_tx)
 
-                    tx_hash = self.config.get_endpoint().web3.eth.send_raw_transaction(
-                        tx_signed.rawTransaction
-                    )
+                tx_hash = self.config.get_endpoint().web3.eth.send_raw_transaction(
+                    tx_signed.rawTransaction
+                )
 
-                    # Confirm transaction
-                    tx_receipt = self.config.get_endpoint().web3.eth.wait_for_transaction_receipt(
-                        tx_hash, timeout=360
-                    )
+                # Confirm transaction
+                tx_receipt = self.config.get_endpoint().web3.eth.wait_for_transaction_receipt(
+                    tx_hash, timeout=360
+                )
 
-                    # Point to relevant explorer
-                    print(
-                        f"View reported data: {self.config.get_endpoint().explorer}{tx_hash.hex()}"
-                    )
+                # Point to relevant explorer
+                print(
+                    f"View reported data: {self.config.get_endpoint().explorer}{tx_hash.hex()}"
+                )
 
-                    # Exit loop if transaction successful
-                    if tx_receipt and status.ok:
-                        transaction_receipts.append(tx_receipt)
-                        return status, transaction_receipts, gas_price
-                    elif (
-                        not status.ok
-                        and status.error
-                        and "replacement transaction underpriced" in status.error
-                    ):
-                        extra_gas_price += gas_price
-                    else:
-                        extra_gas_price = 0
-
-                    status.ok = False
-                    status.error = "ran out of retries, tx unsuccessful"
-
-                    return status, transaction_receipts, gas_price
+                return status, tx_receipt, gas_price
             except Exception as e:
                 status.ok = False
                 status.error = str(e.args)
