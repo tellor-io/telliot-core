@@ -11,9 +11,10 @@ python -m venv env
 ```
 source env/bin/activate
 ```
-- Install dependencies
+- Install dependencies and project
 ```
 pip install -r requirements-dev.txt
+pip install -e .
 ```
 - Once your dev environment is set up, make desired changes, create new tests for those changes,
 and conform to the style & typing format of the project. To do so, in the project home directory:
