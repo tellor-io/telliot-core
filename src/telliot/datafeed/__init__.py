@@ -1,4 +1,4 @@
-""" :mod:`telliot.datafeed`
+""" telliot.datafeed
 
 Contains base classes and utils for datafeeds.
 """
