@@ -1,3 +1,4 @@
+"""Legacy Query Example """
 from telliot.queries import LegacyQuery
 
 q = LegacyQuery(legacy_tip_id=1)
