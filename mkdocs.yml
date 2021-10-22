@@ -75,4 +75,5 @@ nav:
       - Data Feed Module: code/datafeed.md
   - Contributing:
       - Developer's Guide: contributing.md
+      - Documentation: documentation.md
 
