@@ -13,8 +13,9 @@ class LegacyQuery(OracleQuery):
     """Legacy Query
 
     Legacy queries are queries that existed prior to TellorX
-    A legacy query uses arbitrary tip ``data`` and a static tip ``id``.
-    The tip ``id`` is always an integer less than 100.
+    A legacy query uses arbitrary query ``data`` and a static query ``id``.
+    The query ``id`` is always set to the legacy request ID, which is
+    an integer less than 100.
 
     The LegacyQuery class is deprecated and should not be used by
     new projects.  Instead, use the
@@ -26,7 +27,7 @@ class LegacyQuery(OracleQuery):
 
     """
 
-    legacy_tip_id: int
+    legacy_request_id: int
     """The request ID of all legacy queries is a static integer 1 < N <=100"""
 
     @property
@@ -36,10 +37,10 @@ class LegacyQuery(OracleQuery):
 
     @property
     def query_id(self) -> bytes:
-        """Override tip ``id`` with the legacy value."""
-        return self.legacy_tip_id.to_bytes(32, "big", signed=False)
+        """Override query ``id`` with the legacy request ID."""
+        return self.legacy_request_id.to_bytes(32, "big", signed=False)
 
-    @validator("legacy_tip_id")
+    @validator("legacy_request_id")
     def must_be_less_than_100(cls, v):  # type: ignore
         """Validator to ensure that legacy request ID is less than
         or equal to 100.

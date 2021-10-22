@@ -23,7 +23,7 @@ TellorX Oracle network.
 To make the corresponding on-chain Query request, 
 the `TellorX.Oracle.tipQuery()` contract call
 requires two arguments: `data` and `id`.  These arguments are provided by 
-the `tip_data` and `tip_id` attributes of the `LegacyQuery` object:
+the `query_data` and `query_id` attributes of the `LegacyQuery` object:
 
 ```python hl_lines="5 6"
 --8<-- "examples/legacy_query_example.py"

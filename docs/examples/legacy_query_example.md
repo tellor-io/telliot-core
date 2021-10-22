@@ -16,13 +16,12 @@ The query descriptor string uniquely identifies this query to the
 TellorX Oracle network.
 
 ```
-{"type":"LegacyQuery","inputs":{"legacy_tip_id":1}}?{"type":"UnsignedFloatType","inputs":{"abi_type":"ufixed256x6","packed":false}}
-```
+now I kinda think that the retries should stay in the write method. open for dicussion, but I think if we implement tipping in pytelliot, we won't want to rewrite retry logic in several places.```
 
 To make the corresponding on-chain Query request, 
 the `TellorX.Oracle.tipQuery()` contract call
 requires two arguments: `data` and `id`.  These arguments are provided by 
-the `tip_data` and `tip_id` attributes of the `LegacyQuery` object:
+the `query_data` and `query_id` attributes of the `LegacyQuery` object:
 
 ```python hl_lines="5 6"
 --8<-- "examples/legacy_query_example.py"
@@ -31,7 +30,7 @@ the `tip_data` and `tip_id` attributes of the `LegacyQuery` object:
 which, for this example, are:
 
 ```
-tipQuery data: 0x7b2274797065223a224c65676163795175657279222c22696e70757473223a7b226c65676163795f7469705f6964223a317d7d3f7b2274797065223a22556e7369676e6564466c6f617454797065222c22696e70757473223a7b226162695f74797065223a227566697865643235367836222c227061636b6564223a66616c73657d7d
+tipQuery data: 0x7b2274797065223a224c65676163795175657279222c22696e70757473223a7b226c65676163795f726571756573745f6964223a317d7d3f7b2274797065223a22556e7369676e6564466c6f617454797065222c22696e70757473223a7b226162695f74797065223a227566697865643235367836222c227061636b6564223a66616c73657d7d
 tipQuery ID: 0x0000000000000000000000000000000000000000000000000000000000000001
 ```
 

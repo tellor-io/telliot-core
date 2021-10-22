@@ -73,7 +73,7 @@ class OracleQuery(SerializableModel):
 
     @property
     def query_id(self) -> bytes:
-        """Returns the tip ``id`` for use with the
+        """Returns the query ``id`` for use with the
         ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``
         contract calls.
         """

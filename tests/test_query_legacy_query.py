@@ -9,13 +9,13 @@ from telliot.queries.legacy_query import LegacyQuery
 def test_legacy_query():
     """Validate legacy query"""
     q = LegacyQuery(
-        legacy_tip_id=100,
+        legacy_request_id=100,
     )
     assert q.value_type.abi_type == "ufixed256x6"
     assert q.value_type.packed is False
 
     exp = (
-        b'{"type":"LegacyQuery","inputs":{"legacy_tip_id":100}}?'
+        b'{"type":"LegacyQuery","inputs":{"legacy_request_id":100}}?'
         b'{"type":"UnsignedFloatType",'
         b'"inputs":{"abi_type":"ufixed256x6","packed":false}}'
     )
