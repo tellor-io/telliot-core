@@ -35,7 +35,7 @@ class LegacyQuery(OracleQuery):
         return UnsignedFloatType(abi_type="ufixed256x6", packed=False)
 
     @property
-    def tip_id(self) -> bytes:
+    def query_id(self) -> bytes:
         """Override tip ``id`` with the legacy value."""
         return self.legacy_tip_id.to_bytes(32, "big", signed=False)
 

@@ -20,10 +20,10 @@ def test_legacy_query():
         b'"inputs":{"abi_type":"ufixed256x6","packed":false}}'
     )
 
-    # print(q.tip_data)
-    assert q.tip_data == exp
+    # print(q.query_data)
+    assert q.query_data == exp
 
     assert (
-        q.tip_id.hex()
+        q.query_id.hex()
         == "0000000000000000000000000000000000000000000000000000000000000064"
     )

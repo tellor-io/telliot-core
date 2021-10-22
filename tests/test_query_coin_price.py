@@ -18,11 +18,11 @@ def test_constructor():
         b'"inputs":{"abi_type":"ufixed64x6","packed":true}}'
     )
 
-    print(q.tip_data)
-    assert q.tip_data == exp
+    print(q.query_data)
+    assert q.query_data == exp
 
     exp = "1cb51cfbde0f6dddd03172ba0ea9e8d2e77a1beecc7edcb907bbd83311af9b53"
-    assert q.tip_id.hex() == exp
+    assert q.query_id.hex() == exp
 
 
 def test_price_type():
@@ -37,8 +37,8 @@ def test_price_type():
         b'"inputs":{"abi_type":"ufixed64x6","packed":true}}'
     )
 
-    print(q.tip_data)
-    assert q.tip_data == exp
+    print(q.query_data)
+    assert q.query_data == exp
 
     exp = "c7f37408fb3c59185abb27cb66b6299288927bb9b51f2db4ab1e0c42d71bbaf2"
-    assert q.tip_id.hex() == exp
+    assert q.query_id.hex() == exp
