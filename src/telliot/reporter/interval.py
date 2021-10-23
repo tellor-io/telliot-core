@@ -9,12 +9,11 @@ from typing import Mapping
 from typing import Union
 
 from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.contract import Contract
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.contract.contract import Contract
-
 
 
 class IntervalReporter(Reporter):
@@ -24,6 +23,8 @@ class IntervalReporter(Reporter):
     contract: Contract
 
     config: TelliotConfig
+
+    datafeeds: Mapping[str, Any]
 
     # def __init__(
     #     self,
@@ -75,8 +76,7 @@ class IntervalReporter(Reporter):
                         extra_gas_price=extra_gas_price,
                         _requestId=query_id_str,
                         _value=encoded_value,
-                        _nonce=value_count
-
+                        _nonce=value_count,
                     )
 
                 else:

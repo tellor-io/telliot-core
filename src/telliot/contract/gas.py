@@ -1,9 +1,11 @@
 import asyncio
 import json
-from typing import Any, Literal, Optional, Tuple
+from typing import Any
+from typing import Literal
+from typing import Optional
+from typing import Tuple
 
 import requests
-
 from telliot.utils.response import ResponseStatus
 
 ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
@@ -17,7 +19,9 @@ async def estimate_gas() -> Any:
     return asyncio.run(ethgasstation("fast"))
 
 
-async def ethgasstation(style: ethgastypes = "fast") -> Tuple[Optional[int], ResponseStatus]:
+async def ethgasstation(
+    style: ethgastypes = "fast",
+) -> Tuple[Optional[int], ResponseStatus]:
     """Fetch gas price from ethgasstation"""
     try:
         status = ResponseStatus()
@@ -27,8 +31,7 @@ async def ethgasstation(style: ethgastypes = "fast") -> Tuple[Optional[int], Res
 
         return gas_price, status
 
-    #catching requests failures
+    # catching requests failures
     except requests.exceptions.RequestException as e:
         msg = "request for gas price failed"
         return None, status
-    

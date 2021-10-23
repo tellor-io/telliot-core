@@ -11,9 +11,9 @@ from typing import Union
 import web3
 from eth_typing.evm import ChecksumAddress
 from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.gas import estimate_gas
 from telliot.utils.base import Base
 from telliot.utils.response import ResponseStatus
-from telliot.contract.gas import estimate_gas
 from web3 import Web3
 from web3.datastructures import AttributeDict
 
@@ -56,7 +56,9 @@ class Contract(Base):
             )
             return ResponseStatus(ok=True)
 
-    def read(self, func_name: str, **kwargs: Any) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
+    def read(
+        self, func_name: str, **kwargs: Any
+    ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
         inputs:
@@ -94,10 +96,10 @@ class Contract(Base):
             try:
                 status = ResponseStatus()
 
-                #fetch gas price
+                # fetch gas price
                 gas_price, gas_price_status = estimate_gas()
 
-                #exit and report status if gas price couldn't be fetched
+                # exit and report status if gas price couldn't be fetched
                 if gas_price_status.ok is False:
                     status.error = "Can't submit transaction: couldn't fetch gas price"
                     status.ok = False
@@ -105,10 +107,8 @@ class Contract(Base):
                     return None, status
 
                 # build transaction
-                acc_nonce = (
-                    self.config.get_endpoint().web3.eth.get_transaction_count(
-                        self.config.acc.address
-                    )
+                acc_nonce = self.config.get_endpoint().web3.eth.get_transaction_count(
+                    self.config.acc.address
                 )
                 contract_function = self.contract.get_function_by_name(func_name)
                 transaction = contract_function(**kwargs)
@@ -120,7 +120,9 @@ class Contract(Base):
                     {
                         "nonce": acc_nonce,
                         "gas": estimated_gas,
-                        "gasPrice": self.config.get_endpoint().web3.toWei(gas_price, "gwei"),
+                        "gasPrice": self.config.get_endpoint().web3.toWei(
+                            gas_price, "gwei"
+                        ),
                         "chainId": self.config.get_endpoint().chain_id,
                     }
                 )
@@ -133,8 +135,10 @@ class Contract(Base):
                 )
 
                 # Confirm transaction
-                tx_receipt = self.config.get_endpoint().web3.eth.wait_for_transaction_receipt(
-                    tx_hash, timeout=360
+                tx_receipt = (
+                    self.config.get_endpoint().web3.eth.wait_for_transaction_receipt(
+                        tx_hash, timeout=360
+                    )
                 )
 
                 # Point to relevant explorer
@@ -170,10 +174,10 @@ class Contract(Base):
 
         status = ResponseStatus()
 
-        #fetch gas price
+        # fetch gas price
         gas_price, gas_price_status = estimate_gas()
 
-        #exit and report status if gas price couldn't be fetched
+        # exit and report status if gas price couldn't be fetched
         if gas_price_status.ok is False:
             status.error = "Can't submit transaction: couldn't fetch gas price"
             status.ok = False
@@ -184,7 +188,9 @@ class Contract(Base):
 
         for _ in range(num_retries + 1):
 
-            tx_receipt, status = self.write(func_name=func_name, extra_gas_price=extra_gas_price, kwargs=kwargs)
+            tx_receipt, status = self.write(
+                func_name=func_name, extra_gas_price=extra_gas_price, kwargs=kwargs
+            )
 
             if tx_receipt and status.ok:
                 tx_receipts.append(tx_receipt)
