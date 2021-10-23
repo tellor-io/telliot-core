@@ -65,6 +65,7 @@ def connect_to_contract(cfg, address):
     return c
 
 
+@pytest.mark.skip(reason="We should ensure contract is connected when instantiated.")
 def test_attempt_read_not_connected(cfg):
     """Read method should connect to contract if not connected"""
     address = "0xb539Cf1054ba02933f6d345937A612332C842827"
