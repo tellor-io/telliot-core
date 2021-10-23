@@ -1,12 +1,14 @@
 from collections import namedtuple
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+
 from telliot.model.base import Base
-from typing import Optional, List, Dict, Any
 
 
 class ERC20Token(Base):
-    """ Representation of an ERC20 token
-
-    """
+    """Representation of an ERC20 token"""
 
     #: Chain ID
     chain_id: int
@@ -27,14 +29,13 @@ class ERC20Token(Base):
     logo_uri: Optional[str]
 
 
-TokenListVersion = namedtuple('TokenListVersion', ['major', 'minor', 'patch'],
-                              defaults=[0, 0, 0])
+TokenListVersion = namedtuple(
+    "TokenListVersion", ["major", "minor", "patch"], defaults=[0, 0, 0]
+)
 
 
 class ERC20TokenList(Base):
-    """ ERC-20 Token List
-
-    """
+    """ERC-20 Token List"""
 
     #: Token list name
     name: str
@@ -46,30 +47,32 @@ class ERC20TokenList(Base):
 
     @classmethod
     def from_uniswap(cls, jsn: Dict[str, Any]) -> "ERC20TokenList":
-        """ Create a token list from uniswap format
+        """Create a token list from uniswap format
 
         See `https://tokenlists.org/` for more information
         """
 
-        name = jsn['name']
-        version = TokenListVersion(major=jsn['version']['major'],
-                                   minor=jsn['version']['minor'],
-                                   patch=jsn['version']['patch'])
+        name = jsn["name"]
+        version = TokenListVersion(
+            major=jsn["version"]["major"],
+            minor=jsn["version"]["minor"],
+            patch=jsn["version"]["patch"],
+        )
 
-        jtokens = jsn.get('tokens', [])
+        jtokens = jsn.get("tokens", [])
         if not jtokens:
-            raise Exception('Token List is empty')
+            raise Exception("Token List is empty")
 
         tokens = []
         for token in jtokens:
             tokens.append(
                 ERC20Token(
-                    name=token.get('name', None),
-                    symbol=token.get('symbol', None),
-                    chain_id=token.get('chainId', None),
-                    address=token.get('address', None),
-                    decimals=token.get('decimals', None),
-                    logo_uri=token.get('logoURI', None)
+                    name=token.get("name", None),
+                    symbol=token.get("symbol", None),
+                    chain_id=token.get("chainId", None),
+                    address=token.get("address", None),
+                    decimals=token.get("decimals", None),
+                    logo_uri=token.get("logoURI", None),
                 )
             )
 

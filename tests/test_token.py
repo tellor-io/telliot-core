@@ -1,19 +1,14 @@
-# Copyright (c) 2021-, PyDefi Development Team
-
 from telliot.model.token import ERC20TokenList
 
 
 def test_token_list():
-    tl = ERC20TokenList.from_uniswap(EXAMPLE_TOKEN_LIST)
+    """Test importing a file from uniswap format"""
+    _ = ERC20TokenList.from_uniswap(EXAMPLE_TOKEN_LIST)
 
 
 EXAMPLE_TOKEN_LIST = {
     "name": "My Token List",
-    "version": {
-        "major": 2,
-        "minor": 0,
-        "patch": 0
-    },
+    "version": {"major": 2, "minor": 0, "patch": 0},
     "tokens": [
         {
             "chainId": 1,
@@ -21,7 +16,8 @@ EXAMPLE_TOKEN_LIST = {
             "name": "Aave",
             "symbol": "AAVE",
             "decimals": 18,
-            "logoURI": "https://assets.coingecko.com/coins/images/12645/thumb/AAVE.png?1601374110"
+            "logoURI": "https://assets.coingecko.com/coins/images/"
+            "12645/thumb/AAVE.png?1601374110",
         },
         {
             "chainId": 1,
@@ -29,7 +25,8 @@ EXAMPLE_TOKEN_LIST = {
             "name": "Amp",
             "symbol": "AMP",
             "decimals": 18,
-            "logoURI": "https://assets.coingecko.com/coins/images/12409/thumb/amp-200x200.png?1599625397"
+            "logoURI": "https://assets.coingecko.com/coins/images/"
+            "12409/thumb/amp-200x200.png?1599625397",
         },
         {
             "name": "Aragon Network Token",
@@ -37,7 +34,9 @@ EXAMPLE_TOKEN_LIST = {
             "symbol": "ANT",
             "decimals": 18,
             "chainId": 1,
-            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x960b236A07cf122663c4303350609A66A7B288C0/logo.png"
-        }
-    ]
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/"
+            "assets/master/blockchains/ethereum/assets/"
+            "0x960b236A07cf122663c4303350609A66A7B288C0/logo.png",
+        },
+    ],
 }
