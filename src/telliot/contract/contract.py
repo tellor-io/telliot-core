@@ -1,7 +1,6 @@
 """
 Utils for connecting to an EVM contract
 """
-import json
 from typing import Any
 from typing import Dict
 from typing import List
@@ -9,49 +8,39 @@ from typing import Optional
 from typing import Tuple
 from typing import Union
 
-import requests
-import web3
 from eth_typing.evm import ChecksumAddress
-from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.gas import estimate_gas
 from telliot.model.endpoints import RPCEndpoint
-from telliot.utils.base import Base
 from telliot.utils.response import ResponseStatus
 from web3 import Web3
 from web3.datastructures import AttributeDict
 
 
-class Contract(Base):
+class Contract:
     """Convenience wrapper for connecting to an Ethereum contract"""
 
-    #: Contract address
-    address: Union[str, ChecksumAddress]
+    def __init__(
+        self,
+        address: Union[str, ChecksumAddress],
+        abi: Union[List[Dict[str, Any]], str],
+        node: RPCEndpoint,
+        private_key: str = "",
+    ):
 
-    #: ABI specifications of contract
-    abi: Union[List[Dict[str, Any]], str]
-
-    #: web3 contract object
-    contract: Optional[web3.contract.Contract]
-
-    #: global pytelliot configurations
-    config: TelliotConfig
-
-    #: RPCNode connection to Ethereum network
-    node: Optional[RPCEndpoint]
+        self.address = Web3.toChecksumAddress(address)
+        self.abi = abi
+        self.node = node
+        self.contract = None
+        self.private_key = private_key
 
     def connect(self) -> ResponseStatus:
         """Connect to EVM contract through an RPC Endpoint"""
-        self.node = self.config.get_endpoint()
 
-        if not self.node:
-            msg = "node not configured"
+        if not self.node.web3:
+            msg = "node is not instantiated"
             return ResponseStatus(ok=False, error_msg=msg)
-        else:
-            if not self.node.web3:
-                msg = "node is not instantiated"
-                return ResponseStatus(ok=False, error_msg=msg)
 
         self.node.connect()
-        self.address = Web3.toChecksumAddress(self.address)
         self.contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
         return ResponseStatus(ok=True)
 
@@ -96,7 +85,11 @@ class Contract(Base):
             msg = "no node instance"
             return ResponseStatus(ok=False, error_msg=msg), None, gas_price
 
-        acc = self.node.web3.eth.account.from_key(self.config.main.private_key)
+        if self.private_key:
+            acc = self.node.web3.eth.account.from_key(self.private_key)
+        else:
+            msg = "Private key missing"
+            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
 
         try:
             transaction_receipts = []
@@ -121,9 +114,7 @@ class Contract(Base):
                 )
 
                 # get gas price
-                rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
-                prices = json.loads(rsp.content)
-                gas_price = int(prices["fast"] + extra_gas_price)
+                gas_price = estimate_gas + extra_gas_price
 
                 # submit transaction
                 tx_signed = acc.address.sign_transaction(built_tx)

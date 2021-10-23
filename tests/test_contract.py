@@ -6,8 +6,8 @@ import os
 import pytest
 import web3
 from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.contract import Contract
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.contract import Contract
 
 func_name = "getNewValueCountbyRequestId"
 requestId = "0x0000000000000000000000000000000000000000000000000000000000000002"
@@ -57,10 +57,14 @@ def test_call_read_function(cfg):
 
 def connect_to_contract(cfg, address):
     """Helper function for connecting to a contract at an address"""
-    endpt = cfg.get_endpoint()
-    endpt.connect()
-
-    c = Contract(address=address, abi=tellor_playground_abi, config=cfg)
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
+    c = Contract(
+        address=address,
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
+    )
     c.connect()
     return c
 
@@ -69,10 +73,15 @@ def connect_to_contract(cfg, address):
 def test_attempt_read_not_connected(cfg):
     """Read method should connect to contract if not connected"""
     address = "0xb539Cf1054ba02933f6d345937A612332C842827"
-    endpt = cfg.get_endpoint()
-    endpt.connect()
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
 
-    c = Contract(address=address, abi=tellor_playground_abi, config=cfg)
+    c = Contract(
+        address=address,
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
+    )
     assert c.contract is None
     # read will succeed even if contract is initially diconnected
     status, output = c.read(func_name=func_name, _requestId=requestId)

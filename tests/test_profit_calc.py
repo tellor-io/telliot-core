@@ -5,9 +5,9 @@ import os
 
 import pytest
 from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.contract import Contract
 from telliot.submitter.profitcalc import profitable
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.contract import Contract
 
 
 @pytest.fixture
@@ -37,13 +37,19 @@ def cfg():
 @pytest.fixture
 def contract(cfg):
     """TellorX playground contract setup"""
-    endpt = cfg.get_endpoint()
-    endpt.connect()
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
 
     address = "0xb539Cf1054ba02933f6d345937A612332C842827"
     # url = "https://rinkeby.infura.io/v3/1a09c4705f114af2997548dd901d655b"
 
-    c = Contract(address=address, abi=tellor_playground_abi, config=cfg)
+    c = Contract(
+        address=address,
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
+    )
+
     c.connect()
 
     return c
