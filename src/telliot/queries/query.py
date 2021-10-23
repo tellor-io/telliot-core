@@ -5,8 +5,8 @@
 # Distributed under the terms of the MIT License.
 from typing import Any
 
+from telliot.model.serializable import SerializableModel
 from telliot.types.value_type import ValueType
-from telliot.utils.serializable import SerializableModel
 from web3 import Web3
 
 

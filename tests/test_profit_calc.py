@@ -6,7 +6,7 @@ import os
 import pytest
 from telliot.apps.telliot_config import TelliotConfig
 from telliot.contract.contract import Contract
-from telliot.submitter.profitcalc import profitable
+from telliot.reporter.profitcalc import profitable
 from telliot.utils.abi import tellor_playground_abi
 
 

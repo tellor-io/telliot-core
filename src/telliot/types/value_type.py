@@ -8,7 +8,7 @@ from eth_abi.abi import decode_single
 from eth_abi.abi import encode_single
 from eth_abi.packed import encode_single_packed
 from pydantic import validator
-from telliot.utils.serializable import SerializableModel
+from telliot.model.serializable import SerializableModel
 
 
 class ValueType(SerializableModel):

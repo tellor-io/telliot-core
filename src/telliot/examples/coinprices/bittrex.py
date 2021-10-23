@@ -3,7 +3,7 @@ from typing import Optional
 
 from telliot.answer import TimeStampedFloat
 from telliot.datafeed.pricing.price_service import WebPriceService
-from telliot.utils.base import Base
+from telliot.model.base import Base
 
 
 class BittrexQuote(Base):

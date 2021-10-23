@@ -13,7 +13,7 @@ from typing import TypeVar
 
 import requests
 from telliot.answer import TimeStampedAnswer
-from telliot.utils.base import Base
+from telliot.model.base import Base
 
 T = TypeVar("T")
 

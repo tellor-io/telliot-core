@@ -1,4 +1,4 @@
-from telliot.utils.serializable import SerializableModel
+from telliot.model.serializable import SerializableModel
 
 
 def test_main():

@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import Field
 from telliot.apps.config import ConfigOptions
-from telliot.utils.base import Base
+from telliot.model.base import Base
 
 
 class EVMCurrency(Base):
