@@ -7,7 +7,7 @@ from typing import Type
 from typing import Union
 
 import yaml
-from telliot.utils.base import Base
+from telliot.model.base import Base
 from telliot.utils.home import telliot_homedir
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader

@@ -4,10 +4,10 @@ from typing import Optional
 
 from telliot.apps.config import ConfigFile
 from telliot.apps.config import ConfigOptions
+from telliot.model.base import Base
 from telliot.model.chain import ChainList
 from telliot.model.endpoints import EndpointList
 from telliot.model.endpoints import RPCEndpoint
-from telliot.utils.base import Base
 
 
 class LogLevel(str, enum.Enum):

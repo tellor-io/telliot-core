@@ -6,7 +6,7 @@ with the datafeed api.
 """
 import datetime
 
-from telliot.utils.base import Base
+from telliot.model.base import Base
 
 
 class DataIn(Base):
