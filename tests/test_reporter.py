@@ -57,7 +57,7 @@ def test_reporter_config(cfg):
     assert rinkeby_endpoint.chain_id == 4
 
 
-@pytest.mark.skip(reason="fails sometimes.  Re-enable after contract.write integration")
+# @pytest.mark.skip(reason="fails sometimes.  Re-enable after contract.write integration")
 @pytest.mark.asyncio
 async def test_interval_reporter_submit_once(cfg):
     """Test reporting once to the TellorX playground on Rinkeby
