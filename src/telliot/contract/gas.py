@@ -1,27 +1,34 @@
-'''Utils for gas calculations'''
-
+import asyncio
 import json
-from typing import Optional, Tuple
+from typing import Literal, Optional, Tuple
 
 import requests
+
 from telliot.utils.response import ResponseStatus
 
+ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
 
-def fetch_gas_price() -> Tuple[ResponseStatus, Optional[int]]:
-    '''Fetch network gas price from RPC endpoint or an API'''
 
+async def estimate_gas() -> Tuple[Optional[int], ResponseStatus]:
+    """Estimate current ETH gas price
+
+    Work In Progress - Just do something quick
+    """
+    return asyncio.run(ethgasstation("fast"))
+
+
+async def ethgasstation(style: ethgastypes = "fast") -> Tuple[Optional[int], ResponseStatus]:
+    """Fetch gas price from ethgasstation"""
     try:
         status = ResponseStatus()
-        # get gas price
         rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
         prices = json.loads(rsp.content)
-        return status, int(prices["fast"])
+        gas_price = int(prices[style])
+
+        return gas_price, status
+
+    #catching requests failures
     except requests.exceptions.RequestException as e:
-        status.ok = False
-        status.error = "request for gas price failed"
-        status.e = e
-        return status, None
-        
-
-
-
+        msg = "request for gas price failed"
+        return None, status
+    
