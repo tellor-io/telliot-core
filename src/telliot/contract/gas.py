@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import Literal, Optional, Tuple
+from typing import Any, Literal, Optional, Tuple
 
 import requests
 
@@ -9,7 +9,7 @@ from telliot.utils.response import ResponseStatus
 ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
 
 
-async def estimate_gas() -> Tuple[Optional[int], ResponseStatus]:
+async def estimate_gas() -> Any:
     """Estimate current ETH gas price
 
     Work In Progress - Just do something quick

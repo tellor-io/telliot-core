@@ -13,7 +13,8 @@ from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.contract import Contract
+from telliot.contract.contract import Contract
+
 
 
 class IntervalReporter(Reporter):
@@ -45,7 +46,7 @@ class IntervalReporter(Reporter):
     async def report_once(
         self, name: str = "", num_retries: int = 0
     ) -> List[Union[None, Mapping[str, Any]]]:
-        transaction_receipts = []
+        transaction_receipts: List[Union[None, Mapping[str, Any]]] = []
         jobs = []
         for datafeed in self.datafeeds.values():
             job = asyncio.create_task(datafeed.update_value(store=True))
@@ -71,6 +72,7 @@ class IntervalReporter(Reporter):
                     self.contract.write_with_retries(
                         func_name="submitValue",
                         num_retries=num_retries,
+                        extra_gas_price=extra_gas_price,
                         _requestId=query_id_str,
                         _value=encoded_value,
                         _nonce=value_count
