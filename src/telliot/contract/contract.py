@@ -1,7 +1,6 @@
 """
 Utils for connecting to an EVM contract
 """
-import json
 from typing import Any
 from typing import Dict
 from typing import List
@@ -9,12 +8,12 @@ from typing import Optional
 from typing import Tuple
 from typing import Union
 
-import requests
 import web3
 from eth_typing.evm import ChecksumAddress
 from telliot.apps.telliot_config import TelliotConfig
 from telliot.utils.base import Base
 from telliot.utils.response import ResponseStatus
+from telliot.contract.gas import fetch_gas_price
 from web3 import Web3
 from web3.datastructures import AttributeDict
 
@@ -86,15 +85,23 @@ class Contract(Base):
     def write(
         self,
         func_name: str,
-        gas_price: int,
-        extra_gas_price: int,
-        retries: int,
+        extra_gas_price: int = 0,
         **kwargs: Any,
-    ) -> Tuple[ResponseStatus, Optional[List[AttributeDict[Any, Any]]], int]:
+    ) -> Tuple[ResponseStatus, Optional[AttributeDict[Any, Any]]]:
         """For submitting any contract transaction. Retries supported!"""
         if self.contract:
             try:
                 status = ResponseStatus()
+
+                #fetch gas price
+                gas_price_status, gas_price = fetch_gas_price()
+
+                #exit and report status if gas price couldn't be fetched
+                if gas_price_status.ok is False:
+                    status.error = "Can't submit transaction: couldn't fetch gas price"
+                    status.ok = False
+                    status.e = gas_price_status.e
+                    return status, None
 
                 # build transaction
                 acc_nonce = (
@@ -105,6 +112,7 @@ class Contract(Base):
                 contract_function = self.contract.get_function_by_name(func_name)
                 transaction = contract_function(**kwargs)
                 estimated_gas = transaction.estimateGas()
+
                 print("estimated gas:", estimated_gas)
 
                 built_tx = transaction.buildTransaction(
@@ -115,11 +123,6 @@ class Contract(Base):
                         "chainId": self.config.get_endpoint().chain_id,
                     }
                 )
-
-                # get gas price
-                rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
-                prices = json.loads(rsp.content)
-                gas_price = int(prices["fast"] + extra_gas_price)
 
                 # submit transaction
                 tx_signed = self.config.acc.address.sign_transaction(built_tx)
@@ -138,12 +141,12 @@ class Contract(Base):
                     f"View reported data: {self.config.get_endpoint().explorer}{tx_hash.hex()}"
                 )
 
-                return status, tx_receipt, gas_price
+                return status, tx_receipt
             except Exception as e:
                 status.ok = False
                 status.error = str(e.args)
                 status.e = e
-                return status, None, gas_price
+                return status, None
         else:
             if self.connect():
                 msg = "now connected to contract"
@@ -155,7 +158,35 @@ class Contract(Base):
                 )
             else:
                 msg = "unable to connect to contract"
-                return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+                return ResponseStatus(ok=False, error_msg=msg), None
+
+    def write_with_retries(
+        self,
+        func_name: str,
+        extra_gas_price: int,
+        num_retries: int,
+        **kwargs: Any,
+    ) -> Tuple[ResponseStatus, Optional[List[AttributeDict[Any, Any]]]]:
+
+        tx_receipts = []
+
+        for _ in range(num_retries + 1):
+
+            status, tx_receipt, gas_price = self.write(func_name=func_name, gas_price=gas_price, extra_gas_price=extra_gas_price, kwargs=kwargs)
+
+            if tx_receipt and status.ok:
+                tx_receipts.append(tx_receipt)
+                break
+            elif (
+                not status.ok
+                and status.error
+                and "replacement transaction underpriced" in status.error
+            ):
+                extra_gas_price += gas_price
+            else:
+                extra_gas_price = 0
+
+        return status, tx_receipts
 
     def listen(self) -> None:
         """Wrapper for listening for contract events"""
