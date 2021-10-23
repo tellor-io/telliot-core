@@ -1,57 +1,89 @@
 """
 Test covering Pytelliot EVM contract connection utils.
 """
+import os
+
+import pytest
 import web3
-from telliot.model.endpoints import RPCEndpoint
+from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.contract import Contract
 from telliot.utils.abi import tellor_playground_abi
-from telliot.utils.contract import Contract
-
-
-network = "rinkeby"
-provider = "infura"
 
 func_name = "getNewValueCountbyRequestId"
 requestId = "0x0000000000000000000000000000000000000000000000000000000000000002"
 
 
-def test_connect_to_tellor_playground():
+@pytest.fixture
+def cfg():
+    """Get rinkeby endpoint from config
+
+    If environment variables are defined, they will override the values in config files
+    """
+    cfg = TelliotConfig()
+
+    # Override configuration for rinkeby testnet
+    cfg.main.chain_id = 4
+
+    rinkeby_endpoint = cfg.get_endpoint()
+    assert rinkeby_endpoint.network == "rinkeby"
+
+    # Optionally override private key and URL with ENV vars for testing
+    if os.getenv("PRIVATE_KEY", None):
+        cfg.main.private_key = os.environ["PRIVATE_KEY"]
+
+    if os.getenv("NODE_URL", None):
+        rinkeby_endpoint.url = os.environ["NODE_URL"]
+
+    return cfg
+
+
+def test_connect_to_tellor_playground(cfg):
     """Contract object should access Tellor Playground functions"""
-    contract = connect_to_contract("0x4699845F22CA2705449CFD532060e04abE3F1F31")
+    contract = connect_to_contract(cfg, "0xb539Cf1054ba02933f6d345937A612332C842827")
     assert len(contract.contract.all_functions()) > 0
     assert isinstance(
         contract.contract.all_functions()[0], web3.contract.ContractFunction
     )
 
 
-def test_call_read_function():
+def test_call_read_function(cfg):
     """Contract object should be able to call arbitrary contract read function"""
 
-    contract = connect_to_contract("0x4699845F22CA2705449CFD532060e04abE3F1F31")
-    output = contract.read(func_name=func_name, _requestId=requestId)
-    assert output.result > 0
-    assert output.ok
+    contract = connect_to_contract(cfg, "0xb539Cf1054ba02933f6d345937A612332C842827")
+    status, output = contract.read(func_name=func_name, _requestId=requestId)
+    assert status.ok
+    assert output >= 0
 
 
-def connect_to_contract(address):
+def connect_to_contract(cfg, address):
     """Helper function for connecting to a contract at an address"""
-    url = "https://rinkeby.infura.io/v3/1a09c4705f114af2997548dd901d655b"
-    endpt = RPCEndpoint(network=network, provider=provider, url=url)
-    endpt.connect()
-
-    c = Contract(node=endpt, address=address, abi=tellor_playground_abi)
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
+    c = Contract(
+        address=address,
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
+    )
     c.connect()
     return c
 
 
-def test_attempt_read_not_connected():
+@pytest.mark.skip(reason="We should ensure contract is connected when instantiated.")
+def test_attempt_read_not_connected(cfg):
     """Read method should connect to contract if not connected"""
-    address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"
-    url = "https://rinkeby.infura.io/v3/1a09c4705f114af2997548dd901d655b"
-    endpt = RPCEndpoint(network=network, provider=provider, url=url)
-    endpt.connect()
+    address = "0xb539Cf1054ba02933f6d345937A612332C842827"
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
 
-    c = Contract(node=endpt, address=address, abi=tellor_playground_abi)
+    c = Contract(
+        address=address,
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
+    )
     assert c.contract is None
     # read will succeed even if contract is initially diconnected
-    assert c.read(func_name=func_name, _requestId=requestId).result > 0
-    assert c.read(func_name=func_name, _requestId=requestId).ok
+    status, output = c.read(func_name=func_name, _requestId=requestId)
+    assert status.ok
+    assert output >= 0
