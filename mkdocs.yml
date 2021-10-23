@@ -21,7 +21,7 @@ theme:
   logo: assets/tellor_swoosh.png
   favicon: assets/favicon-32x32.png
   features:
-    - navigation.tabs
+    # - navigation.tabs
     - navigation.sections
   palette:
     primary: black
@@ -54,13 +54,14 @@ markdown_extensions:
   - codehilite
   - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.superfences
   - pymdownx.snippets
   - toc:
       permalink: true
   - markdown.extensions.codehilite:
       guess_lang: false
-
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
   - Home: index.md
@@ -72,4 +73,7 @@ nav:
       - Queries Module: code/queries.md
       - Types Module: code/types.md
       - Data Feed Module: code/datafeed.md
+  - Contributing:
+      - Developer's Guide: contributing.md
+      - Documentation: documentation.md
 

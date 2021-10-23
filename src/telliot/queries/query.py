@@ -27,10 +27,10 @@ class OracleQuery(SerializableModel):
     The base class provides:
 
     - Calculation of the contents of the ``data`` field to include with the
-      ``TellorX.Oracle.addTip()`` contract call.
+      ``TellorX.Oracle.tipQuery()`` contract call.
 
     - Calculation of the ``id`` field field to include with the
-      ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
+      ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``
       contract calls.
 
     WORK IN PROGRESS - Descriptor formats still under development
@@ -42,7 +42,7 @@ class OracleQuery(SerializableModel):
         """Get the query descriptor string.
         The Query descriptor is a unique string representation of the query.
         The descriptor is required for users to specify the query to TellorX
-        through the ``TellorX.Oracle.addTip()`` contract call.
+        through the ``TellorX.Oracle.tipQuery()`` contract call.
 
         By convention, the descriptor includes the text representation
         of the OracleQuery and the :class:`ValueType` of its response.
@@ -64,20 +64,20 @@ class OracleQuery(SerializableModel):
         pass
 
     @property
-    def tip_data(self) -> bytes:
-        """Returns the ``data`` field for use in ``TellorX.Oracle.addTip()``
+    def query_data(self) -> bytes:
+        """Returns the ``data`` field for use in ``TellorX.Oracle.tipQuery()``
         contract call.
 
         """
         return self.descriptor.encode("utf-8")
 
     @property
-    def tip_id(self) -> bytes:
-        """Returns the tip ``id`` for use with the
-        ``TellorX.Oracle.addTip()`` and ``TellorX.Oracle.submitValue()``
+    def query_id(self) -> bytes:
+        """Returns the query ``id`` for use with the
+        ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``
         contract calls.
         """
-        return bytes(Web3.keccak(self.tip_data))
+        return bytes(Web3.keccak(self.query_data))
 
     def json(self, **kwargs: Any) -> str:
         """Convert to compact JSON format used in query descriptor"""

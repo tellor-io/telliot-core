@@ -3,8 +3,8 @@
 tellor_playground_abi = [
     {
         "inputs": [
-            {"internalType": "text", "name": "_iName", "type": "text"},
-            {"internalType": "text", "name": "_iSymbol", "type": "text"},
+            {"internalType": "string", "name": "_iName", "type": "string"},
+            {"internalType": "string", "name": "_iSymbol", "type": "string"},
         ],
         "stateMutability": "nonpayable",
         "type": "constructor",
@@ -185,6 +185,16 @@ tellor_playground_abi = [
         "type": "function",
     },
     {
+        "inputs": [{"internalType": "bytes32", "name": "_id", "type": "bytes32"}],
+        "name": "getCurrentReward",
+        "outputs": [
+            {"internalType": "uint256", "name": "", "type": "uint256"},
+            {"internalType": "uint256", "name": "", "type": "uint256"},
+        ],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
         "inputs": [
             {"internalType": "bytes32", "name": "_requestId", "type": "bytes32"}
         ],
@@ -226,7 +236,7 @@ tellor_playground_abi = [
     {
         "inputs": [],
         "name": "name",
-        "outputs": [{"internalType": "text", "name": "", "type": "text"}],
+        "outputs": [{"internalType": "string", "name": "", "type": "string"}],
         "stateMutability": "view",
         "type": "function",
     },
@@ -254,7 +264,21 @@ tellor_playground_abi = [
     {
         "inputs": [],
         "name": "symbol",
-        "outputs": [{"internalType": "text", "name": "", "type": "text"}],
+        "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
+        "inputs": [],
+        "name": "timeBasedReward",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
+        "inputs": [],
+        "name": "timeOfLastNewValue",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
         "stateMutability": "view",
         "type": "function",
     },
@@ -264,6 +288,20 @@ tellor_playground_abi = [
             {"internalType": "uint256", "name": "", "type": "uint256"},
         ],
         "name": "timestamps",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
+        "inputs": [{"internalType": "bytes32", "name": "", "type": "bytes32"}],
+        "name": "tips",
+        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
+        "inputs": [],
+        "name": "tipsInContract",
         "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
         "stateMutability": "view",
         "type": "function",

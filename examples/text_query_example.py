@@ -1,9 +1,10 @@
+"""Text Query Example """
 from telliot.queries import StringQuery
 
 q = StringQuery(text="What is the meaning of life?")
 print(q.descriptor)
-print(f"addTip data: 0x{q.tip_data.hex()}")
-print(f"addTip ID: 0x{q.tip_id.hex()}")
+print(f"tipQuery data: 0x{q.query_data.hex()}")
+print(f"tipQuery ID: 0x{q.query_id.hex()}")
 
 value = "Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life"
 print(f"submitValue (str): {value}")

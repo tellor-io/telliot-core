@@ -10,7 +10,7 @@ def test_static_query():
     """Test static query"""
     q = StringQuery(text="What is the meaning of life")
 
-    assert q.tip_data == (
+    assert q.query_data == (
         b'{"type":"StringQuery",'
         b'"inputs":{"text":"What is the meaning of life"}}?'
         b'{"type":"ValueType",'
