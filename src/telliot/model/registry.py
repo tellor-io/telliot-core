@@ -1,3 +1,4 @@
+""" Telliot registry module"""
 from typing import Any
 from typing import ClassVar
 from typing import Dict
@@ -6,6 +7,35 @@ from typing import Type
 from typing import Union
 
 from telliot.model.base import Base
+
+
+class ModelRegistry:
+    """Telliot model registry
+
+    Main telliot model registry used for registering
+    OracleQuery, DataSource, DataFeed, and ValueType classes.
+    """
+
+    #: Type Registry
+    _registry: ClassVar[Dict[str, Type[Base]]] = dict()
+
+    @classmethod
+    def register(cls, model: Type[Base], name: Optional[str] = None) -> None:
+
+        registered_type = name or model.__name__
+
+        if registered_type in cls._registry:
+            raise NameError(
+                f"Cannot register class with pytelliot. "
+                f"Duplicate name exists: {registered_type}"
+            )
+
+        cls._registry[registered_type] = model
+
+    @classmethod
+    def get(cls, name: str) -> Optional[Type[Base]]:
+        """Get a model from the registry by name"""
+        return cls._registry.get(name)
 
 
 class RegisteredModel(Base):
@@ -18,18 +48,9 @@ class RegisteredModel(Base):
     reconstruction from the class name string.
     """
 
-    #: Type Registry
-    _registry_: ClassVar[Dict[str, Type[Base]]] = dict()
-
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
-        """Create registry of all subclasses"""
-        registered_type = type or cls.__name__
-        if registered_type in cls._registry_:
-            raise NameError(
-                f"Cannot register class with pytelliot. "
-                f"Duplicate name exists: {registered_type}"
-            )
-        cls._registry_[type or cls.__name__] = cls
+        """Add to registry"""
+        ModelRegistry.register(cls, type)
 
     @classmethod
     def __get_validators__(cls) -> Any:
@@ -54,7 +75,7 @@ class RegisteredModel(Base):
         if data_type is None:
             raise ValueError("Missing 'type'")
 
-        factory = cls._registry_.get(data_type)
+        factory = ModelRegistry.get(data_type)
 
         if factory is None:
             raise TypeError(f"Unsupported type: {data_type}")

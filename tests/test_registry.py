@@ -1,3 +1,4 @@
+from telliot.model.registry import ModelRegistry
 from telliot.model.registry import RegisteredModel
 
 
@@ -20,3 +21,5 @@ def test_main():
 
     assert isinstance(a_new, ModelA)
     assert a_new.a == "a"
+
+    print(ModelRegistry._registry)
