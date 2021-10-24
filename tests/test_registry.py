@@ -1,10 +1,10 @@
-from telliot.model.serializable import SerializableModel
+from telliot.model.registry import RegisteredModel
 
 
 def test_main():
     """Test model creation, serialization and deserialization"""
 
-    class ModelA(SerializableModel):
+    class ModelA(RegisteredModel):
         a: str = "a"
 
     a = ModelA()
@@ -16,7 +16,7 @@ def test_main():
     jstr = a.json()
     print(jstr)
 
-    a_new = SerializableModel.parse_raw(jstr)
+    a_new = RegisteredModel.parse_raw(jstr)
 
     assert isinstance(a_new, ModelA)
     assert a_new.a == "a"

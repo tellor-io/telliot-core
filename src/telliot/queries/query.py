@@ -5,12 +5,12 @@
 # Distributed under the terms of the MIT License.
 from typing import Any
 
-from telliot.model.serializable import SerializableModel
+from telliot.model.registry import RegisteredModel
 from telliot.types.value_type import ValueType
 from web3 import Web3
 
 
-class OracleQuery(SerializableModel):
+class OracleQuery(RegisteredModel):
     """Oracle Query
 
     An OracleQuery specifies how to pose a question to the

@@ -3,11 +3,12 @@ from typing import ClassVar
 from typing import Dict
 from typing import Optional
 from typing import Type
+from typing import Union
 
 from telliot.model.base import Base
 
 
-class SerializableModel(Base):
+class RegisteredModel(Base):
     """A helper subclass that allows nested serialization
 
     The serialized format contains the class name, which can be used
@@ -21,7 +22,13 @@ class SerializableModel(Base):
     _registry_: ClassVar[Dict[str, Type[Base]]] = dict()
 
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
-        """Register all subclasses"""
+        """Create registry of all subclasses"""
+        registered_type = type or cls.__name__
+        if registered_type in cls._registry_:
+            raise NameError(
+                f"Cannot register class with pytelliot. "
+                f"Duplicate name exists: {registered_type}"
+            )
         cls._registry_[type or cls.__name__] = cls
 
     @classmethod
@@ -29,7 +36,7 @@ class SerializableModel(Base):
         yield cls._convert_to_model
 
     @classmethod
-    def _convert_to_model(cls, data: Any) -> Base:
+    def _convert_to_model(cls, data: Union[Dict[str, Any], Base]) -> Base:
         """Convert input to a class instance
 
         When input is a JSON string, it should have two attributes:
