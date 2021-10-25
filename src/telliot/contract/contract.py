@@ -9,6 +9,7 @@ from typing import Tuple
 from typing import Union
 
 from eth_typing.evm import ChecksumAddress
+from eth_account.account import Account
 from telliot.contract.gas import estimate_gas
 from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.response import ResponseStatus
@@ -70,75 +71,94 @@ class Contract:
 
     def write(
         self,
-        func_name: str,
+        func_name:str,
         gas_price: int,
-        extra_gas_price: int,
-        retries: int,
-        **kwargs: Any,
-    ) -> Tuple[ResponseStatus, Optional[List[AttributeDict[Any, Any]]], int]:
-        """For submitting any contract transaction. Retries supported!"""
+        extra_gas_price,
+        **kwargs:int
+    ) -> Tuple[AttributeDict[Any, Any], ResponseStatus]:
+
+        status = ResponseStatus()
+
         if not self.contract:
             msg = "unable to connect to contract"
-            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+            return None, ResponseStatus(ok=False, error_msg=msg)
 
         if not self.node:
             msg = "no node instance"
-            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+            return  None, ResponseStatus(ok=False, error_msg=msg)
 
         if self.private_key:
             acc = self.node.web3.eth.account.from_key(self.private_key)
         else:
             msg = "Private key missing"
-            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+            return None, ResponseStatus(ok=False, error_msg=msg)
+        try:
+            # build transaction
+            acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
+            contract_function = self.contract.get_function_by_name(func_name)
+            transaction = contract_function(**kwargs)
+            estimated_gas = transaction.estimateGas()
+            print("estimated gas:", estimated_gas)
+
+            built_tx = transaction.buildTransaction(
+                {
+                    "nonce": acc_nonce,
+                    "gas": estimated_gas,
+                    "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
+                    "chainId": self.node.chain_id,
+                }
+            )
+
+            # get gas price
+            gas_price = estimate_gas + extra_gas_price
+
+            # submit transaction
+            tx_signed = acc.sign_transaction(built_tx)
+
+            tx_hash = self.node.web3.eth.send_raw_transaction(
+                tx_signed.rawTransaction
+            )
+
+            # Confirm transaction
+            tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
+                tx_hash, timeout=360
+            )
+
+            # Point to relevant explorer
+            print(
+                f"""View reported data: \n
+                {self.node.explorer}{tx_hash.hex()}
+                """
+            )
+
+            return tx_receipt, status
+        except Exception as e:
+            status.ok = False
+            status.error = str(e.args)
+            status.e = e
+            return None, status
+
+    def write_with_retry(
+        self,
+        func_name: str,
+        gas_price: int,
+        extra_gas_price: int,
+        retries: int,
+        **kwargs: Any,
+    ) -> Tuple[Optional[List[AttributeDict[Any, Any]]], ResponseStatus]:
+        """For submitting any contract transaction. Retries supported!"""
 
         try:
             transaction_receipts = []
             # Iterate through retry attempts
             for _ in range(retries + 1):
-                status = ResponseStatus()
-
-                # build transaction
-                acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
-                contract_function = self.contract.get_function_by_name(func_name)
-                transaction = contract_function(**kwargs)
-                estimated_gas = transaction.estimateGas()
-                print("estimated gas:", estimated_gas)
-
-                built_tx = transaction.buildTransaction(
-                    {
-                        "nonce": acc_nonce,
-                        "gas": estimated_gas,
-                        "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
-                        "chainId": self.node.chain_id,
-                    }
-                )
-
-                # get gas price
-                gas_price = estimate_gas + extra_gas_price
-
-                # submit transaction
-                tx_signed = acc.address.sign_transaction(built_tx)
-
-                tx_hash = self.node.web3.eth.send_raw_transaction(
-                    tx_signed.rawTransaction
-                )
-
-                # Confirm transaction
-                tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
-                    tx_hash, timeout=360
-                )
-
-                # Point to relevant explorer
-                print(
-                    f"""View reported data: \n
-                    {self.node.explorer}{tx_hash.hex()}
-                    """
-                )
+                
+                tx_receipt, status = self.write(func_name=func_name, gas_price=gas_price, kwargs=kwargs)
 
                 # Exit loop if transaction successful
                 if tx_receipt and status.ok:
                     transaction_receipts.append(tx_receipt)
-                    return status, transaction_receipts, gas_price
+                    return transaction_receipts, status
                 elif (
                     not status.ok
                     and status.error
@@ -151,13 +171,13 @@ class Contract:
             status.ok = False
             status.error = "ran out of retries, tx unsuccessful"
 
-            return status, transaction_receipts, gas_price
+            return transaction_receipts, status
 
         except Exception as e:
             status.ok = False
             status.error = str(e.args)
             status.e = e
-            return status, None, gas_price
+            return None, status
 
     def listen(self) -> None:
         """Wrapper for listening for contract events"""
