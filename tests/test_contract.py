@@ -7,6 +7,7 @@ import pytest
 import web3
 from telliot.apps.telliot_config import TelliotConfig
 from telliot.contract.contract import Contract
+from telliot.contract.gas import estimate_gas
 from telliot.utils.abi import tellor_playground_abi
 
 func_name = "getNewValueCountbyRequestId"
@@ -64,6 +65,27 @@ def test_call_read_function(cfg, c):
     output, status = c.read(func_name=func_name, _requestId=requestId)
     assert status.ok
     assert output >= 0
+
+def test_faucet(cfg, c):
+    """Contract call to mint to an account with the contract faucet"""
+    #estimate gas
+    gas_price = estimate_gas()
+    #set up user
+    user = cfg.get_endpoint().web3.eth.account.from_key(cfg.main.private_key).address
+    print(user)
+    #read balance
+    balance1, status = c.read(func_name="balanceOf", _account=user)
+    assert status.ok
+    assert balance1 >= 0
+    print(balance1)
+    #mint tokens to user
+    receipt, status = c.write(func_name="faucet", gas_price=gas_price, _user=user)
+    assert status.ok
+    #read balance again
+    balance2, status = c.read(func_name="balanceOf", _account=user)
+    assert balance2 - balance1 == 1E21
+    assert status.ok
+    
 
 
 @pytest.mark.skip(reason="We should ensure contract is connected when instantiated.")
