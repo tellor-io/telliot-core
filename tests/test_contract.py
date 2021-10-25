@@ -7,7 +7,7 @@ import pytest
 import web3
 from telliot.apps.telliot_config import TelliotConfig
 from telliot.contract.contract import Contract
-from telliot.contract.gas import estimate_gas
+from telliot.contract.gas import fetch_gas_price
 from telliot.utils.abi import tellor_playground_abi
 
 func_name = "getNewValueCountbyRequestId"
@@ -70,7 +70,7 @@ def test_call_read_function(cfg, c):
 def test_faucet(cfg, c):
     """Contract call to mint to an account with the contract faucet"""
     # estimate gas
-    gas_price = estimate_gas()
+    gas_price = fetch_gas_price()
     # set up user
     user = cfg.get_endpoint().web3.eth.account.from_key(cfg.main.private_key).address
     # read balance

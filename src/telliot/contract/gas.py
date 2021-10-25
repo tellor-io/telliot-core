@@ -24,10 +24,10 @@ ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
 #     return gas_price
 
 
-def estimate_gas(style: ethgastypes = "fast") -> int:
+def fetch_gas_price(speed: ethgastypes = "fast") -> int:
     """Fetch gas price from ethgasstation"""
     rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
     prices = json.loads(rsp.content)
-    gas_price = int(prices[style])
+    gas_price = int(prices[speed])
 
     return gas_price
