@@ -13,12 +13,12 @@ from typing import TypeVar
 
 import requests
 from telliot.answer import TimeStampedAnswer
-from telliot.model.base import Base
+from telliot.model.registry import RegisteredModel
 
 T = TypeVar("T")
 
 
-class DataSource(Base, ABC):
+class DataSource(RegisteredModel, ABC):
     """Base Class for a DataSource.
 
     A DataSource provides an input to a `DataFeed`

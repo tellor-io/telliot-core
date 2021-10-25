@@ -6,8 +6,8 @@ import os
 
 import pytest
 from telliot.apps.telliot_config import TelliotConfig
-from telliot.examples.btc_usd_feed import data_feeds
 from telliot.reporter.interval import IntervalReporter
+from telliot_examples.feeds.btc_usd_feed import data_feeds
 from web3.datastructures import AttributeDict
 
 # Tellor playground contract used for test

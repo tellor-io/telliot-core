@@ -4,8 +4,8 @@
 import statistics
 
 import pytest
-from telliot.examples.btc_usd_feed import data_feeds
 from telliot.queries.query import OracleQuery
+from telliot_examples.feeds.btc_usd_feed import data_feeds
 
 
 @pytest.mark.asyncio

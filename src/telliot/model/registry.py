@@ -1,13 +1,44 @@
+""" Telliot registry module"""
 from typing import Any
 from typing import ClassVar
 from typing import Dict
 from typing import Optional
 from typing import Type
+from typing import Union
 
 from telliot.model.base import Base
 
 
-class SerializableModel(Base):
+class ModelRegistry:
+    """Telliot model registry
+
+    Main telliot model registry used for registering
+    OracleQuery, DataSource, DataFeed, and ValueType classes.
+    """
+
+    #: Type Registry
+    _registry: ClassVar[Dict[str, Type[Base]]] = dict()
+
+    @classmethod
+    def register(cls, model: Type[Base], name: Optional[str] = None) -> None:
+
+        registered_type = name or model.__name__
+
+        if registered_type in cls._registry:
+            raise NameError(
+                f"Cannot register class with pytelliot. "
+                f"Duplicate name exists: {registered_type}"
+            )
+
+        cls._registry[registered_type] = model
+
+    @classmethod
+    def get(cls, name: str) -> Optional[Type[Base]]:
+        """Get a model from the registry by name"""
+        return cls._registry.get(name)
+
+
+class RegisteredModel(Base):
     """A helper subclass that allows nested serialization
 
     The serialized format contains the class name, which can be used
@@ -17,19 +48,16 @@ class SerializableModel(Base):
     reconstruction from the class name string.
     """
 
-    #: Type Registry
-    _registry_: ClassVar[Dict[str, Type[Base]]] = dict()
-
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
-        """Register all subclasses"""
-        cls._registry_[type or cls.__name__] = cls
+        """Add to registry"""
+        ModelRegistry.register(cls, type)
 
     @classmethod
     def __get_validators__(cls) -> Any:
         yield cls._convert_to_model
 
     @classmethod
-    def _convert_to_model(cls, data: Any) -> Base:
+    def _convert_to_model(cls, data: Union[Dict[str, Any], Base]) -> Base:
         """Convert input to a class instance
 
         When input is a JSON string, it should have two attributes:
@@ -47,7 +75,7 @@ class SerializableModel(Base):
         if data_type is None:
             raise ValueError("Missing 'type'")
 
-        factory = cls._registry_.get(data_type)
+        factory = ModelRegistry.get(data_type)
 
         if factory is None:
             raise TypeError(f"Unsupported type: {data_type}")

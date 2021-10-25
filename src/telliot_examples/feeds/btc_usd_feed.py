@@ -3,11 +3,11 @@ import statistics
 
 from telliot.datafeed.pricing.price_feed import PriceFeed
 from telliot.datafeed.pricing.price_source import PriceSource
-from telliot.examples.coinprices.bittrex import BittrexPriceService
-from telliot.examples.coinprices.coinbase import CoinbasePriceService
-from telliot.examples.coinprices.coingecko import CoinGeckoPriceService
-from telliot.examples.coinprices.gemini import GeminiPriceService
 from telliot.queries.coin_price import CoinPrice
+from telliot_examples.coinprices.bittrex import BittrexPriceService
+from telliot_examples.coinprices.coinbase import CoinbasePriceService
+from telliot_examples.coinprices.coingecko import CoinGeckoPriceService
+from telliot_examples.coinprices.gemini import GeminiPriceService
 
 data_sources = {
     "btc-usd-coinbase": PriceSource(
