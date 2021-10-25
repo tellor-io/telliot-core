@@ -59,8 +59,8 @@ def contract(cfg):
 def rewards(contract):
     request_id = "0x0000000000000000000000000000000000000000000000000000000000000002"
 
-    _, time_based_reward = contract.read(func_name="timeBasedReward")
-    _, current_tip = contract.read(func_name="getCurrentReward", _id=request_id)
+    time_based_reward, _ = contract.read(func_name="timeBasedReward")
+    current_tip, _ = contract.read(func_name="getCurrentReward", _id=request_id)
 
     return time_based_reward, current_tip[0]
 
