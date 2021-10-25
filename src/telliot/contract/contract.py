@@ -9,7 +9,6 @@ from typing import Tuple
 from typing import Union
 
 from eth_typing.evm import ChecksumAddress
-from eth_account.account import Account
 from telliot.contract.gas import estimate_gas
 from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.response import ResponseStatus
@@ -70,11 +69,7 @@ class Contract:
             return None, ResponseStatus(ok=False, error_msg=msg)
 
     def write(
-        self,
-        func_name:str,
-        gas_price: int,
-        extra_gas_price,
-        **kwargs:int
+        self, func_name: str, gas_price: int, **kwargs: Any
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
 
         status = ResponseStatus()
@@ -85,7 +80,7 @@ class Contract:
 
         if not self.node:
             msg = "no node instance"
-            return  None, ResponseStatus(ok=False, error_msg=msg)
+            return None, ResponseStatus(ok=False, error_msg=msg)
 
         if self.private_key:
             acc = self.node.web3.eth.account.from_key(self.private_key)
@@ -110,14 +105,12 @@ class Contract:
             )
 
             # get gas price
-            gas_price = estimate_gas + extra_gas_price
+            gas_price = estimate_gas()
 
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
 
-            tx_hash = self.node.web3.eth.send_raw_transaction(
-                tx_signed.rawTransaction
-            )
+            tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
 
             # Confirm transaction
             tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
@@ -152,8 +145,10 @@ class Contract:
             transaction_receipts = []
             # Iterate through retry attempts
             for _ in range(retries + 1):
-                
-                tx_receipt, status = self.write(func_name=func_name, gas_price=gas_price, kwargs=kwargs)
+
+                tx_receipt, status = self.write(
+                    func_name=func_name, gas_price=gas_price, kwargs=kwargs
+                )
 
                 # Exit loop if transaction successful
                 if tx_receipt and status.ok:

@@ -36,6 +36,7 @@ def cfg():
 
     return cfg
 
+
 @pytest.fixture
 def c(cfg):
     """Helper function for connecting to a contract at an address"""
@@ -54,9 +55,7 @@ def c(cfg):
 def test_connect_to_tellor_playground(cfg, c):
     """Contract object should access Tellor Playground functions"""
     assert len(c.contract.all_functions()) > 0
-    assert isinstance(
-        c.contract.all_functions()[0], web3.contract.ContractFunction
-    )
+    assert isinstance(c.contract.all_functions()[0], web3.contract.ContractFunction)
 
 
 def test_call_read_function(cfg, c):
