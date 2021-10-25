@@ -70,6 +70,7 @@ class Contract:
     def write(
         self, func_name: str, gas_price: int, **kwargs: Any
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
+        """For submitting any contract transaction once without retries"""
 
         status = ResponseStatus()
 
