@@ -47,7 +47,7 @@ class Contract:
 
     def read(
         self, func_name: str, **kwargs: Any
-    ) -> Tuple[ResponseStatus, Optional[Tuple[Any]]]:
+    ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
         inputs:
@@ -61,13 +61,13 @@ class Contract:
             try:
                 contract_function = self.contract.get_function_by_name(func_name)
                 output = contract_function(**kwargs).call()
-                return ResponseStatus(ok=True), output
+                return output, ResponseStatus(ok=True)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
-                return ResponseStatus(ok=False, error=e, error_msg=msg), None
+                return None, ResponseStatus(ok=False, error=e, error_msg=msg)
         else:
             msg = "no instance of contract"
-            return ResponseStatus(ok=False, error_msg=msg), None
+            return None, ResponseStatus(ok=False, error_msg=msg)
 
     def write(
         self,
@@ -75,7 +75,7 @@ class Contract:
         gas_price: int,
         extra_gas_price,
         **kwargs:int
-    ) -> Tuple[AttributeDict[Any, Any], ResponseStatus]:
+    ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
 
         status = ResponseStatus()
 

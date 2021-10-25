@@ -36,37 +36,35 @@ def cfg():
 
     return cfg
 
-
-def test_connect_to_tellor_playground(cfg):
-    """Contract object should access Tellor Playground functions"""
-    contract = connect_to_contract(cfg, "0xb539Cf1054ba02933f6d345937A612332C842827")
-    assert len(contract.contract.all_functions()) > 0
-    assert isinstance(
-        contract.contract.all_functions()[0], web3.contract.ContractFunction
-    )
-
-
-def test_call_read_function(cfg):
-    """Contract object should be able to call arbitrary contract read function"""
-
-    contract = connect_to_contract(cfg, "0xb539Cf1054ba02933f6d345937A612332C842827")
-    status, output = contract.read(func_name=func_name, _requestId=requestId)
-    assert status.ok
-    assert output >= 0
-
-
-def connect_to_contract(cfg, address):
+@pytest.fixture
+def c(cfg):
     """Helper function for connecting to a contract at an address"""
     endpoint = cfg.get_endpoint()
     endpoint.connect()
     c = Contract(
-        address=address,
+        address="0xb539Cf1054ba02933f6d345937A612332C842827",
         abi=tellor_playground_abi,
         node=endpoint,
         private_key=cfg.main.private_key,
     )
     c.connect()
     return c
+
+
+def test_connect_to_tellor_playground(cfg, c):
+    """Contract object should access Tellor Playground functions"""
+    assert len(c.contract.all_functions()) > 0
+    assert isinstance(
+        c.contract.all_functions()[0], web3.contract.ContractFunction
+    )
+
+
+def test_call_read_function(cfg, c):
+    """Contract object should be able to call arbitrary contract read function"""
+
+    output, status = c.read(func_name=func_name, _requestId=requestId)
+    assert status.ok
+    assert output >= 0
 
 
 @pytest.mark.skip(reason="We should ensure contract is connected when instantiated.")
