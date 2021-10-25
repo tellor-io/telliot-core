@@ -24,7 +24,7 @@ class ConfigOptions(Base):
     Each attribute represents a configuration option.
     Subclasses should add configuration attributes as required.
     """
-
+    pass
 
 class ConfigFile:
     """ConfigFile"""

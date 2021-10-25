@@ -5,8 +5,21 @@ from typing import Dict
 from typing import Optional
 from typing import Type
 from typing import Union
+from typing import List
 
 from telliot.model.base import Base
+
+
+def find_subclasses(cls: Type[Any]) -> List[Type[Any]]:
+    """ Finds subclasses of the given class"""
+    classes = []
+    for subclass in cls.__subclasses__():
+        classes.append(subclass)
+        classes.extend(find_subclasses(subclass))
+    return classes
+
+
+
 
 
 class ModelRegistry:
@@ -21,7 +34,6 @@ class ModelRegistry:
 
     @classmethod
     def register(cls, model: Type[Base], name: Optional[str] = None) -> None:
-
         registered_type = name or model.__name__
 
         if registered_type in cls._registry:
@@ -36,6 +48,11 @@ class ModelRegistry:
     def get(cls, name: str) -> Optional[Type[Base]]:
         """Get a model from the registry by name"""
         return cls._registry.get(name)
+
+    @classmethod
+    def models(cls) -> Dict[str, Type[Base]]:
+        """Get a model from the registry by name"""
+        return cls._registry
 
 
 class RegisteredModel(Base):

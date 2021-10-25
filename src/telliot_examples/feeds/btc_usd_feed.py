@@ -42,14 +42,12 @@ data_sources = {
 
 target_query = CoinPrice(coin="btc", currency="usd", price_type="current")
 
-data_feeds = {
-    "btc-usd-median": PriceFeed(
-        name="BTC USD Median Price Feed",
-        uid="btc-usd-median",
-        query=target_query,
-        asset="btc",
-        currency="usd",
-        sources=data_sources,
-        algorithm=statistics.median,
-    )
-}
+btc_usd_median_feed = PriceFeed(
+    name="BTC USD Median Price Feed",
+    uid="btc-usd-median",
+    query=target_query,
+    asset="btc",
+    currency="usd",
+    sources=data_sources,
+    algorithm=statistics.median,
+)

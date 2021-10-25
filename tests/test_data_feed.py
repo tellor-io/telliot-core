@@ -5,23 +5,22 @@ import statistics
 
 import pytest
 from telliot.queries.query import OracleQuery
-from telliot_examples.feeds.btc_usd_feed import data_feeds
+from telliot_examples.feeds.btc_usd_feed import btc_usd_median_feed
 
 
 @pytest.mark.asyncio
 async def test_AssetPriceFeed():
     """Retrieve median BTC price from example datafeed &
     make sure value is within tolerance."""
-    btc_usd_median = data_feeds["btc-usd-median"]
 
-    price = await btc_usd_median.update_value()
+    price = await btc_usd_median_feed.update_value()
 
     # Get list of data sources from sources dict
-    sources = [source.value for source in btc_usd_median.sources.values()]
+    sources = [source.value for source in btc_usd_median_feed.sources.values()]
 
     # Make sure error is less than decimal tolerance
     assert (price.val - statistics.median([s.val for s in sources])) < 10 ** -6
 
     # Get query
-    q = btc_usd_median.query
+    q = btc_usd_median_feed.query
     assert isinstance(q, OracleQuery)

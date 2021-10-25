@@ -12,7 +12,7 @@ from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-
+from telliot.datafeed.data_feed import DataFeed
 
 class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
@@ -23,7 +23,7 @@ class IntervalReporter(Reporter):
         endpoint: RPCEndpoint,
         private_key: str,
         contract_address: str,
-        datafeeds: Mapping[str, Any],
+        datafeeds: List[DataFeed],
     ) -> None:
 
         self.endpoint = endpoint
@@ -41,13 +41,13 @@ class IntervalReporter(Reporter):
     ) -> List[Union[None, Mapping[str, Any]]]:
         transaction_receipts = []
         jobs = []
-        for datafeed in self.datafeeds.values():
+        for datafeed in self.datafeeds:
             job = asyncio.create_task(datafeed.update_value(store=True))
             jobs.append(job)
 
         _ = await asyncio.gather(*jobs)
 
-        for uid, datafeed in self.datafeeds.items():
+        for datafeed in self.datafeeds:
             if name and name != datafeed.name:
                 continue
 
@@ -82,11 +82,11 @@ class IntervalReporter(Reporter):
 
                 else:
                     print(
-                        f"Skipping submission for {uid}, no query for datafeed."
+                        f"Skipping submission for {datafeed.name}, no query for datafeed."
                     )  # TODO logging
             else:
                 print(
-                    f"Skipping submission for {uid}, datafeed value not updated."
+                    f"Skipping submission for {datafeed.name}, datafeed value not updated."
                 )  # TODO logging
 
         return transaction_receipts

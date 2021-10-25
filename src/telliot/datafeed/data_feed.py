@@ -12,6 +12,7 @@ from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.data_source import DataSourceDb
 from telliot.queries.query import OracleQuery
+from typing import Optional
 
 
 class DataFeed(DataSourceDb, ABC):
@@ -22,7 +23,7 @@ class DataFeed(DataSourceDb, ABC):
     """
 
     #: Data feed sources
-    sources: Dict[str, DataSource]
+    sources: Optional[Dict[str, DataSource]]
 
     #: Query supported by this data feed
     query: OracleQuery

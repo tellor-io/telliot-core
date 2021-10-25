@@ -23,3 +23,5 @@ def test_main():
     assert a_new.a == "a"
 
     print(ModelRegistry._registry)
+
+

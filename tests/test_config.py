@@ -70,3 +70,5 @@ def test_yaml():
 def test_json():
     """Test JSON format"""
     main("json")
+
+
