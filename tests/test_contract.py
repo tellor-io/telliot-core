@@ -72,7 +72,7 @@ def test_faucet(cfg, c):
     # estimate gas
     gas_price = fetch_gas_price()
     # set up user
-    user = cfg.get_endpoint().web3.eth.account.from_key(cfg.main.private_key).address
+    user = c.node.web3.eth.account.from_key(cfg.main.private_key).address
     # read balance
     balance1, status = c.read(func_name="balanceOf", _account=user)
     assert status.ok

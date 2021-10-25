@@ -9,7 +9,6 @@ from typing import Tuple
 from typing import Union
 
 from eth_typing.evm import ChecksumAddress
-from telliot.contract.gas import estimate_gas
 from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.response import ResponseStatus
 from web3 import Web3
@@ -103,9 +102,6 @@ class Contract:
                     "chainId": self.node.chain_id,
                 }
             )
-
-            # get gas price
-            gas_price = estimate_gas()
 
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
