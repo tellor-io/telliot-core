@@ -144,7 +144,7 @@ class Contract:
             for _ in range(retries + 1):
 
                 tx_receipt, status = await self.write(
-                    func_name=func_name, gas_price=gas_price, kwargs=kwargs
+                    func_name=func_name, gas_price=gas_price, **kwargs
                 )
 
                 # Exit loop if transaction successful

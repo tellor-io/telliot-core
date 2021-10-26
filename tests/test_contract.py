@@ -81,7 +81,13 @@ async def test_faucet(cfg, c):
     assert balance1 >= 0
     print(balance1)
     # mint tokens to user
-    receipt, status = await c.write(func_name="faucet", gas_price=gas_price, _user=user)
+    receipt, status = await c.write_with_retry(
+        func_name="faucet",
+        gas_price=gas_price,
+        extra_gas_price=20,
+        retries=1,
+        _user=user,
+    )
     assert status.ok
     # read balance again
     balance2, status = await c.read(func_name="balanceOf", _account=user)
