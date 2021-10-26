@@ -62,7 +62,7 @@ def test_unsigned_float_value():
     assert f.decimals == 6
     # Note encoded value is still 256 bits because packed = False
     assert f.nbits == 64
-    print(f.json())
+    print(f.to_json())
     encoded_value = f.encode(99.0000009)
     print(encoded_value.hex())
     assert (
