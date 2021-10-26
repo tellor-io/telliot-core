@@ -42,7 +42,7 @@ class IntervalReporter(Reporter):
         transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds:
-            job = asyncio.create_task(datafeed.update_value(store=True))
+            job = asyncio.create_task(datafeed.update_value())
             jobs.append(job)
 
         _ = await asyncio.gather(*jobs)
