@@ -13,6 +13,7 @@ from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
+from dataclasses import dataclass
 
 price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
 
@@ -21,6 +22,7 @@ price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manu
 price_query_params = ["coin", "currency", "price_type"]
 
 
+@dataclass
 class CoinPrice(OracleQuery):
     """Query the price of a cryptocurrency coin.
 
@@ -39,20 +41,10 @@ class CoinPrice(OracleQuery):
 
     price_type: price_types = "current"
 
-    #: Private storage for response_type
-    _value_type: ValueType = PrivateAttr()
-
-    def __init__(self, **kwargs: Any):
-        # Fixed response type for all queries
-
-        super().__init__(**kwargs)
-
-        self._value_type = UnsignedFloatType(abi_type="ufixed64x6", packed=True)
-
     @property
     def value_type(self) -> ValueType:
         """Returns the fixed value type for a CoinPrice."""
-        return self._value_type
+        return UnsignedFloatType(abi_type="ufixed64x6", packed=True)
 
     @validator("coin")
     def asset_must_be_lower_case(cls, v: str) -> str:

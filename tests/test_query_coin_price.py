@@ -10,18 +10,12 @@ def test_constructor():
     """Validate price query"""
     q = CoinPrice(coin="BTC", currency="USD")
 
-    exp = (
-        b'{"type":"CoinPrice",'
-        b'"inputs":'
-        b'{"coin":"btc","currency":"usd","price_type":"current"}}?'
-        b'{"type":"UnsignedFloatType",'
-        b'"inputs":{"abi_type":"ufixed64x6","packed":true}}'
-    )
+    exp = b'["CoinPrice",{"coin":"BTC","currency":"USD","price_type":"current"}]'
 
     print(q.query_data)
     assert q.query_data == exp
 
-    exp = "1cb51cfbde0f6dddd03172ba0ea9e8d2e77a1beecc7edcb907bbd83311af9b53"
+    exp = "c09f8e5a2f8b0eb295d9f2fff14f3330f9b89259da98ce25b31c8231e2a7f323"
     assert q.query_id.hex() == exp
 
 
@@ -29,16 +23,10 @@ def test_price_type():
     """Validate price_type setting"""
     q = CoinPrice(coin="ETH", currency="USD", price_type="24hr_twap")
 
-    exp = (
-        b'{"type":"CoinPrice",'
-        b'"inputs":'
-        b'{"coin":"eth","currency":"usd","price_type":"24hr_twap"}}?'
-        b'{"type":"UnsignedFloatType",'
-        b'"inputs":{"abi_type":"ufixed64x6","packed":true}}'
-    )
+    exp = b'["CoinPrice",{"coin":"ETH","currency":"USD","price_type":"24hr_twap"}]'
 
     print(q.query_data)
     assert q.query_data == exp
 
-    exp = "c7f37408fb3c59185abb27cb66b6299288927bb9b51f2db4ab1e0c42d71bbaf2"
+    exp = "ce19ecb1561a93f444c9453aa6a8bbab7ebf8a74bfdbcb727340437f475fa621"
     assert q.query_id.hex() == exp

@@ -10,12 +10,7 @@ def test_static_query():
     """Test static query"""
     q = StringQuery(text="What is the meaning of life")
 
-    assert q.query_data == (
-        b'{"type":"StringQuery",'
-        b'"inputs":{"text":"What is the meaning of life"}}?'
-        b'{"type":"ValueType",'
-        b'"inputs":{"abi_type":"string","packed":false}}'
-    )
+    assert q.query_data == b'["StringQuery",{"text":"What is the meaning of life"}]'
 
     submit_value = q.value_type.encode(
         "Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life"

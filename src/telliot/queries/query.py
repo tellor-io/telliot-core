@@ -4,13 +4,13 @@
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
 from typing import Any
+from telliot.model.registry import SimpleSerial
 
-from telliot.model.registry import RegisteredModel
 from telliot.types.value_type import ValueType
 from web3 import Web3
 
 
-class OracleQuery(RegisteredModel):
+class OracleQuery(SimpleSerial):
     """Oracle Query
 
     An OracleQuery specifies how to pose a question to the
@@ -49,7 +49,7 @@ class OracleQuery(RegisteredModel):
 
             `query` ? `value_type`
         """
-        return f"{self.json()}?{self.value_type.json()}"
+        return f"{self.to_json()}"
 
     @property
     def value_type(self) -> ValueType:

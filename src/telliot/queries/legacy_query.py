@@ -7,12 +7,14 @@ from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
+from dataclasses import dataclass
 
 
-class LegacyQuery(OracleQuery):
-    """Legacy Query
+@dataclass
+class LegacyRequest(OracleQuery):
+    """Legacy Price/Value request
 
-    Legacy queries are queries that existed prior to TellorX
+    Legacy request are queries that existed prior to TellorX
     A legacy query uses arbitrary query ``data`` and a static query ``id``.
     The query ``id`` is always set to the legacy request ID, which is
     an integer less than 100.
@@ -27,7 +29,7 @@ class LegacyQuery(OracleQuery):
 
     """
 
-    legacy_request_id: int
+    legacy_id: int
     """The request ID of all legacy queries is a static integer 1 < N <=100"""
 
     @property
@@ -38,7 +40,7 @@ class LegacyQuery(OracleQuery):
     @property
     def query_id(self) -> bytes:
         """Override query ``id`` with the legacy request ID."""
-        return self.legacy_request_id.to_bytes(32, "big", signed=False)
+        return self.legacy_id.to_bytes(32, "big", signed=False)
 
     @validator("legacy_request_id")
     def must_be_less_than_100(cls, v):  # type: ignore

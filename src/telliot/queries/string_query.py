@@ -5,8 +5,10 @@
 # Distributed under the terms of the MIT License.
 from telliot.queries.query import OracleQuery
 from telliot.types.value_type import ValueType
+from dataclasses import dataclass
 
 
+@dataclass
 class StringQuery(OracleQuery):
     """Static Oracle Query
 
