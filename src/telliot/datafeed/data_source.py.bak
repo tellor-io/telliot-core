@@ -39,6 +39,53 @@ class DataSource(RegisteredModel, ABC):
         """
         raise NotImplementedError
 
+
+class DataSourceDb(DataSource, ABC):
+    """A data source that can store and retrieve values from a database"""
+
+    async def load_value(self) -> TimeStampedAnswer[Any]:
+        """Update current value with time-stamped value fetched from database"""
+        raise NotImplementedError
+
+    async def store_value(self) -> None:
+        """Store current time-stamped value to database"""
+
+        value = self.value.val if self.value else None
+        timestamp = str(self.value.ts) if self.value else None
+        data = {"uid": self.uid, "value": value, "timestamp": timestamp}
+
+        url = "http://127.0.0.1:8000/data/"
+
+        def store() -> Dict[str, Any]:
+            """Send post request to local db."""
+            with requests.Session() as s:
+                try:
+                    r = s.post(url, json=data)
+                    json_data = r.json()
+                    return {"response": json_data}
+
+                except requests.exceptions.ConnectTimeout as e:
+                    return {"error": "Timeout Error", "exception": e}
+
+                except Exception as e:
+                    return {"error": str(type(e)), "exception": e}
+
+        _ = store()
+
+    @abstractmethod
+    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
+        """Get data source history from database
+
+        Args:
+            n:  If n > 0, get n datapoints from database, otherwise get all
+                available datapoints.
+
+        Returns:
+            History of timestamped values from database
+        """
+        raise NotImplementedError
+
+
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""
 #

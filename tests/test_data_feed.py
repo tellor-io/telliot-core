@@ -15,11 +15,11 @@ async def test_AssetPriceFeed():
 
     price = await btc_usd_median_feed.update_value()
 
-    # Get list of data sources from sources dict
-    sources = [source.value for source in btc_usd_median_feed.sources.values()]
+    # Get list of data sources
+    sources = btc_usd_median_feed.sources
 
     # Make sure error is less than decimal tolerance
-    assert (price.val - statistics.median([s.val for s in sources])) < 10 ** -6
+    assert (price.val - statistics.median([s.value.val for s in sources])) < 10 ** -6
 
     # Get query
     q = btc_usd_median_feed.query

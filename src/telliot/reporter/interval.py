@@ -48,8 +48,6 @@ class IntervalReporter(Reporter):
         _ = await asyncio.gather(*jobs)
 
         for datafeed in self.datafeeds:
-            if name and name != datafeed.name:
-                continue
 
             if datafeed.value:
                 query = datafeed.query

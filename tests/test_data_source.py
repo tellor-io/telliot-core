@@ -9,7 +9,7 @@ from telliot.model.registry import ModelRegistry
 @pytest.mark.asyncio
 async def test_CurrentAssetPrice():
     """Retrieve BTC price in USD from Coinbase."""
-    btc_usd_coinbase = data_sources["btc-usd-coinbase"]
+    btc_usd_coinbase = data_sources[0]
 
     # Fetch current price
     price = await btc_usd_coinbase.update_value()

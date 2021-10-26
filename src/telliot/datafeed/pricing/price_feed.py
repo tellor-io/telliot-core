@@ -30,21 +30,20 @@ class PriceFeed(DataFeed, ABC):
         Returns:
             Current time-stamped value
         """
-        sources = await self.update_sources()
+        values = await self.update_sources()
 
         prices = []
-        for key in sources:
+        for value in values:
 
             # Check for valid answers
-            if sources[key] is not None:
-                timestamped_answer = sources[key]
-                price = timestamped_answer.val
-                prices.append(price)
-                # print(
-                #     "Source Price: {} reported from {} at time {}".format(
-                #         price, key, timestamped_answer.ts
-                #     )
-                # )
+            timestamped_answer = value
+            price = timestamped_answer.val
+            prices.append(price)
+            # print(
+            #     "Source Price: {} reported from {} at time {}".format(
+            #         price, key, timestamped_answer.ts
+            #     )
+            # )
 
         result = self.algorithm(prices)
 
@@ -55,9 +54,6 @@ class PriceFeed(DataFeed, ABC):
                 self.value.val, self.uid, self.value.ts
             )
         )
-
-        if store:
-            await self.store_value()
 
         return self.value
 

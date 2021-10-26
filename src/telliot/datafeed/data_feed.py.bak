@@ -10,9 +10,9 @@ from typing import Dict
 
 from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
+from telliot.datafeed.data_source import DataSource
 from telliot.queries.query import OracleQuery
-from typing import List
-from pydantic import Field
+from typing import Optional
 
 
 class DataFeed(DataSource, ABC):
@@ -23,12 +23,12 @@ class DataFeed(DataSource, ABC):
     """
 
     #: Data feed sources
-    sources: List[DataSource] = Field(default_factory=list)
+    sources: Optional[Dict[str, DataSource]]
 
     #: Query supported by this data feed
     query: OracleQuery
 
-    async def update_sources(self) -> List[TimeStampedAnswer[Any]]:
+    async def update_sources(self) -> Dict[str, TimeStampedAnswer[Any]]:
         """Update data feed sources
 
         Returns:
@@ -36,12 +36,11 @@ class DataFeed(DataSource, ABC):
             to the time-stamped answer for that data source
         """
 
-
-        async def gather_inputs() -> List[TimeStampedAnswer[Any]]:
-            sources = self.sources
+        async def gather_inputs() -> Dict[str, TimeStampedAnswer[Any]]:
+            keys = self.sources.keys()
             values = await asyncio.gather(
-                *[source.update_value() for source in sources]
+                *[self.sources[key].update_value() for key in keys]
             )
-            return values
+            return dict(zip(keys, values))
 
         return await gather_inputs()

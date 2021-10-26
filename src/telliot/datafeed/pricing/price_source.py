@@ -2,11 +2,11 @@ from typing import List
 from typing import Optional
 
 from telliot.answer import TimeStampedFloat
-from telliot.datafeed.data_source import DataSourceDb
+from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.pricing.price_service import WebPriceService
 
 
-class PriceSource(DataSourceDb):
+class PriceSource(DataSource):
     """Current Asset Price
 
     The Current Asset Price data source retrieves the price of a coin
