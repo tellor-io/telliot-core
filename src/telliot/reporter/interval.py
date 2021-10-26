@@ -80,11 +80,11 @@ class IntervalReporter(Reporter):
 
                 else:
                     print(
-                        f"Skipping submission for {datafeed.name}, no query for datafeed."
+                        f"Skipping submission for {repr(datafeed)}, no query for datafeed."
                     )  # TODO logging
             else:
                 print(
-                    f"Skipping submission for {datafeed.name}, datafeed value not updated."
+                    f"Skipping submission for {repr(datafeed)}, datafeed value not updated."
                 )  # TODO logging
 
         return transaction_receipts
