@@ -43,7 +43,7 @@ class Contract:
         self.contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
         return ResponseStatus(ok=True)
 
-    def read(
+    async def read(
         self, func_name: str, **kwargs: Any
     ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
@@ -67,7 +67,7 @@ class Contract:
             msg = "no instance of contract"
             return None, ResponseStatus(ok=False, error_msg=msg)
 
-    def write(
+    async def write(
         self, func_name: str, gas_price: int, **kwargs: Any
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction once without retries"""
@@ -128,7 +128,7 @@ class Contract:
             status.e = e
             return None, status
 
-    def write_with_retry(
+    async def write_with_retry(
         self,
         func_name: str,
         gas_price: int,
@@ -143,8 +143,8 @@ class Contract:
             # Iterate through retry attempts
             for _ in range(retries + 1):
 
-                tx_receipt, status = self.write(
-                    func_name=func_name, gas_price=gas_price, kwargs=kwargs
+                tx_receipt, status = await self.write(
+                    func_name=func_name, gas_price=gas_price, **kwargs
                 )
 
                 # Exit loop if transaction successful
