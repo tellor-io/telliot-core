@@ -11,7 +11,6 @@ from typing import List
 from typing import Optional
 from typing import TypeVar
 
-import requests
 from telliot.answer import TimeStampedAnswer
 from telliot.model.registry import RegisteredModel
 

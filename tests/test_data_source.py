@@ -4,7 +4,6 @@
 import pytest
 from telliot.answer import TimeStampedFloat
 from telliot_examples.feeds.btc_usd_feed import data_sources
-from telliot.model.registry import ModelRegistry
 
 @pytest.mark.asyncio
 async def test_CurrentAssetPrice():

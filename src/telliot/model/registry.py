@@ -25,8 +25,8 @@ def find_subclasses(cls: Type[Any]) -> List[Type[Any]]:
     return classes
 
 
-class ModelRegistry:
-    """Telliot model registry
+class Serializer:
+    """Telliot model registry for serialization/deserialization
 
     Main telliot model registry used for registering
     OracleQuery, DataSource, DataFeed, and ValueType classes.
@@ -70,11 +70,11 @@ class RegisteredModel(Base):
 
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
         """Add to registry"""
-        ModelRegistry.register(cls, type)
+        Serializer.register(cls, type)
 
-    @classmethod
-    def __get_validators__(cls) -> Any:
-        yield cls._convert_to_model
+    # @classmethod
+    # def __get_validators__(cls) -> Any:
+    #     yield cls._convert_to_model
 
     @classmethod
     def _convert_to_model(cls, data: Union[ModelStateType, Base]) -> Base:
@@ -95,7 +95,7 @@ class RegisteredModel(Base):
         if data_type is None:
             raise ValueError("Missing 'type'")
 
-        factory = ModelRegistry.get(data_type)
+        factory = Serializer.get(data_type)
 
         if factory is None:
             raise TypeError(f"Unsupported type: {data_type}")
@@ -137,10 +137,10 @@ class RegisteredModel(Base):
 class SimpleSerial:
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
         """Add to registry"""
-        ModelRegistry.register(cls, type)
+        Serializer.register(cls, type)
 
     @classmethod
-    def arg_names(cls) -> List[str]:
+    def _arg_names(cls) -> List[str]:
         sig = inspect.signature(cls.__init__)
         names = list(sig.parameters.keys())
         names.pop(0)  # Remove 'self' argument
@@ -153,7 +153,7 @@ class SimpleSerial:
 
     def arg_dict(self):
         d = {}
-        for name in self.arg_names():
+        for name in self._arg_names():
             val = getattr(self, name)
             d[name] = val
         return d
