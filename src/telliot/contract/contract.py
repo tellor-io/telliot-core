@@ -90,25 +90,35 @@ class Contract:
         try:
             # build transaction
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
+            print(1)
             contract_function = self.contract.get_function_by_name(func_name)
+            print(2)
             transaction = contract_function(**kwargs)
-            estimated_gas = transaction.estimateGas()
+            print(3)
+            # estimated_gas = transaction.estimateGas()
+            estimated_gas = 300000
             print("estimated gas:", estimated_gas)
+
+            print("actual address: ----- ", acc.address)
+            print("gas price:", gas_price)
 
             built_tx = transaction.buildTransaction(
                 {
+                    "from": acc.address,
                     "nonce": acc_nonce,
                     "gas": estimated_gas,
-                    "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
+                    "gasPrice": gas_price*10000000, #1E7
                     "chainId": self.node.chain_id,
                 }
             )
 
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
-
+            # pk = "af742bc879586358c353b5d64ec55efca9f789bb343568361431578df2f7aca3"
+            # tx_signed = self.node.web3.eth.account.sign_transaction(built_tx, pk)
+            print(" tx signed")
             tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
-
+            print("tx sent")
             # Confirm transaction
             tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
                 tx_hash, timeout=360
@@ -117,7 +127,7 @@ class Contract:
             # Point to relevant explorer
             print(
                 f"""View reported data: \n
-                {self.node.explorer}{tx_hash.hex()}
+                {self.node.explorer}/tx/{tx_hash.hex()}
                 """
             )
 
