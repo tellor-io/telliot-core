@@ -1,6 +1,14 @@
 [build-system]
 requires = [
     "setuptools >= 56.0",
-    "wheel"
+    "wheel",
+    "flit_core >=2,<4"
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "telliot"
+author = "Tellor Development Community"
+author-email = "info@tellor.io"
+home-page = "https://github.com/tellor-io/pytelliot"
+
