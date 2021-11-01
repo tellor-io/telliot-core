@@ -2,40 +2,13 @@
 Tests covering the IntervalReporter class from
 telliot's reporter subpackage.
 """
-import os
-
 import pytest
-from telliot.apps.telliot_config import TelliotConfig
 from telliot.reporter.interval import IntervalReporter
 from telliot_examples.feeds.btc_usd_feed import data_feeds
 from web3.datastructures import AttributeDict
 
 # Tellor playground contract used for test
 playground_address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"
-
-
-@pytest.fixture
-def cfg():
-    """Get rinkeby endpoint from config
-
-    If environment variables are defined, they will override the values in config files
-    """
-    cfg = TelliotConfig()
-
-    # Override configuration for rinkeby testnet
-    cfg.main.chain_id = 4
-
-    rinkeby_endpoint = cfg.get_endpoint()
-    assert rinkeby_endpoint.network == "rinkeby"
-
-    # Optionally override private key and URL with ENV vars for testing
-    if os.getenv("PRIVATE_KEY", None):
-        cfg.main.private_key = os.environ["PRIVATE_KEY"]
-
-    if os.getenv("NODE_URL", None):
-        rinkeby_endpoint.url = os.environ["NODE_URL"]
-
-    return cfg
 
 
 def test_reporter_config(cfg):

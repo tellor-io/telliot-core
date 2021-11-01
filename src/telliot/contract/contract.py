@@ -96,7 +96,7 @@ class Contract:
             transaction = contract_function(**kwargs)
             print(3)
             # estimated_gas = transaction.estimateGas()
-            estimated_gas = 300000
+            estimated_gas = 500000
             print("estimated gas:", estimated_gas)
 
             print("actual address: ----- ", acc.address)
@@ -107,7 +107,7 @@ class Contract:
                     "from": acc.address,
                     "nonce": acc_nonce,
                     "gas": estimated_gas,
-                    "gasPrice": gas_price*10000000, #1E7
+                    "gasPrice": gas_price * 10000000,  # 1E7
                     "chainId": self.node.chain_id,
                 }
             )

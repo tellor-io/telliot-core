@@ -11,7 +11,7 @@ from typing import Union
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
-from telliot.utils.abi import tellor_playground_abi
+from telliot.utils.abi import rinkeby_tellor_master
 
 
 class IntervalReporter(Reporter):
@@ -33,12 +33,13 @@ class IntervalReporter(Reporter):
             endpoint=self.endpoint,
             private_key=private_key,
             contract_address=contract_address,
-            abi=tellor_playground_abi,
+            abi=rinkeby_tellor_master,
         )
 
     async def report_once(
         self, name: str = "", retries: int = 0
     ) -> List[Union[None, Mapping[str, Any]]]:
+        """Submit value once"""
         transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds.values():
