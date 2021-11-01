@@ -11,4 +11,3 @@ module = "telliot"
 author = "Tellor Development Community"
 author-email = "info@tellor.io"
 home-page = "https://github.com/tellor-io/pytelliot"
-
