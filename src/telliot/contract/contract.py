@@ -90,11 +90,8 @@ class Contract:
         try:
             # build transaction
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
-            print(1)
             contract_function = self.contract.get_function_by_name(func_name)
-            print(2)
             transaction = contract_function(**kwargs)
-            print(3)
             # estimated_gas = transaction.estimateGas()
             estimated_gas = 500000
             print("estimated gas:", estimated_gas)
