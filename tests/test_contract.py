@@ -126,7 +126,7 @@ async def test_submit_value(cfg, master, oracle):
         # retries=1,
         _queryId=query_id,
         _value=value,
-        _nonce=0,
+        _nonce=value_count,
         _queryData=query_data,
     )
 
