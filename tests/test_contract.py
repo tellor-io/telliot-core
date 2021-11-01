@@ -88,6 +88,7 @@ async def test_trb_transfer(cfg, master):
 
 @pytest.mark.asyncio
 async def test_submit_value(cfg, master, oracle):
+    """E2E test for submitting a value to rinkeby"""
 
     gas_price = await fetch_gas_price()
     user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
