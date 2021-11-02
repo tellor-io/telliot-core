@@ -30,30 +30,31 @@ async def test_call_read_function(cfg, master):
     assert output >= 0
 
 
-@pytest.mark.skip(reason="krasi oracle contract does not have balanceOf")
+@pytest.mark.skip(reason="oracle contract does not have faucet right now")
 @pytest.mark.asyncio
-async def test_faucet(cfg, c):
+async def test_faucet(cfg, master):
     """Contract call to mint to an account with the contract faucet"""
     # estimate gas
     gas_price = await fetch_gas_price()
     # set up user
-    user = c.node.web3.eth.account.from_key(cfg.main.private_key).address
+    user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
     # read balance
-    balance1, status = await c.read(func_name="balanceOf", _account=user)
+    balance1, status = await master.read(func_name="balanceOf", _user=user)
     assert status.ok
     assert balance1 >= 0
     print(balance1)
     # mint tokens to user
-    receipt, status = await c.write_with_retry(
-        func_name="faucet",
+    receipt, status = await master.write_with_retry(
+        func_name="setBalanceTest",
         gas_price=gas_price,
         extra_gas_price=20,
         retries=1,
-        _user=user,
+        _address=user,
+        _amount=1e18,
     )
     assert status.ok
     # read balance again
-    balance2, status = await c.read(func_name="balanceOf", _account=user)
+    balance2, status = await master.read(func_name="balanceOf", _user=user)
     assert status.ok
     print(balance2)
     assert balance2 - balance1 == 1e21
