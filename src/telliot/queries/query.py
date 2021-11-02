@@ -1,16 +1,14 @@
 """  Oracle Query Module
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
-from typing import Any
+import json
 
-from telliot.model.registry import RegisteredModel
+from clamfig import Serializable
 from telliot.types.value_type import ValueType
 from web3 import Web3
 
 
-class OracleQuery(RegisteredModel):
+class OracleQuery(Serializable):
     """Oracle Query
 
     An OracleQuery specifies how to pose a question to the
@@ -49,7 +47,9 @@ class OracleQuery(RegisteredModel):
 
             `query` ? `value_type`
         """
-        return f"{self.json()}?{self.value_type.json()}"
+        state = self.get_state()
+        jstr = json.dumps(state, separators=(",", ":"))
+        return jstr
 
     @property
     def value_type(self) -> ValueType:
@@ -78,8 +78,3 @@ class OracleQuery(RegisteredModel):
         contract calls.
         """
         return bytes(Web3.keccak(self.query_data))
-
-    def json(self, **kwargs: Any) -> str:
-        """Convert to compact JSON format used in query descriptor"""
-
-        return super().json(**kwargs, separators=(",", ":"))

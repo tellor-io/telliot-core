@@ -1,6 +1,9 @@
-import enum
+from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
+from typing import Literal
 from typing import Optional
+from typing import Union
 
 from telliot.apps.config import ConfigFile
 from telliot.apps.config import ConfigOptions
@@ -10,23 +13,12 @@ from telliot.model.endpoints import EndpointList
 from telliot.model.endpoints import RPCEndpoint
 
 
-class LogLevel(str, enum.Enum):
-    """Enumeration of supported log levels"""
-
-    DEBUG = "debug"
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
-    CRITICAL = "critical"
-
-
+@dataclass
 class MainConfig(ConfigOptions):
     """Main telliot configuration object"""
 
-    config_version: str = "0.0.1"
-
     #: Control application logging level
-    loglevel: LogLevel = LogLevel.INFO
+    loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
 
     #: Select chain id
     chain_id: int = 4
@@ -38,6 +30,7 @@ class MainConfig(ConfigOptions):
     private_key: str = ""
 
 
+@dataclass
 class TelliotConfig(Base):
     """Main telliot configuration object
 
@@ -45,37 +38,37 @@ class TelliotConfig(Base):
     If any config file does not exist, a default will be created.
     """
 
-    main: MainConfig
+    config_dir: Optional[Union[str, Path]] = None
 
-    endpoints: EndpointList
+    main: MainConfig = field(default_factory=MainConfig)
 
-    chains: ChainList
+    endpoints: EndpointList = field(default_factory=EndpointList)
 
-    def __init__(self, config_dir: Optional[Path] = None) -> None:
+    chains: ChainList = field(default_factory=ChainList)
+
+    def __post_init__(self) -> None:
         main_file = ConfigFile(
             name="main",
             config_type=MainConfig,
             config_format="yaml",
-            config_dir=config_dir,
+            config_dir=self.config_dir,
         )
         ep_file = ConfigFile(
             name="endpoints",
             config_type=EndpointList,
             config_format="yaml",
-            config_dir=config_dir,
+            config_dir=self.config_dir,
         )
         chain_file = ConfigFile(
             name="chains",
             config_type=ChainList,
             config_format="json",
-            config_dir=config_dir,
+            config_dir=self.config_dir,
         )
 
-        super().__init__(
-            main=main_file.get_config(),
-            endpoints=ep_file.get_config(),
-            chains=chain_file.get_config(),
-        )
+        self.main = main_file.get_config()  # type: ignore
+        self.endpoints = ep_file.get_config()  # type: ignore
+        self.chains = chain_file.get_config()  # type: ignore
 
     def get_endpoint(self) -> Optional[RPCEndpoint]:
         """Search endpoints for current chain_id"""

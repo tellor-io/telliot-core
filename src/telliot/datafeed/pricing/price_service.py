@@ -12,7 +12,7 @@ class PriceServiceInterface(ABC):
     """Price Service Interface
 
     Interface to get pricing information
-    As an interface, this class stores no state and all methods are abstract.
+    As an interface, this class stores no to_state and all methods are abstract.
     Classes that inherit this interface must provide concrete implementations
     of each method.
     """

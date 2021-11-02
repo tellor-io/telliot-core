@@ -3,10 +3,13 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
+from dataclasses import dataclass
+
 from telliot.queries.query import OracleQuery
 from telliot.types.value_type import ValueType
 
 
+@dataclass
 class StringQuery(OracleQuery):
     """Static Oracle Query
 

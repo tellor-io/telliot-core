@@ -1,17 +1,20 @@
+from dataclasses import dataclass
+from dataclasses import field
 from typing import List
 from typing import Optional
 
-from pydantic import Field
 from telliot.apps.config import ConfigOptions
 from telliot.model.base import Base
 
 
+@dataclass
 class EVMCurrency(Base):
     name: str
     symbol: str
     decimals: int
 
 
+@dataclass
 class Chain(Base):
     name: str
     chain: str
@@ -59,8 +62,9 @@ default_chain_list = [
 ]
 
 
+@dataclass
 class ChainList(ConfigOptions):
-    chains: List[Chain] = Field(default=default_chain_list)
+    chains: List[Chain] = field(default_factory=lambda: default_chain_list)
 
     def get_chain(
         self, chain: str = "ETH", network: str = "rinkeby"

@@ -2,8 +2,14 @@
 
 This module creates a database with a model to store off-chain data.
 """
+from abc import ABC
+from abc import abstractmethod
+from typing import Any
+from typing import List
+
 import databases
 import sqlalchemy
+from telliot.answer import TimeStampedAnswer
 
 
 DATABASE_URL = "sqlite:///./test.db"
@@ -26,3 +32,50 @@ engine = sqlalchemy.create_engine(
 )
 
 metadata.create_all(engine)
+
+
+class FeedDataBaseMixin(ABC):
+    """A Mixin Class that provides an interface to the feed database"""
+
+    @abstractmethod
+    async def load_value(self) -> TimeStampedAnswer[Any]:
+        """Update current value with time-stamped value fetched from database"""
+        raise NotImplementedError
+
+    @abstractmethod
+    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
+        """Get data source history from database
+
+        Args:
+            n:  If n > 0, get n datapoints from database, otherwise get all
+                available datapoints.
+
+        Returns:
+            History of timestamped values from database
+        """
+        raise NotImplementedError
+
+    # async def store_value(self) -> None:
+    #     """Store current time-stamped value to database"""
+    #
+    #     value = self.value.val if self.value else None
+    #     timestamp = str(self.value.ts) if self.value else None
+    #     data = {"uid": self.uid, "value": value, "timestamp": timestamp}
+    #
+    #     url = "http://127.0.0.1:8000/data/"
+    #
+    #     def store() -> Dict[str, Any]:
+    #         """Send post request to local db."""
+    #         with requests.Session() as s:
+    #             try:
+    #                 r = s.post(url, json=data)
+    #                 json_data = r.json()
+    #                 return {"response": json_data}
+    #
+    #             except requests.exceptions.ConnectTimeout as e:
+    #                 return {"error": "Timeout Error", "exception": e}
+    #
+    #             except Exception as e:
+    #                 return {"error": str(type(e)), "exception": e}
+    #
+    #     _ = store()

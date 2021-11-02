@@ -2,12 +2,12 @@ from typing import Any
 from typing import Dict
 from typing import Optional
 
+from pydantic import BaseModel
 from telliot.answer import TimeStampedFloat
 from telliot.datafeed.pricing.price_service import WebPriceService
-from telliot.model.base import Base
 
 
-class PriceResponse(Base):
+class GeminiPriceResponse(BaseModel):
     bid: float
     ask: float
     last: float
@@ -50,7 +50,7 @@ class GeminiPriceService(WebPriceService):
             return None
 
         else:
-            r = PriceResponse.parse_obj(d["response"])
+            r = GeminiPriceResponse.parse_obj(d["response"])
 
             if r.last is not None:
                 return TimeStampedFloat(r.last)

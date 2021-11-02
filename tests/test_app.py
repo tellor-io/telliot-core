@@ -34,7 +34,7 @@ def test_application_homedir():
 
 
 def test_application_default_home():
-    """Test default appliaction directory"""
+    """Test default application directory"""
 
     app = Application(name="appname")
     assert app.homedir == default_homedir()
