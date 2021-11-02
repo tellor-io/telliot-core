@@ -49,12 +49,10 @@ class RandomSource(DataSource):
     """
 
     async def update_value(self) -> Optional[TimeStampedFloat]:
-
         self._value = TimeStampedFloat(val=random.random())
 
         return self.value  # type: ignore
         # return ResponseStatus(True), self.value, now()
-
 
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""

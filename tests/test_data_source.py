@@ -27,14 +27,3 @@ async def test_RandomSource():
     assert isinstance(tsval.ts, datetime)
 
 
-# @pytest.mark.asyncio
-# async def test_CurrentAssetPrice():
-#     """Retrieve BTC price in USD from Coinbase."""
-#     btc_usd_coinbase = data_sources[0]
-#
-#     # Fetch current price
-#     price = await btc_usd_coinbase.update_value()
-#     assert isinstance(price, TimeStampedFloat)
-#
-#     # Make sure value property is updated
-#     assert btc_usd_coinbase.value is price
