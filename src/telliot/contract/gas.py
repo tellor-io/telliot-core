@@ -1,4 +1,3 @@
-import asyncio
 import json
 from typing import Literal
 
@@ -7,12 +6,12 @@ import requests
 ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
 
 
-async def estimate_gas() -> int:
+async def fetch_gas_price() -> int:
     """Estimate current ETH gas price
 
     Work In Progress - Just do something quick
     """
-    return asyncio.run(ethgasstation("fast"))
+    return await ethgasstation("fast")
 
 
 async def ethgasstation(style: ethgastypes = "fast") -> int:

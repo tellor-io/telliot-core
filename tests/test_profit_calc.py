@@ -56,11 +56,12 @@ def contract(cfg):
 
 
 @pytest.fixture
-def rewards(contract):
+@pytest.mark.asyncio
+async def rewards(contract):
     request_id = "0x0000000000000000000000000000000000000000000000000000000000000002"
 
-    _, time_based_reward = contract.read(func_name="timeBasedReward")
-    _, current_tip = contract.read(func_name="getCurrentReward", _id=request_id)
+    time_based_reward, _ = await contract.read(func_name="timeBasedReward")
+    current_tip, _ = await contract.read(func_name="getCurrentReward", _id=request_id)
 
     return time_based_reward, current_tip[0]
 
