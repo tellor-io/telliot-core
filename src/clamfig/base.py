@@ -4,23 +4,30 @@ Distributed under the terms of the MIT License.
 """
 import logging
 import traceback
-from dataclasses import dataclass
-from pprint import pformat
-
+from base64 import b64decode
+from base64 import b64encode
 from collections.abc import MutableMapping
-from base64 import b64encode, b64decode
-from datetime import date, time, datetime
+from datetime import date
+from datetime import datetime
+from datetime import time
 from decimal import Decimal
+from pprint import pformat
+from typing import Any
+from typing import ClassVar
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Type
+from typing import Union
 
-from typing import ClassVar, Any, Dict, List, Union, Tuple, Type, Optional
-
-logger = logging.getLogger('clam_cereal')
+logger = logging.getLogger("clam_cereal")
 
 stateType = Dict[str, Any]
 
 
 class Serializable:
-    """ An mixin that allows an object that can be serialized to json or yaml.
+    """An mixin that allows an object that can be serialized to json or yaml.
 
     Currently supported subclass types:
         - dataclass
@@ -33,16 +40,14 @@ class Serializable:
     # Serialization API
     # ==========================================================================
     def __init_subclass__(cls, type: Optional[str] = None) -> None:
-        """Add to registry
-
-        """
+        """Add to registry"""
         type_name = type or cls.__name__  # f'{cls.__module__}.{cls.__name__}'
         Registry.register(subclass=cls, name=type_name)
         cls.type = type_name
 
     @classmethod
     def from_state(cls, state: stateType) -> "Serializable":
-        """ Create an object from the database state """
+        """Create an object from the database state"""
         obj = cls.__new__(cls)
         obj.restore_state(state)
         return obj  # type: ignore
@@ -51,7 +56,7 @@ class Serializable:
 
         state: Dict[str, Any]
         state = {
-            'type': self.type,
+            "type": self.type,
         }
 
         fields = list(f for f in self.__dataclass_fields__.values())  # type: ignore
@@ -63,33 +68,33 @@ class Serializable:
         return state
 
     def restore_state(self, state: stateType) -> None:
-        """ Restore an object from the state
-
-        """
-        name = state.get('type', self.type)
+        """Restore an object from the state"""
+        name = state.get("type", self.type)
         if name != self.type:
-            raise ValueError(f"Trying to use {name} state for "
-                             f"{self.type} object")
+            raise ValueError(f"Trying to use {name} state for {self.type} object")
 
         members = list(f for f in self.__dataclass_fields__.values())  # type: ignore
 
         for m in members:
             try:
                 v = state[m.name]
-                uobj = deserialize(v, )
+                uobj = deserialize(
+                    v,
+                )
                 setattr(self, m.name, uobj)
-            except Exception as e:
+            except Exception:
                 exc = traceback.format_exc()
                 logger.error(
                     f"Error loading state:"
                     f"{self.type}.{m.name}:"
                     f"\nValue: {pformat(v)}"
                     f"\nState: {pformat(state)}"
-                    f"\n{exc}")
+                    f"\n{exc}"
+                )
 
 
 def find_subclasses(cls: type) -> List[type]:
-    """ Finds subclasses of the given class"""
+    """Finds subclasses of the given class"""
     classes = []
     for subclass in cls.__subclasses__():
         classes.append(subclass)
@@ -99,20 +104,20 @@ def find_subclasses(cls: type) -> List[type]:
 
 #: Mapping of type name to coercer function
 coercers = {
-    'py_datetime.date': lambda s: date(**s),
-    'py_datetime.datetime': lambda s: datetime(**s),
-    'py_datetime.time': lambda s: time(**s),
-    'py_bytes': lambda s: b64decode(s['bytes']),
-    'py_decimal': lambda s: Decimal(s['value']),
+    "py_datetime.date": lambda s: date(**s),
+    "py_datetime.datetime": lambda s: datetime(**s),
+    "py_datetime.time": lambda s: time(**s),
+    "py_bytes": lambda s: b64decode(s["bytes"]),
+    "py_decimal": lambda s: Decimal(s["value"]),
 }
 
-valid_types = Union[Serializable, list, dict, tuple, date, datetime, time, bytes, Decimal]
+valid_types = Union[
+    Serializable, list, dict, tuple, date, datetime, time, bytes, Decimal
+]
 
 
 def serialize(v: valid_types) -> Union[Dict[str, Any], List[Any]]:
-    """ Recursively convert objects to a flattened dict or list
-
-    """
+    """Recursively convert objects to a flattened dict or list"""
     if isinstance(v, Serializable):
         return v.get_state()
 
@@ -123,50 +128,49 @@ def serialize(v: valid_types) -> Union[Dict[str, Any], List[Any]]:
         return {k: serialize(item) for k, item in v.items()}
 
     elif isinstance(v, bytes):
-        return {'type': 'py_bytes', 'bytes': b64encode(v).decode()}
+        return {"type": "py_bytes", "bytes": b64encode(v).decode()}
 
     elif isinstance(v, Decimal):
-        return {'type': 'py_decimal', 'value': str(v)}
+        return {"type": "py_decimal", "value": str(v)}
 
     elif isinstance(v, (date, datetime, time)):
 
         s: Dict[str, Any]
 
-        s = {'type': f'py_{v.__class__.__module__}.{v.__class__.__name__}'}
+        s = {"type": f"py_{v.__class__.__module__}.{v.__class__.__name__}"}
         if isinstance(v, (date, datetime)):
-            s.update({
-                'year': v.year,
-                'month': v.month,
-                'day': v.day
-            })
+            s.update({"year": v.year, "month": v.month, "day": v.day})
         if isinstance(v, (time, datetime)):
-            s.update({
-                'hour': v.hour,
-                'minute': v.minute,
-                'second': v.second,
-                'microsecond': v.microsecond,
-            })
+            s.update(
+                {
+                    "hour": v.hour,
+                    "minute": v.minute,
+                    "second": v.second,
+                    "microsecond": v.microsecond,
+                }
+            )
         return s
 
     return v
 
 
-def deserialize(v: Union[Dict[str, Any], List[Any], Tuple[Any]]) -> Union[Type[Serializable], Dict[str, Any], List[Any]]:
-    """ Recursively convert a flattened dict or list to an Object, Dict of Objects, or List of Objects
-
-    """
+def deserialize(
+    v: Union[Dict[str, Any], List[Any], Tuple[Any]]
+) -> Union[Type[Serializable], Dict[str, Any], List[Any]]:
+    """Recursively convert a flattened dict or list to an Object,
+    Dict of Objects, or List of Objects"""
 
     if isinstance(v, dict):
 
         # Create the object
-        name = v.get('type')
+        name = v.get("type")
 
         if name is not None:
 
-            if name[:2] == 'py':
+            if name[:2] == "py":
                 coercer = coercers.get(name)
                 if coercer:
-                    v.pop('type')
+                    v.pop("type")
                     return coercer(v)  # type: ignore
 
             else:
@@ -182,9 +186,7 @@ def deserialize(v: Union[Dict[str, Any], List[Any], Tuple[Any]]) -> Union[Type[S
 
 
 def instance(cls: Type[Serializable], state: stateType) -> Type[Serializable]:
-    """ Create an instance of the class using the given state
-
-    """
+    """Create an instance of the class using the given state"""
 
     obj = cls.__new__(cls)
     obj.restore_state(state)
@@ -192,20 +194,14 @@ def instance(cls: Type[Serializable], state: stateType) -> Type[Serializable]:
 
 
 class Registry:
-    """ Registry containing known object strings
+    """Registry containing known object strings"""
 
-    """
     #: Type registry
     registry: ClassVar[Dict[str, Any]] = dict()
 
     @classmethod
     def register(cls, subclass: Type[Serializable], name: str) -> None:
-        """ Register a new type
-
-        """
+        """Register a new type"""
         if name in cls.registry:
-            raise NameError(
-                f"Cannot register class . "
-                f"Duplicate name exists: {name}"
-            )
+            raise NameError(f"Cannot register class. Duplicate name exists: {name}")
         cls.registry[name] = subclass

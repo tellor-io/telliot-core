@@ -1,12 +1,10 @@
 from typing import Any
 from typing import Optional
-from dataclasses import dataclass
-from telliot.answer import TimeStampedFloat
-from telliot.datafeed.pricing.price_service import WebPriceService
-from telliot.model.base import Base
-from clamfig import deserialize
 
 from pydantic import BaseModel
+from telliot.answer import TimeStampedFloat
+from telliot.datafeed.pricing.price_service import WebPriceService
+
 
 class BittrexQuote(BaseModel):
     Bid: float

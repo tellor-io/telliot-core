@@ -1,10 +1,7 @@
 """  Oracle Query Module
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
 import json
-from typing import Any
 
 from clamfig import Serializable
 from telliot.types.value_type import ValueType
@@ -81,8 +78,3 @@ class OracleQuery(Serializable):
         contract calls.
         """
         return bytes(Web3.keccak(self.query_data))
-
-    def json(self, **kwargs: Any) -> str:
-        """Convert to compact JSON format used in query descriptor"""
-
-        return super().json(**kwargs, separators=(",", ":"))

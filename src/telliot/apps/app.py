@@ -31,7 +31,7 @@ class Application:
     _thread: Optional[threading.Thread] = None
     _shutdown: threading.Event = field(default_factory=threading.Event)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 
         if not self.config:
             self.config = TelliotConfig(config_dir=self.homedir)

@@ -104,7 +104,7 @@ class ConfigFile:
         else:
             raise AttributeError(f"Invalid config file type: {self.config_format}")
 
-        return config # type: ignore
+        return config  # type: ignore
 
     def save_config(self, config: ConfigOptions) -> None:
 

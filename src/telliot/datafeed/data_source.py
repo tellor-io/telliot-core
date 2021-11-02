@@ -4,16 +4,15 @@
 import random
 from abc import ABC
 from abc import abstractmethod
-from datetime import datetime
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import Optional
-from typing import Tuple
-from dataclasses import dataclass
-from telliot.model.base import Base
-from telliot.utils.response import ResponseStatus
-from telliot.utils.timestamp import now
-from dataclasses import dataclass, field
+
 from telliot.answer import TimeStampedAnswer
+from telliot.answer import TimeStampedFloat
+from telliot.model.base import Base
+
 
 # SourceOutputType = Tuple[ResponseStatus, Any, Optional[datetime]]
 
@@ -29,7 +28,6 @@ class DataSource(Base, ABC):
 
     # Private storage for fetched value
     _value: Optional[Any] = field(default=None, init=False, repr=False)
-
 
     @abstractmethod
     async def update_value(self) -> Optional[TimeStampedAnswer[Any]]:
@@ -50,12 +48,13 @@ class RandomSource(DataSource):
     Returns a random floating point number in the range [0.0, 1.0).
     """
 
-    async def update_value(self):
+    async def update_value(self) -> Optional[TimeStampedFloat]:
 
-        self._value = TimeStampedAnswer(val = random.random())
+        self._value = TimeStampedFloat(val=random.random())
 
-        return self.value
+        return self.value  # type: ignore
         # return ResponseStatus(True), self.value, now()
+
 
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""

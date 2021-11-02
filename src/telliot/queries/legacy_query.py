@@ -3,7 +3,6 @@
 """
 from dataclasses import dataclass
 
-from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
@@ -40,4 +39,3 @@ class LegacyRequest(OracleQuery):
     def query_id(self) -> bytes:
         """Override query ``id`` with the legacy request ID."""
         return self.legacy_id.to_bytes(32, "big", signed=False)
-

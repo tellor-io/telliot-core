@@ -2,9 +2,11 @@
 
 """
 from abc import ABC
+from dataclasses import dataclass
+
 from telliot.datafeed.data_source import DataSource
 from telliot.queries.query import OracleQuery
-from dataclasses import dataclass
+
 
 @dataclass
 class DataFeed(DataSource, ABC):
@@ -16,4 +18,3 @@ class DataFeed(DataSource, ABC):
 
     #: Query supported by this data feed
     query: OracleQuery
-

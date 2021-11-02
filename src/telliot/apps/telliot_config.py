@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 from typing import Literal
 from typing import Optional
@@ -39,13 +40,13 @@ class TelliotConfig(Base):
 
     config_dir: Optional[Union[str, Path]] = None
 
-    main: Optional[MainConfig] = None
+    main: MainConfig = field(default_factory=MainConfig)
 
-    endpoints: Optional[EndpointList] = None
+    endpoints: EndpointList = field(default_factory=EndpointList)
 
-    chains: Optional[ChainList] = None
+    chains: ChainList = field(default_factory=ChainList)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         main_file = ConfigFile(
             name="main",
             config_type=MainConfig,
@@ -65,12 +66,9 @@ class TelliotConfig(Base):
             config_dir=self.config_dir,
         )
 
-        if not self.main:
-            self.main = main_file.get_config()
-        if not self.endpoints:
-            self.endpoints = ep_file.get_config()
-        if not self.chains:
-            self.chains = chain_file.get_config()
+        self.main = main_file.get_config()  # type: ignore
+        self.endpoints = ep_file.get_config()  # type: ignore
+        self.chains = chain_file.get_config()  # type: ignore
 
     def get_endpoint(self) -> Optional[RPCEndpoint]:
         """Search endpoints for current chain_id"""

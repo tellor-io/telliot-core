@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from dataclasses import field
 from typing import Optional
 
 from telliot.answer import TimeStampedFloat
@@ -21,7 +22,7 @@ class PriceSource(DataSource):
     currency: str = ""
 
     #: Price Service
-    service: Optional[WebPriceService] = None
+    service: WebPriceService = field(default_factory=WebPriceService)  # type: ignore
 
     async def update_value(self) -> Optional[TimeStampedFloat]:
         """Update current value with time-stamped value fetched from source
@@ -33,5 +34,4 @@ class PriceSource(DataSource):
 
         self._value = tsfloat
 
-        return self.value
-
+        return self._value

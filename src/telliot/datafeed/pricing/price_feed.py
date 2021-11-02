@@ -1,17 +1,16 @@
 import asyncio
 from abc import ABC
 from dataclasses import dataclass
+from dataclasses import field
+from typing import Any
 from typing import Callable
 from typing import List
 from typing import Optional
-from dataclasses import field
+
+from telliot.answer import TimeStampedAnswer
+from telliot.answer import TimeStampedFixed
 from telliot.datafeed.data_feed import DataFeed
 from telliot.datafeed.data_source import DataSource
-from typing import Any, Tuple
-from telliot.answer import TimeStampedFixed, TimeStampedAnswer
-from telliot.utils.response import ResponseStatus
-from telliot.utils.timestamp import now
-from datetime import datetime
 
 
 @dataclass
@@ -41,7 +40,7 @@ class PriceFeed(DataFeed, ABC):
             values = await asyncio.gather(
                 *[source.update_value() for source in sources]
             )
-            return values
+            return values  # type: ignore
 
         inputs = await gather_inputs()
 
@@ -72,18 +71,16 @@ class PriceFeed(DataFeed, ABC):
         tsval = TimeStampedFixed(val=result)
         self._value = tsval
 
-        tstamp = now()
+        # tstamp = now()
 
         print(
-            "Feed Price: {} reported at time {}".format(
-                self.value.val, self.value.ts
-            )
+            "Feed Price: {} reported at time {}".format(self.value.val, self.value.ts)
         )
 
         # return ResponseStatus(True), self.value, tstamp
-        return self.value
+        return self._value
 
-    async def get_history(self, n: int = 0) -> List[TimeStampedFixed]:  # type: ignore
+    async def get_history(self, n: int = 0) -> List[TimeStampedFixed]:
         """Get data source history from database
 
         Args:

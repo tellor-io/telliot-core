@@ -1,11 +1,7 @@
 """ :mod:`telliot.queries.price_query`
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
 from dataclasses import dataclass
-from typing import ClassVar
-from typing import List
 from typing import Literal
 
 from pydantic import validator

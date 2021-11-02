@@ -38,7 +38,7 @@ class Contract:
 
         if not self.node.web3:
             msg = "node is not instantiated"
-            return ResponseStatus(ok=False, error_msg=msg)
+            return ResponseStatus(ok=False, error=msg)
 
         self.node.connect()
         self.contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
@@ -66,7 +66,7 @@ class Contract:
                 return ResponseStatus(ok=False, error=e, error_msg=msg), None
         else:
             msg = "no instance of contract"
-            return ResponseStatus(ok=False, error_msg=msg), None
+            return ResponseStatus(ok=False, error=msg), None
 
     def write(
         self,
@@ -79,17 +79,17 @@ class Contract:
         """For submitting any contract transaction. Retries supported!"""
         if not self.contract:
             msg = "unable to connect to contract"
-            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+            return ResponseStatus(ok=False, error=msg), None, gas_price
 
         if not self.node:
             msg = "no node instance"
-            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+            return ResponseStatus(ok=False, error=msg), None, gas_price
 
         if self.private_key:
             acc = self.node.web3.eth.account.from_key(self.private_key)
         else:
             msg = "Private key missing"
-            return ResponseStatus(ok=False, error_msg=msg), None, gas_price
+            return ResponseStatus(ok=False, error=msg), None, gas_price
 
         try:
             transaction_receipts = []

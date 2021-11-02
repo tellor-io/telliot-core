@@ -1,11 +1,10 @@
-from dataclasses import dataclass
 from typing import Any
 from typing import Dict
 from typing import Optional
 
+from pydantic import BaseModel
 from telliot.answer import TimeStampedFloat
 from telliot.datafeed.pricing.price_service import WebPriceService
-from pydantic import BaseModel
 
 
 class GeminiPriceResponse(BaseModel):

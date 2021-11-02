@@ -13,7 +13,6 @@ def test_constructor():
     # exp = b'["CoinPrice",{"coin":"BTC","currency":"USD","price_type":"current"}]'
     exp = b'{"type":"CoinPrice","coin":"BTC","currency":"USD","price_type":"current"}'
 
-
     print(q.query_data)
     assert q.query_data == exp
 

@@ -36,7 +36,7 @@ target_query = CoinPrice(coin="btc", currency="usd", price_type="current")
 
 btc_usd_median_feed = PriceFeed(
     query=target_query,
-    sources=data_sources,
+    sources=data_sources,  # type: ignore
     asset="btc",
     currency="usd",
     algorithm=statistics.median,

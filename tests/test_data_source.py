@@ -4,8 +4,8 @@
 from datetime import datetime
 
 import pytest
-from telliot.datafeed.data_source import RandomSource
 from telliot.datafeed.data_source import DataSource
+from telliot.datafeed.data_source import RandomSource
 
 
 def test_data_source_abc():
@@ -13,7 +13,7 @@ def test_data_source_abc():
         pass
 
     with pytest.raises(TypeError):
-        obj = MyDataSource()
+        _ = MyDataSource()
 
 
 @pytest.mark.asyncio
@@ -25,6 +25,7 @@ async def test_RandomSource():
     # assert status.ok
     assert 0 <= tsval.val < 1
     assert isinstance(tsval.ts, datetime)
+
 
 # @pytest.mark.asyncio
 # async def test_CurrentAssetPrice():

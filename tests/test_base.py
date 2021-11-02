@@ -4,7 +4,6 @@
 from datetime import datetime
 
 import pytest
-from telliot.answer import Answer
 from telliot.answer import TimeStampedAnswer
 from telliot.answer import TimeStampedFixed
 from telliot.answer import TimeStampedFloat

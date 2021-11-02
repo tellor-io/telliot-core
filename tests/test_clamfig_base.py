@@ -1,14 +1,21 @@
 from __future__ import annotations
 
 import json
+from dataclasses import asdict
+from dataclasses import dataclass
+from dataclasses import field
+from datetime import date
+from datetime import datetime
+from datetime import time
 from decimal import Decimal
-from datetime import date, time, datetime
-from clamfig.base import Serializable
-from dataclasses import field, dataclass, asdict
-from typing import List, Dict
-from clamfig.base import deserialize, serialize
+from typing import Dict
+from typing import List
+
 import pytest
 import yaml
+from clamfig.base import deserialize
+from clamfig.base import Serializable
+from clamfig.base import serialize
 
 
 @dataclass
@@ -21,7 +28,7 @@ class Dates(Serializable):
 @dataclass
 class Options(Serializable):
     a: bool = False
-    b: str = ''
+    b: str = ""
 
 
 @dataclass
@@ -31,9 +38,9 @@ class User(Serializable):
 
 @dataclass
 class File(Serializable):
-    id: str = ''
-    name: str = ''
-    data: bytes = b''
+    id: str = ""
+    name: str = ""
+    data: bytes = b""
 
 
 @dataclass
@@ -48,7 +55,7 @@ class PageDict(Serializable):
 
 @dataclass
 class Tree(Serializable):
-    name: str = ''
+    name: str = ""
     related: Tree = field(default_factory=lambda: Tree)
 
 
@@ -72,7 +79,7 @@ def test_json_dates():
 
 
 def test_json_decimal():
-    d = Decimal('3.9')
+    d = Decimal("3.9")
     obj = Amount(total=d)
     state = obj.get_state()
     data = json.dumps(state, sort_keys=False)
@@ -92,7 +99,7 @@ def test_json_nested():
 
 
 def test_json_bytes():
-    obj = File(name="test.png", data=b'abc')
+    obj = File(name="test.png", data=b"abc")
     state = obj.get_state()
     data = json.dumps(state, indent=2)
     print(data)
@@ -102,8 +109,8 @@ def test_json_bytes():
 
 
 def test_json_list():
-    f1 = File(name="test.png", data=b'abc')
-    f2 = File(name="blueberry.jpg", data=b'123')
+    f1 = File(name="test.png", data=b"abc")
+    f2 = File(name="blueberry.jpg", data=b"123")
     obj = Page(files=[f1, f2])
     state = obj.get_state()
     data = json.dumps(state, indent=2)
@@ -134,24 +141,24 @@ def test_json_cyclical():
         data = json.dumps(state, indent=2)
         print(data)
         r = Tree.from_state(json.loads(data))
-        assert r.name == 'a'
+        assert r.name == "a"
         assert r.related.name == b.name
         assert r.related.related == r
 
 
 def test_json_dict():
-    f1 = File(name="test.png", data=b'abc')
-    f2 = File(name="blueberry.jpg", data=b'123')
-    obj = PageDict(files={'id1': f1, 'id2': f2, 'id_dup': f2})
+    f1 = File(name="test.png", data=b"abc")
+    f2 = File(name="blueberry.jpg", data=b"123")
+    obj = PageDict(files={"id1": f1, "id2": f2, "id_dup": f2})
     state = obj.get_state()
     data = json.dumps(state, indent=2)
     print(data)
     print(yaml.dump(state, sort_keys=False))
     r = PageDict.from_state(json.loads(data))
     assert len(r.files) == 3
-    assert r.files['id1'].name == f1.name and r.files['id1'].data == f1.data
-    assert r.files['id2'].name == f2.name and r.files['id2'].data == f2.data
-    assert r.files['id2'].id == f2.id
+    assert r.files["id1"].name == f1.name and r.files["id1"].data == f1.data
+    assert r.files["id2"].name == f2.name and r.files["id2"].data == f2.data
+    assert r.files["id2"].id == f2.id
 
 
 def test_fields():
@@ -162,6 +169,7 @@ def test_fields():
 
 def test_dup_classes():
     with pytest.raises(NameError):
+
         class Options(Serializable):
             a: bool = False
-            b: str = ''
+            b: str = ""
