@@ -20,7 +20,7 @@
     
     
       
-        <title>Queries Module - Telliot Documentation</title>
+        <title>Queries Module - Telliot Documentation (DRAFT - DO NOT USE)</title>
       
     
     
@@ -86,7 +86,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Telliot Documentation" class="md-header__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
+    <a href="../.." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-header__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
       
   <img src="../../assets/tellor_swoosh.png" alt="logo">
 
@@ -98,7 +98,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Telliot Documentation
+            Telliot Documentation (DRAFT - DO NOT USE)
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -185,12 +185,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Telliot Documentation" class="md-nav__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
+    <a href="../.." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-nav__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
       
   <img src="../../assets/tellor_swoosh.png" alt="logo">
 
     </a>
-    Telliot Documentation
+    Telliot Documentation (DRAFT - DO NOT USE)
   </label>
   
     <div class="md-nav__source">
@@ -458,20 +458,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#telliot.queries.coin_price.CoinPrice.asset_must_be_lower_case" class="md-nav__link">
-    asset_must_be_lower_case()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.queries.coin_price.CoinPrice.currency_must_be_lower_case" class="md-nav__link">
-    currency_must_be_lower_case()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -717,20 +703,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#telliot.queries.coin_price.CoinPrice.asset_must_be_lower_case" class="md-nav__link">
-    asset_must_be_lower_case()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.queries.coin_price.CoinPrice.currency_must_be_lower_case" class="md-nav__link">
-    currency_must_be_lower_case()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -840,10 +812,6 @@ be used to customize the query.</p>
 The Query descriptor is a unique string representation of the query.
 The descriptor is required for users to specify the query to TellorX
 through the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
-<p>By convention, the descriptor includes the text representation
-of the OracleQuery and the :class:<code>ValueType</code> of its response.</p>
-<div class="highlight"><pre><span></span><code>`query` ? `value_type`
-</code></pre></div>
     </div>
 
   </div>
@@ -1082,7 +1050,7 @@ CoinPrice            (<a title="telliot.queries.query.OracleQuery" href="#tellio
 
     <div class="doc doc-contents first">
 
-      <p>Query the price of a cryptocurrency coin.</p>
+      <p>Query the price of a cryptocurrency coin. <strong>PROTOTYPE: DO NOT USE</strong></p>
 
 <p><strong>Attributes:</strong></p>
 <table>
@@ -1106,7 +1074,7 @@ CoinPrice            (<a title="telliot.queries.query.OracleQuery" href="#tellio
       </tr>
       <tr>
         <td><code>price_type</code></td>
-        <td><code>Literal[&#39;current&#39;, &#39;eod&#39;, &#39;24hr_twap&#39;, &#39;1hr_twap&#39;, &#39;custom&#39;, &#39;manual&#39;]</code></td>
+        <td><code>Literal[&#39;current&#39;, &#39;eod&#39;, &#39;24hr_twap&#39;, &#39;1hr_twap&#39;]</code></td>
         <td><p>Price Type (default = current)</p></td>
       </tr>
   </tbody>
@@ -1151,68 +1119,6 @@ CoinPrice            (<a title="telliot.queries.query.OracleQuery" href="#tellio
 
 
 
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.queries.coin_price.CoinPrice.asset_must_be_lower_case" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">asset_must_be_lower_case</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-  </span>
-
-<a href="#telliot.queries.coin_price.CoinPrice.asset_must_be_lower_case" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>A validator to force coin to lower case</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\queries\coin_price.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;coin&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">asset_must_be_lower_case</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A validator to force coin to lower case&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.queries.coin_price.CoinPrice.currency_must_be_lower_case" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">currency_must_be_lower_case</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-  </span>
-
-<a href="#telliot.queries.coin_price.CoinPrice.currency_must_be_lower_case" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>A validator to force the currency lower case</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\queries\coin_price.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;currency&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">currency_must_be_lower_case</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A validator to force the currency lower case&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
