@@ -8,6 +8,7 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
+from telliot.datafeed.data_feed import DataFeed
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
@@ -23,7 +24,7 @@ class IntervalReporter(Reporter):
         endpoint: RPCEndpoint,
         private_key: str,
         contract_address: str,
-        datafeeds: Mapping[str, Any],
+        datafeeds: List[DataFeed],
     ) -> None:
 
         self.endpoint = endpoint
@@ -42,15 +43,13 @@ class IntervalReporter(Reporter):
         """Submit value once"""
         transaction_receipts = []
         jobs = []
-        for datafeed in self.datafeeds.values():
-            job = asyncio.create_task(datafeed.update_value(store=True))
+        for datafeed in self.datafeeds:
+            job = asyncio.create_task(datafeed.update_value())
             jobs.append(job)
 
         _ = await asyncio.gather(*jobs)
 
-        for uid, datafeed in self.datafeeds.items():
-            if name and name != datafeed.name:
-                continue
+        for datafeed in self.datafeeds:
 
             if datafeed.value:
                 query = datafeed.query
@@ -83,11 +82,13 @@ class IntervalReporter(Reporter):
 
                 else:
                     print(
-                        f"Skipping submission for {uid}, no query for datafeed."
+                        f"Skipping submission for {repr(datafeed)}, "
+                        f"no query for datafeed."
                     )  # TODO logging
             else:
                 print(
-                    f"Skipping submission for {uid}, datafeed value not updated."
+                    f"Skipping submission for {repr(datafeed)}, "
+                    f"datafeed value not updated."
                 )  # TODO logging
 
         return transaction_receipts

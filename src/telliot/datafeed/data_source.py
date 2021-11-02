@@ -1,47 +1,39 @@
-""" :mod:`telliot.datafeed.data_source`
+""" telliot.datafeed.data_source
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
+import random
 from abc import ABC
 from abc import abstractmethod
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
-from typing import Dict
-from typing import List
 from typing import Optional
-from typing import TypeVar
 
-import requests
 from telliot.answer import TimeStampedAnswer
-from telliot.model.registry import RegisteredModel
+from telliot.answer import TimeStampedFloat
+from telliot.model.base import Base
 
-T = TypeVar("T")
+
+# SourceOutputType = Tuple[ResponseStatus, Any, Optional[datetime]]
 
 
-class DataSource(RegisteredModel, ABC):
+@dataclass
+class DataSource(Base, ABC):
     """Base Class for a DataSource.
 
     A DataSource provides an input to a `DataFeed`
     """
 
-    #: Unique data source identifier
-    uid: str = ""
+    value = property(lambda self: self._value)
 
-    #: Descriptive name
-    name: str = ""
-
-    #: Current time-stamped value of the data source or None
-    value: Optional[TimeStampedAnswer[Any]]
+    # Private storage for fetched value
+    _value: Optional[Any] = field(default=None, init=False, repr=False)
 
     @abstractmethod
-    async def update_value(
-        self, store: bool = False
-    ) -> Optional[TimeStampedAnswer[Any]]:
-        """Update current value with time-stamped value fetched from source
+    async def update_value(self) -> Optional[TimeStampedAnswer[Any]]:
+        # async def update_value(self) -> SourceOutputType:
 
-        Args:
-            store:  If true and applicable, updated value will be stored
-                    to the database
+        """Update current value with time-stamped value fetched from source
 
         Returns:
             Current time-stamped value
@@ -49,50 +41,18 @@ class DataSource(RegisteredModel, ABC):
         raise NotImplementedError
 
 
-class DataSourceDb(DataSource, ABC):
-    """A data source that can store and retrieve values from a database"""
+@dataclass
+class RandomSource(DataSource):
+    """A random data source
 
-    async def load_value(self) -> TimeStampedAnswer[Any]:
-        """Update current value with time-stamped value fetched from database"""
-        raise NotImplementedError
+    Returns a random floating point number in the range [0.0, 1.0).
+    """
 
-    async def store_value(self) -> None:
-        """Store current time-stamped value to database"""
+    async def update_value(self) -> Optional[TimeStampedFloat]:
+        self._value = TimeStampedFloat(val=random.random())
 
-        value = self.value.val if self.value else None
-        timestamp = str(self.value.ts) if self.value else None
-        data = {"uid": self.uid, "value": value, "timestamp": timestamp}
-
-        url = "http://127.0.0.1:8000/data/"
-
-        def store() -> Dict[str, Any]:
-            """Send post request to local db."""
-            with requests.Session() as s:
-                try:
-                    r = s.post(url, json=data)
-                    json_data = r.json()
-                    return {"response": json_data}
-
-                except requests.exceptions.ConnectTimeout as e:
-                    return {"error": "Timeout Error", "exception": e}
-
-                except Exception as e:
-                    return {"error": str(type(e)), "exception": e}
-
-        _ = store()
-
-    @abstractmethod
-    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
-        """Get data source history from database
-
-        Args:
-            n:  If n > 0, get n datapoints from database, otherwise get all
-                available datapoints.
-
-        Returns:
-            History of timestamped values from database
-        """
-        raise NotImplementedError
+        return self.value  # type: ignore
+        # return ResponseStatus(True), self.value, now()
 
 
 # class ConstantSource(DataSource):
@@ -110,16 +70,3 @@ class DataSourceDb(DataSource, ABC):
 #     async def update_value(self):
 #         return self.value
 #
-#
-# class RandomSource(DataSourceDb):
-#     """A random data source
-#
-#     Returns a random floating point number in the range [0.0, 1.0).
-#     """
-#
-#     #: Descriptive name
-#     name: str = "Random"
-#
-#     async def update_value(self):
-#         self.value = random.random()
-#         return random.random()

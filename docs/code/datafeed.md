@@ -4,5 +4,4 @@
 
 ::: telliot.datafeed.data_source.DataSource
 
-::: telliot.datafeed.data_source.DataSourceDb
 

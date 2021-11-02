@@ -1,7 +1,7 @@
 """Legacy Query Example """
-from telliot.queries import LegacyQuery
+from telliot.queries import LegacyRequest
 
-q = LegacyQuery(legacy_request_id=1)
+q = LegacyRequest(legacy_id=1)
 print(q.descriptor)
 print(f"tipQuery data: 0x{q.query_data.hex()}")
 print(f"tipQuery ID: 0x{q.query_id.hex()}")

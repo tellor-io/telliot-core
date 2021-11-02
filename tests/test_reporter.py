@@ -4,7 +4,7 @@ telliot's reporter subpackage.
 """
 import pytest
 from telliot.reporter.interval import IntervalReporter
-from telliot_examples.feeds.btc_usd_feed import data_feeds
+from telliot_examples.feeds.btc_usd_feed import btc_usd_median_feed
 from web3.datastructures import AttributeDict
 
 # Tellor playground contract used for test
@@ -20,7 +20,7 @@ def test_reporter_config(cfg):
         endpoint=rinkeby_endpoint,
         private_key=cfg.main.private_key,
         contract_address=playground_address,
-        datafeeds=data_feeds,
+        datafeeds=[btc_usd_median_feed],
     )
 
     assert rinkeby_endpoint.network == "rinkeby"
@@ -42,7 +42,7 @@ async def test_interval_reporter_submit_once(cfg):
         endpoint=rinkeby_endpoint,
         private_key=cfg.main.private_key,
         contract_address=playground_address,
-        datafeeds=data_feeds,
+        datafeeds=[btc_usd_median_feed],
     )
 
     tx_receipts = await reporter.report_once(

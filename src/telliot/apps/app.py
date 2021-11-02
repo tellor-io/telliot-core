@@ -3,41 +3,38 @@
 """
 import logging
 import threading
+from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
-from typing import Any
 from typing import Optional
 
-from pydantic import Field
-from pydantic import PrivateAttr
 from telliot.apps.telliot_config import TelliotConfig
-from telliot.model.base import Base
 from telliot.utils.home import telliot_homedir
 
 logger = logging.getLogger(__name__)
 
 
-class Application(Base):
+@dataclass
+class Application:
     """Application base class"""
 
     #: Application Name
     name: str
 
     #: Home directory
-    homedir: Path = Field(default_factory=telliot_homedir)
+    homedir: Path = field(default_factory=telliot_homedir)
 
     #: Application configuration object
-    config: Optional[TelliotConfig]
+    config: Optional[TelliotConfig] = None
 
     #: Private thread storage
-    _thread: Optional[threading.Thread] = PrivateAttr()
-    _shutdown: threading.Event = PrivateAttr(default_factory=threading.Event)
+    _thread: Optional[threading.Thread] = None
+    _shutdown: threading.Event = field(default_factory=threading.Event)
 
-    def __init__(self, **kwargs: Any) -> None:
+    def __post_init__(self) -> None:
 
-        super().__init__(**kwargs)
-
-        # Init configuration
-        self.config = TelliotConfig(config_dir=self.homedir)
+        if not self.config:
+            self.config = TelliotConfig(config_dir=self.homedir)
 
         # Logging
         self.configure_logging()
