@@ -3,7 +3,8 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
-from telliot.model.endpoints import RPCEndpoint, EndpointList
+from telliot.model.endpoints import EndpointList
+from telliot.model.endpoints import RPCEndpoint
 
 network = "mainnet"
 provider = "pokt"
@@ -39,8 +40,9 @@ def test_incomplete_rpc_url():
     with pytest.raises(requests.exceptions.HTTPError):
         endpt.web3.eth.block_number
 
+
 def test_endpoint_list():
     sl = EndpointList()
     # print(json.dumps(sl.get_state(), indent=2))
     ep4 = sl.get_chain_endpoint(4)
-    assert ep4.network == 'rinkeby'
+    assert ep4.network == "rinkeby"
