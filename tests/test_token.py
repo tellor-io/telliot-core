@@ -1,4 +1,4 @@
-from telliot.model.token import ERC20TokenList
+from telliot.model.tokens import ERC20TokenList
 
 
 def test_token_list():
