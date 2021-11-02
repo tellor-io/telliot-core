@@ -3,8 +3,7 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
-from telliot.model.endpoints import RPCEndpoint
-
+from telliot.model.endpoints import RPCEndpoint, EndpointList
 
 network = "mainnet"
 provider = "pokt"
@@ -16,6 +15,8 @@ def test_rpc_endpoint():
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
     assert endpt.web3.eth.block_number > 1
+
+    print(endpt.get_state())
 
 
 def test_very_bad_rpc_url():
@@ -38,7 +39,8 @@ def test_incomplete_rpc_url():
     with pytest.raises(requests.exceptions.HTTPError):
         endpt.web3.eth.block_number
 
-
-def test_load_from_config():
-    """RPCEndpoint should read from config.yml"""
-    pass
+def test_endpoint_list():
+    sl = EndpointList()
+    # print(json.dumps(sl.get_state(), indent=2))
+    ep4 = sl.get_chain_endpoint(4)
+    assert ep4.network == 'rinkeby'

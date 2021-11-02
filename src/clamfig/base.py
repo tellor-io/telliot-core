@@ -77,11 +77,11 @@ class Serializable:
 
         for m in members:
             try:
-                v = state[m.name]
-                uobj = deserialize(
-                    v,
-                )
-                setattr(self, m.name, uobj)
+                # Note that not all dataclass members are part of state
+                if m.name in state:
+                    v = state[m.name]
+                    uobj = deserialize(v)
+                    setattr(self, m.name, uobj)
             except Exception:
                 exc = traceback.format_exc()
                 logger.error(

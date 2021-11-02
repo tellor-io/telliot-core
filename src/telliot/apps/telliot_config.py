@@ -73,3 +73,4 @@ class TelliotConfig(Base):
     def get_endpoint(self) -> Optional[RPCEndpoint]:
         """Search endpoints for current chain_id"""
         return self.endpoints.get_chain_endpoint(self.main.chain_id)
+
