@@ -21,7 +21,7 @@ from typing import Tuple
 from typing import Type
 from typing import Union
 
-logger = logging.getLogger("clam_cereal")
+logger = logging.getLogger(__name__)
 
 stateType = Dict[str, Any]
 
