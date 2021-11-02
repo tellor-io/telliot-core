@@ -8,11 +8,12 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
+from telliot.datafeed.data_feed import DataFeed
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import tellor_playground_abi
-from telliot.datafeed.data_feed import DataFeed
+
 
 class IntervalReporter(Reporter):
     """Submits the price of BTC to the TellorX playground
@@ -80,11 +81,13 @@ class IntervalReporter(Reporter):
 
                 else:
                     print(
-                        f"Skipping submission for {repr(datafeed)}, no query for datafeed."
+                        f"Skipping submission for {repr(datafeed)}, "
+                        f"no query for datafeed."
                     )  # TODO logging
             else:
                 print(
-                    f"Skipping submission for {repr(datafeed)}, datafeed value not updated."
+                    f"Skipping submission for {repr(datafeed)}, "
+                    f"datafeed value not updated."
                 )  # TODO logging
 
         return transaction_receipts

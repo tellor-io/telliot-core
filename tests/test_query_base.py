@@ -1,16 +1,15 @@
+from dataclasses import dataclass
 
 from telliot.queries.query import OracleQuery
-from dataclasses import dataclass
 
 
 def test_main():
-
     @dataclass
     class MyQuery(OracleQuery):
         text: str
         val: int = 3
 
-    q = MyQuery('asdf')
-    state = q.to_state()
+    q = MyQuery("asdf")
+    state = q.get_state()
     print(state)
-    assert state == ('MyQuery', {'text': 'asdf', 'val': 3})
+    assert state == {"type": "MyQuery", "text": "asdf", "val": 3}

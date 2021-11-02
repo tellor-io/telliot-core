@@ -1,4 +1,5 @@
 """telliot.apps.config module"""
+import json
 import logging
 from pathlib import Path
 from typing import Literal
@@ -7,24 +8,27 @@ from typing import Type
 from typing import Union
 
 import yaml
-from telliot.model.base import Base
+from clamfig import deserialize
+from clamfig import Serializable
+from clamfig import serialize
 from telliot.utils.home import telliot_homedir
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
-
 
 logger = logging.getLogger(__name__)
 
 config_formats = Literal["yaml", "json"]
 
 
-class ConfigOptions(Base):
+class ConfigOptions(Serializable):
     """An object used to manage configuration options
 
     Each attribute represents a configuration option.
     Subclasses should add configuration attributes as required.
     """
+
     pass
+
 
 class ConfigFile:
     """ConfigFile"""
@@ -89,16 +93,18 @@ class ConfigFile:
                 state = yaml.load(f, Loader=Loader)
 
                 # Try to parse file
-                config = self.config_type.parse_obj(state)
+                config = deserialize(state)
 
         elif self.config_format == "json":
 
-            config = self.config_type.parse_file(self.config_file)
+            with open(self.config_file, "r") as f:
+                state = json.load(f)
+                config = deserialize(state)
 
         else:
             raise AttributeError(f"Invalid config file type: {self.config_format}")
 
-        return config
+        return config # type: ignore
 
     def save_config(self, config: ConfigOptions) -> None:
 
@@ -114,15 +120,18 @@ class ConfigFile:
                 self.config_file.rename(self.config_file.with_suffix(".bak"))
 
             if self.config_format == "yaml":
+
                 with open(self.config_file, "w") as f:
-                    state = config.dict()
+
+                    state = serialize(config)
                     print(state)
                     yaml.dump(state, f, Dumper=Dumper, sort_keys=False)
 
             elif self.config_format == "json":
 
                 with open(self.config_file, "w") as f:
-                    jstr = config.json(indent=2)
+                    state = serialize(config)
+                    jstr = json.dumps(state, indent=2)
                     f.write(jstr)
 
             print("Saved {} to {}".format(self.name, self.config_file))

@@ -1,13 +1,12 @@
 """ :mod:`telliot.queries.legacy_query`
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
+from dataclasses import dataclass
+
 from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
-from dataclasses import dataclass
 
 
 @dataclass
@@ -42,12 +41,3 @@ class LegacyRequest(OracleQuery):
         """Override query ``id`` with the legacy request ID."""
         return self.legacy_id.to_bytes(32, "big", signed=False)
 
-    @validator("legacy_request_id")
-    def must_be_less_than_100(cls, v):  # type: ignore
-        """Validator to ensure that legacy request ID is less than
-        or equal to 100.
-        """
-        if v is not None:
-            if v > 100:
-                raise ValueError("Legacy request ID must be less than 100")
-        return v

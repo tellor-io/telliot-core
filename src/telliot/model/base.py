@@ -1,14 +1,9 @@
 """
-Child class of pydantic.main.BaseModel with some configurations
 """
-from pydantic.main import BaseModel
+from clamfig import Serializable
 
 
-class Base(BaseModel):
-    """Project-wide configuration of pydantic.main.BaseModel"""
+class Base(Serializable):
+    """Project-wide serializable model"""
 
-    class Config:
-        arbitrary_types_allowed = True
-        extras = False
-        use_enum_values = True
-        underscore_attrs_are_private = True
+    pass

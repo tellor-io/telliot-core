@@ -3,17 +3,15 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
-from typing import Any
+from dataclasses import dataclass
 from typing import ClassVar
 from typing import List
 from typing import Literal
 
-from pydantic import PrivateAttr
 from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
-from dataclasses import dataclass
 
 price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manual"]
 
@@ -32,8 +30,6 @@ class CoinPrice(OracleQuery):
         price_type: Price Type (default = current)
 
     """
-
-    inputs: ClassVar[List[str]] = price_query_params
 
     coin: str = ""
 

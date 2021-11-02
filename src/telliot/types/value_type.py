@@ -1,19 +1,17 @@
 """ :mod:`telliot.queries.value_type`
 
 """
+from dataclasses import dataclass
 from typing import Any
 
-import eth_abi.grammar
+from clamfig import Serializable
 from eth_abi.abi import decode_single
 from eth_abi.abi import encode_single
 from eth_abi.packed import encode_single_packed
-from pydantic import validator
-from telliot.model.registry import SimpleSerial
-from dataclasses import dataclass
 
 
-@dataclass()
-class ValueType(SimpleSerial):
+@dataclass
+class ValueType(Serializable):
     """Value Type
 
     A ValueType specifies the data structure of ``value`` included in

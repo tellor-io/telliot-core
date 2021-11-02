@@ -1,42 +1,61 @@
-""" :mod:`telliot.datafeed.data_source`
+""" telliot.datafeed.data_source
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
+import random
 from abc import ABC
 from abc import abstractmethod
+from datetime import datetime
 from typing import Any
-from typing import Dict
-from typing import List
 from typing import Optional
-from typing import TypeVar
-
+from typing import Tuple
+from dataclasses import dataclass
+from telliot.model.base import Base
+from telliot.utils.response import ResponseStatus
+from telliot.utils.timestamp import now
+from dataclasses import dataclass, field
 from telliot.answer import TimeStampedAnswer
-from telliot.model.registry import RegisteredModel
 
-T = TypeVar("T")
+# SourceOutputType = Tuple[ResponseStatus, Any, Optional[datetime]]
 
 
-class DataSource(RegisteredModel, ABC):
+@dataclass
+class DataSource(Base, ABC):
     """Base Class for a DataSource.
 
     A DataSource provides an input to a `DataFeed`
     """
 
-    #: Unique data source identifier
-    uid: str = ""
+    value = property(lambda self: self._value)
 
-    #: Current time-stamped value of the data source or None
-    value: Optional[TimeStampedAnswer[Any]]
+    # Private storage for fetched value
+    _value: Optional[Any] = field(default=None, init=False, repr=False)
+
 
     @abstractmethod
     async def update_value(self) -> Optional[TimeStampedAnswer[Any]]:
+        # async def update_value(self) -> SourceOutputType:
+
         """Update current value with time-stamped value fetched from source
 
         Returns:
             Current time-stamped value
         """
         raise NotImplementedError
+
+
+@dataclass
+class RandomSource(DataSource):
+    """A random data source
+
+    Returns a random floating point number in the range [0.0, 1.0).
+    """
+
+    async def update_value(self):
+
+        self._value = TimeStampedAnswer(val = random.random())
+
+        return self.value
+        # return ResponseStatus(True), self.value, now()
 
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""
@@ -53,16 +72,3 @@ class DataSource(RegisteredModel, ABC):
 #     async def update_value(self):
 #         return self.value
 #
-#
-# class RandomSource(DataSourceDb):
-#     """A random data source
-#
-#     Returns a random floating point number in the range [0.0, 1.0).
-#     """
-#
-#     #: Descriptive name
-#     name: str = "Random"
-#
-#     async def update_value(self):
-#         self.value = random.random()
-#         return random.random()

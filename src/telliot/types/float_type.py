@@ -1,12 +1,13 @@
 """ :mod:`telliot.types.float_type`
 
 """
+from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
 from pydantic import validator
 from telliot.types.value_type import ValueType
-from dataclasses import dataclass
+
 
 @dataclass
 class UnsignedFloatType(ValueType):

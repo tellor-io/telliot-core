@@ -11,25 +11,21 @@ from telliot_examples.coinprices.gemini import GeminiPriceService
 
 data_sources = [
     PriceSource(
-        uid="btc-usd-coinbase",
         asset="btc",
         currency="usd",
         service=CoinbasePriceService(),
     ),
     PriceSource(
-        uid="btc-usd-coinbase",
         asset="btc",
         currency="usd",
         service=CoinGeckoPriceService(),
     ),
     PriceSource(
-        uid="btc-usd-bittrex",
         asset="btc",
         currency="usd",
         service=BittrexPriceService(),
     ),
     PriceSource(
-        uid="btc-usd-gemini",
         asset="btc",
         currency="usd",
         service=GeminiPriceService(),
@@ -39,10 +35,9 @@ data_sources = [
 target_query = CoinPrice(coin="btc", currency="usd", price_type="current")
 
 btc_usd_median_feed = PriceFeed(
-    uid="btc-usd-median",
     query=target_query,
+    sources=data_sources,
     asset="btc",
     currency="usd",
-    sources=data_sources,
     algorithm=statistics.median,
 )

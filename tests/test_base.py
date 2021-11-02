@@ -4,19 +4,10 @@
 from datetime import datetime
 
 import pytest
-from pydantic.error_wrappers import ValidationError
 from telliot.answer import Answer
 from telliot.answer import TimeStampedAnswer
 from telliot.answer import TimeStampedFixed
 from telliot.answer import TimeStampedFloat
-
-
-def test_Answer():
-    """Test creating instance of Answer & attribute types."""
-    _ = Answer[int](5.0)
-
-    with pytest.raises(ValidationError):
-        _ = Answer[int]("not_an_int")
 
 
 def test_TimeStampedAnswer():

@@ -17,8 +17,8 @@ def test_fixed_response_type():
     r1 = ValueType(abi_type="ufixed256x9", packed=False)
     bytes_val = r1.encode(value)
     assert (
-            bytes_val.hex()
-            == "000000000000000000000000000000000000000000000000000000003b9aca00"
+        bytes_val.hex()
+        == "000000000000000000000000000000000000000000000000000000003b9aca00"
     )
     int_val = int.from_bytes(bytes_val, "big", signed=False)
     assert int_val == 10 ** 9
@@ -62,12 +62,12 @@ def test_unsigned_float_value():
     assert f.decimals == 6
     # Note encoded value is still 256 bits because packed = False
     assert f.nbits == 64
-    print(f.to_json())
+    print(f.get_state())
     encoded_value = f.encode(99.0000009)
     print(encoded_value.hex())
     assert (
-            encoded_value.hex()
-            == "0000000000000000000000000000000000000000000000000000000005e69ec1"
+        encoded_value.hex()
+        == "0000000000000000000000000000000000000000000000000000000005e69ec1"
     )
 
     decoded_value = f.decode(encoded_value)

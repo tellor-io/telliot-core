@@ -3,14 +3,15 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
+import json
 from typing import Any
-from telliot.model.registry import SimpleSerial
 
+from clamfig import Serializable
 from telliot.types.value_type import ValueType
 from web3 import Web3
 
 
-class OracleQuery(SimpleSerial):
+class OracleQuery(Serializable):
     """Oracle Query
 
     An OracleQuery specifies how to pose a question to the
@@ -49,7 +50,9 @@ class OracleQuery(SimpleSerial):
 
             `query` ? `value_type`
         """
-        return f"{self.to_json()}"
+        state = self.get_state()
+        jstr = json.dumps(state, separators=(",", ":"))
+        return jstr
 
     @property
     def value_type(self) -> ValueType:

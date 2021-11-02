@@ -14,7 +14,7 @@ def test_legacy_query():
     assert q.value_type.abi_type == "ufixed256x6"
     assert q.value_type.packed is False
 
-    exp = b'["LegacyRequest",{"legacy_id":100}]'
+    exp = b'{"type":"LegacyRequest","legacy_id":100}'
 
     # print(q.query_data)
     assert q.query_data == exp

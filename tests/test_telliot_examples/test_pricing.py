@@ -1,9 +1,9 @@
 """ Unit tests for pricing module
 
 """
+import pytest
 from datetime import datetime
 
-import pytest
 from telliot_examples.coinprices.bittrex import BittrexPriceService
 from telliot_examples.coinprices.coinbase import CoinbasePriceService
 from telliot_examples.coinprices.coingecko import CoinGeckoPriceService
@@ -16,10 +16,9 @@ service = {
     "gemini": GeminiPriceService(),
 }
 
-
-async def get_price(asset, currency, service):
+async def get_price(asset, currency, s):
     """Helper function for retrieving prices."""
-    price = await service.get_price(asset, currency)
+    price = await s.get_price(asset, currency)
     return price
 
 
@@ -58,7 +57,6 @@ async def test_gemini():
     """Test retrieving from Gemini price source."""
     price = await get_price("btc", "usd", service["gemini"])
     validate_price(price)
-
 
 # def test_web_price_service_timeout():
 #     ps = CoinbasePriceService(timeout=0.0000001)

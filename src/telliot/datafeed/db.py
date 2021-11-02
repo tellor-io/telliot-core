@@ -2,15 +2,15 @@
 
 This module creates a database with a model to store off-chain data.
 """
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from abc import ABC
+from abc import abstractmethod
+from typing import Any
+from typing import List
 
 import databases
-import requests
 import sqlalchemy
-
 from telliot.answer import TimeStampedAnswer
-from telliot.datafeed.data_source import DataSource
+
 
 DATABASE_URL = "sqlite:///./test.db"
 
@@ -35,9 +35,7 @@ metadata.create_all(engine)
 
 
 class FeedDataBaseMixin(ABC):
-    """A Mixin Class that provides an interface to the feed database
-
-    """
+    """A Mixin Class that provides an interface to the feed database"""
 
     @abstractmethod
     async def load_value(self) -> TimeStampedAnswer[Any]:
