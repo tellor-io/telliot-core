@@ -42,10 +42,7 @@ class OracleQuery(Serializable):
         The descriptor is required for users to specify the query to TellorX
         through the ``TellorX.Oracle.tipQuery()`` contract call.
 
-        By convention, the descriptor includes the text representation
-        of the OracleQuery and the :class:`ValueType` of its response.
 
-            `query` ? `value_type`
         """
         state = self.get_state()
         jstr = json.dumps(state, separators=(",", ":"))

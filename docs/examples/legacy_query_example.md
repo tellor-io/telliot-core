@@ -1,7 +1,7 @@
 # Legacy Query Example
 
 The following example demonstrates how to create a 
-[`LegacyQuery`][telliot.queries.legacy_query.LegacyQuery]
+[`LegacyRequest`][telliot.queries.legacy_query.LegacyRequest]
 requesting the ETH/USD price.  The legacy request ID for ETH/USD is `1`, 
 in accordance with the 
 [Legacy Data Feed ID Specifications](https://docs.tellor.io/tellor/integration/data-ids/current-data-feeds).
