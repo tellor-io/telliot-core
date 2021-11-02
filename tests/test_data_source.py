@@ -25,5 +25,3 @@ async def test_RandomSource():
     # assert status.ok
     assert 0 <= tsval.val < 1
     assert isinstance(tsval.ts, datetime)
-
-

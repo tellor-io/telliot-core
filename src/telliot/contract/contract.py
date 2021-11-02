@@ -37,7 +37,7 @@ class Contract:
 
         if not self.node.web3:
             msg = "node is not instantiated"
-            return ResponseStatus(ok=False, error_msg=msg)
+            return ResponseStatus(ok=False, error=msg)
 
         self.node.connect()
         self.contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
@@ -62,10 +62,10 @@ class Contract:
                 return output, ResponseStatus(ok=True)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
-                return None, ResponseStatus(ok=False, error=e, error_msg=msg)
+                return None, ResponseStatus(ok=False, e=e, error_msg=msg)
         else:
             msg = "no instance of contract"
-            return None, ResponseStatus(ok=False, error_msg=msg)
+            return None, ResponseStatus(ok=False, error=msg)
 
     async def write(
         self, func_name: str, gas_price: int, **kwargs: Any
@@ -76,17 +76,17 @@ class Contract:
 
         if not self.contract:
             msg = "unable to connect to contract"
-            return None, ResponseStatus(ok=False, error_msg=msg)
+            return None, ResponseStatus(ok=False, error=msg)
 
         if not self.node:
             msg = "no node instance"
-            return None, ResponseStatus(ok=False, error_msg=msg)
+            return None, ResponseStatus(ok=False, error=msg)
 
         if self.private_key:
             acc = self.node.web3.eth.account.from_key(self.private_key)
         else:
             msg = "Private key missing"
-            return None, ResponseStatus(ok=False, error_msg=msg)
+            return None, ResponseStatus(ok=False, error=msg)
         try:
             # build transaction
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
