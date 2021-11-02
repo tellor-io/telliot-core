@@ -404,20 +404,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#telliot.types.value_type.ValueType.require_valid_grammar" class="md-nav__link">
-    require_valid_grammar()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.types.value_type.ValueType.json" class="md-nav__link">
-    json()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -609,20 +595,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#telliot.types.value_type.ValueType.require_valid_grammar" class="md-nav__link">
-    require_valid_grammar()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.types.value_type.ValueType.json" class="md-nav__link">
-    json()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -697,12 +669,12 @@
 
 <h2 id="telliot.types.value_type.ValueType" class="doc doc-heading">
         <code>
-ValueType            (<span title="telliot.utils.serializable.SerializableModel">SerializableModel</span>)
+ValueType            (<span title="clamfig.base.Serializable">Serializable</span>)
         </code>
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
 <a href="#telliot.types.value_type.ValueType" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -722,6 +694,8 @@ tip request.</p>
 
 
   <div class="doc doc-children">
+
+
 
 
 
@@ -792,67 +766,6 @@ tip request.</p>
 
 
 
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.types.value_type.ValueType.require_valid_grammar" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">require_valid_grammar</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-  </span>
-
-<a href="#telliot.types.value_type.ValueType.require_valid_grammar" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>A validator to require well formed ABI type string grammar.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\types\value_type.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;abi_type&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">require_valid_grammar</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A validator to require well formed ABI type string grammar.&quot;&quot;&quot;</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">eth_abi</span><span class="o">.</span><span class="n">grammar</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">eth_abi</span><span class="o">.</span><span class="n">grammar</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.types.value_type.ValueType.json" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
-
-
-<a href="#telliot.types.value_type.ValueType.json" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Return compact json format used in query descriptor</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\types\value_type.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return compact json format used in query descriptor&quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
 
 
   </div>
@@ -874,7 +787,7 @@ UnsignedFloatType            (<a title="telliot.types.value_type.ValueType" href
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
 <a href="#telliot.types.float_type.UnsignedFloatType" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -890,6 +803,8 @@ to/from floating point values.</p>
 
 
   <div class="doc doc-children">
+
+
 
 
 

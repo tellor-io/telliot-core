@@ -401,19 +401,6 @@
     DataFeed
   </a>
   
-    <nav class="md-nav" aria-label="DataFeed">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_feed.DataFeed.update_sources" class="md-nav__link">
-    update_sources()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -427,40 +414,6 @@
           <li class="md-nav__item">
   <a href="#telliot.datafeed.data_source.DataSource.update_value" class="md-nav__link">
     update_value()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb" class="md-nav__link">
-    DataSourceDb
-  </a>
-  
-    <nav class="md-nav" aria-label="DataSourceDb">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb.load_value" class="md-nav__link">
-    load_value()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb.store_value" class="md-nav__link">
-    store_value()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb.get_history" class="md-nav__link">
-    get_history()
   </a>
   
 </li>
@@ -577,19 +530,6 @@
     DataFeed
   </a>
   
-    <nav class="md-nav" aria-label="DataFeed">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_feed.DataFeed.update_sources" class="md-nav__link">
-    update_sources()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -603,40 +543,6 @@
           <li class="md-nav__item">
   <a href="#telliot.datafeed.data_source.DataSource.update_value" class="md-nav__link">
     update_value()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb" class="md-nav__link">
-    DataSourceDb
-  </a>
-  
-    <nav class="md-nav" aria-label="DataSourceDb">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb.load_value" class="md-nav__link">
-    load_value()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb.store_value" class="md-nav__link">
-    store_value()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSourceDb.get_history" class="md-nav__link">
-    get_history()
   </a>
   
 </li>
@@ -667,12 +573,12 @@
 
 <h2 id="telliot.datafeed.data_feed.DataFeed" class="doc doc-heading">
         <code>
-DataFeed            (<a title="telliot.datafeed.data_source.DataSourceDb" href="#telliot.datafeed.data_source.DataSourceDb">DataSourceDb</a>, <span title="abc.ABC">ABC</span>)
+DataFeed            (<a title="telliot.datafeed.data_source.DataSource" href="#telliot.datafeed.data_source.DataSource">DataSource</a>, <span title="abc.ABC">ABC</span>)
         </code>
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
 <a href="#telliot.datafeed.data_feed.DataFeed" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -680,8 +586,8 @@ DataFeed            (<a title="telliot.datafeed.data_source.DataSourceDb" href="
     <div class="doc doc-contents first">
 
       <p>Data feed</p>
-<p>A data feed creates a response value for an
-:class:<code>~telliot.queries.query.OracleQuery</code>.</p>
+<p>A data feed is a DataSource that creates a response value for an
+<code>OracleQuery</code>.</p>
 
 
 
@@ -701,65 +607,6 @@ DataFeed            (<a title="telliot.datafeed.data_source.DataSourceDb" href="
 
 
 
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.datafeed.data_feed.DataFeed.update_sources" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">update_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-async"><code>async</code></small>
-  </span>
-
-<a href="#telliot.datafeed.data_feed.DataFeed.update_sources" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Update data feed sources</p>
-
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>Dict[str, telliot.datafeed.data_source.TimeStampedAnswer[Any]]</code></td>
-      <td><p>Dictionary of updated source values, mapping data source UID
-to the time-stamped answer for that data source</p></td>
-    </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>telliot\datafeed\data_feed.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">update_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Update data feed sources</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Dictionary of updated source values, mapping data source UID</span>
-<span class="sd">        to the time-stamped answer for that data source</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">gather_inputs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
-            <span class="o">*</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">update_value</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="k">await</span> <span class="n">gather_inputs</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
 
 
   </div>
@@ -776,12 +623,12 @@ to the time-stamped answer for that data source</p></td>
 
 <h2 id="telliot.datafeed.data_source.DataSource" class="doc doc-heading">
         <code>
-DataSource            (<span title="telliot.utils.base.Base">Base</span>, <span title="abc.ABC">ABC</span>)
+DataSource            (<span title="telliot.model.base.Base">Base</span>, <span title="abc.ABC">ABC</span>)
         </code>
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
 <a href="#telliot.datafeed.data_source.DataSource" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -809,13 +656,12 @@ DataSource            (<span title="telliot.utils.base.Base">Base</span>, <span 
 
 
 
-
   <div class="doc doc-object doc-method">
 
 
 
 <h3 id="telliot.datafeed.data_source.DataSource.update_value" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-async"><code>async</code></small>
@@ -827,26 +673,6 @@ DataSource            (<span title="telliot.utils.base.Base">Base</span>, <span 
 
       <p>Update current value with time-stamped value fetched from source</p>
 
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>store</code></td>
-        <td><code>bool</code></td>
-        <td><p>If true and applicable, updated value will be stored
-    to the database</p></td>
-        <td><code>False</code></td>
-      </tr>
-  </tbody>
-</table>
 <p><strong>Returns:</strong></p>
 <table>
   <thead>
@@ -865,218 +691,13 @@ DataSource            (<span title="telliot.utils.base.Base">Base</span>, <span 
         <details class="quote">
           <summary>Source code in <code>telliot\datafeed\data_source.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">update_value</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Update current value with time-stamped value fetched from source</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
+    <span class="c1"># async def update_value(self) -&gt; SourceOutputType:</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        store:  If true and applicable, updated value will be stored</span>
-<span class="sd">                to the database</span>
+    <span class="sd">&quot;&quot;&quot;Update current value with time-stamped value fetched from source</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Current time-stamped value</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-
-
-  </div>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
-<h2 id="telliot.datafeed.data_source.DataSourceDb" class="doc doc-heading">
-        <code>
-DataSourceDb            (<a title="telliot.datafeed.data_source.DataSource" href="#telliot.datafeed.data_source.DataSource">DataSource</a>, <span title="abc.ABC">ABC</span>)
-        </code>
-
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
-  </span>
-
-<a href="#telliot.datafeed.data_source.DataSourceDb" class="headerlink" title="Permanent link">&para;</a></h2>
-
-    <div class="doc doc-contents first">
-
-      <p>A data source that can store and retrieve values from a database</p>
-
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.datafeed.data_source.DataSourceDb.load_value" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">load_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-async"><code>async</code></small>
-  </span>
-
-<a href="#telliot.datafeed.data_source.DataSourceDb.load_value" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Update current value with time-stamped value fetched from database</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\datafeed\data_source.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">load_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Update current value with time-stamped value fetched from database&quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.datafeed.data_source.DataSourceDb.store_value" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">store_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-async"><code>async</code></small>
-  </span>
-
-<a href="#telliot.datafeed.data_source.DataSourceDb.store_value" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Store current time-stamped value to database</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\datafeed\data_source.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">store_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Store current time-stamped value to database&quot;&quot;&quot;</span>
-
-    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">val</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;uid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">}</span>
-
-    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:8000/data/&quot;</span>
-
-    <span class="k">def</span> <span class="nf">store</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Send post request to local db.&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-                <span class="n">json_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">json_data</span><span class="p">}</span>
-
-            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectTimeout</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Timeout Error&quot;</span><span class="p">,</span> <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="n">e</span><span class="p">}</span>
-
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="n">e</span><span class="p">}</span>
-
-    <span class="n">_</span> <span class="o">=</span> <span class="n">store</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.datafeed.data_source.DataSourceDb.get_history" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-async"><code>async</code></small>
-  </span>
-
-<a href="#telliot.datafeed.data_source.DataSourceDb.get_history" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Get data source history from database</p>
-
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>n</code></td>
-        <td><code>int</code></td>
-        <td><p>If n &gt; 0, get n datapoints from database, otherwise get all
-available datapoints.</p></td>
-        <td><code>0</code></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>List[telliot.datafeed.data_source.TimeStampedAnswer[Any]]</code></td>
-      <td><p>History of timestamped values from database</p></td>
-    </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>telliot\datafeed\data_source.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">get_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Get data source history from database</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        n:  If n &gt; 0, get n datapoints from database, otherwise get all</span>
-<span class="sd">            available datapoints.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        History of timestamped values from database</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div>

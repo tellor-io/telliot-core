@@ -488,15 +488,15 @@
                 
                 <h1 id="legacy-query-example">Legacy Query Example<a class="headerlink" href="#legacy-query-example" title="Permanent link">&para;</a></h1>
 <p>The following example demonstrates how to create a 
-<a href="../../code/queries/#telliot.queries.legacy_query.LegacyQuery"><code>LegacyQuery</code></a>
+[<code>LegacyQuery</code>][telliot.queries.legacy_query.LegacyQuery]
 requesting the ETH/USD price.  The legacy request ID for ETH/USD is <code>1</code>, 
 in accordance with the 
 <a href="https://docs.tellor.io/tellor/integration/data-ids/current-data-feeds">Legacy Data Feed ID Specifications</a>.</p>
 <p>Create a LegacyQuery and view the corresponding query descriptor:</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Legacy Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyQuery</span>
+<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyRequest</span>
 
-<span class="hll"><span class="n">q</span> <span class="o">=</span> <span class="n">LegacyQuery</span><span class="p">(</span><span class="n">legacy_request_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="hll"><span class="n">q</span> <span class="o">=</span> <span class="n">LegacyRequest</span><span class="p">(</span><span class="n">legacy_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
 </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -512,16 +512,16 @@ in accordance with the
 </code></pre></div>
 <p>The query descriptor string uniquely identifies this query to the 
 TellorX Oracle network.</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;LegacyQuery&quot;</span><span class="p">,</span><span class="nt">&quot;inputs&quot;</span><span class="p">:{</span><span class="nt">&quot;legacy_request_id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}}</span><span class="err">?</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;UnsignedFloatType&quot;</span><span class="p">,</span><span class="nt">&quot;inputs&quot;</span><span class="p">:{</span><span class="nt">&quot;abi_type&quot;</span><span class="p">:</span><span class="s2">&quot;ufixed256x6&quot;</span><span class="p">,</span><span class="nt">&quot;packed&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;LegacyRequest&quot;</span><span class="p">,</span><span class="nt">&quot;legacy_id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
 </code></pre></div>
 <p>To make the corresponding on-chain Query request, 
 the <code>TellorX.Oracle.tipQuery()</code> contract call
 requires two arguments: <code>queryData</code> and <code>queryId</code>.  These arguments are provided by 
 the <code>query_data</code> and <code>query_id</code> attributes of the <code>LegacyQuery</code> object:</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Legacy Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyQuery</span>
+<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyRequest</span>
 
-<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyQuery</span><span class="p">(</span><span class="n">legacy_request_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyRequest</span><span class="p">(</span><span class="n">legacy_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
 <span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -536,7 +536,7 @@ the <code>query_data</code> and <code>query_id</code> attributes of the <code>Le
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decoded value (float): </span><span class="si">{</span><span class="n">decoded_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>which, for this example, are:</p>
-<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a224c65676163795175657279222c22696e70757473223a7b226c65676163795f726571756573745f6964223a317d7d3f7b2274797065223a22556e7369676e6564466c6f617454797065222c22696e70757473223a7b226162695f74797065223a227566697865643235367836222c227061636b6564223a66616c73657d7d
+<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a224c656761637952657175657374222c226c65676163795f6964223a317d
 tipQuery ID: 0x0000000000000000000000000000000000000000000000000000000000000001
 </code></pre></div>
 <p>The <code>LegacyQuery</code> object also demonstrates how to encode a response
@@ -546,9 +546,9 @@ to submit on-chain using the <code>TellorX.Oracle.submitValue()</code> contract 
 <a href="../../code/types/#telliot.types.value_type.ValueType.decode"><code>decode</code></a> methods of the response
 <a href="../../code/types/#telliot.types.value_type.ValueType"><code>ValueType</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Legacy Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyQuery</span>
+<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">LegacyRequest</span>
 
-<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyQuery</span><span class="p">(</span><span class="n">legacy_request_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyRequest</span><span class="p">(</span><span class="n">legacy_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

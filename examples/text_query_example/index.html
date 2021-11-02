@@ -509,7 +509,7 @@
 </code></pre></div>
 <p>The query descriptor string uniquely identifies this query to the 
 TellorX Oracle network.</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;StringQuery&quot;</span><span class="p">,</span><span class="nt">&quot;inputs&quot;</span><span class="p">:{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">}}</span><span class="err">?</span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;ValueType&quot;</span><span class="p">,</span><span class="nt">&quot;inputs&quot;</span><span class="p">:{</span><span class="nt">&quot;abi_type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="nt">&quot;packed&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;StringQuery&quot;</span><span class="p">,</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>To make the corresponding on-chain Query request, 
 the <code>TellorX.Oracle.tipQuery()</code> contract call
@@ -533,7 +533,7 @@ the <code>query_data</code> and <code>query_id</code> attributes of the <code>St
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decoded value (float): </span><span class="si">{</span><span class="n">decoded_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>which, for this example, are:</p>
-<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a22537472696e675175657279222c22696e70757473223a7b2274657874223a225768617420697320746865206d65616e696e67206f66206c6966653f227d7d3f7b2274797065223a2256616c756554797065222c22696e70757473223a7b226162695f74797065223a22737472696e67222c227061636b6564223a66616c73657d7d
+<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a22537472696e675175657279222c2274657874223a225768617420697320746865206d65616e696e67206f66206c6966653f227d
 tipQuery ID: 0xdd349fc565b13987a11bed4cc9e7382863491638769020afad1abe3840ec14b7
 </code></pre></div>
 <p>The <code>StringQuery</code> object also demonstrates how to encode a response

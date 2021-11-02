@@ -404,43 +404,36 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#telliot.queries.query.OracleQuery.json" class="md-nav__link">
-    json()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery" class="md-nav__link">
-    LegacyQuery
+  <a href="#telliot.queries.legacy_query.LegacyRequest" class="md-nav__link">
+    LegacyRequest
   </a>
   
-    <nav class="md-nav" aria-label="LegacyQuery">
+    <nav class="md-nav" aria-label="LegacyRequest">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery.value_type" class="md-nav__link">
+  <a href="#telliot.queries.legacy_query.LegacyRequest.legacy_id" class="md-nav__link">
+    legacy_id
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.queries.legacy_query.LegacyRequest.value_type" class="md-nav__link">
     value_type
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery.query_id" class="md-nav__link">
+  <a href="#telliot.queries.legacy_query.LegacyRequest.query_id" class="md-nav__link">
     query_id
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery.must_be_less_than_100" class="md-nav__link">
-    must_be_less_than_100()
   </a>
   
 </li>
@@ -670,43 +663,36 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#telliot.queries.query.OracleQuery.json" class="md-nav__link">
-    json()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery" class="md-nav__link">
-    LegacyQuery
+  <a href="#telliot.queries.legacy_query.LegacyRequest" class="md-nav__link">
+    LegacyRequest
   </a>
   
-    <nav class="md-nav" aria-label="LegacyQuery">
+    <nav class="md-nav" aria-label="LegacyRequest">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery.value_type" class="md-nav__link">
+  <a href="#telliot.queries.legacy_query.LegacyRequest.legacy_id" class="md-nav__link">
+    legacy_id
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.queries.legacy_query.LegacyRequest.value_type" class="md-nav__link">
     value_type
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery.query_id" class="md-nav__link">
+  <a href="#telliot.queries.legacy_query.LegacyRequest.query_id" class="md-nav__link">
     query_id
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot.queries.legacy_query.LegacyQuery.must_be_less_than_100" class="md-nav__link">
-    must_be_less_than_100()
   </a>
   
 </li>
@@ -791,13 +777,10 @@
 
 <h2 id="telliot.queries.query.OracleQuery" class="doc doc-heading">
         <code>
-OracleQuery            (<span title="telliot.utils.serializable.SerializableModel">SerializableModel</span>)
+OracleQuery            (<span title="clamfig.base.Serializable">Serializable</span>)
         </code>
 
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
-  </span>
 
 <a href="#telliot.queries.query.OracleQuery" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -830,6 +813,7 @@ be used to customize the query.</p>
 
 
   <div class="doc doc-children">
+
 
 
 
@@ -947,36 +931,6 @@ contract calls.</p>
 
 
 
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.queries.query.OracleQuery.json" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
-
-
-<a href="#telliot.queries.query.OracleQuery.json" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Convert to compact JSON format used in query descriptor</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\queries\query.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Convert to compact JSON format used in query descriptor&quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-
-
   </div>
 
     </div>
@@ -989,22 +943,22 @@ contract calls.</p>
 
 
 
-<h2 id="telliot.queries.legacy_query.LegacyQuery" class="doc doc-heading">
+<h2 id="telliot.queries.legacy_query.LegacyRequest" class="doc doc-heading">
         <code>
-LegacyQuery            (<a title="telliot.queries.query.OracleQuery" href="#telliot.queries.query.OracleQuery">OracleQuery</a>)
+LegacyRequest            (<a title="telliot.queries.query.OracleQuery" href="#telliot.queries.query.OracleQuery">OracleQuery</a>)
         </code>
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
-<a href="#telliot.queries.legacy_query.LegacyQuery" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#telliot.queries.legacy_query.LegacyRequest" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-      <p>Legacy Query</p>
-<p>Legacy queries are queries that existed prior to TellorX
+      <p>Legacy Price/Value request</p>
+<p>Legacy request are queries that existed prior to TellorX
 A legacy query uses arbitrary query <code>data</code> and a static query <code>id</code>.
 The query <code>id</code> is always set to the legacy request ID, which is
 an integer less than 100.</p>
@@ -1030,7 +984,29 @@ for a description of each <code>id</code></p>
 
 
 
-<h3 id="telliot.queries.legacy_query.LegacyQuery.value_type" class="doc doc-heading">
+<h3 id="telliot.queries.legacy_query.LegacyRequest.legacy_id" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">legacy_id</span><span class="p">:</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-dataclass-field"><code>dataclass-field</code></small>
+  </span>
+
+<a href="#telliot.queries.legacy_query.LegacyRequest.legacy_id" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>The request ID of all legacy queries is a static integer 1 &lt; N &lt;=100</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="telliot.queries.legacy_query.LegacyRequest.value_type" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">value_type</span><span class="p">:</span> <span class="n">ValueType</span></code>
 
   <span class="doc doc-properties">
@@ -1038,7 +1014,7 @@ for a description of each <code>id</code></p>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-<a href="#telliot.queries.legacy_query.LegacyQuery.value_type" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#telliot.queries.legacy_query.LegacyRequest.value_type" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -1053,7 +1029,7 @@ for a description of each <code>id</code></p>
 
 
 
-<h3 id="telliot.queries.legacy_query.LegacyQuery.query_id" class="doc doc-heading">
+<h3 id="telliot.queries.legacy_query.LegacyRequest.query_id" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">query_id</span><span class="p">:</span> <span class="nb">bytes</span></code>
 
   <span class="doc doc-properties">
@@ -1061,7 +1037,7 @@ for a description of each <code>id</code></p>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-<a href="#telliot.queries.legacy_query.LegacyQuery.query_id" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#telliot.queries.legacy_query.LegacyRequest.query_id" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -1075,42 +1051,6 @@ for a description of each <code>id</code></p>
 
 
 
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.queries.legacy_query.LegacyQuery.must_be_less_than_100" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">must_be_less_than_100</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-  </span>
-
-<a href="#telliot.queries.legacy_query.LegacyQuery.must_be_less_than_100" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Validator to ensure that legacy request ID is less than
-or equal to 100.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot\queries\legacy_query.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;legacy_request_id&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">must_be_less_than_100</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-    <span class="sd">&quot;&quot;&quot;Validator to ensure that legacy request ID is less than</span>
-<span class="sd">    or equal to 100.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Legacy request ID must be less than 100&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">v</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -1135,7 +1075,7 @@ CoinPrice            (<a title="telliot.queries.query.OracleQuery" href="#tellio
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
 <a href="#telliot.queries.coin_price.CoinPrice" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1297,7 +1237,7 @@ StringQuery            (<a title="telliot.queries.query.OracleQuery" href="#tell
 
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
 <a href="#telliot.queries.string_query.StringQuery" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1312,6 +1252,7 @@ text.</p>
 
 
   <div class="doc doc-children">
+
 
 
 
@@ -1339,6 +1280,7 @@ text.</p>
     </div>
 
   </div>
+
 
 
 
