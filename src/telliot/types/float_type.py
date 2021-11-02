@@ -1,6 +1,7 @@
 """ :mod:`telliot.types.float_type`
 
 """
+from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
@@ -8,6 +9,7 @@ from pydantic import validator
 from telliot.types.value_type import ValueType
 
 
+@dataclass
 class UnsignedFloatType(ValueType):
     """Unsigned Float Type
 
@@ -19,10 +21,6 @@ class UnsignedFloatType(ValueType):
 
     #: ABI Encoding for Unsigned Float value (default = ufixed256x6)
     abi_type: str = "ufixed256x6"
-
-    def __init__(self, **data: Any) -> None:
-
-        super().__init__(**data)
 
     @property
     def decimals(self) -> int:

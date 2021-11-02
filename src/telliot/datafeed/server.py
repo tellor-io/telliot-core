@@ -46,7 +46,7 @@ async def create_data(data: schemas.DataIn) -> Dict[str, Any]:
         uid=data.uid, value=data.value, timestamp=data.timestamp
     )
     last_record_id = await db.database.execute(query)
-    return {**data.dict(), "id": last_record_id}
+    return {**data.dict(), "id": last_record_id}  # type: ignore
 
 
 @app.get("/data/", response_model=List[schemas.Data])

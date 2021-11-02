@@ -1,14 +1,9 @@
 """ :mod:`telliot.queries.price_query`
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
-from typing import Any
-from typing import ClassVar
-from typing import List
+from dataclasses import dataclass
 from typing import Literal
 
-from pydantic import PrivateAttr
 from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
@@ -21,6 +16,7 @@ price_types = Literal["current", "eod", "24hr_twap", "1hr_twap", "custom", "manu
 price_query_params = ["coin", "currency", "price_type"]
 
 
+@dataclass
 class CoinPrice(OracleQuery):
     """Query the price of a cryptocurrency coin.
 
@@ -31,28 +27,16 @@ class CoinPrice(OracleQuery):
 
     """
 
-    inputs: ClassVar[List[str]] = price_query_params
-
     coin: str = ""
 
     currency: str = "usd"
 
     price_type: price_types = "current"
 
-    #: Private storage for response_type
-    _value_type: ValueType = PrivateAttr()
-
-    def __init__(self, **kwargs: Any):
-        # Fixed response type for all queries
-
-        super().__init__(**kwargs)
-
-        self._value_type = UnsignedFloatType(abi_type="ufixed64x6", packed=True)
-
     @property
     def value_type(self) -> ValueType:
         """Returns the fixed value type for a CoinPrice."""
-        return self._value_type
+        return UnsignedFloatType(abi_type="ufixed64x6", packed=True)
 
     @validator("coin")
     def asset_must_be_lower_case(cls, v: str) -> str:

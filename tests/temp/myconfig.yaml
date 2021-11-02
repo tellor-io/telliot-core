@@ -1,0 +1,5 @@
+type: MyOptions
+option_a: 3
+option_b:
+  type: SubConfig
+  option_c: abc

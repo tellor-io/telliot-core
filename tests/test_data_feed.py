@@ -1,27 +1,42 @@
 """ Simple example of creating a "plug-in" data feed
 
 """
-import statistics
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Any
+from typing import Optional
 
 import pytest
-from telliot.queries.query import OracleQuery
-from telliot_examples.feeds.btc_usd_feed import data_feeds
+from telliot.answer import TimeStampedAnswer
+from telliot.datafeed.data_feed import DataFeed
+from telliot.datafeed.data_source import RandomSource
+from telliot.queries.legacy_query import LegacyRequest
+
+# from telliot.datafeed.data_source import SourceOutputType
+
+
+@dataclass
+class MyDataFeed(DataFeed):
+    random_source: RandomSource = field(default_factory=RandomSource)
+
+    async def update_value(self) -> Optional[TimeStampedAnswer[Any]]:
+        # async def update_value(self) -> SourceOutputType:
+
+        self._value = await self.random_source.update_value()
+
+        return self.value
+
+
+my_feed = MyDataFeed(query=LegacyRequest(legacy_id=4))
 
 
 @pytest.mark.asyncio
-async def test_AssetPriceFeed():
-    """Retrieve median BTC price from example datafeed &
-    make sure value is within tolerance."""
-    btc_usd_median = data_feeds["btc-usd-median"]
+async def test_my_data_source():
 
-    price = await btc_usd_median.update_value()
+    # result, value, tstamp = await my_feed.update_value()
+    tsval = await my_feed.update_value()
+    # assert result.ok
+    assert 0 <= tsval.val < 1
 
-    # Get list of data sources from sources dict
-    sources = [source.value for source in btc_usd_median.sources.values()]
-
-    # Make sure error is less than decimal tolerance
-    assert (price.val - statistics.median([s.val for s in sources])) < 10 ** -6
-
-    # Get query
-    q = btc_usd_median.query
-    assert isinstance(q, OracleQuery)
+    print(my_feed.get_state())
+    print(my_feed.value)

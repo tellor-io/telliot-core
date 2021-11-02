@@ -17,9 +17,9 @@ service = {
 }
 
 
-async def get_price(asset, currency, service):
+async def get_price(asset, currency, s):
     """Helper function for retrieving prices."""
-    price = await service.get_price(asset, currency)
+    price = await s.get_price(asset, currency)
     return price
 
 

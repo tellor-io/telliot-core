@@ -1,4 +1,5 @@
 from collections import namedtuple
+from dataclasses import dataclass
 from typing import Any
 from typing import Dict
 from typing import List
@@ -7,6 +8,7 @@ from typing import Optional
 from telliot.model.base import Base
 
 
+@dataclass
 class ERC20Token(Base):
     """Representation of an ERC20 token"""
 
@@ -34,6 +36,7 @@ TokenListVersion = namedtuple(
 )
 
 
+@dataclass
 class ERC20TokenList(Base):
     """ERC-20 Token List"""
 

@@ -1,10 +1,11 @@
 """
 Utils for creating a JSON RPC connection to an EVM blockchain
 """
+from dataclasses import dataclass
+from dataclasses import field
 from typing import List
 from typing import Optional
 
-from pydantic import Field
 from telliot.apps.config import ConfigFile
 from telliot.apps.config import ConfigOptions
 from telliot.model.base import Base
@@ -12,6 +13,7 @@ from web3 import Web3
 from web3.middleware import geth_poa_middleware
 
 
+@dataclass
 class RPCEndpoint(Base):
     """JSON RPC Endpoint for EVM compatible network"""
 
@@ -19,20 +21,20 @@ class RPCEndpoint(Base):
     chain_id: Optional[int] = None
 
     #: Network Name (e.g. 'mainnet', 'testnet', 'rinkeby')
-    network: str
+    network: str = ""
 
     #: Provider Name (e.g. 'Infura')
-    provider: str
+    provider: str = ""
 
     #: URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')
-    url: str
+    url: str = ""
 
-    #: Exploerer URL ')
+    #: Explorer URL ')
     explorer: Optional[str] = None
 
     #: Read-only Web3 Connection with private storage
     web3 = property(lambda self: self._web3)
-    _web3: Optional[Web3] = None
+    _web3: Optional[Web3] = field(default=None, init=False, repr=False)
 
     def connect(self) -> bool:
         """Connect to EVM blockchain
@@ -90,9 +92,9 @@ default_endpoint_list = [
 ]
 
 
+@dataclass
 class EndpointList(ConfigOptions):
-
-    endpoints: List[RPCEndpoint] = Field(default=default_endpoint_list)
+    endpoints: List[RPCEndpoint] = field(default_factory=lambda: default_endpoint_list)
 
     def get_chain_endpoint(self, chain_id: int = 1) -> Optional[RPCEndpoint]:
         """Get an Endpoint for the specified chain_id"""
@@ -105,7 +107,6 @@ class EndpointList(ConfigOptions):
 
 
 if __name__ == "__main__":
-
     cf = ConfigFile(name="endpoints", config_type=EndpointList, config_format="yaml")
 
     config_endpoints = cf.get_config()
