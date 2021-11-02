@@ -54,6 +54,7 @@ class RandomSource(DataSource):
         return self.value  # type: ignore
         # return ResponseStatus(True), self.value, now()
 
+
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""
 #
