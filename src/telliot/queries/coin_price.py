@@ -4,7 +4,6 @@
 from dataclasses import dataclass
 from typing import Literal
 
-from pydantic import validator
 from telliot.queries.query import OracleQuery
 from telliot.types.float_type import UnsignedFloatType
 from telliot.types.value_type import ValueType
