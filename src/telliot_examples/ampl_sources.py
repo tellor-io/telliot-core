@@ -1,11 +1,12 @@
 # import os
 # import statistics
-from typing import Any
 from typing import Optional
 from typing import Tuple
+from typing import List
+from typing import Union
+from typing import Mapping
 
 import requests
-from telliot.answer import TimeStampedAnswer
 from telliot.datafeed.data_source import DataSource
 from telliot.utils.response import ResponseStatus
 
@@ -17,8 +18,11 @@ class AMPLSource(DataSource):
     """Data source for retrieving AMPL/USD/VWAP."""
 
     async def update_value(
-        self, url, params, headers=None
-    ) -> Optional[TimeStampedAnswer[Any]]:
+        self,
+        url: str,
+        params: List[Union[str, int]],
+        headers: Optional[Mapping[str, str]] = None
+    ) -> Tuple[Optional[float], ResponseStatus]:
         """Update current value with time-stamped value."""
 
         with requests.Session() as s:
@@ -48,7 +52,10 @@ class BraveNewCoinSource(AMPLSource):
     """Data source for retrieving AMPL/USD/VWAP from
     bravenewcoin api."""
 
-    async def get_bearer_token(self, api_key) -> Tuple[Optional[str], ResponseStatus]:
+    async def get_bearer_token(
+        self,
+        api_key: str
+    ) -> Tuple[Optional[str], ResponseStatus]:
         """Get authorization token for using bravenewcoin api."""
 
         with requests.Session() as s:

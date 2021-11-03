@@ -1,13 +1,15 @@
 import os
 
 import pytest
-from telliot_examples.get_ampl_vals import AMPLSource
-from telliot_examples.get_ampl_vals import BraveNewCoinSource
+from telliot_examples.ampl_sources import AMPLSource
+from telliot_examples.ampl_sources import BraveNewCoinSource
 
 
 @pytest.mark.asyncio
 async def test_bravenewcoin_source():
-    """Test retrieving AMPL/USD/VWAP data from BraveNewCoin/Rapid api."""
+    """Test retrieving AMPL/USD/VWAP data from BraveNewCoin/Rapid api.
+
+    Retrieves bearer token and adds to headers of main data request."""
 
     api_key = os.environ["RAPID_KEY"]
     ampl_source = BraveNewCoinSource()

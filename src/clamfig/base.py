@@ -112,7 +112,7 @@ coercers = {
 }
 
 valid_types = Union[
-    Serializable, list, dict, tuple, date, datetime, time, bytes, Decimal #type: ignore
+    Serializable, list, dict, tuple, date, datetime, time, bytes, Decimal  # type: ignore
 ]
 
 
