@@ -1,35 +1,39 @@
-from telliot.utils.response import ResponseStatus
-from telliot.datafeed.data_source import DataSource
-from telliot.datafeed.pricing.price_feed import PriceFeed
+# import os
+# import statistics
 from typing import Any
-from typing import Optional 
-from telliot.answer import TimeStampedAnswer
-import requests
-import statistics
-from telliot.queries.coin_price import CoinPrice
-import os
+from typing import Optional
 from typing import Tuple
+
+import requests
+from telliot.answer import TimeStampedAnswer
+from telliot.datafeed.data_source import DataSource
+from telliot.utils.response import ResponseStatus
+
+# from telliot.datafeed.pricing.price_feed import PriceFeed
+# from telliot.queries.coin_price import CoinPrice
 
 
 class AMPLSource(DataSource):
-    '''Data source for retrieving AMPL/USD/VWAP.'''
-    
-    async def update_value(self, url, params, headers=None) -> Optional[TimeStampedAnswer[Any]]:
+    """Data source for retrieving AMPL/USD/VWAP."""
+
+    async def update_value(
+        self, url, params, headers=None
+    ) -> Optional[TimeStampedAnswer[Any]]:
         """Update current value with time-stamped value."""
 
         with requests.Session() as s:
             try:
                 r = None
-                if headers: 
+                if headers:
                     r = s.get(url, headers=headers)
                 else:
                     r = s.get(url)
                 json_data = r.json()
                 self._value = json_data
-                
+
                 for param in params:
                     self._value = self.value[param]
-                    
+
                 return self.value, ResponseStatus()
 
             except requests.exceptions.ConnectTimeout as e:
@@ -41,12 +45,12 @@ class AMPLSource(DataSource):
 
 
 class BraveNewCoinSource(AMPLSource):
-    '''Data source for retrieving AMPL/USD/VWAP from
-    bravenewcoin api.'''
-    
+    """Data source for retrieving AMPL/USD/VWAP from
+    bravenewcoin api."""
+
     async def get_bearer_token(self, api_key) -> Tuple[Optional[str], ResponseStatus]:
         """Get authorization token for using bravenewcoin api."""
-        
+
         with requests.Session() as s:
             try:
                 url = "https://bravenewcoin.p.rapidapi.com/oauth/token"
@@ -57,14 +61,14 @@ class BraveNewCoinSource(AMPLSource):
                     \"grant_type\": \"client_credentials\"\r
                 }"""
                 headers = {
-                    'content-type': "application/json",
-                    'x-rapidapi-host': "bravenewcoin.p.rapidapi.com",
-                    'x-rapidapi-key': api_key
-                    }
+                    "content-type": "application/json",
+                    "x-rapidapi-host": "bravenewcoin.p.rapidapi.com",
+                    "x-rapidapi-key": api_key,
+                }
 
                 response = s.post(url, data=payload, headers=headers)
 
-                bearer_token = response.json()['access_token']
+                bearer_token = response.json()["access_token"]
 
                 return bearer_token, ResponseStatus()
 
