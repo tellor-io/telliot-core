@@ -6,54 +6,96 @@ from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
 from dataclasses import field
-from typing import Any
 from typing import Optional
 
-from telliot.answer import TimeStampedAnswer
-from telliot.answer import TimeStampedFloat
 from telliot.model.base import Base
+from typing import Tuple
+from typing import Deque
+from typing import TypeVar, Generic, List
+from datetime import datetime, timezone
+from collections import deque
+
+T = TypeVar("T")
+
+# A Time-stamped value tuple
+DataPoint = Tuple[T, datetime]
+
+# An optional time-stamped value tuple
+OptionalDataPoint = Tuple[Optional[T], Optional[datetime]]
 
 
-# SourceOutputType = Tuple[ResponseStatus, Any, Optional[datetime]]
+def datetime_now_utc() -> datetime:
+    """ A helper function to get the timestamp for "now"
+
+    """
+    return datetime.now(timezone.utc)
 
 
 @dataclass
-class DataSource(Base, ABC):
-    """Base Class for a DataSource.
+class DataSource(Generic[T], Base):
+    """Base Class for a DataSource
 
     A DataSource provides an input to a `DataFeed`
+    It also contains a store for all previously fetched data points.
+
+    All subclasses must implement `DataSource.fetch_new_datapoint()`
     """
 
-    value = property(lambda self: self._value)
+    max_datapoints: int = 256
 
-    # Private storage for fetched value
-    _value: Optional[Any] = field(default=None, init=False, repr=False)
+    # Private storage for fetched values
+    _history: Deque[DataPoint[T]] = field(default_factory=deque, init=False, repr=False)
 
-    @abstractmethod
-    async def update_value(self) -> Optional[TimeStampedAnswer[Any]]:
-        # async def update_value(self) -> SourceOutputType:
+    def __post_init__(self) -> None:
+        # Overwrite default deque
+        self._history = deque(maxlen=self.max_datapoints)
 
-        """Update current value with time-stamped value fetched from source
+    @property
+    def latest(self) -> OptionalDataPoint[T]:
+        """ Returns the most recent datapoint or none if history is empty
 
-        Returns:
-            Current time-stamped value
+        """
+        if len(self._history) >= 1:
+            return self._history[-1]
+        else:
+            return None, None
+
+    def store_datapoint(self, datapoint: DataPoint[T]) -> None:
+        """Store a datapoint """
+        self._history.append(datapoint)
+
+    def get_all_datapoint(self) -> List[DataPoint[T]]:
+        """ Get a list of all available data points
+
+        """
+        return list(self._history)
+
+    async def fetch_new_datapoint(self) -> OptionalDataPoint[T]:
+        """ Fetch new value and store it for later retrieval
+
         """
         raise NotImplementedError
 
+    @property
+    def depth(self) -> int:
+        return len(self._history)
+
 
 @dataclass
-class RandomSource(DataSource):
+class RandomSource(DataSource[float]):
     """A random data source
 
     Returns a random floating point number in the range [0.0, 1.0).
     """
 
-    async def update_value(self) -> Optional[TimeStampedFloat]:
-        self._value = TimeStampedFloat(val=random.random())
+    async def fetch_new_datapoint(self) -> DataPoint[float]:
+        fetched_value = random.random()
+        timestamp = datetime_now_utc()
+        datapoint = (fetched_value, timestamp)
 
-        return self.value  # type: ignore
-        # return ResponseStatus(True), self.value, now()
+        self.store_datapoint(datapoint)
 
+        return datapoint
 
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""
