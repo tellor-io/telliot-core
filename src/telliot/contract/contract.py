@@ -182,7 +182,7 @@ class Contract:
                     extra_gas_price += gas_price
                 elif not status.ok and status.error and "already known" in status.error:
                     continue
-                elif not status.ok and status.error and "nonce too low":
+                elif not status.ok and status.error and "nonce too low" in status.error:
                     acc_nonce += 1
                 else:
                     extra_gas_price = 0
