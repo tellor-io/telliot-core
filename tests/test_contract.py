@@ -128,7 +128,7 @@ async def test_submit_value(cfg, master, oracle):
         func_name="submitValue",
         gas_price=gas_price,
         extra_gas_price=20,
-        retries=2,
+        retries=5,
         _queryId=query_id,
         _value=value,
         _nonce=value_count,
