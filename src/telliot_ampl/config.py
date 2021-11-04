@@ -1,15 +1,19 @@
-'''Configuration class for AMPL plugin.'''
-from dataclasses import dataclass, field
-
-from telliot.apps.config import ConfigFile, ConfigOptions
-from telliot.model.base import Base
-from typing import Optional, Union
+"""Configuration class for AMPL plugin."""
+from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
+from typing import Optional
+from typing import Union
+
+from telliot.apps.config import ConfigFile
+from telliot.apps.config import ConfigOptions
+from telliot.model.base import Base
 
 
 @dataclass
 class AMPLConfigOptions(ConfigOptions):
-    '''Configurations needed for AMPL apis.'''
+    """Configurations needed for AMPL apis."""
+
     # Acces key for AnyBlock api
     anyblock_api_key: str = ""
 
