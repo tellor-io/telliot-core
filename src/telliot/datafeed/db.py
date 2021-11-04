@@ -6,10 +6,11 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Any
 from typing import List
+from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
 
 import databases
 import sqlalchemy
-from telliot.answer import TimeStampedAnswer
+
 
 
 DATABASE_URL = "sqlite:///./test.db"
@@ -38,12 +39,12 @@ class FeedDataBaseMixin(ABC):
     """A Mixin Class that provides an interface to the feed database"""
 
     @abstractmethod
-    async def load_value(self) -> TimeStampedAnswer[Any]:
+    async def load_value(self) -> DataPoint[Any]:
         """Update current value with time-stamped value fetched from database"""
         raise NotImplementedError
 
     @abstractmethod
-    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
+    async def get_history(self, n: int = 0) -> List[OptionalDataPoint[Any]]:
         """Get data source history from database
 
         Args:

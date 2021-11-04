@@ -2,33 +2,17 @@
 
 """
 import random
-from abc import ABC
-from abc import abstractmethod
 from dataclasses import dataclass
 from dataclasses import field
-from typing import Optional
 
 from telliot.model.base import Base
-from typing import Tuple
 from typing import Deque
 from typing import TypeVar, Generic, List
-from datetime import datetime, timezone
 from collections import deque
 
+from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
+
 T = TypeVar("T")
-
-# A Time-stamped value tuple
-DataPoint = Tuple[T, datetime]
-
-# An optional time-stamped value tuple
-OptionalDataPoint = Tuple[Optional[T], Optional[datetime]]
-
-
-def datetime_now_utc() -> datetime:
-    """ A helper function to get the timestamp for "now"
-
-    """
-    return datetime.now(timezone.utc)
 
 
 @dataclass
@@ -62,7 +46,9 @@ class DataSource(Generic[T], Base):
 
     def store_datapoint(self, datapoint: DataPoint[T]) -> None:
         """Store a datapoint """
-        self._history.append(datapoint)
+        v, t = datapoint
+        if v is not None and t is not None:
+            self._history.append(datapoint)
 
     def get_all_datapoint(self) -> List[DataPoint[T]]:
         """ Get a list of all available data points

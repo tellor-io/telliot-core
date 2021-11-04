@@ -1,33 +1,32 @@
 import asyncio
+import statistics
 from abc import ABC
 from dataclasses import dataclass
 from dataclasses import field
-from typing import Any
 from typing import Callable
 from typing import List
-from typing import Optional
-
-from telliot.answer import TimeStampedAnswer
-from telliot.answer import TimeStampedFixed
-from telliot.datafeed.data_feed import DataFeed
 from telliot.datafeed.data_source import DataSource
+from telliot.types.datapoint import OptionalDataPoint, datetime_now_utc
+from telliot.datafeed.pricing.price_source import PriceSource
+import logging
 
+logger = logging.getLogger(__name__)
 
 @dataclass
-class PriceFeed(DataFeed, ABC):
+class AggregatePriceSource(DataSource[float], ABC):
     #: Asset
-    asset: str
+    asset: str = ''
 
     #: Currency of returned price
-    currency: str
+    currency: str = ''
 
     #: Callable algorithm that accepts an iterable of floats
-    algorithm: Callable[..., float]
+    algorithm: Callable[..., float] = field(default=statistics.median)
 
     #: Data feed sources
-    sources: List[DataSource] = field(default_factory=list)
+    sources: List[PriceSource] = field(default_factory=list)
 
-    async def update_sources(self) -> List[TimeStampedAnswer[Any]]:
+    async def update_sources(self) -> List[OptionalDataPoint[float]]:
         """Update data feed sources
 
         Returns:
@@ -35,20 +34,18 @@ class PriceFeed(DataFeed, ABC):
             to the time-stamped answer for that data source
         """
 
-        async def gather_inputs() -> List[TimeStampedAnswer[Any]]:
+        async def gather_inputs() -> List[OptionalDataPoint[float]]:
             sources = self.sources
-            values = await asyncio.gather(
-                *[source.update_value() for source in sources]
+            datapoints = await asyncio.gather(
+                *[source.fetch_new_datapoint() for source in sources]
             )
-            return values  # type: ignore
+            return datapoints
 
         inputs = await gather_inputs()
 
         return inputs
 
-    async def update_value(self) -> Optional[TimeStampedAnswer[Any]]:
-        # async def update_value(self) -> Tuple[ResponseStatus, Any, Optional[datetime]]:
-
+    async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
         """Update current value with time-stamped value fetched from source
 
         Args:
@@ -58,38 +55,23 @@ class PriceFeed(DataFeed, ABC):
         Returns:
             Current time-stamped value
         """
-        values = await self.update_sources()
+        datapoints = await self.update_sources()
 
         prices = []
-        for value in values:
+        for datapoint in datapoints:
+            v, _ = datapoint # Ignore input timestamps
             # Check for valid answers
-            timestamped_answer = value
-            price = timestamped_answer.val
-            prices.append(price)
+            if v is not None:
+                prices.append(v)
 
+        # Run the algorithm on all valid prices
+        print(f'Running {self.algorithm} on {prices}')
         result = self.algorithm(prices)
-        tsval = TimeStampedFixed(val=result)
-        self._value = tsval
-
-        # tstamp = now()
+        datapoint = (result, datetime_now_utc())
+        self.store_datapoint(datapoint)
 
         print(
-            "Feed Price: {} reported at time {}".format(self.value.val, self.value.ts)
+            "Feed Price: {} reported at time {}".format(datapoint[0], datapoint[1])
         )
 
-        # return ResponseStatus(True), self.value, tstamp
-        return self._value
-
-    async def get_history(self, n: int = 0) -> List[TimeStampedFixed]:
-        """Get data source history from database
-
-        Args:
-            n:  If n > 0, get n datapoints from database, otherwise get all
-                available datapoints.
-
-        Returns:
-            History of timestamped values from database
-
-        TODO
-        """
-        raise NotImplementedError
+        return datapoint

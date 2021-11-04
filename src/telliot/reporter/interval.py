@@ -24,7 +24,7 @@ class IntervalReporter(Reporter):
         endpoint: RPCEndpoint,
         private_key: str,
         contract_address: str,
-        datafeeds: List[DataFeed],
+        datafeeds: List[DataFeed[Any]],
     ) -> None:
 
         self.endpoint = endpoint
@@ -43,18 +43,21 @@ class IntervalReporter(Reporter):
         transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds:
-            job = asyncio.create_task(datafeed.update_value())
+            job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
             jobs.append(job)
 
         _ = await asyncio.gather(*jobs)
 
         for datafeed in self.datafeeds:
 
-            if datafeed.value:
+            datapoint = datafeed.source.latest
+            v, t = datapoint
+
+            if v is not None:
                 query = datafeed.query
 
                 if query:
-                    encoded_value = query.value_type.encode(datafeed.value.int)
+                    encoded_value = query.value_type.encode(v)
                     request_id_str = "0x" + query.query_id.hex()
                     extra_gas_price = 0
 

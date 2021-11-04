@@ -19,45 +19,46 @@ service = {
 
 async def get_price(asset, currency, s):
     """Helper function for retrieving prices."""
-    price = await s.get_price(asset, currency)
-    return price
+    v, t = await s.get_price(asset, currency)
+    return v, t
 
 
-def validate_price(price):
+def validate_price(v, t):
     """Check types and price anomalies."""
-    assert price is not None
-    assert isinstance(price.val, float)
-    assert price.val > 0
-    assert isinstance(price.ts, datetime)
-    print(price)
+    assert v is not None
+    assert isinstance(v, float)
+    assert v > 0
+    assert isinstance(t, datetime)
+    print(v)
+    print(t)
 
 
 @pytest.mark.asyncio
 async def test_coinbase():
     """Test retrieving from Coinbase price source."""
-    price = await get_price("btc", "usd", service["coinbase"])
-    validate_price(price)
+    v, t = await get_price("btc", "usd", service["coinbase"])
+    validate_price(v, t)
 
 
 @pytest.mark.asyncio
 async def test_coingecko():
     """Test retrieving from Coingecko price source."""
-    price = await get_price("btc", "usd", service["coingecko"])
-    validate_price(price)
+    v, t = await get_price("btc", "usd", service["coingecko"])
+    validate_price(v, t)
 
 
 @pytest.mark.asyncio
 async def test_bittrex():
     """Test retrieving from Bittrex price source."""
-    price = await get_price("btc", "usd", service["bittrex"])
-    validate_price(price)
+    v, t = await get_price("btc", "usd", service["bittrex"])
+    validate_price(v, t)
 
 
 @pytest.mark.asyncio
 async def test_gemini():
     """Test retrieving from Gemini price source."""
-    price = await get_price("btc", "usd", service["gemini"])
-    validate_price(price)
+    v, t = await get_price("btc", "usd", service["gemini"])
+    validate_price(v, t)
 
 
 # def test_web_price_service_timeout():

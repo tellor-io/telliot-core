@@ -3,8 +3,9 @@ from typing import Dict
 from typing import Optional
 
 from pydantic import BaseModel
-from telliot.answer import TimeStampedFloat
+
 from telliot.datafeed.pricing.price_service import WebPriceService
+from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
 
 
 class GeminiPriceResponse(BaseModel):
@@ -32,7 +33,7 @@ class GeminiPriceService(WebPriceService):
             name="Gemini Price Service", url="https://api.gemini.com", **kwargs
         )
 
-    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> OptionalDataPoint[float]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Bittrex API
@@ -47,12 +48,12 @@ class GeminiPriceService(WebPriceService):
         # print(d)
         if "error" in d:
             print(d)  # TODO: Log
-            return None
+            return None, None
 
         else:
             r = GeminiPriceResponse.parse_obj(d["response"])
 
             if r.last is not None:
-                return TimeStampedFloat(r.last)
+                return r.last, datetime_now_utc()
             else:
-                return None
+                return None, None
