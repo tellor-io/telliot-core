@@ -9,6 +9,8 @@ from typing import Union
 import requests
 from telliot.datafeed.data_source import DataSource
 from telliot.utils.response import ResponseStatus
+from telliot.types.datapoint import OptionalDataPoint
+from telliot.types.datapoint import datetime_now_utc
 
 # from telliot.datafeed.pricing.price_feed import PriceFeed
 # from telliot.queries.coin_price import CoinPrice
@@ -17,12 +19,12 @@ from telliot.utils.response import ResponseStatus
 class AMPLSource(DataSource):
     """Data source for retrieving AMPL/USD/VWAP."""
 
-    async def update_value(
+    async def fetch_new_datapoint(
         self,
         url: str,
         params: List[Union[str, int]],
         headers: Optional[Mapping[str, str]] = None,
-    ) -> Tuple[Optional[float], ResponseStatus]:
+    ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
         """Update current value with time-stamped value."""
 
         with requests.Session() as s:
@@ -32,20 +34,23 @@ class AMPLSource(DataSource):
                     r = s.get(url, headers=headers)
                 else:
                     r = s.get(url)
-                json_data = r.json()
-                self._value = json_data
+                data = r.json()
 
                 for param in params:
-                    self._value = self.value[param]
+                    data = data[param]
 
-                return self.value, ResponseStatus()
+                timestamp = datetime_now_utc()
+                datapoint = (data, timestamp)
+                self.store_datapoint(datapoint)
+
+                return datapoint, ResponseStatus()
 
             except requests.exceptions.ConnectTimeout as e:
                 msg = "Timeout Error"
-                return None, ResponseStatus(ok=False, error=msg, e=e)
+                return (None, None), ResponseStatus(ok=False, error=msg, e=e)
 
             except Exception as e:
-                return None, ResponseStatus(ok=False, error=str(type(e)), e=e)
+                return (None, None), ResponseStatus(ok=False, error=str(type(e)), e=e)
 
 
 class BraveNewCoinSource(AMPLSource):

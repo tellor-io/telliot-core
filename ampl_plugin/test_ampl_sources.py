@@ -1,8 +1,9 @@
 import os
 
 import pytest
-from telliot_examples.ampl_sources import AMPLSource
-from telliot_examples.ampl_sources import BraveNewCoinSource
+from ampl_plugin.ampl_sources import AMPLSource
+from ampl_plugin.ampl_sources import BraveNewCoinSource
+from datetime import datetime
 
 
 @pytest.mark.asyncio
@@ -30,12 +31,16 @@ async def test_bravenewcoin_source():
         "x-rapidapi-key": api_key,
     }
 
-    val, status = await ampl_source.update_value(
+    datapoint, status = await ampl_source.fetch_new_datapoint(
         url=url, params=params, headers=headers
     )
-
+    value, timestamp = datapoint
+    
     assert status.ok
-    assert val
+    assert isinstance(value, float)
+    assert isinstance(timestamp, datetime)
+    assert value > 0 
+
 
 
 @pytest.mark.asyncio
@@ -52,7 +57,10 @@ async def test_anyblock_source():
 
     ampl_source = AMPLSource()
 
-    val, status = await ampl_source.update_value(url=url, params=params)
+    datapoint, status = await ampl_source.fetch_new_datapoint(url=url, params=params)
+    value, timestamp = datapoint
 
     assert status.ok
-    assert val
+    assert isinstance(value, float)
+    assert isinstance(timestamp, datetime)
+    assert value > 0 
