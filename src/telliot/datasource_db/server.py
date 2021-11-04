@@ -11,9 +11,7 @@ from typing import Optional
 
 from fastapi import FastAPI
 
-from . import db
-from . import schemas
-
+from telliot.datasource_db import db, schemas
 
 app = FastAPI()
 
