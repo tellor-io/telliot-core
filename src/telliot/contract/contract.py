@@ -70,7 +70,11 @@ class Contract:
     async def write(
         self, func_name: str, gas_price: int, **kwargs: Any
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
-        """For submitting any contract transaction once without retries"""
+        """For submitting any contract transaction once without retries
+
+        gas price measured in gwei
+
+        """
 
         status = ResponseStatus()
 
@@ -93,18 +97,18 @@ class Contract:
             contract_function = self.contract.get_function_by_name(func_name)
             transaction = contract_function(**kwargs)
             # estimated_gas = transaction.estimateGas()
-            estimated_gas = 500000
-            print("estimated gas:", estimated_gas)
+            gas_limit = 500000  # TODO optimize for gas/profitability
+            print("estimated gas:", gas_limit)
 
-            print("actual address: ----- ", acc.address)
+            print("address: ----- ", acc.address)
             print("gas price:", gas_price)
 
             built_tx = transaction.buildTransaction(
                 {
                     "from": acc.address,
                     "nonce": acc_nonce,
-                    "gas": estimated_gas,
-                    "gasPrice": gas_price * 10000000,  # 1E7
+                    "gas": gas_limit,
+                    "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
                     "chainId": self.node.chain_id,
                 }
             )
@@ -143,7 +147,11 @@ class Contract:
         retries: int,
         **kwargs: Any,
     ) -> Tuple[Optional[List[AttributeDict[Any, Any]]], ResponseStatus]:
-        """For submitting any contract transaction. Retries supported!"""
+        """For submitting any contract transaction. Retries supported!
+
+        gas_price measured in gwei
+
+        """
 
         try:
             transaction_receipts = []

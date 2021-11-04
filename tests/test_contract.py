@@ -1,12 +1,11 @@
 """
 Test covering Pytelliot EVM contract connection utils.
 """
-import time
-
 import pytest
 import web3
 from hexbytes.main import HexBytes
 from telliot.contract.gas import fetch_gas_price
+from telliot.queries.legacy_query import LegacyRequest
 from web3 import Web3
 
 
@@ -91,7 +90,7 @@ async def test_trb_transfer(cfg, master):
 async def test_submit_value(cfg, master, oracle):
     """E2E test for submitting a value to rinkeby"""
 
-    gas_price = await fetch_gas_price()
+    gas_price = await fetch_gas_price()  # TODO clarify gas price units
     user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
     print(user)
 
@@ -102,15 +101,16 @@ async def test_submit_value(cfg, master, oracle):
     print(is_staked)
 
     if is_staked[0] == 0:
-        _, status = await master.write(func_name="depositStake", gas_price=gas_price)
+        _, status = await master.write_with_retry(
+            func_name="depositStake", gas_price=gas_price, retries=2
+        )
         assert status.ok
 
-    time.sleep(20)
+    q = LegacyRequest(legacy_id=99)
+    value = q.value_type.encode(420.0)
 
-    query_data = HexBytes(bytes("how are you", "utf-8"))
-    query_id = Web3.keccak(hexstr=query_data.hex()).hex()
-    print(query_data)
-    print(query_id)
+    query_data = q.query_data
+    query_id = q.query_id
 
     value_count, status = await oracle.read(
         func_name="getTimestampCountById", _queryId=query_id
@@ -120,11 +120,11 @@ async def test_submit_value(cfg, master, oracle):
     print(value_count)
     value = HexBytes(bytes("Im doing fine", "utf-8"))
 
-    receipt, status = await oracle.write(
+    receipt, status = await oracle.write_with_retry(
         func_name="submitValue",
         gas_price=gas_price,
-        # extra_gas_price=20,
-        # retries=1,
+        extra_gas_price=20,
+        retries=2,
         _queryId=query_id,
         _value=value,
         _nonce=value_count,
