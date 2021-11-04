@@ -11,12 +11,14 @@ from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
+from typing import Literal
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class AggregatePriceSource(DataSource[float], ABC):
+class PriceAggregator(DataSource[float], ABC):
+
     #: Asset
     asset: str = ""
 
@@ -24,10 +26,19 @@ class AggregatePriceSource(DataSource[float], ABC):
     currency: str = ""
 
     #: Callable algorithm that accepts an iterable of floats
-    algorithm: Callable[..., float] = field(default=statistics.median)
+    algorithm: Literal['median', 'average'] = 'median'
+
+    #: Private storage for actual algorithm function
+    _algorithm: Callable[..., float] = field(default=statistics.median, init=False, repr=False)
 
     #: Data feed sources
     sources: List[PriceSource] = field(default_factory=list)
+
+    def __post_init__(self):
+        if self.algorithm == 'median':
+            self._algorithm = statistics.median
+        elif self.algorithm == 'average':
+            self._algorithm = statistics.average
 
     async def update_sources(self) -> List[OptionalDataPoint[float]]:
         """Update data feed sources
@@ -69,7 +80,7 @@ class AggregatePriceSource(DataSource[float], ABC):
 
         # Run the algorithm on all valid prices
         print(f"Running {self.algorithm} on {prices}")
-        result = self.algorithm(prices)
+        result = self._algorithm(prices)
         datapoint = (result, datetime_now_utc())
         self.store_datapoint(datapoint)
 
