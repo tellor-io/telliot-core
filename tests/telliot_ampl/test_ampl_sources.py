@@ -3,8 +3,8 @@ from datetime import datetime
 
 import pytest
 
-from ampl_plugin.ampl_sources import AnyBlockSource
-from ampl_plugin.ampl_sources import BraveNewCoinSource
+from telliot_ampl.sources import AnyBlockSource
+from telliot_ampl.sources import BraveNewCoinSource
 
 
 @pytest.mark.asyncio

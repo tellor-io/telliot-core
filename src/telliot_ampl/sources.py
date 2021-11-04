@@ -17,7 +17,7 @@ from telliot.utils.response import ResponseStatus
 
 
 class AMPLSource(DataSource):
-    '''Base ample datasource.'''
+    '''Base AMPL datasource.'''
 
     def get_float_from_api(self, url: str, params, headers=None):
         '''Helper function for retrieving datapoint values.'''
