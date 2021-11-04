@@ -68,8 +68,8 @@ def main(config_format):
     assert op2.option_a == 3
 
     # Cleanup
-    # os.remove(config_file)
-    # os.remove(config_file_bak)
+    os.remove(config_file)
+    os.remove(config_file_bak)
 
 
 def test_yaml():
