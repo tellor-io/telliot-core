@@ -97,7 +97,7 @@ class Contract:
             transaction = contract_function(**kwargs)
             # estimated_gas = transaction.estimateGas()
             gas_limit = 500000  # TODO optimize for gas/profitability
-            print("estimated gas:", gas_limit)
+            print("gas limit:", gas_limit)
 
             print("address: ----- ", acc.address)
             print("gas price:", gas_price)
@@ -167,6 +167,8 @@ class Contract:
                     acc_nonce=acc_nonce,
                     **kwargs,
                 )
+
+                print("write status: ", status)
 
                 # Exit loop if transaction successful
                 if tx_receipt and status.ok:
