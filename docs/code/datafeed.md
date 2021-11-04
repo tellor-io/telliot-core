@@ -1,8 +1,8 @@
 
 
-::: telliot.data_source.DataSource
+::: telliot.datasource.DataSource
 
-::: telliot.data_feed.DataFeed
+::: telliot.datafeed.DataFeed
 
 
 
