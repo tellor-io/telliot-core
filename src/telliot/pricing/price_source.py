@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from dataclasses import field
 
-from telliot.data_source import DataSource
+from telliot.datasource import DataSource
 from telliot.pricing.price_service import WebPriceService
 from telliot.types.datapoint import OptionalDataPoint
 

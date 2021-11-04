@@ -1,8 +1,8 @@
 """ Simple example of creating a "plug-in" data feed
 
 """
-from telliot.data_feed import DataFeed
-from telliot.data_source import RandomSource
+from telliot.datafeed import DataFeed
+from telliot.datasource import RandomSource
 from telliot.queries.legacy_query import LegacyRequest
 
 
