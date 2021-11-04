@@ -3,10 +3,10 @@ from datetime import datetime
 
 import pytest
 
-from telliot_ampl.config import AMPLConfig
-from telliot_ampl.sources import AMPLUSDVWAPSource
-from telliot_ampl.sources import AnyBlockSource
-from telliot_ampl.sources import BraveNewCoinSource
+from telliot_ampl_feeds.config import AMPLConfig
+from telliot_ampl_feeds.sources.usd_vwap import AMPLUSDVWAPSource
+from telliot_ampl_feeds.sources.usd_vwap import AnyBlockSource
+from telliot_ampl_feeds.sources.usd_vwap import BraveNewCoinSource
 
 
 @pytest.fixture

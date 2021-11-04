@@ -14,7 +14,7 @@ from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 from telliot.utils.response import ResponseStatus
 
-from telliot_ampl.config import AMPLConfig
+from telliot_ampl_feeds.config import AMPLConfig
 
 
 T = TypeVar("T")
