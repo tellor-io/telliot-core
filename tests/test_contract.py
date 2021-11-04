@@ -123,7 +123,6 @@ async def test_submit_value(cfg, master, oracle):
     assert status.ok
     assert value_count >= 0
     print(value_count)
-    value = HexBytes(bytes("Im doing fine", "utf-8"))
 
     receipt, status = await oracle.write_with_retry(
         func_name="submitValue",
