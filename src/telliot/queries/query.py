@@ -3,9 +3,10 @@
 """
 import json
 
-from clamfig import Serializable
 from telliot.types.value_type import ValueType
 from web3 import Web3
+
+from clamfig import Serializable
 
 
 class OracleQuery(Serializable):
@@ -24,14 +25,12 @@ class OracleQuery(Serializable):
 
     The base class provides:
 
-    - Calculation of the contents of the ``data`` field to include with the
-      ``TellorX.Oracle.tipQuery()`` contract call.
+    - Calculation of the contents of the `data` field to include with the
+      `TellorX.Oracle.tipQuery()` contract call.
 
-    - Calculation of the ``id`` field field to include with the
-      ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``
+    - Calculation of the `id` field field to include with the
+      `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`
       contract calls.
-
-    WORK IN PROGRESS - Descriptor formats still under development
 
     """
 
