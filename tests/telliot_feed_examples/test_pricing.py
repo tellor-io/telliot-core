@@ -4,10 +4,11 @@
 from datetime import datetime
 
 import pytest
-from telliot_examples.coinprices.bittrex import BittrexPriceService
-from telliot_examples.coinprices.coinbase import CoinbasePriceService
-from telliot_examples.coinprices.coingecko import CoinGeckoPriceService
-from telliot_examples.coinprices.gemini import GeminiPriceService
+
+from telliot_feed_examples.sources.bittrex import BittrexPriceService
+from telliot_feed_examples.sources.coinbase import CoinbasePriceService
+from telliot_feed_examples.sources.coingecko import CoinGeckoPriceService
+from telliot_feed_examples.sources.gemini import GeminiPriceService
 
 service = {
     "coinbase": CoinbasePriceService(),

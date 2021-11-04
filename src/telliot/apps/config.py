@@ -8,12 +8,13 @@ from typing import Type
 from typing import Union
 
 import yaml
-from clamfig import deserialize
-from clamfig import Serializable
-from clamfig import serialize
 from telliot.utils.home import telliot_homedir
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
+
+from clamfig import deserialize
+from clamfig import Serializable
+from clamfig import serialize
 
 logger = logging.getLogger(__name__)
 

@@ -51,7 +51,7 @@ class DataSource(Generic[T], Base):
         if v is not None and t is not None:
             self._history.append(datapoint)
 
-    def get_all_datapoint(self) -> List[DataPoint[T]]:
+    def get_all_datapoints(self) -> List[DataPoint[T]]:
         """Get a list of all available data points"""
         return list(self._history)
 

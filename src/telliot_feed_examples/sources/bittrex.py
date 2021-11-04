@@ -1,8 +1,11 @@
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import Optional
 
 from pydantic import BaseModel
-from telliot.datafeed.pricing.price_service import WebPriceService
+from telliot.pricing.price_service import WebPriceService
+from telliot.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 
@@ -56,3 +59,10 @@ class BittrexPriceService(WebPriceService):
             else:
                 print(r.message)
                 return None, None
+
+
+@dataclass
+class BittrexPriceSource(PriceSource):
+    service: BittrexPriceService = field(
+        default_factory=BittrexPriceService, init=False
+    )

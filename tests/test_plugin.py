@@ -4,9 +4,9 @@ from telliot.plugin.discover import telliot_plugins
 
 def test_discovered_plugins():
     # Make sure that default telliot_examples plugin package is registered
-    assert "telliot_examples" in telliot_plugins
+    assert "telliot_feed_examples" in telliot_plugins
 
-    example_plugin = telliot_plugins["telliot_examples"]
+    example_plugin = telliot_plugins["telliot_feed_examples"]
 
     _ = example_plugin.registry
 
