@@ -1,8 +1,8 @@
 from typing import Any
-from typing import Optional
 
-from telliot.answer import TimeStampedFloat
 from telliot.datafeed.pricing.price_service import WebPriceService
+from telliot.types.datapoint import datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
 
 
 class CoinbasePriceService(WebPriceService):
@@ -13,7 +13,7 @@ class CoinbasePriceService(WebPriceService):
         kwargs["url"] = "https://api.pro.coinbase.com"
         super().__init__(**kwargs)
 
-    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> OptionalDataPoint[float]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Coinbase pro API
@@ -29,17 +29,17 @@ class CoinbasePriceService(WebPriceService):
         d = self.get_url(request_url)
         if "error" in d:
             print(d)  # TODO: Log
-            return None
+            return None, None
 
         elif "response" in d:
             response = d["response"]
 
             if "message" in response:
                 print("API ERROR ({}): {}".format(self.name, response["message"]))
-                return None
+                return None, None
 
         else:
             raise Exception("Invalid response from get_url")
 
         price = float(response["price"])
-        return TimeStampedFloat(price)
+        return price, datetime_now_utc()

@@ -9,7 +9,8 @@ from typing import List
 
 import databases
 import sqlalchemy
-from telliot.answer import TimeStampedAnswer
+from telliot.types.datapoint import DataPoint
+from telliot.types.datapoint import OptionalDataPoint
 
 
 DATABASE_URL = "sqlite:///./test.db"
@@ -38,12 +39,12 @@ class FeedDataBaseMixin(ABC):
     """A Mixin Class that provides an interface to the feed database"""
 
     @abstractmethod
-    async def load_value(self) -> TimeStampedAnswer[Any]:
+    async def load_value(self) -> DataPoint[Any]:
         """Update current value with time-stamped value fetched from database"""
         raise NotImplementedError
 
     @abstractmethod
-    async def get_history(self, n: int = 0) -> List[TimeStampedAnswer[Any]]:
+    async def get_history(self, n: int = 0) -> List[OptionalDataPoint[Any]]:
         """Get data source history from database
 
         Args:

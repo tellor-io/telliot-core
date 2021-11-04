@@ -2,8 +2,9 @@ from typing import Any
 from typing import Optional
 
 from pydantic import BaseModel
-from telliot.answer import TimeStampedFloat
 from telliot.datafeed.pricing.price_service import WebPriceService
+from telliot.types.datapoint import datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
 
 
 class BittrexQuote(BaseModel):
@@ -26,7 +27,7 @@ class BittrexPriceService(WebPriceService):
             name="Bittrex Price Service", url="https://api.bittrex.com", **kwargs
         )
 
-    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> OptionalDataPoint[float]:
         """Implement PriceServiceInterface
 
         This implementation gets the price from the Bittrex API
@@ -43,15 +44,15 @@ class BittrexPriceService(WebPriceService):
 
         if "error" in d:
             print(d)  # TODO: Log
-            return None
+            return None, None
 
         else:
             r = PriceResponse.parse_obj(d["response"])
             if r.success:
                 if r.result is not None:
-                    return TimeStampedFloat(r.result.Last)
+                    return r.result.Last, datetime_now_utc()
                 else:
-                    return None
+                    return None, None
             else:
                 print(r.message)
-                return None
+                return None, None
