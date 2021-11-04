@@ -10,16 +10,14 @@ async def fetch_gas_price() -> int:
     """Estimate current ETH gas price
 
     Work In Progress - Just do something quick
-
-    ethgasstation returns gas in gwei*10
     """
     return await ethgasstation("fast")
 
 
 async def ethgasstation(style: ethgastypes = "fast") -> int:
-    """Fetch gas price from ethgasstation in gwei"""
+    """Fetch gas price from ethgasstation"""
     rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
     prices = json.loads(rsp.content)
     gas_price = int(prices[style])
 
-    return int(gas_price / 10)  # json output is gwei*10
+    return gas_price
