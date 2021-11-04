@@ -76,8 +76,13 @@ async def test_trb_transfer(cfg, master):
     assert status.ok
     print("before:", balance / 1e18)
 
-    receipt, status = await master.write(
-        "transfer", _to=recipient, _amount=1, gas_price=gas_price
+    receipt, status = await master.write_with_retry(
+        "transfer",
+        _to=recipient,
+        _amount=1,
+        gas_price=gas_price,
+        extra_gas_price=20,
+        retries=2,
     )
     print(status.error)
     assert status.ok
@@ -102,7 +107,7 @@ async def test_submit_value(cfg, master, oracle):
 
     if is_staked[0] == 0:
         _, status = await master.write_with_retry(
-            func_name="depositStake", gas_price=gas_price, retries=2
+            func_name="depositStake", gas_price=gas_price, extra_gas_price=20, retries=2
         )
         assert status.ok
 

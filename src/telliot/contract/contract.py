@@ -68,7 +68,7 @@ class Contract:
             return None, ResponseStatus(ok=False, error=msg)
 
     async def write(
-        self, func_name: str, gas_price: int, **kwargs: Any
+        self, func_name: str, gas_price: int, acc_nonce: int, **kwargs: Any
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction once without retries
 
@@ -93,7 +93,6 @@ class Contract:
             return None, ResponseStatus(ok=False, error=msg)
         try:
             # build transaction
-            acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
             contract_function = self.contract.get_function_by_name(func_name)
             transaction = contract_function(**kwargs)
             # estimated_gas = transaction.estimateGas()
@@ -154,12 +153,19 @@ class Contract:
         """
 
         try:
+            status = ResponseStatus()
+            acc = self.node.web3.eth.account.from_key(self.private_key)
+            acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
+
             transaction_receipts = []
             # Iterate through retry attempts
             for _ in range(retries + 1):
 
                 tx_receipt, status = await self.write(
-                    func_name=func_name, gas_price=gas_price, **kwargs
+                    func_name=func_name,
+                    gas_price=gas_price,
+                    acc_nonce=acc_nonce,
+                    **kwargs,
                 )
 
                 # Exit loop if transaction successful
@@ -172,6 +178,10 @@ class Contract:
                     and "replacement transaction underpriced" in status.error
                 ):
                     extra_gas_price += gas_price
+                elif not status.ok and status.error and "already known" in status.error:
+                    continue
+                elif not status.ok and status.error and "nonce too low":
+                    acc_nonce += 1
                 else:
                     extra_gas_price = 0
 
