@@ -7,13 +7,12 @@ to the Tellor oracle.
 import json
 from abc import ABC
 from typing import Any
-from typing import Mapping
-from typing import Sequence
+from typing import List
 from typing import Tuple
 
 import requests
 from telliot.model.endpoints import RPCEndpoint
-from telliot.utils.abi import tellor_playground_abi
+from telliot.utils.abi import rinkeby_tellor_oracle
 from telliot.utils.response import ResponseStatus
 
 
@@ -28,7 +27,7 @@ class Submitter(ABC):
         endpoint: RPCEndpoint,
         private_key: str,
         contract_address: str,
-        abi: Sequence[Mapping[str, Any]],
+        abi: List[object],
     ) -> None:
         """Reads user private key and node endpoint from `.env` file to
         set up `Web3` client for interacting with the TellorX playground
@@ -43,7 +42,7 @@ class Submitter(ABC):
         self.acc = self.endpoint.web3.eth.account.from_key(self.private_key)
 
         self.contract = self.endpoint.web3.eth.contract(
-            self.contract_address, abi=tellor_playground_abi
+            self.contract_address, abi=rinkeby_tellor_oracle
         )
 
     def build_tx(self, value: bytes, request_id: str, gas_price: str) -> Any:
