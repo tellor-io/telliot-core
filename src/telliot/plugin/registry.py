@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from dataclasses import field
+from typing import Any
 from typing import List
 from typing import Type
-from telliot.datafeed.data_source import DataSource
+
 from telliot.datafeed.data_feed import DataFeed
+from telliot.datafeed.data_source import DataSource
 from telliot.queries import OracleQuery
-from typing import Any
+
 
 @dataclass
 class PluginRegistry:

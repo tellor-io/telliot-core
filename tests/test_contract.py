@@ -67,7 +67,8 @@ async def test_call_read_function(cfg, c):
     assert status.ok
     assert output >= 0
 
-@pytest.mark.skip('Fails frequently')
+
+@pytest.mark.skip("Fails frequently")
 @pytest.mark.asyncio
 async def test_faucet(cfg, c):
     """Contract call to mint to an account with the contract faucet"""

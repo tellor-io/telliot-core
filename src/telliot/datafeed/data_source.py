@@ -2,15 +2,18 @@
 
 """
 import random
+from collections import deque
 from dataclasses import dataclass
 from dataclasses import field
+from typing import Deque
+from typing import Generic
+from typing import List
+from typing import TypeVar
 
 from telliot.model.base import Base
-from typing import Deque
-from typing import TypeVar, Generic, List
-from collections import deque
-
-from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
+from telliot.types.datapoint import DataPoint
+from telliot.types.datapoint import datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
 
 T = TypeVar("T")
 
@@ -36,30 +39,24 @@ class DataSource(Generic[T], Base):
 
     @property
     def latest(self) -> OptionalDataPoint[T]:
-        """ Returns the most recent datapoint or none if history is empty
-
-        """
+        """Returns the most recent datapoint or none if history is empty"""
         if len(self._history) >= 1:
             return self._history[-1]
         else:
             return None, None
 
     def store_datapoint(self, datapoint: DataPoint[T]) -> None:
-        """Store a datapoint """
+        """Store a datapoint"""
         v, t = datapoint
         if v is not None and t is not None:
             self._history.append(datapoint)
 
     def get_all_datapoint(self) -> List[DataPoint[T]]:
-        """ Get a list of all available data points
-
-        """
+        """Get a list of all available data points"""
         return list(self._history)
 
     async def fetch_new_datapoint(self) -> OptionalDataPoint[T]:
-        """ Fetch new value and store it for later retrieval
-
-        """
+        """Fetch new value and store it for later retrieval"""
         raise NotImplementedError
 
     @property
@@ -82,6 +79,7 @@ class RandomSource(DataSource[float]):
         self.store_datapoint(datapoint)
 
         return datapoint
+
 
 # class ConstantSource(DataSource):
 #     """A simple data source that fetches a constant value"""

@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 from dataclasses import field
-from typing import Type
+
 from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.pricing.price_service import WebPriceService
-
 from telliot.types.datapoint import OptionalDataPoint
 
 
@@ -22,7 +21,7 @@ class PriceSource(DataSource[float]):
     currency: str = ""
 
     #: Price Service
-    service: WebPriceService = field(default_factory=WebPriceService) # type: ignore
+    service: WebPriceService = field(default_factory=WebPriceService)  # type: ignore
 
     async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
         """Update current value with time-stamped value fetched from source

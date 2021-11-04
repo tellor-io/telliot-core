@@ -2,11 +2,9 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Any
 from typing import Dict
-from typing import Optional
 
 import requests
-
-from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
 
 
 class PriceServiceInterface(ABC):

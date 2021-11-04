@@ -8,8 +8,7 @@ def test_discovered_plugins():
 
     example_plugin = telliot_plugins["telliot_examples"]
 
-    example_registry = example_plugin.registry
-
+    _ = example_plugin.registry
 
 
 # def test_plugin_registry():

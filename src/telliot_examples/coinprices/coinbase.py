@@ -1,9 +1,8 @@
 from typing import Any
-from typing import Optional
-
 
 from telliot.datafeed.pricing.price_service import WebPriceService
-from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
+from telliot.types.datapoint import datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
 
 
 class CoinbasePriceService(WebPriceService):

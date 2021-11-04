@@ -7,7 +7,6 @@ import pytest
 from telliot.datafeed.data_source import RandomSource
 
 
-
 @pytest.mark.asyncio
 async def test_random_source():
     """Test the random source example"""

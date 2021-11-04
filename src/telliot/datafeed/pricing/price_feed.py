@@ -1,24 +1,27 @@
 import asyncio
+import logging
 import statistics
 from abc import ABC
 from dataclasses import dataclass
 from dataclasses import field
 from typing import Callable
 from typing import List
+
 from telliot.datafeed.data_source import DataSource
-from telliot.types.datapoint import OptionalDataPoint, datetime_now_utc
 from telliot.datafeed.pricing.price_source import PriceSource
-import logging
+from telliot.types.datapoint import datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class AggregatePriceSource(DataSource[float], ABC):
     #: Asset
-    asset: str = ''
+    asset: str = ""
 
     #: Currency of returned price
-    currency: str = ''
+    currency: str = ""
 
     #: Callable algorithm that accepts an iterable of floats
     algorithm: Callable[..., float] = field(default=statistics.median)
@@ -59,19 +62,17 @@ class AggregatePriceSource(DataSource[float], ABC):
 
         prices = []
         for datapoint in datapoints:
-            v, _ = datapoint # Ignore input timestamps
+            v, _ = datapoint  # Ignore input timestamps
             # Check for valid answers
             if v is not None:
                 prices.append(v)
 
         # Run the algorithm on all valid prices
-        print(f'Running {self.algorithm} on {prices}')
+        print(f"Running {self.algorithm} on {prices}")
         result = self.algorithm(prices)
         datapoint = (result, datetime_now_utc())
         self.store_datapoint(datapoint)
 
-        print(
-            "Feed Price: {} reported at time {}".format(datapoint[0], datapoint[1])
-        )
+        print("Feed Price: {} reported at time {}".format(datapoint[0], datapoint[1]))
 
         return datapoint

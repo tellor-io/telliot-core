@@ -6,11 +6,11 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Any
 from typing import List
-from telliot.types.datapoint import DataPoint, OptionalDataPoint, datetime_now_utc
 
 import databases
 import sqlalchemy
-
+from telliot.types.datapoint import DataPoint
+from telliot.types.datapoint import OptionalDataPoint
 
 
 DATABASE_URL = "sqlite:///./test.db"
