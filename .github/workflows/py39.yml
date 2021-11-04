@@ -17,6 +17,8 @@ jobs:
       NODE_URL: ${{ secrets.TEST_NODE_URL }} 
       PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
       TEST_SECRET: ${{ secrets.TEST_SECRET }}
+      RAPID_KEY: ${{ secrets.TEST_RAPID_KEY }}
+      ANYBLOCK_KEY: ${{ secrets.TEST_ANYBLOCK_KEY }}
 
     strategy:
       matrix:
