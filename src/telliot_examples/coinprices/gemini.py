@@ -1,8 +1,10 @@
+from dataclasses import dataclass, field
 from typing import Any
 from typing import Dict
 
 from pydantic import BaseModel
 from telliot.datafeed.pricing.price_service import WebPriceService
+from telliot.datafeed.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 
@@ -56,3 +58,8 @@ class GeminiPriceService(WebPriceService):
                 return r.last, datetime_now_utc()
             else:
                 return None, None
+
+
+@dataclass
+class GeminiPriceSource(PriceSource):
+    service: GeminiPriceService = field(default_factory=GeminiPriceService, init=False)

@@ -1,7 +1,9 @@
+from dataclasses import dataclass, field
 from typing import Any
 from urllib.parse import urlencode
 
 from telliot.datafeed.pricing.price_service import WebPriceService
+from telliot.datafeed.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 
@@ -56,3 +58,8 @@ class CoinGeckoPriceService(WebPriceService):
             raise Exception("Invalid response from get_url")
 
         return price, datetime_now_utc()
+
+
+@dataclass
+class CoinGeckoPriceSource(PriceSource):
+    service: CoinGeckoPriceService = field(default_factory=CoinGeckoPriceService, init=False)
