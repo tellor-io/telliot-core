@@ -2,7 +2,7 @@ import statistics
 
 import pytest
 from telliot.queries.query import OracleQuery
-from telliot_examples.feeds.btc_usd_feed import btc_usd_median_feed
+from telliot_feed_examples.feeds.btc_usd_feed import btc_usd_median_feed
 
 
 @pytest.mark.asyncio
