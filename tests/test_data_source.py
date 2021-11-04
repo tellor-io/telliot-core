@@ -4,24 +4,24 @@
 from datetime import datetime
 
 import pytest
-from telliot.datafeed.data_source import DataSource
 from telliot.datafeed.data_source import RandomSource
 
 
-def test_data_source_abc():
-    class MyDataSource(DataSource):
-        pass
-
-    with pytest.raises(TypeError):
-        _ = MyDataSource()
-
-
 @pytest.mark.asyncio
-async def test_RandomSource():
-    s1 = RandomSource()
-    # status, value, timestamp = await s1.update_value()
-    tsval = await s1.update_value()
+async def test_random_source():
+    """Test the random source example"""
+    s = RandomSource()
 
-    # assert status.ok
-    assert 0 <= tsval.val < 1
-    assert isinstance(tsval.ts, datetime)
+    assert s.latest == (None, None)
+
+    v, t = await s.fetch_new_datapoint()
+    assert isinstance(v, float)
+    assert 0 <= v < 1
+    assert isinstance(t, datetime)
+
+    v, t = await s.fetch_new_datapoint()
+
+    assert s.depth == 2
+
+    latest_values = s.get_all_datapoint()
+    assert len(latest_values) == 2

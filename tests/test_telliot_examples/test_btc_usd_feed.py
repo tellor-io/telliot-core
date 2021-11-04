@@ -16,15 +16,15 @@ async def test_AssetPriceFeed():
 
     # Fetch price
     # status, price, tstamp = await btc_usd_median_feed.update_value()
-    tsval = await btc_usd_median_feed.update_value()
+    v, t = await btc_usd_median_feed.source.fetch_new_datapoint()
 
     # Make sure error is less than decimal tolerance
     # assert status.ok
-    assert 10000 < tsval.val < 100000
-    print(f"BTC Price: {tsval.val}")
+    assert 10000 < v < 100000
+    print(f"BTC Price: {v}")
 
     # Get list of data sources from sources dict
-    source_prices = [source.value.val for source in btc_usd_median_feed.sources]
+    source_prices = [source.latest[0] for source in btc_usd_median_feed.source.sources]
 
     # Make sure error is less than decimal tolerance
-    assert (tsval.val - statistics.median(source_prices)) < 10 ** -6
+    assert (v - statistics.median(source_prices)) < 10 ** -6

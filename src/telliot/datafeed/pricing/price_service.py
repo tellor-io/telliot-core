@@ -2,10 +2,9 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Any
 from typing import Dict
-from typing import Optional
 
 import requests
-from telliot.answer import TimeStampedFloat
+from telliot.types.datapoint import OptionalDataPoint
 
 
 class PriceServiceInterface(ABC):
@@ -18,7 +17,7 @@ class PriceServiceInterface(ABC):
     """
 
     @abstractmethod
-    async def get_price(self, asset: str, currency: str) -> Optional[TimeStampedFloat]:
+    async def get_price(self, asset: str, currency: str) -> OptionalDataPoint[float]:
         """Fetch the price of an coin
 
         TODO: Strictly specify compliant coin/currency symbols so concrete
