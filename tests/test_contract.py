@@ -127,7 +127,7 @@ async def test_submit_value(cfg, master, oracle):
     receipt, status = await oracle.write_with_retry(
         func_name="submitValue",
         gas_price=gas_price,
-        extra_gas_price=20,
+        extra_gas_price=40,
         retries=5,
         _queryId=query_id,
         _value=value,
