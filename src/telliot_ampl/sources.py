@@ -1,22 +1,30 @@
-# import os
-# import statistics
+import asyncio
+import statistics
+from abc import ABC
+from dataclasses import dataclass
+from dataclasses import field
+from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import TypeVar
 
 import requests
-from telliot.datafeed.data_source import DataSource
+from telliot.datasource import DataSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 from telliot.utils.response import ResponseStatus
 
-# from telliot.datafeed.pricing.price_feed import PriceFeed
-# from telliot.queries.coin_price import CoinPrice
+from telliot_ampl.config import AMPLConfig
 
 
+T = TypeVar("T")
+
+
+@dataclass
 class AMPLSource(DataSource):
     """Base AMPL datasource."""
 
-    def get_float_from_api(self, url: str, params, headers=None):
+    async def get_float_from_api(self, url: str, params, headers=None):
         """Helper function for retrieving datapoint values."""
 
         with requests.Session() as s:
@@ -45,31 +53,35 @@ class AMPLSource(DataSource):
                 return (None, None), ResponseStatus(ok=False, error=str(type(e)), e=e)
 
 
+@dataclass
 class AnyBlockSource(AMPLSource):
     """Data source for retrieving AMPL/USD/VWAP from AnyBlock api."""
 
+    api_key: str = ""
+
     async def fetch_new_datapoint(
-        self, api_key: str
+        self,
     ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
         """Update current value with time-stamped value."""
 
         url = (
             "https://api.anyblock.tools/market/AMPL_USD_via_ALL/daily-volume"
             + "?roundDay=false&debug=false&access_token="
-            + api_key
+            + self.api_key
         )
         params = ["overallVWAP"]
 
-        return self.get_float_from_api(url, params)
+        return await self.get_float_from_api(url, params)
 
 
+@dataclass
 class BraveNewCoinSource(AMPLSource):
     """Data source for retrieving AMPL/USD/VWAP from
     bravenewcoin api."""
 
-    async def get_bearer_token(
-        self, api_key: str
-    ) -> Tuple[Optional[str], ResponseStatus]:
+    api_key: str = ""
+
+    async def get_bearer_token(self) -> Tuple[Optional[str], ResponseStatus]:
         """Get authorization token for using bravenewcoin api."""
 
         with requests.Session() as s:
@@ -84,7 +96,7 @@ class BraveNewCoinSource(AMPLSource):
                 headers = {
                     "content-type": "application/json",
                     "x-rapidapi-host": "bravenewcoin.p.rapidapi.com",
-                    "x-rapidapi-key": api_key,
+                    "x-rapidapi-key": self.api_key,
                 }
 
                 response = s.post(url, data=payload, headers=headers)
@@ -101,11 +113,11 @@ class BraveNewCoinSource(AMPLSource):
                 return None, ResponseStatus(ok=False, error=str(type(e)), e=e)
 
     async def fetch_new_datapoint(
-        self, api_key: str
+        self,
     ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
         """Update current value with time-stamped value."""
 
-        access_token, status = await self.get_bearer_token(api_key)
+        access_token, status = await self.get_bearer_token()
 
         if not status.ok:
             return (None, None), status
@@ -119,24 +131,80 @@ class BraveNewCoinSource(AMPLSource):
         headers = {
             "authorization": f"Bearer {access_token}",
             "x-rapidapi-host": "bravenewcoin.p.rapidapi.com",
-            "x-rapidapi-key": api_key,
+            "x-rapidapi-key": self.api_key,
         }
 
-        return self.get_float_from_api(url, params, headers)
+        return await self.get_float_from_api(url, params, headers)
 
 
-# ampl_query = CoinPrice(coin="ampl", currency="usd", price_type="24hr_vwap")
+@dataclass
+class AMPLUSDVWAPSource(DataSource[float], ABC):
+    #: Asset
+    asset: str = "ampl"
 
-# ampl_feed = PriceFeed(
-#     query = ampl_query,
-#     sources = {
-#     "ampl-bravenewcoin": BraveNewCoinSource(),
-#     "ampl-anyblock": AnyBlockSource()
-#     },
-#     asset = "ampl",
-#     currency = "usd",
-#     algorithm = statistics.median
-# )
+    #: Currency of returned price
+    currency: str = "usd"
 
-# run update value for ampl_feed at the needed interval
-# subclass reporter for the ampl feed
+    #: Access tokens for apis
+    cfg: AMPLConfig = field(default_factory=AMPLConfig)
+
+    #: Data sources
+    sources: List[AMPLSource] = field(default_factory=list)
+
+    def __post_init__(self):
+        self.sources = [
+            AnyBlockSource(api_key=self.cfg.main.anyblock_api_key),
+            BraveNewCoinSource(api_key=self.cfg.main.rapid_api_key),
+        ]
+
+    async def update_sources(self) -> List[OptionalDataPoint[float]]:
+        """Update data feed sources
+
+        Returns:
+            Dictionary of updated source values, mapping data source UID
+            to the time-stamped answer for that data source
+        """
+
+        async def gather_inputs() -> List[OptionalDataPoint[float]]:
+            sources = self.sources
+            datapoints = await asyncio.gather(
+                *[source.fetch_new_datapoint() for source in sources]
+            )
+            return datapoints
+
+        inputs = await gather_inputs()
+
+        return inputs
+
+    async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
+        """Update current value with time-stamped value fetched from source
+
+        Args:
+            store:  If true and applicable, updated value will be stored
+                    to the database
+
+        Returns:
+            Current time-stamped value
+        """
+        updates = await self.update_sources()
+
+        # Keep datapoints with good response statuses
+        datapoints = [update[0] for update in updates if update[1].ok]
+
+        prices = []
+        for datapoint in datapoints:
+            v, _ = datapoint  # Ignore input timestamps
+            # Check for valid answers
+            if v is not None:
+                prices.append(v)
+
+        # Get median price
+        result = statistics.median(prices)
+        datapoint = (result, datetime_now_utc())
+        self.store_datapoint(datapoint)
+
+        print(
+            "AMPL/USD/VWAP {} retrieved at time {}".format(datapoint[0], datapoint[1])
+        )
+
+        return datapoint
