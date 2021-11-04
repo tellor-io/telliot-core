@@ -1,139 +1,117 @@
 """
 Test covering Pytelliot EVM contract connection utils.
 """
+import os
+
 import pytest
 import web3
-from hexbytes.main import HexBytes
+from telliot.apps.telliot_config import TelliotConfig
+from telliot.contract.contract import Contract
 from telliot.contract.gas import fetch_gas_price
-from telliot.queries.legacy_query import LegacyRequest
-from web3 import Web3
+from telliot.utils.abi import tellor_playground_abi
+
+func_name = "getNewValueCountbyRequestId"
+requestId = "0x0000000000000000000000000000000000000000000000000000000000000002"
 
 
-def test_connect_to_tellor(cfg, master):
-    """Contract object should access Tellor functions"""
-    assert len(master.contract.all_functions()) > 0
-    assert isinstance(
-        master.contract.all_functions()[0], web3.contract.ContractFunction
+@pytest.fixture
+def cfg():
+    """Get rinkeby endpoint from config
+
+    If environment variables are defined, they will override the values in config files
+    """
+    cfg = TelliotConfig()
+
+    # Override configuration for rinkeby testnet
+    cfg.main.chain_id = 4
+
+    rinkeby_endpoint = cfg.get_endpoint()
+    assert rinkeby_endpoint.network == "rinkeby"
+
+    # Optionally override private key and URL with ENV vars for testing
+    if os.getenv("PRIVATE_KEY", None):
+        cfg.main.private_key = os.environ["PRIVATE_KEY"]
+
+    if os.getenv("NODE_URL", None):
+        rinkeby_endpoint.url = os.environ["NODE_URL"]
+
+    return cfg
+
+
+@pytest.fixture
+def c(cfg):
+    """Helper function for connecting to a contract at an address"""
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
+    c = Contract(
+        address="0xb539Cf1054ba02933f6d345937A612332C842827",
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
     )
+    c.connect()
+    return c
 
 
-@pytest.mark.skip(reason="for playground.")
+def test_connect_to_tellor_playground(cfg, c):
+    """Contract object should access Tellor Playground functions"""
+    assert len(c.contract.all_functions()) > 0
+    assert isinstance(c.contract.all_functions()[0], web3.contract.ContractFunction)
+
+
 @pytest.mark.asyncio
-async def test_call_read_function(cfg, master):
+async def test_call_read_function(cfg, c):
     """Contract object should be able to call arbitrary contract read function"""
 
-    output, status = await master.read(
-        func_name="getTimestampCountById", _queryId=Web3.keccak(HexBytes(2))
-    )
+    output, status = await c.read(func_name=func_name, _requestId=requestId)
     assert status.ok
     assert output >= 0
 
 
-@pytest.mark.skip(reason="oracle contract does not have faucet right now")
+@pytest.mark.skip("Fails frequently")
 @pytest.mark.asyncio
-async def test_faucet(cfg, master):
+async def test_faucet(cfg, c):
     """Contract call to mint to an account with the contract faucet"""
     # estimate gas
     gas_price = await fetch_gas_price()
     # set up user
-    user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
+    user = c.node.web3.eth.account.from_key(cfg.main.private_key).address
     # read balance
-    balance1, status = await master.read(func_name="balanceOf", _user=user)
+    balance1, status = await c.read(func_name="balanceOf", _account=user)
     assert status.ok
     assert balance1 >= 0
     print(balance1)
     # mint tokens to user
-    receipt, status = await master.write_with_retry(
-        func_name="setBalanceTest",
+    receipt, status = await c.write_with_retry(
+        func_name="faucet",
         gas_price=gas_price,
         extra_gas_price=20,
         retries=1,
-        _address=user,
-        _amount=1e18,
+        _user=user,
     )
     assert status.ok
     # read balance again
-    balance2, status = await master.read(func_name="balanceOf", _user=user)
+    balance2, status = await c.read(func_name="balanceOf", _account=user)
     assert status.ok
     print(balance2)
     assert balance2 - balance1 == 1e21
 
 
-@pytest.mark.asyncio
-async def test_trb_transfer(cfg, master):
-    """Test TRB transfer through TellorMaster contract (and its proxies)"""
+@pytest.mark.skip(reason="We should ensure contract is connected when instantiated.")
+async def test_attempt_read_not_connected(cfg):
+    """Read method should connect to contract if not connected"""
+    address = "0xb539Cf1054ba02933f6d345937A612332C842827"
+    endpoint = cfg.get_endpoint()
+    endpoint.connect()
 
-    gas_price = await fetch_gas_price()
-    sender = master.node.web3.eth.account.from_key(cfg.main.private_key).address
-    balance, status = await master.read("balanceOf", _user=sender)
-    print("my sender address:", sender)
-    print("my sender balance:", balance / 1e18)
-    recipient = str(
-        Web3.toChecksumAddress("0xf3428C75CAfb3FBA46D3E190B7539Fbbfb96f244")
+    c = Contract(
+        address=address,
+        abi=tellor_playground_abi,
+        node=endpoint,
+        private_key=cfg.main.private_key,
     )
-
-    balance, status = await master.read("balanceOf", _user=recipient)
+    assert c.contract is None
+    # read will succeed even if contract is initially diconnected
+    status, output = await c.read(func_name=func_name, _requestId=requestId)
     assert status.ok
-    print("before:", balance / 1e18)
-
-    receipt, status = await master.write_with_retry(
-        "transfer",
-        _to=recipient,
-        _amount=1,
-        gas_price=gas_price,
-        extra_gas_price=20,
-        retries=2,
-    )
-    print(status.error)
-    assert status.ok
-
-    balance, status = await master.read("balanceOf", _user=recipient)
-    print("after:", balance / 1e18)
-
-
-@pytest.mark.asyncio
-async def test_submit_value(cfg, master, oracle):
-    """E2E test for submitting a value to rinkeby"""
-
-    gas_price = await fetch_gas_price()  # TODO clarify gas price units
-    user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
-    print(user)
-
-    balance, status = await master.read("balanceOf", _user=user)
-    print(balance / 1e18)
-
-    is_staked, status = await master.read("getStakerInfo", _staker=user)
-    print(is_staked)
-
-    if is_staked[0] == 0:
-        _, status = await master.write_with_retry(
-            func_name="depositStake", gas_price=gas_price, extra_gas_price=20, retries=2
-        )
-        assert status.ok
-
-    q = LegacyRequest(legacy_id=99)
-    value = q.value_type.encode(420.0)
-
-    query_data = q.query_data
-    query_id = q.query_id
-
-    value_count, status = await oracle.read(
-        func_name="getTimestampCountById", _queryId=query_id
-    )
-    assert status.ok
-    assert value_count >= 0
-    print(value_count)
-
-    receipt, status = await oracle.write_with_retry(
-        func_name="submitValue",
-        gas_price=gas_price,
-        extra_gas_price=20,
-        retries=5,
-        _queryId=query_id,
-        _value=value,
-        _nonce=value_count,
-        _queryData=query_data,
-    )
-
-    print(status.error)
-    assert status.ok
+    assert output >= 0
