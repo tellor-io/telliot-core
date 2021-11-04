@@ -23,5 +23,5 @@ async def test_random_source():
 
     assert s.depth == 2
 
-    latest_values = s.get_all_datapoint()
+    latest_values = s.get_all_datapoints()
     assert len(latest_values) == 2
