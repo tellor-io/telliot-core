@@ -8,7 +8,7 @@ from typing import List
 from typing import Mapping
 from typing import Union
 
-from telliot.datafeed.data_feed import DataFeed
+from telliot.data_feed import DataFeed
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter

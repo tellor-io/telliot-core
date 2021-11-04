@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Any
 
-from telliot.datafeed.pricing.price_service import WebPriceService
-from telliot.datafeed.pricing.price_source import PriceSource
+from telliot.pricing.price_service import WebPriceService
+from telliot.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 

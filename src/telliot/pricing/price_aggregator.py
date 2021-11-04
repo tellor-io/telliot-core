@@ -7,8 +7,8 @@ from dataclasses import field
 from typing import Callable
 from typing import List
 
-from telliot.datafeed.data_source import DataSource
-from telliot.datafeed.pricing.price_source import PriceSource
+from telliot.data_source import DataSource
+from telliot.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
 from typing import Literal

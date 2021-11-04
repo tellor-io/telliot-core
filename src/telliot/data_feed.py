@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Generic
 from typing import TypeVar
 
-from telliot.datafeed.data_source import DataSource
+from telliot.data_source import DataSource
 from telliot.model.base import Base
 from telliot.queries.query import OracleQuery
 
@@ -30,7 +30,7 @@ class DataFeed(Generic[T], Base):
 
 if __name__ == "__main__":
     # Example:
-    from telliot.datafeed.data_source import RandomSource
+    from telliot.data_source import RandomSource
     from telliot.queries.legacy_query import LegacyRequest
 
     feed = DataFeed(source=RandomSource(), query=LegacyRequest(legacy_id=99))
