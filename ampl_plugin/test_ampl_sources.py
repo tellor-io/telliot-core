@@ -1,9 +1,10 @@
 import os
+from datetime import datetime
 
 import pytest
+
 from ampl_plugin.ampl_sources import AMPLSource
 from ampl_plugin.ampl_sources import BraveNewCoinSource
-from datetime import datetime
 
 
 @pytest.mark.asyncio
@@ -35,12 +36,11 @@ async def test_bravenewcoin_source():
         url=url, params=params, headers=headers
     )
     value, timestamp = datapoint
-    
+
     assert status.ok
     assert isinstance(value, float)
     assert isinstance(timestamp, datetime)
-    assert value > 0 
-
+    assert value > 0
 
 
 @pytest.mark.asyncio
@@ -63,4 +63,4 @@ async def test_anyblock_source():
     assert status.ok
     assert isinstance(value, float)
     assert isinstance(timestamp, datetime)
-    assert value > 0 
+    assert value > 0

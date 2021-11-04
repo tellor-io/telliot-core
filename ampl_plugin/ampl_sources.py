@@ -8,9 +8,9 @@ from typing import Union
 
 import requests
 from telliot.datafeed.data_source import DataSource
-from telliot.utils.response import ResponseStatus
-from telliot.types.datapoint import OptionalDataPoint
 from telliot.types.datapoint import datetime_now_utc
+from telliot.types.datapoint import OptionalDataPoint
+from telliot.utils.response import ResponseStatus
 
 # from telliot.datafeed.pricing.price_feed import PriceFeed
 # from telliot.queries.coin_price import CoinPrice
