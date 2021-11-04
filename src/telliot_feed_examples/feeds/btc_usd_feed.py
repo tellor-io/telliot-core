@@ -1,12 +1,12 @@
 """Example datafeeds used by BTCUSDReporter."""
 
 from telliot.data_feed import DataFeed
-from telliot_examples.sources.price_aggregator import PriceAggregator
+from telliot_feed_examples.sources.price_aggregator import PriceAggregator
 from telliot.queries.coin_price import CoinPrice
-from telliot_examples.sources.bittrex import BittrexPriceSource
-from telliot_examples.sources.coinbase import CoinbasePriceSource
-from telliot_examples.sources.coingecko import CoinGeckoPriceSource
-from telliot_examples.sources.gemini import GeminiPriceSource
+from telliot_feed_examples.sources.bittrex import BittrexPriceSource
+from telliot_feed_examples.sources.coinbase import CoinbasePriceSource
+from telliot_feed_examples.sources.coingecko import CoinGeckoPriceSource
+from telliot_feed_examples.sources.gemini import GeminiPriceSource
 
 data_sources = [
     CoinbasePriceSource(
