@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pytest
 
-from ampl_plugin.ampl_sources import AMPLSource
+from ampl_plugin.ampl_sources import AnyBlockSource
 from ampl_plugin.ampl_sources import BraveNewCoinSource
 
 
@@ -16,25 +16,7 @@ async def test_bravenewcoin_source():
     api_key = os.environ["RAPID_KEY"]
     ampl_source = BraveNewCoinSource()
 
-    access_token, status = await ampl_source.get_bearer_token(api_key)
-    assert status.ok
-    assert access_token
-
-    url = (
-        "https://bravenewcoin.p.rapidapi.com/ohlcv?"
-        + "size=1&indexId=551cdbbe-2a97-4af8-b6bc-3254210ed021&indexType=GWA"
-    )
-    params = ["content", 0, "vwap"]
-
-    headers = {
-        "authorization": f"Bearer {access_token}",
-        "x-rapidapi-host": "bravenewcoin.p.rapidapi.com",
-        "x-rapidapi-key": api_key,
-    }
-
-    datapoint, status = await ampl_source.fetch_new_datapoint(
-        url=url, params=params, headers=headers
-    )
+    datapoint, status = await ampl_source.fetch_new_datapoint(api_key)
     value, timestamp = datapoint
 
     assert status.ok
@@ -48,16 +30,9 @@ async def test_anyblock_source():
     """Test retrieving AMPL/USD/VWAP data from AnyBlock api."""
 
     api_key = os.environ["ANYBLOCK_KEY"]
-    url = (
-        "https://api.anyblock.tools/market/AMPL_USD_via_ALL/daily-volume"
-        + "?roundDay=false&debug=false&access_token="
-    )
-    url += api_key
-    params = ["overallVWAP"]
+    ampl_source = AnyBlockSource()
 
-    ampl_source = AMPLSource()
-
-    datapoint, status = await ampl_source.fetch_new_datapoint(url=url, params=params)
+    datapoint, status = await ampl_source.fetch_new_datapoint(api_key)
     value, timestamp = datapoint
 
     assert status.ok
