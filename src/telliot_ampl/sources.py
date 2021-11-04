@@ -1,10 +1,7 @@
 # import os
 # import statistics
-from typing import List
-from typing import Mapping
 from typing import Optional
 from typing import Tuple
-from typing import Union
 
 import requests
 from telliot.datafeed.data_source import DataSource
@@ -17,50 +14,49 @@ from telliot.utils.response import ResponseStatus
 
 
 class AMPLSource(DataSource):
-    '''Base AMPL datasource.'''
+    """Base AMPL datasource."""
 
     def get_float_from_api(self, url: str, params, headers=None):
-        '''Helper function for retrieving datapoint values.'''
+        """Helper function for retrieving datapoint values."""
 
         with requests.Session() as s:
-                try:
-                    r = None
-                    if headers:
-                        r = s.get(url, headers=headers)
-                    else:
-                        r = s.get(url)
-                    data = r.json()
+            try:
+                r = None
+                if headers:
+                    r = s.get(url, headers=headers)
+                else:
+                    r = s.get(url)
+                data = r.json()
 
-                    for param in params:
-                        data = data[param]
+                for param in params:
+                    data = data[param]
 
-                    timestamp = datetime_now_utc()
-                    datapoint = (data, timestamp)
-                    self.store_datapoint(datapoint)
+                timestamp = datetime_now_utc()
+                datapoint = (data, timestamp)
+                self.store_datapoint(datapoint)
 
-                    return datapoint, ResponseStatus()
+                return datapoint, ResponseStatus()
 
-                except requests.exceptions.ConnectTimeout as e:
-                    msg = "Timeout Error"
-                    return (None, None), ResponseStatus(ok=False, error=msg, e=e)
+            except requests.exceptions.ConnectTimeout as e:
+                msg = "Timeout Error"
+                return (None, None), ResponseStatus(ok=False, error=msg, e=e)
 
-                except Exception as e:
-                    return (None, None), ResponseStatus(ok=False, error=str(type(e)), e=e)
+            except Exception as e:
+                return (None, None), ResponseStatus(ok=False, error=str(type(e)), e=e)
 
 
 class AnyBlockSource(AMPLSource):
     """Data source for retrieving AMPL/USD/VWAP from AnyBlock api."""
 
     async def fetch_new_datapoint(
-        self,
-        api_key: str
+        self, api_key: str
     ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
         """Update current value with time-stamped value."""
 
         url = (
-        "https://api.anyblock.tools/market/AMPL_USD_via_ALL/daily-volume"
-        + "?roundDay=false&debug=false&access_token="
-        + api_key
+            "https://api.anyblock.tools/market/AMPL_USD_via_ALL/daily-volume"
+            + "?roundDay=false&debug=false&access_token="
+            + api_key
         )
         params = ["overallVWAP"]
 
@@ -72,8 +68,7 @@ class BraveNewCoinSource(AMPLSource):
     bravenewcoin api."""
 
     async def get_bearer_token(
-        self, 
-        api_key: str
+        self, api_key: str
     ) -> Tuple[Optional[str], ResponseStatus]:
         """Get authorization token for using bravenewcoin api."""
 
@@ -104,11 +99,9 @@ class BraveNewCoinSource(AMPLSource):
 
             except Exception as e:
                 return None, ResponseStatus(ok=False, error=str(type(e)), e=e)
-        
 
     async def fetch_new_datapoint(
-        self,
-        api_key: str
+        self, api_key: str
     ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
         """Update current value with time-stamped value."""
 
@@ -129,7 +122,7 @@ class BraveNewCoinSource(AMPLSource):
             "x-rapidapi-key": api_key,
         }
 
-        return self.get_float_from_api(url, params, headers)        
+        return self.get_float_from_api(url, params, headers)
 
 
 # ampl_query = CoinPrice(coin="ampl", currency="usd", price_type="24hr_vwap")
