@@ -3,9 +3,10 @@
 """
 import json
 
-from clamfig import Serializable
 from telliot.types.value_type import ValueType
 from web3 import Web3
+
+from clamfig import Serializable
 
 
 class OracleQuery(Serializable):

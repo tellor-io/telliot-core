@@ -201,7 +201,14 @@ class Registry:
 
     @classmethod
     def register(cls, subclass: Type[Serializable], name: str) -> None:
-        """Register a new type"""
+        """Register a new type.
+        Handle multiple registrations as long as they are the same class
+        """
+        logger.debug(f"Registering subclass {name} as {subclass}")
         if name in cls.registry:
-            raise NameError(f"Cannot register class. Duplicate name exists: {name}")
-        cls.registry[name] = subclass
+            registered_class = cls.registry[name]
+            if subclass is not registered_class:
+                logger.error(f"{name} already registered as {registered_class}")
+                raise NameError(f"Cannot register class. Duplicate name exists: {name}")
+        else:
+            cls.registry[name] = subclass

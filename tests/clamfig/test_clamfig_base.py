@@ -13,6 +13,7 @@ from typing import List
 
 import pytest
 import yaml
+
 from clamfig.base import deserialize
 from clamfig.base import Serializable
 from clamfig.base import serialize
