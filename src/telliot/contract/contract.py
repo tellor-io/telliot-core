@@ -68,9 +68,13 @@ class Contract:
             return None, ResponseStatus(ok=False, error=msg)
 
     async def write(
-        self, func_name: str, gas_price: int, **kwargs: Any
+        self, func_name: str, gas_price: int, acc_nonce: int, **kwargs: Any
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
-        """For submitting any contract transaction once without retries"""
+        """For submitting any contract transaction once without retries
+
+        gas price measured in gwei
+
+        """
 
         status = ResponseStatus()
 
@@ -89,16 +93,20 @@ class Contract:
             return None, ResponseStatus(ok=False, error=msg)
         try:
             # build transaction
-            acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
             contract_function = self.contract.get_function_by_name(func_name)
             transaction = contract_function(**kwargs)
-            estimated_gas = transaction.estimateGas()
-            print("estimated gas:", estimated_gas)
+            # estimated_gas = transaction.estimateGas()
+            gas_limit = 500000  # TODO optimize for gas/profitability
+            print("gas limit:", gas_limit)
+
+            print("address: ----- ", acc.address)
+            print("gas price:", gas_price)
 
             built_tx = transaction.buildTransaction(
                 {
+                    "from": acc.address,
                     "nonce": acc_nonce,
-                    "gas": estimated_gas,
+                    "gas": gas_limit,
                     "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
                     "chainId": self.node.chain_id,
                 }
@@ -106,9 +114,11 @@ class Contract:
 
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
-
+            # pk = "af742bc879586358c353b5d64ec55efca9f789bb343568361431578df2f7aca3"
+            # tx_signed = self.node.web3.eth.account.sign_transaction(built_tx, pk)
+            print(" tx signed")
             tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
-
+            print("tx sent")
             # Confirm transaction
             tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
                 tx_hash, timeout=360
@@ -117,7 +127,7 @@ class Contract:
             # Point to relevant explorer
             print(
                 f"""View reported data: \n
-                {self.node.explorer}{tx_hash.hex()}
+                {self.node.explorer}/tx/{tx_hash.hex()}
                 """
             )
 
@@ -136,16 +146,29 @@ class Contract:
         retries: int,
         **kwargs: Any,
     ) -> Tuple[Optional[List[AttributeDict[Any, Any]]], ResponseStatus]:
-        """For submitting any contract transaction. Retries supported!"""
+        """For submitting any contract transaction. Retries supported!
+
+        gas_price measured in gwei
+
+        """
 
         try:
+            status = ResponseStatus()
+            acc = self.node.web3.eth.account.from_key(self.private_key)
+            acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
+
             transaction_receipts = []
             # Iterate through retry attempts
             for _ in range(retries + 1):
 
                 tx_receipt, status = await self.write(
-                    func_name=func_name, gas_price=gas_price, **kwargs
+                    func_name=func_name,
+                    gas_price=gas_price,
+                    acc_nonce=acc_nonce,
+                    **kwargs,
                 )
+
+                print("write status: ", status)
 
                 # Exit loop if transaction successful
                 if tx_receipt and status.ok:
@@ -157,6 +180,10 @@ class Contract:
                     and "replacement transaction underpriced" in status.error
                 ):
                     extra_gas_price += gas_price
+                elif not status.ok and status.error and "already known" in status.error:
+                    continue
+                elif not status.ok and status.error and "nonce too low":
+                    acc_nonce += 1
                 else:
                     extra_gas_price = 0
 
