@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from urllib.parse import urlencode
 
@@ -62,4 +63,6 @@ class CoinGeckoPriceService(WebPriceService):
 
 @dataclass
 class CoinGeckoPriceSource(PriceSource):
-    service: CoinGeckoPriceService = field(default_factory=CoinGeckoPriceService, init=False)
+    service: CoinGeckoPriceService = field(
+        default_factory=CoinGeckoPriceService, init=False
+    )

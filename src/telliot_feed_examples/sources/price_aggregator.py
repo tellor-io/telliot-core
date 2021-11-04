@@ -6,12 +6,12 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import Callable
 from typing import List
+from typing import Literal
 
 from telliot.data_source import DataSource
 from telliot.pricing.price_source import PriceSource
 from telliot.types.datapoint import datetime_now_utc
 from telliot.types.datapoint import OptionalDataPoint
-from typing import Literal
 
 logger = logging.getLogger(__name__)
 
@@ -26,19 +26,21 @@ class PriceAggregator(DataSource[float], ABC):
     currency: str = ""
 
     #: Callable algorithm that accepts an iterable of floats
-    algorithm: Literal['median', 'average'] = 'median'
+    algorithm: Literal["median", "mean"] = "median"
 
     #: Private storage for actual algorithm function
-    _algorithm: Callable[..., float] = field(default=statistics.median, init=False, repr=False)
+    _algorithm: Callable[..., float] = field(
+        default=statistics.median, init=False, repr=False
+    )
 
     #: Data feed sources
     sources: List[PriceSource] = field(default_factory=list)
 
-    def __post_init__(self):
-        if self.algorithm == 'median':
+    def __post_init__(self) -> None:
+        if self.algorithm == "median":
             self._algorithm = statistics.median
-        elif self.algorithm == 'average':
-            self._algorithm = statistics.average
+        elif self.algorithm == "mean":
+            self._algorithm = statistics.mean
 
     async def update_sources(self) -> List[OptionalDataPoint[float]]:
         """Update data feed sources

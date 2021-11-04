@@ -201,7 +201,9 @@ class Registry:
 
     @classmethod
     def register(cls, subclass: Type[Serializable], name: str) -> None:
-        """Register a new type.  Handle multiple registrations as long as they are the same class"""
+        """Register a new type.
+        Handle multiple registrations as long as they are the same class
+        """
         logger.debug(f"Registering subclass {name} as {subclass}")
         if name in cls.registry:
             registered_class = cls.registry[name]

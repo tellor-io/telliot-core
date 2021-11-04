@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 
 from telliot.pricing.price_service import WebPriceService
@@ -49,4 +50,6 @@ class CoinbasePriceService(WebPriceService):
 
 @dataclass
 class CoinbasePriceSource(PriceSource):
-    service: CoinbasePriceService = field(default_factory=CoinbasePriceService, init=False)
+    service: CoinbasePriceService = field(
+        default_factory=CoinbasePriceService, init=False
+    )

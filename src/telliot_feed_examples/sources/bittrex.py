@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import Optional
 
@@ -62,4 +63,6 @@ class BittrexPriceService(WebPriceService):
 
 @dataclass
 class BittrexPriceSource(PriceSource):
-    service: BittrexPriceService = field(default_factory=BittrexPriceService, init=False)
+    service: BittrexPriceService = field(
+        default_factory=BittrexPriceService, init=False
+    )

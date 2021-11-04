@@ -10,8 +10,8 @@ from typing import Mapping
 from typing import Optional
 
 from fastapi import FastAPI
-
-from telliot.datasource_db import db, schemas
+from telliot.datasource_db import db
+from telliot.datasource_db import schemas
 
 app = FastAPI()
 
