@@ -3,16 +3,21 @@
 Example of a subclassed Reporter.
 """
 import asyncio
-from typing import Any
+from typing import Any, Optional, Tuple
 from typing import List
 from typing import Mapping
 from typing import Union
 
+from web3.datastructures import AttributeDict
+
+from telliot.contract.contract import Contract
+from telliot.contract.gas import fetch_gas_price
 from telliot.datafeed import DataFeed
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import rinkeby_tellor_master
+from telliot.utils.response import ResponseStatus
 
 
 class IntervalReporter(Reporter):
@@ -23,25 +28,53 @@ class IntervalReporter(Reporter):
         self,
         endpoint: RPCEndpoint,
         private_key: str,
-        contract_address: str,
+        master: Contract,
+        oracle: Contract,
         datafeeds: List[DataFeed[Any]],
     ) -> None:
 
         self.endpoint = endpoint
         self.datafeeds = datafeeds
 
-        self.submitter = Submitter(
-            endpoint=self.endpoint,
-            private_key=private_key,
-            contract_address=contract_address,
-            abi=rinkeby_tellor_master,
-        )
+        # self.submitter = Submitter(
+        #     endpoint=self.endpoint,
+        #     private_key=private_key,
+        #     contract_address=contract_address,
+        #     abi=rinkeby_tellor_master,
+        # )
 
     async def report_once(
         self, name: str = "", retries: int = 0
-    ) -> List[Union[None, Mapping[str, Any]]]:
+    ) -> Tuple[Optional[List[AttributeDict[Any, Any]]], ResponseStatus]: #same output types as Contract.write_with_retry()
         """Submit value once"""
-        transaction_receipts = []
+
+        status = ResponseStatus()
+        gas_price_gwei = await fetch_gas_price()
+
+
+        user = self.endpoint.web3.eth.account.from_key(self.private_key).address
+        is_staked, read_status = await self.master.read("getStakerInfo", _staker=user)
+
+        if not read_status.ok:
+            status.error = "unable to read reporter staker status: " + read_status.error
+            status.e = read_status.e
+            return None, status
+
+        if is_staked[0] == 3:
+            status.error = f"you were disputed at {user}; to continue reporting, switch to new address"
+            status.e = None
+            return None, status
+
+        elif is_staked[0] == 0:
+            _, status = await self.master.write_with_retry(
+                func_name="depositStake", gas_price=gas_price_gwei, extra_gas_price=20, retries=retries
+            )
+            if not read_status.ok:
+                status.error = "unable to stake deposit: " + read_status.error
+                status.e = read_status.e
+                return None, status
+
+        # transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds:
             job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
@@ -62,26 +95,10 @@ class IntervalReporter(Reporter):
                     request_id_str = "0x" + query.query_id.hex()
                     extra_gas_price = 0
 
-                    for _ in range(retries + 1):
-                        (
-                            status,
-                            transaction_receipt,
-                            gas_price,
-                        ) = self.submitter.submit_data(
-                            encoded_value, request_id_str, extra_gas_price
-                        )
+                    gas_price_gwei = await fetch_gas_price()
 
-                        if transaction_receipt and status.ok:
-                            transaction_receipts.append(transaction_receipt)
-                            break
-                        elif (
-                            not status.ok
-                            and status.error
-                            and "replacement transaction underpriced" in status.error
-                        ):
-                            extra_gas_price += gas_price
-                        else:
-                            extra_gas_price = 0
+                    balance, status = await self.master.read("balanceOf", _user=user)
+                    print("your TRB balance: ", balance / 1e18)
 
                 else:
                     print(
