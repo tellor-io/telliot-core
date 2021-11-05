@@ -43,14 +43,13 @@ class AMPLSource(DataSource):
                 datapoint = (data, timestamp)
                 self.store_datapoint(datapoint)
 
-                return datapoint, ResponseStatus()
+                return datapoint
 
-            except requests.exceptions.ConnectTimeout as e:
-                msg = "Timeout Error"
-                return (None, None), ResponseStatus(ok=False, error=msg, e=e)
+            except requests.exceptions.ConnectTimeout:
+                return (None, None)
 
-            except Exception as e:
-                return (None, None), ResponseStatus(ok=False, error=str(type(e)), e=e)
+            except Exception:
+                return (None, None)
 
 
 @dataclass
@@ -61,7 +60,7 @@ class AnyBlockSource(AMPLSource):
 
     async def fetch_new_datapoint(
         self,
-    ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
+    ) -> OptionalDataPoint[float]:
         """Update current value with time-stamped value."""
 
         url = (
@@ -114,13 +113,13 @@ class BraveNewCoinSource(AMPLSource):
 
     async def fetch_new_datapoint(
         self,
-    ) -> Tuple[OptionalDataPoint[float], ResponseStatus]:
+    ) -> OptionalDataPoint[float]:
         """Update current value with time-stamped value."""
 
         access_token, status = await self.get_bearer_token()
 
         if not status.ok:
-            return (None, None), status
+            return (None, None)
 
         url = (
             "https://bravenewcoin.p.rapidapi.com/ohlcv?"
@@ -188,15 +187,7 @@ class AMPLUSDVWAPSource(DataSource[float], ABC):
         """
         updates = await self.update_sources()
 
-        # Keep datapoints with good response statuses
-        datapoints = [update[0] for update in updates if update[1].ok]
-
-        prices = []
-        for datapoint in datapoints:
-            v, _ = datapoint  # Ignore input timestamps
-            # Check for valid answers
-            if v is not None:
-                prices.append(v)
+        prices = [v for v, _ in updates if v is not None]
 
         # Get median price
         result = statistics.median(prices)
