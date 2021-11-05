@@ -31,7 +31,9 @@ class DataSource(Generic[T], Base):
     max_datapoints: int = 256
 
     # Private storage for fetched values
-    _history: Deque[DataPoint[T]] = field(default_factory=deque, init=False, repr=False)
+    _history: Deque[OptionalDataPoint[T]] = field(
+        default_factory=deque, init=False, repr=False
+    )
 
     def __post_init__(self) -> None:
         # Overwrite default deque
@@ -45,13 +47,13 @@ class DataSource(Generic[T], Base):
         else:
             return None, None
 
-    def store_datapoint(self, datapoint: DataPoint[T]) -> None:
+    def store_datapoint(self, datapoint: OptionalDataPoint[T]) -> None:
         """Store a datapoint"""
         v, t = datapoint
         if v is not None and t is not None:
             self._history.append(datapoint)
 
-    def get_all_datapoints(self) -> List[DataPoint[T]]:
+    def get_all_datapoints(self) -> List[OptionalDataPoint[T]]:
         """Get a list of all available data points"""
         return list(self._history)
 
