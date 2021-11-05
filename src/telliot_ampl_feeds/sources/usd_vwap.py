@@ -3,8 +3,10 @@ import statistics
 from abc import ABC
 from dataclasses import dataclass
 from dataclasses import field
+from typing import Any
 from typing import List
 from typing import Optional
+from typing import Sequence
 from typing import Tuple
 from typing import TypeVar
 
@@ -24,7 +26,9 @@ T = TypeVar("T")
 class AMPLSource(DataSource):
     """Base AMPL datasource."""
 
-    async def get_float_from_api(self, url: str, params, headers=None):
+    async def get_float_from_api(
+        self, url: str, params: Sequence[Any], headers=None
+    ) -> OptionalDataPoint[float]:
         """Helper function for retrieving datapoint values."""
 
         with requests.Session() as s:
@@ -133,7 +137,7 @@ class BraveNewCoinSource(AMPLSource):
             "x-rapidapi-key": self.api_key,
         }
 
-        return await self.get_float_from_api(url, params, headers)
+        return await self.get_float_from_api(url=url, params=params, headers=headers)
 
 
 @dataclass
