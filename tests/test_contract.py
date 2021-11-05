@@ -107,7 +107,10 @@ async def test_submit_value(cfg, master, oracle):
 
     if is_staked[0] == 0:
         _, status = await master.write_with_retry(
-            func_name="depositStake", gas_price=gas_price_gwei, extra_gas_price=20, retries=2
+            func_name="depositStake",
+            gas_price=gas_price_gwei,
+            extra_gas_price=20,
+            retries=2,
         )
         assert status.ok
 

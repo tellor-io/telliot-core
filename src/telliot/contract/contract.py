@@ -13,7 +13,6 @@ from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.response import ResponseStatus
 from web3 import Web3
 from web3.datastructures import AttributeDict
-from web3.exceptions import SolidityError
 
 
 class Contract:
@@ -146,7 +145,7 @@ class Contract:
         extra_gas_price: int,
         retries: int,
         **kwargs: Any,
-    ) -> Tuple[AttributeDict[Any, Any], ResponseStatus]:
+    ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction. Retries supported!
 
         gas_price measured in gwei
@@ -171,10 +170,8 @@ class Contract:
                 print("write status: ", status)
 
                 # Exit loop if transaction successful
-                if tx_receipt and status.ok and tx_receipt['status'] == 1:
-                    print(f"""
-                    tx was successful! check it out at {self.endpoint.explorer}/tx/{tx_receipt['transactionHash']}
-                    """)
+                if tx_receipt and status.ok and tx_receipt["status"] == 1:
+                    print(f"tx was successful! check it out at {self.endpoint.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none
                     return tx_receipt, status
                 elif (
                     not status.ok
@@ -194,13 +191,10 @@ class Contract:
                     gas_price += extra_gas_price
                 elif (
                     status.ok
-                    and tx_receipt['status'] == 0
+                    and tx_receipt["status"] == 0  # type: ignore # error won't be none
                 ):
                     status.error = "tx reverted by contract/evm logic"
-                    status.e = SolidityError
-                    print(f"""
-                    tx was reverted by evm! check it out at {self.endpoint.explorer}/tx/{tx_receipt['transactionHash']}
-                    """)
+                    print(f"tx was reverted by evm! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none
                     return tx_receipt, status
                 else:
                     extra_gas_price = 0

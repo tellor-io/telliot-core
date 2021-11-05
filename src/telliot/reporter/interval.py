@@ -3,10 +3,10 @@
 Example of a subclassed Reporter.
 """
 import asyncio
-from typing import Any, Optional, Tuple
+from typing import Any
 from typing import List
-
-from web3.datastructures import AttributeDict
+from typing import Optional
+from typing import Tuple
 
 from telliot.contract.contract import Contract
 from telliot.contract.gas import fetch_gas_price
@@ -16,6 +16,7 @@ from telliot.reporter.base import Reporter
 from telliot.submitter.base import Submitter
 from telliot.utils.abi import rinkeby_tellor_master
 from telliot.utils.response import ResponseStatus
+from web3.datastructures import AttributeDict
 
 
 class IntervalReporter(Reporter):
@@ -44,32 +45,39 @@ class IntervalReporter(Reporter):
         status = ResponseStatus()
         gas_price_gwei = await fetch_gas_price()
 
-        transaction_receipts: List[Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]] = []
+        transaction_receipts: List[
+            Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]
+        ] = []
 
         user = self.endpoint.web3.eth.account.from_key(self.private_key).address
         is_staked, read_status = await self.master.read("getStakerInfo", _staker=user)
 
         if not read_status.ok:
-            status.error = "unable to read reporter staker status: " + read_status.error # type: ignore # error won't be none
+            status.error = "unable to read reporter staker status: " + read_status.error  # type: ignore # error won't be none
             status.e = read_status.e
             transaction_receipts.append((None, status))
 
-        if is_staked[0] == 3: # type: ignore # tuple won't be optional in this case
+        if is_staked[0] == 3:  # type: ignore # tuple won't be optional in this case
             status.error = f"you were disputed at {user}; to continue reporting, switch to new address"
             status.e = None
             transaction_receipts.append((None, status))
 
-        elif is_staked[0] != 0: # type: ignore # tuple won't be optional in this case
-            status.error = f"your reporter at {user} is locked in dispute or for withdrawal"
+        elif is_staked[0] != 0:  # type: ignore # tuple won't be optional in this case
+            status.error = (
+                f"your reporter at {user} is locked in dispute or for withdrawal"
+            )
             status.e = None
             transaction_receipts.append((None, status))
 
-        elif is_staked[0] == 0: # type: ignore # tuple won't be optional in this case
+        elif is_staked[0] == 0:  # type: ignore # tuple won't be optional in this case
             _, write_status = await self.master.write_with_retry(
-                func_name="depositStake", gas_price=gas_price_gwei, extra_gas_price=20, retries=retries
+                func_name="depositStake",
+                gas_price=gas_price_gwei,
+                extra_gas_price=20,
+                retries=retries,
             )
             if not write_status.ok:
-                status.error = "unable to stake deposit: " + read_status.error # type: ignore # error won't be none
+                status.error = "unable to stake deposit: " + read_status.error  # type: ignore # error won't be none
                 status.e = read_status.e
                 transaction_receipts.append((None, status))
 
@@ -99,7 +107,7 @@ class IntervalReporter(Reporter):
                     )
 
                     if not read_status.ok:
-                        status.error = "unable to retrieve timestampCount: " + read_status.error # type: ignore # error won't be none
+                        status.error = "unable to retrieve timestampCount: " + read_status.error  # type: ignore # error won't be none
                         status.e = read_status.e
                         transaction_receipts.append((None, status))
 
@@ -111,7 +119,7 @@ class IntervalReporter(Reporter):
                         _queryId=query_id,
                         _value=value,
                         _nonce=timestamp_count,
-                        _queryData=query_data
+                        _queryData=query_data,
                     )
 
                     transaction_receipts.append((tx_receipt, status))
