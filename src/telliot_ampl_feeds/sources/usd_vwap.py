@@ -23,45 +23,39 @@ from telliot_ampl_feeds.config import AMPLConfig
 T = TypeVar("T")
 
 
-@dataclass
-class AMPLSource(DataSource):
-    """Base AMPL datasource."""
+async def get_float_from_api(
+    url: str,
+    params: Sequence[Any],
+    headers: Optional[Mapping[str, str]] = None,
+) -> OptionalDataPoint[float]:
+    """Helper function for retrieving datapoint values."""
 
-    async def get_float_from_api(
-        self,
-        url: str,
-        params: Sequence[Any],
-        headers: Optional[Mapping[str, str]] = None,
-    ) -> OptionalDataPoint[float]:
-        """Helper function for retrieving datapoint values."""
+    with requests.Session() as s:
+        try:
+            r = None
+            if headers:
+                r = s.get(url, headers=headers)
+            else:
+                r = s.get(url)
+            data = r.json()
 
-        with requests.Session() as s:
-            try:
-                r = None
-                if headers:
-                    r = s.get(url, headers=headers)
-                else:
-                    r = s.get(url)
-                data = r.json()
+            for param in params:
+                data = data[param]
 
-                for param in params:
-                    data = data[param]
+            timestamp = datetime_now_utc()
+            datapoint = (data, timestamp)
 
-                timestamp = datetime_now_utc()
-                datapoint = (data, timestamp)
-                self.store_datapoint(datapoint)
+            return datapoint
 
-                return datapoint
+        except requests.exceptions.ConnectTimeout:
+            return (None, None)
 
-            except requests.exceptions.ConnectTimeout:
-                return (None, None)
-
-            except Exception:
-                return (None, None)
+        except Exception:
+            return (None, None)
 
 
 @dataclass
-class AnyBlockSource(AMPLSource):
+class AnyBlockSource(DataSource):
     """Data source for retrieving AMPL/USD/VWAP from AnyBlock api."""
 
     api_key: str = ""
@@ -78,11 +72,15 @@ class AnyBlockSource(AMPLSource):
         )
         params = ["overallVWAP"]
 
-        return await self.get_float_from_api(url, params)
+        datapoint = await get_float_from_api(url, params)
+
+        self.store_datapoint(datapoint)
+
+        return datapoint
 
 
 @dataclass
-class BraveNewCoinSource(AMPLSource):
+class BraveNewCoinSource(DataSource):
     """Data source for retrieving AMPL/USD/VWAP from
     bravenewcoin api."""
 
@@ -141,7 +139,11 @@ class BraveNewCoinSource(AMPLSource):
             "x-rapidapi-key": self.api_key,
         }
 
-        return await self.get_float_from_api(url=url, params=params, headers=headers)
+        datapoint = await get_float_from_api(url=url, params=params, headers=headers)
+
+        self.store_datapoint(datapoint)
+
+        return datapoint
 
 
 @dataclass
@@ -156,7 +158,7 @@ class AMPLUSDVWAPSource(DataSource[float], ABC):
     cfg: AMPLConfig = field(default_factory=AMPLConfig)
 
     #: Data sources
-    sources: List[AMPLSource] = field(default_factory=list)
+    sources: List[DataSource] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.sources = [

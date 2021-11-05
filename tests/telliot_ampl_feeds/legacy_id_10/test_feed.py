@@ -1,5 +1,6 @@
-from telliot_ampl_feeds.feeds.usd_vwap import ampl_usd_vwap_feed
 import yaml
+
+from telliot_ampl_feeds.feeds.usd_vwap import ampl_usd_vwap_feed
 
 
 def test_ampl_feed():
