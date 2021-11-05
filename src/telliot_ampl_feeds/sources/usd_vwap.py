@@ -55,7 +55,7 @@ async def get_float_from_api(
 
 
 @dataclass
-class AnyBlockSource(DataSource):
+class AnyBlockSource(DataSource[float]):
     """Data source for retrieving AMPL/USD/VWAP from AnyBlock api."""
 
     api_key: str = ""
@@ -74,13 +74,15 @@ class AnyBlockSource(DataSource):
 
         datapoint = await get_float_from_api(url, params)
 
-        self.store_datapoint(datapoint)
+        v, t = datapoint
+        if v is not None and t is not None:
+            self.store_datapoint((v, t))
 
         return datapoint
 
 
 @dataclass
-class BraveNewCoinSource(DataSource):
+class BraveNewCoinSource(DataSource[float]):
     """Data source for retrieving AMPL/USD/VWAP from
     bravenewcoin api."""
 
@@ -141,7 +143,9 @@ class BraveNewCoinSource(DataSource):
 
         datapoint = await get_float_from_api(url=url, params=params, headers=headers)
 
-        self.store_datapoint(datapoint)
+        v, t = datapoint
+        if v is not None and t is not None:
+            self.store_datapoint((v, t))
 
         return datapoint
 
@@ -158,7 +162,7 @@ class AMPLUSDVWAPSource(DataSource[float], ABC):
     cfg: AMPLConfig = field(default_factory=AMPLConfig)
 
     #: Data sources
-    sources: List[DataSource] = field(default_factory=list)
+    sources: List[DataSource[float]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.sources = [
@@ -178,7 +182,7 @@ class AMPLUSDVWAPSource(DataSource[float], ABC):
         datapoints = await asyncio.gather(
             *[source.fetch_new_datapoint() for source in sources]
         )
-        return datapoints  # type: ignore
+        return datapoints
 
     async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
         """Update current value with time-stamped value fetched from source
