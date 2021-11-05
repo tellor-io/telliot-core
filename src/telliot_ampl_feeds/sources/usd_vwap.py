@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import Any
 from typing import List
+from typing import Mapping
 from typing import Optional
 from typing import Sequence
 from typing import Tuple
@@ -27,7 +28,10 @@ class AMPLSource(DataSource):
     """Base AMPL datasource."""
 
     async def get_float_from_api(
-        self, url: str, params: Sequence[Any], headers=None
+        self,
+        url: str,
+        params: Sequence[Any],
+        headers: Optional[Mapping[str, str]] = None,
     ) -> OptionalDataPoint[float]:
         """Helper function for retrieving datapoint values."""
 
@@ -154,7 +158,7 @@ class AMPLUSDVWAPSource(DataSource[float], ABC):
     #: Data sources
     sources: List[AMPLSource] = field(default_factory=list)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.sources = [
             AnyBlockSource(api_key=self.cfg.main.anyblock_api_key),
             BraveNewCoinSource(api_key=self.cfg.main.rapid_api_key),
@@ -168,16 +172,11 @@ class AMPLUSDVWAPSource(DataSource[float], ABC):
             to the time-stamped answer for that data source
         """
 
-        async def gather_inputs() -> List[OptionalDataPoint[float]]:
-            sources = self.sources
-            datapoints = await asyncio.gather(
-                *[source.fetch_new_datapoint() for source in sources]
-            )
-            return datapoints
-
-        inputs = await gather_inputs()
-
-        return inputs
+        sources = self.sources
+        datapoints = await asyncio.gather(
+            *[source.fetch_new_datapoint() for source in sources]
+        )
+        return datapoints  # type: ignore
 
     async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
         """Update current value with time-stamped value fetched from source
