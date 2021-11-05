@@ -1,6 +1,5 @@
 import asyncio
 import statistics
-from abc import ABC
 from dataclasses import dataclass
 from dataclasses import field
 from typing import Any
@@ -151,7 +150,7 @@ class BraveNewCoinSource(DataSource[float]):
 
 
 @dataclass
-class AMPLUSDVWAPSource(DataSource[float], ABC):
+class AMPLUSDVWAPSource(DataSource[float]):
     #: Asset
     asset: str = "ampl"
 
