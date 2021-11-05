@@ -5,8 +5,6 @@ Example of a subclassed Reporter.
 import asyncio
 from typing import Any, Optional, Tuple
 from typing import List
-from typing import Mapping
-from typing import Union
 
 from web3.datastructures import AttributeDict
 
@@ -34,47 +32,47 @@ class IntervalReporter(Reporter):
     ) -> None:
 
         self.endpoint = endpoint
+        self.private_key = private_key
+        self.master = master
+        self.oracle = oracle
         self.datafeeds = datafeeds
-
-        # self.submitter = Submitter(
-        #     endpoint=self.endpoint,
-        #     private_key=private_key,
-        #     contract_address=contract_address,
-        #     abi=rinkeby_tellor_master,
-        # )
 
     async def report_once(
         self, name: str = "", retries: int = 0
-    ) -> Tuple[Optional[List[AttributeDict[Any, Any]]], ResponseStatus]: #same output types as Contract.write_with_retry()
+    ) -> List[Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]]:
         """Submit value once"""
-
         status = ResponseStatus()
         gas_price_gwei = await fetch_gas_price()
 
+        transaction_receipts: List[Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]] = []
 
         user = self.endpoint.web3.eth.account.from_key(self.private_key).address
         is_staked, read_status = await self.master.read("getStakerInfo", _staker=user)
 
         if not read_status.ok:
-            status.error = "unable to read reporter staker status: " + read_status.error
+            status.error = "unable to read reporter staker status: " + read_status.error # type: ignore # error won't be none
             status.e = read_status.e
-            return None, status
+            transaction_receipts.append((None, status))
 
-        if is_staked[0] == 3:
+        if is_staked[0] == 3: # type: ignore # tuple won't be optional in this case
             status.error = f"you were disputed at {user}; to continue reporting, switch to new address"
             status.e = None
-            return None, status
+            transaction_receipts.append((None, status))
 
-        elif is_staked[0] == 0:
-            _, status = await self.master.write_with_retry(
+        elif is_staked[0] != 0: # type: ignore # tuple won't be optional in this case
+            status.error = f"your reporter at {user} is locked in dispute or for withdrawal"
+            status.e = None
+            transaction_receipts.append((None, status))
+
+        elif is_staked[0] == 0: # type: ignore # tuple won't be optional in this case
+            _, write_status = await self.master.write_with_retry(
                 func_name="depositStake", gas_price=gas_price_gwei, extra_gas_price=20, retries=retries
             )
-            if not read_status.ok:
-                status.error = "unable to stake deposit: " + read_status.error
+            if not write_status.ok:
+                status.error = "unable to stake deposit: " + read_status.error # type: ignore # error won't be none
                 status.e = read_status.e
-                return None, status
+                transaction_receipts.append((None, status))
 
-        # transaction_receipts = []
         jobs = []
         for datafeed in self.datafeeds:
             job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
@@ -91,14 +89,32 @@ class IntervalReporter(Reporter):
                 query = datafeed.query
 
                 if query:
-                    encoded_value = query.value_type.encode(v)
-                    request_id_str = "0x" + query.query_id.hex()
-                    extra_gas_price = 0
+                    value = query.value_type.encode(v)
+                    query_id = query.query_id
+                    query_data = query.query_data
+                    extra_gas_price = 20
 
-                    gas_price_gwei = await fetch_gas_price()
+                    timestamp_count, read_status = await self.oracle.read(
+                        func_name="getTimestampCountById", _queryId=query_id
+                    )
 
-                    balance, status = await self.master.read("balanceOf", _user=user)
-                    print("your TRB balance: ", balance / 1e18)
+                    if not read_status.ok:
+                        status.error = "unable to retrieve timestampCount: " + read_status.error # type: ignore # error won't be none
+                        status.e = read_status.e
+                        transaction_receipts.append((None, status))
+
+                    tx_receipt, status = await self.oracle.write_with_retry(
+                        func_name="submitValue",
+                        gas_price=gas_price_gwei,
+                        extra_gas_price=extra_gas_price,
+                        retries=5,
+                        _queryId=query_id,
+                        _value=value,
+                        _nonce=timestamp_count,
+                        _queryData=query_data
+                    )
+
+                    transaction_receipts.append((tx_receipt, status))
 
                 else:
                     print(

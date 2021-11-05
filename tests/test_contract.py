@@ -117,12 +117,12 @@ async def test_submit_value(cfg, master, oracle):
     query_data = q.query_data
     query_id = q.query_id
 
-    value_count, status = await oracle.read(
+    timestamp_count, status = await oracle.read(
         func_name="getTimestampCountById", _queryId=query_id
     )
     assert status.ok
-    assert value_count >= 0
-    print(value_count)
+    assert timestamp_count >= 0
+    print(timestamp_count)
 
     receipt, status = await oracle.write_with_retry(
         func_name="submitValue",
@@ -131,7 +131,7 @@ async def test_submit_value(cfg, master, oracle):
         retries=5,
         _queryId=query_id,
         _value=value,
-        _nonce=value_count,
+        _nonce=timestamp_count,
         _queryData=query_data,
     )
 

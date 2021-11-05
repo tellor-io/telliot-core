@@ -13,6 +13,7 @@ from telliot.model.endpoints import RPCEndpoint
 from telliot.utils.response import ResponseStatus
 from web3 import Web3
 from web3.datastructures import AttributeDict
+from web3.exceptions import SolidityError
 
 
 class Contract:
@@ -145,7 +146,7 @@ class Contract:
         extra_gas_price: int,
         retries: int,
         **kwargs: Any,
-    ) -> Tuple[Optional[List[AttributeDict[Any, Any]]], ResponseStatus]:
+    ) -> Tuple[AttributeDict[Any, Any], ResponseStatus]:
         """For submitting any contract transaction. Retries supported!
 
         gas_price measured in gwei
@@ -157,7 +158,6 @@ class Contract:
             acc = self.node.web3.eth.account.from_key(self.private_key)
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
 
-            transaction_receipts = []
             # Iterate through retry attempts
             for _ in range(retries + 1):
 
@@ -171,9 +171,11 @@ class Contract:
                 print("write status: ", status)
 
                 # Exit loop if transaction successful
-                if tx_receipt and status.ok:
-                    transaction_receipts.append(tx_receipt)
-                    return transaction_receipts, status
+                if tx_receipt and status.ok and tx_receipt['status'] == 1:
+                    print(f"""
+                    tx was successful! check it out at {self.endpoint.explorer}/tx/{tx_receipt['transactionHash']}
+                    """)
+                    return tx_receipt, status
                 elif (
                     not status.ok
                     and status.error
@@ -190,13 +192,23 @@ class Contract:
                     and "not in the chain" in status.error
                 ):
                     gas_price += extra_gas_price
+                elif (
+                    status.ok
+                    and tx_receipt['status'] == 0
+                ):
+                    status.error = "tx reverted by contract/evm logic"
+                    status.e = SolidityError
+                    print(f"""
+                    tx was reverted by evm! check it out at {self.endpoint.explorer}/tx/{tx_receipt['transactionHash']}
+                    """)
+                    return tx_receipt, status
                 else:
                     extra_gas_price = 0
 
             status.ok = False
             status.error = "ran out of retries, tx unsuccessful"
 
-            return transaction_receipts, status
+            return tx_receipt, status
 
         except Exception as e:
             status.ok = False
