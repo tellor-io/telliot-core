@@ -8,6 +8,7 @@ from telliot.contract.gas import fetch_gas_price
 from telliot.queries.legacy_query import LegacyRequest
 from telliot.utils.abi import rinkeby_tellor_master
 from telliot.utils.abi import rinkeby_tellor_oracle
+from telliot.utils.response import ResponseStatus
 
 
 def get_cfg() -> TelliotConfig:
@@ -84,25 +85,26 @@ def parse_user_val() -> int:
     return uspce
 
 
-async def submit() -> None:
+async def submit() -> ResponseStatus:
     """Submit USPCE value to TellorX oracle."""
     cfg = get_cfg()
     if not cfg:
-        print("Error getting default configs.")
-        return
+        return ResponseStatus(ok=False, error="Could not get default configs.", e=None)
 
     master = get_master(cfg)
     oracle = get_oracle(cfg)
 
     if not master or not oracle:
-        return
+        return ResponseStatus(
+            ok=False, error="Could not connect to master or oracle contract", e=None
+        )
 
     gas_price = await fetch_gas_price()  # TODO clarify gas price units
     user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
-    print('User:', user)
+    print("User:", user)
 
     balance, status = await master.read("balanceOf", _user=user)
-    print('Current balance:', balance / 1e18)  # type: ignore
+    print("Current balance:", balance / 1e18)  # type: ignore
 
     is_staked, status = await master.read("getStakerInfo", _staker=user)
     print(is_staked)
