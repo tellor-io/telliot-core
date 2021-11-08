@@ -13,8 +13,6 @@ from telliot.contract.gas import fetch_gas_price
 from telliot.datafeed import DataFeed
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
-from telliot.submitter.base import Submitter
-from telliot.utils.abi import rinkeby_tellor_master
 from telliot.utils.response import ResponseStatus
 from web3.datastructures import AttributeDict
 
@@ -52,88 +50,93 @@ class IntervalReporter(Reporter):
         user = self.endpoint.web3.eth.account.from_key(self.private_key).address
         is_staked, read_status = await self.master.read("getStakerInfo", _staker=user)
 
-        if not read_status.ok:
-            status.error = "unable to read reporter staker status: " + read_status.error  # type: ignore # error won't be none
+        if (not read_status.ok) or (is_staked is None):
+            status.error = "unable to read reporter staker status: " + read_status.error  # type: ignore # error won't be none # noqa: E501
             status.e = read_status.e
             transaction_receipts.append((None, status))
 
-        if is_staked[0] == 3:  # type: ignore # tuple won't be optional in this case
-            status.error = f"you were disputed at {user}; to continue reporting, switch to new address"
-            status.e = None
-            transaction_receipts.append((None, status))
+        else:
+            print(is_staked[0])
 
-        elif is_staked[0] != 0:  # type: ignore # tuple won't be optional in this case
-            status.error = (
-                f"your reporter at {user} is locked in dispute or for withdrawal"
-            )
-            status.e = None
-            transaction_receipts.append((None, status))
+            # Status 1: staked
+            if is_staked[0] == 1:
+                jobs = []
+                for datafeed in self.datafeeds:
+                    job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
+                    jobs.append(job)
 
-        elif is_staked[0] == 0:  # type: ignore # tuple won't be optional in this case
-            _, write_status = await self.master.write_with_retry(
-                func_name="depositStake",
-                gas_price=gas_price_gwei,
-                extra_gas_price=20,
-                retries=retries,
-            )
-            if not write_status.ok:
-                status.error = "unable to stake deposit: " + read_status.error  # type: ignore # error won't be none
-                status.e = read_status.e
-                transaction_receipts.append((None, status))
+                _ = await asyncio.gather(*jobs)
 
-        jobs = []
-        for datafeed in self.datafeeds:
-            job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
-            jobs.append(job)
+                for datafeed in self.datafeeds:
 
-        _ = await asyncio.gather(*jobs)
+                    datapoint = datafeed.source.latest
+                    v, t = datapoint
 
-        for datafeed in self.datafeeds:
+                    if v is not None:
+                        query = datafeed.query
 
-            datapoint = datafeed.source.latest
-            v, t = datapoint
+                        if query:
+                            value = query.value_type.encode(v)
+                            query_id = query.query_id
+                            query_data = query.query_data
+                            extra_gas_price = 20
 
-            if v is not None:
-                query = datafeed.query
+                            timestamp_count, read_status = await self.oracle.read(
+                                func_name="getTimestampCountById", _queryId=query_id
+                            )
 
-                if query:
-                    value = query.value_type.encode(v)
-                    query_id = query.query_id
-                    query_data = query.query_data
-                    extra_gas_price = 20
+                            if not read_status.ok:
+                                status.error = "unable to retrieve timestampCount: " + read_status.error  # type: ignore # error won't be none # noqa: E501
+                                status.e = read_status.e
+                                transaction_receipts.append((None, status))
 
-                    timestamp_count, read_status = await self.oracle.read(
-                        func_name="getTimestampCountById", _queryId=query_id
+                            tx_receipt, status = await self.oracle.write_with_retry(
+                                func_name="submitValue",
+                                gas_price=gas_price_gwei,
+                                extra_gas_price=extra_gas_price,
+                                retries=5,
+                                _queryId=query_id,
+                                _value=value,
+                                _nonce=timestamp_count,
+                                _queryData=query_data,
+                            )
+
+                            transaction_receipts.append((tx_receipt, status))
+
+                        else:
+                            print(
+                                f"Skipping submission for {repr(datafeed)}, "
+                                f"no query for datafeed."
+                            )  # TODO logging
+                    else:
+                        print(
+                            f"Skipping submission for {repr(datafeed)}, "
+                            f"datafeed value not updated."
+                        )  # TODO logging
+            else:
+                # Status 3: disputed
+                if is_staked[0] == 3:
+                    status.error = f"you were disputed at {user}; to continue reporting, switch to new address"  # noqa: E501
+                    status.e = None
+                    transaction_receipts.append((None, status))
+
+                # Status 0: not yet staked
+                elif is_staked[0] == 0:
+                    _, write_status = await self.master.write_with_retry(
+                        func_name="depositStake",
+                        gas_price=gas_price_gwei,
+                        extra_gas_price=20,
+                        retries=retries,
                     )
-
-                    if not read_status.ok:
-                        status.error = "unable to retrieve timestampCount: " + read_status.error  # type: ignore # error won't be none
+                    if not write_status.ok:
+                        status.error = "unable to stake deposit: " + read_status.error  # type: ignore # error won't be none # noqa: E501
                         status.e = read_status.e
                         transaction_receipts.append((None, status))
-
-                    tx_receipt, status = await self.oracle.write_with_retry(
-                        func_name="submitValue",
-                        gas_price=gas_price_gwei,
-                        extra_gas_price=extra_gas_price,
-                        retries=5,
-                        _queryId=query_id,
-                        _value=value,
-                        _nonce=timestamp_count,
-                        _queryData=query_data,
-                    )
-
-                    transaction_receipts.append((tx_receipt, status))
-
+                # Statuses 2, 4, and 5: stake transition
                 else:
-                    print(
-                        f"Skipping submission for {repr(datafeed)}, "
-                        f"no query for datafeed."
-                    )  # TODO logging
-            else:
-                print(
-                    f"Skipping submission for {repr(datafeed)}, "
-                    f"datafeed value not updated."
-                )  # TODO logging
+                    status.error = f"your reporter at {user} is locked in dispute or for withdrawal"  # noqa: E501
+                    status.e = None
+                    transaction_receipts.append((None, status))
 
         return transaction_receipts
 

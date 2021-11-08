@@ -4,7 +4,6 @@ telliot's reporter subpackage.
 """
 import pytest
 from telliot.reporter.interval import IntervalReporter
-from web3.datastructures import AttributeDict
 
 from telliot_feed_examples.feeds.btc_usd_feed import btc_usd_median_feed
 
@@ -12,7 +11,7 @@ from telliot_feed_examples.feeds.btc_usd_feed import btc_usd_median_feed
 playground_address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"
 
 
-def test_reporter_config(cfg):
+def test_reporter_config(cfg, master, oracle):
     """Test instantiating an IntervalReporter using default telliot configs."""
 
     rinkeby_endpoint = cfg.get_endpoint()
@@ -20,7 +19,8 @@ def test_reporter_config(cfg):
     _ = IntervalReporter(
         endpoint=rinkeby_endpoint,
         private_key=cfg.main.private_key,
-        contract_address=playground_address,
+        master=master,
+        oracle=oracle,
         datafeeds=[btc_usd_median_feed],
     )
 
@@ -33,7 +33,7 @@ def test_reporter_config(cfg):
 
 # @pytest.mark.skip(reason="fails sometimes.  Re-enable after contract.write integration")
 @pytest.mark.asyncio
-async def test_interval_reporter_submit_once(cfg):
+async def test_interval_reporter_submit_once(cfg, master, oracle):
     """Test reporting once to the TellorX playground on Rinkeby
     with three retries."""
 
@@ -42,7 +42,8 @@ async def test_interval_reporter_submit_once(cfg):
     reporter = IntervalReporter(
         endpoint=rinkeby_endpoint,
         private_key=cfg.main.private_key,
-        contract_address=playground_address,
+        master=master,
+        oracle=oracle,
         datafeeds=[btc_usd_median_feed],
     )
 
@@ -53,9 +54,9 @@ async def test_interval_reporter_submit_once(cfg):
     assert tx_receipts is not None
 
     for receipt in tx_receipts:
-        assert isinstance(receipt, AttributeDict)
-        assert receipt.status == 1
-        assert receipt.to == "0x4699845F22CA2705449CFD532060e04abE3F1F31"
+        assert isinstance(receipt, tuple)
+        # assert receipt[0].status == 1
+        assert receipt[0].to == oracle.address
 
 
 # TODO: choose datafeeds in reporter config

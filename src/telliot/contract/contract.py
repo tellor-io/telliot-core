@@ -114,8 +114,6 @@ class Contract:
 
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
-            # pk = "af742bc879586358c353b5d64ec55efca9f789bb343568361431578df2f7aca3"
-            # tx_signed = self.node.web3.eth.account.sign_transaction(built_tx, pk)
             print(" tx signed")
             tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
             print("tx sent")
@@ -171,7 +169,9 @@ class Contract:
 
                 # Exit loop if transaction successful
                 if tx_receipt and status.ok and tx_receipt["status"] == 1:
-                    print(f"tx was successful! check it out at {self.endpoint.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none
+                    print(
+                        f"tx was successful! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}"  # noqa: E501
+                    )  # noqa: E501
                     return tx_receipt, status
                 elif (
                     not status.ok
@@ -194,7 +194,7 @@ class Contract:
                     and tx_receipt["status"] == 0  # type: ignore # error won't be none
                 ):
                     status.error = "tx reverted by contract/evm logic"
-                    print(f"tx was reverted by evm! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none
+                    print(f"tx was reverted by evm! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none # noqa: E501
                     return tx_receipt, status
                 else:
                     extra_gas_price = 0
