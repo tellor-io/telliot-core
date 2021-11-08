@@ -1,9 +1,7 @@
 from dataclasses import dataclass
-from typing import Any
 from typing import Optional
 
 from telliot.model.base import Base
-from telliot.model.endpoints import RPCEndpoint
 
 
 @dataclass
