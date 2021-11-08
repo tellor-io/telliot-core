@@ -1,4 +1,4 @@
-"""Application binary interfaces for testing and reporter examples."""
+"""Application binary interfaces for testing and reporters examples."""
 
 rinkeby_tellor_master = [
     {

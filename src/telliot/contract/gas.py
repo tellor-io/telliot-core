@@ -9,9 +9,10 @@ ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
 async def fetch_gas_price() -> int:
     """Estimate current ETH gas price
 
-    Work In Progress - Just do something quick
+    Current implementation fetches from ethgasstation
 
-    ethgasstation returns gas in gwei*10
+    Returns:
+        eth gas price in gwei
     """
     return await ethgasstation("fast")
 
