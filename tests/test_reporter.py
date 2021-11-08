@@ -1,9 +1,9 @@
 """
 Tests covering the IntervalReporter class from
-telliot's reporter subpackage.
+telliot's reporters subpackage.
 """
 import pytest
-from telliot.reporter.interval import IntervalReporter
+from telliot_feed_examples.reporters.interval import IntervalReporter
 
 from telliot_feed_examples.feeds.btc_usd_feed import btc_usd_median_feed
 
@@ -59,4 +59,4 @@ async def test_interval_reporter_submit_once(cfg, master, oracle):
         assert receipt[0].to == oracle.address
 
 
-# TODO: choose datafeeds in reporter config
+# TODO: choose datafeeds in reporters config
