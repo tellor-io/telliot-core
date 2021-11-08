@@ -3,9 +3,9 @@ Tests covering the IntervalReporter class from
 telliot's reporters subpackage.
 """
 import pytest
-from telliot_feed_examples.reporters.interval import IntervalReporter
 
 from telliot_feed_examples.feeds.btc_usd_feed import btc_usd_median_feed
+from telliot_feed_examples.reporters.interval import IntervalReporter
 
 # Tellor playground contract used for test
 playground_address = "0x4699845F22CA2705449CFD532060e04abE3F1F31"

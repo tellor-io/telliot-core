@@ -147,7 +147,7 @@ class IntervalReporter:
             _ = await self.report_once(name)
             await asyncio.sleep(10)
 
-    def run(self) -> None:  # type: ignore
+    def run(self) -> None:
         """Used by telliot CLI to update & submit BTC/USD price data to Tellor Oracle."""
 
         # Create coroutines to run concurrently.
