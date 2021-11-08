@@ -85,19 +85,10 @@ def parse_user_val() -> int:
     return uspce
 
 
-async def submit() -> ResponseStatus:
+async def submit(
+    cfg: TelliotConfig, master: Contract, oracle: Contract
+) -> ResponseStatus:
     """Submit USPCE value to TellorX oracle."""
-    cfg = get_cfg()
-    if not cfg:
-        return ResponseStatus(ok=False, error="Could not get default configs.", e=None)
-
-    master = get_master(cfg)
-    oracle = get_oracle(cfg)
-
-    if not master or not oracle:
-        return ResponseStatus(
-            ok=False, error="Could not connect to master or oracle contract", e=None
-        )
 
     gas_price = await fetch_gas_price()  # TODO clarify gas price units
     user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
@@ -140,4 +131,16 @@ async def submit() -> ResponseStatus:
 
 
 if __name__ == "__main__":
-    _ = asyncio.run(submit())
+    cfg = get_cfg()
+    # if not cfg:
+    #     return ResponseStatus(ok=False, error="Could not get default configs.", e=None)
+
+    master = get_master(cfg)
+    oracle = get_oracle(cfg)
+
+    # if not master or not oracle:
+    #     return ResponseStatus(
+    #         ok=False, error="Could not connect to master or oracle contract", e=None
+    #     )
+
+    _ = asyncio.run(submit(cfg, master, oracle))  # type: ignore
