@@ -11,17 +11,3 @@ class ResponseStatus(Base):
     ok: bool = True
     error: Optional[str] = None
     e: Optional[Exception] = None
-
-
-@dataclass
-class ContractResponse(Base):
-
-    ok: bool
-
-    result: Optional[Any]
-
-    error: Optional[Exception]
-
-    error_msg: Optional[str]
-
-    endpoint: Optional[RPCEndpoint]

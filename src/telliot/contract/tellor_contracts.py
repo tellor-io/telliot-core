@@ -8,7 +8,7 @@ from telliot.contract.contract import Contract
 
 
 @dataclass
-class ContractsDict:
+class TellorContracts:
     """Main point of access for the assortment of TellorX contracts"""
 
     master: Contract

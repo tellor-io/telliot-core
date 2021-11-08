@@ -62,7 +62,7 @@ class Contract:
                 return output, ResponseStatus(ok=True)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
-                return None, ResponseStatus(ok=False, e=e, error_msg=msg)
+                return None, ResponseStatus(ok=False, e=e, error=msg)
         else:
             msg = "no instance of contract"
             return None, ResponseStatus(ok=False, error=msg)
