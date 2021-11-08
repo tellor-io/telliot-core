@@ -78,7 +78,8 @@ def parse_user_val() -> int:
             print("Invalid input. Enter int or float.")
             continue
 
-        _ = input(f"Submitting value: {inpt}\nPress [ENTER] to confirm.")
+        print(f"Submitting value: {inpt}\nPress [ENTER] to confirm.")
+        _ = input()
 
         uspce = inpt
 
