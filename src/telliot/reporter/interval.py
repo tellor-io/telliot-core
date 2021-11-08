@@ -5,14 +5,16 @@ Example of a subclassed Reporter.
 import asyncio
 from typing import Any
 from typing import List
-from typing import Mapping
-from typing import Union
+from typing import Optional
+from typing import Tuple
 
+from telliot.contract.contract import Contract
+from telliot.contract.gas import fetch_gas_price
 from telliot.datafeed import DataFeed
 from telliot.model.endpoints import RPCEndpoint
 from telliot.reporter.base import Reporter
-from telliot.submitter.base import Submitter
-from telliot.utils.abi import rinkeby_tellor_master
+from telliot.utils.response import ResponseStatus
+from web3.datastructures import AttributeDict
 
 
 class IntervalReporter(Reporter):
@@ -23,76 +25,118 @@ class IntervalReporter(Reporter):
         self,
         endpoint: RPCEndpoint,
         private_key: str,
-        contract_address: str,
+        master: Contract,
+        oracle: Contract,
         datafeeds: List[DataFeed[Any]],
     ) -> None:
 
         self.endpoint = endpoint
+        self.private_key = private_key
+        self.master = master
+        self.oracle = oracle
         self.datafeeds = datafeeds
-
-        self.submitter = Submitter(
-            endpoint=self.endpoint,
-            private_key=private_key,
-            contract_address=contract_address,
-            abi=rinkeby_tellor_master,
-        )
 
     async def report_once(
         self, name: str = "", retries: int = 0
-    ) -> List[Union[None, Mapping[str, Any]]]:
+    ) -> List[Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]]:
         """Submit value once"""
-        transaction_receipts = []
-        jobs = []
-        for datafeed in self.datafeeds:
-            job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
-            jobs.append(job)
+        status = ResponseStatus()
+        gas_price_gwei = await fetch_gas_price()
 
-        _ = await asyncio.gather(*jobs)
+        transaction_receipts: List[
+            Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]
+        ] = []
 
-        for datafeed in self.datafeeds:
+        user = self.endpoint.web3.eth.account.from_key(self.private_key).address
+        is_staked, read_status = await self.master.read("getStakerInfo", _staker=user)
 
-            datapoint = datafeed.source.latest
-            v, t = datapoint
+        if (not read_status.ok) or (is_staked is None):
+            status.error = "unable to read reporter staker status: " + read_status.error  # type: ignore # error won't be none # noqa: E501
+            status.e = read_status.e
+            transaction_receipts.append((None, status))
 
-            if v is not None:
-                query = datafeed.query
+        else:
+            print(is_staked[0])
 
-                if query:
-                    encoded_value = query.value_type.encode(v)
-                    request_id_str = "0x" + query.query_id.hex()
-                    extra_gas_price = 0
+            # Status 1: staked
+            if is_staked[0] == 1:
+                jobs = []
+                for datafeed in self.datafeeds:
+                    job = asyncio.create_task(datafeed.source.fetch_new_datapoint())
+                    jobs.append(job)
 
-                    for _ in range(retries + 1):
-                        (
-                            status,
-                            transaction_receipt,
-                            gas_price,
-                        ) = self.submitter.submit_data(
-                            encoded_value, request_id_str, extra_gas_price
-                        )
+                _ = await asyncio.gather(*jobs)
 
-                        if transaction_receipt and status.ok:
-                            transaction_receipts.append(transaction_receipt)
-                            break
-                        elif (
-                            not status.ok
-                            and status.error
-                            and "replacement transaction underpriced" in status.error
-                        ):
-                            extra_gas_price += gas_price
+                for datafeed in self.datafeeds:
+
+                    datapoint = datafeed.source.latest
+                    v, t = datapoint
+
+                    if v is not None:
+                        query = datafeed.query
+
+                        if query:
+                            value = query.value_type.encode(v)
+                            query_id = query.query_id
+                            query_data = query.query_data
+                            extra_gas_price = 20
+
+                            timestamp_count, read_status = await self.oracle.read(
+                                func_name="getTimestampCountById", _queryId=query_id
+                            )
+
+                            if not read_status.ok:
+                                status.error = "unable to retrieve timestampCount: " + read_status.error  # type: ignore # error won't be none # noqa: E501
+                                status.e = read_status.e
+                                transaction_receipts.append((None, status))
+
+                            tx_receipt, status = await self.oracle.write_with_retry(
+                                func_name="submitValue",
+                                gas_price=gas_price_gwei,
+                                extra_gas_price=extra_gas_price,
+                                retries=5,
+                                _queryId=query_id,
+                                _value=value,
+                                _nonce=timestamp_count,
+                                _queryData=query_data,
+                            )
+
+                            transaction_receipts.append((tx_receipt, status))
+
                         else:
-                            extra_gas_price = 0
-
-                else:
-                    print(
-                        f"Skipping submission for {repr(datafeed)}, "
-                        f"no query for datafeed."
-                    )  # TODO logging
+                            print(
+                                f"Skipping submission for {repr(datafeed)}, "
+                                f"no query for datafeed."
+                            )  # TODO logging
+                    else:
+                        print(
+                            f"Skipping submission for {repr(datafeed)}, "
+                            f"datafeed value not updated."
+                        )  # TODO logging
             else:
-                print(
-                    f"Skipping submission for {repr(datafeed)}, "
-                    f"datafeed value not updated."
-                )  # TODO logging
+                # Status 3: disputed
+                if is_staked[0] == 3:
+                    status.error = f"you were disputed at {user}; to continue reporting, switch to new address"  # noqa: E501
+                    status.e = None
+                    transaction_receipts.append((None, status))
+
+                # Status 0: not yet staked
+                elif is_staked[0] == 0:
+                    _, write_status = await self.master.write_with_retry(
+                        func_name="depositStake",
+                        gas_price=gas_price_gwei,
+                        extra_gas_price=20,
+                        retries=retries,
+                    )
+                    if not write_status.ok:
+                        status.error = "unable to stake deposit: " + read_status.error  # type: ignore # error won't be none # noqa: E501
+                        status.e = read_status.e
+                        transaction_receipts.append((None, status))
+                # Statuses 2, 4, and 5: stake transition
+                else:
+                    status.error = f"your reporter at {user} is locked in dispute or for withdrawal"  # noqa: E501
+                    status.e = None
+                    transaction_receipts.append((None, status))
 
         return transaction_receipts
 

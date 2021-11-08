@@ -95,7 +95,7 @@ async def test_trb_transfer(cfg, master):
 async def test_submit_value(cfg, master, oracle):
     """E2E test for submitting a value to rinkeby"""
 
-    gas_price = await fetch_gas_price()  # TODO clarify gas price units
+    gas_price_gwei = await fetch_gas_price()
     user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
     print(user)
 
@@ -107,7 +107,10 @@ async def test_submit_value(cfg, master, oracle):
 
     if is_staked[0] == 0:
         _, status = await master.write_with_retry(
-            func_name="depositStake", gas_price=gas_price, extra_gas_price=20, retries=2
+            func_name="depositStake",
+            gas_price=gas_price_gwei,
+            extra_gas_price=20,
+            retries=2,
         )
         assert status.ok
 
@@ -117,21 +120,21 @@ async def test_submit_value(cfg, master, oracle):
     query_data = q.query_data
     query_id = q.query_id
 
-    value_count, status = await oracle.read(
+    timestamp_count, status = await oracle.read(
         func_name="getTimestampCountById", _queryId=query_id
     )
     assert status.ok
-    assert value_count >= 0
-    print(value_count)
+    assert timestamp_count >= 0
+    print(timestamp_count)
 
     receipt, status = await oracle.write_with_retry(
         func_name="submitValue",
-        gas_price=gas_price,
+        gas_price=gas_price_gwei,
         extra_gas_price=40,
         retries=5,
         _queryId=query_id,
         _value=value,
-        _nonce=value_count,
+        _nonce=timestamp_count,
         _queryData=query_data,
     )
 
