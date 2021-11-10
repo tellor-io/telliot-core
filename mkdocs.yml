@@ -2,14 +2,14 @@ site_name: Telliot Documentation
 
 # Project information
 site_name: Telliot Documentation (DRAFT - DO NOT USE)
-site_url: https://tellor-io.github.io/telliot_core-core/
+site_url: https://tellor-io.github.io/telliot-core/
 site_author: Tellor Development Community
 site_description: >-
   Telliot is a Python framework for interacting with the decentralized TellorX network
 
 # Repository
-repo_name: tellor-io/telliot_core-core
-repo_url: https://github.com/tellor-io/telliot_core-core
+repo_name: tellor-io/telliot-core
+repo_url: https://github.com/tellor-io/telliot-core
 edit_uri: ""
 
 # Copyright
