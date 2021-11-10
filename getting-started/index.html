@@ -20,7 +20,7 @@
     
     
       
-        <title>Getting started - Telliot Documentation (DRAFT - DO NOT USE)</title>
+        <title>Getting started - Telliot Documentation</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started-work-in-progress" class="md-skip">
+        <a href="#getting-started" class="md-skip">
           Skip to content
         </a>
       
@@ -86,7 +86,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-header__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
+    <a href=".." title="Telliot Documentation" class="md-header__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
   <img src="../assets/tellor_swoosh.png" alt="logo">
 
@@ -98,7 +98,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Telliot Documentation (DRAFT - DO NOT USE)
+            Telliot Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -185,12 +185,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-nav__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
+    <a href=".." title="Telliot Documentation" class="md-nav__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
   <img src="../assets/tellor_swoosh.png" alt="logo">
 
     </a>
-    Telliot Documentation (DRAFT - DO NOT USE)
+    Telliot Documentation
   </label>
   
     <div class="md-nav__source">
@@ -240,9 +240,61 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Getting started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Getting started
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#telliot-configuration" class="md-nav__link">
+    Telliot Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Telliot Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-configuration-file" class="md-nav__link">
+    Main Configuration File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-endpoints" class="md-nav__link">
+    Configure endpoints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -475,6 +527,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#telliot-configuration" class="md-nav__link">
+    Telliot Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Telliot Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-configuration-file" class="md-nav__link">
+    Main Configuration File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-endpoints" class="md-nav__link">
+    Configure endpoints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -486,8 +573,65 @@
               
                 
                 
-                <h1 id="getting-started-work-in-progress">Getting Started (Work In Progress)<a class="headerlink" href="#getting-started-work-in-progress" title="Permanent link">&para;</a></h1>
-<p>TODO</p>
+                <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
+<h2 id="telliot-configuration">Telliot Configuration<a class="headerlink" href="#telliot-configuration" title="Permanent link">&para;</a></h2>
+<p>After installation of the <code>telliot-core</code> or any telliot data feeds,
+Telliot must be personalized to use your own private keys and endpoints.</p>
+<p>First, create the default configuration files:</p>
+<div class="highlight"><pre><span></span><code>telliot config init
+</code></pre></div>
+<p>The default configuration files are created in a folder called <code>telliot</code> in the user home folder:</p>
+<div class="highlight"><pre><span></span><code>Saved config &#39;main&#39; to ~/telliot/main.yaml
+Saved config &#39;endpoints&#39; to ~/telliot/endpoints.yaml
+Saved config &#39;chains&#39; to ~/telliot/chains.json
+</code></pre></div>
+<p>To show the current configuration:</p>
+<div class="highlight"><pre><span></span><code>telliot config show
+</code></pre></div>
+<h3 id="main-configuration-file">Main Configuration File<a class="headerlink" href="#main-configuration-file" title="Permanent link">&para;</a></h3>
+<p>The main configuration file allows you to choose which network Telliot will interact with.
+By default, Telliot is configured to run on Rinkeby testnet, as shown in the example below.
+Edit the <code>~/telliot/main.yaml</code> config file for the desired configuration.</p>
+<ul>
+<li>
+<p>To run on Etherium mainnet, use <code>chain_id: 1</code> and <code>network: mainnet</code>.</p>
+</li>
+<li>
+<p>To submit values to the Tellor oracle, a <code>private_key</code> must also be configured.</p>
+</li>
+</ul>
+<p><em>Example main configuration file:</em></p>
+<div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MainConfig</span>
+<span class="nt">loglevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">INFO</span>
+<span class="nt">chain_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="nt">network</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rinkeby</span>
+<span class="nt">private_key</span><span class="p">:</span> <span class="s">&#39;&#39;</span>
+</code></pre></div>
+<h3 id="configure-endpoints">Configure endpoints<a class="headerlink" href="#configure-endpoints" title="Permanent link">&para;</a></h3>
+<p>Edit <code>~/telliot/endpoints.yaml</code> to configure Telliot to use your own endpoints.</p>
+<p>If you don't have an endpoint, a free one is available at <a href="http://www.infura.io">Infura.io</a>.  Simply replace <code>INFURA_API_KEY</code> with the one provided by Infura.</p>
+<p>Endpoints should be configured for both Etherium mainnet and Rinkeby testnet.  </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All telliot software and reporter feeds should be validated on Rinkeby prior to deploying on mainnet. </p>
+</div>
+<p>Note that endpoints must use the websocket protocol because HTTPS endpoints do not support event listeners.</p>
+<p><em>Example <code>endpoints.yaml</code> file:</em>
+<div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">EndpointList</span>
+<span class="nt">endpoints</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">RPCEndpoint</span>
+  <span class="nt">chain_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="nt">network</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mainnet</span>
+  <span class="nt">provider</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Infura</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wss://mainnet.infura.io/ws/v3/{INFURA_API_KEY}</span>
+  <span class="nt">explorer</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://etherscan.io</span>
+<span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">RPCEndpoint</span>
+  <span class="nt">chain_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+  <span class="nt">network</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rinkeby</span>
+  <span class="nt">provider</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Infura</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wss://rinkeby.infura.io/ws/v3{INFURA_API_KEY}</span>
+  <span class="nt">explorer</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://rinkeby.etherscan.io</span>
+</code></pre></div></p>
                 
               
               

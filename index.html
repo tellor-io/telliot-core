@@ -20,7 +20,7 @@
     
     
       
-        <title>Telliot Documentation (DRAFT - DO NOT USE)</title>
+        <title>Telliot Documentation</title>
       
     
     
@@ -86,7 +86,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-header__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
+    <a href="." title="Telliot Documentation" class="md-header__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
   <img src="assets/tellor_swoosh.png" alt="logo">
 
@@ -98,7 +98,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Telliot Documentation (DRAFT - DO NOT USE)
+            Telliot Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -185,12 +185,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-nav__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
+    <a href="." title="Telliot Documentation" class="md-nav__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
   <img src="assets/tellor_swoosh.png" alt="logo">
 
     </a>
-    Telliot Documentation (DRAFT - DO NOT USE)
+    Telliot Documentation
   </label>
   
     <div class="md-nav__source">
@@ -253,6 +253,13 @@
         <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telliot-software" class="md-nav__link">
+    Telliot Software
   </a>
   
 </li>
@@ -528,6 +535,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#telliot-software" class="md-nav__link">
+    Telliot Software
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#scope" class="md-nav__link">
     Scope
   </a>
@@ -550,9 +564,7 @@
                 <h1 id="welcome-to-telliots-documentation">Welcome to Telliot's documentation<a class="headerlink" href="#welcome-to-telliots-documentation" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Telliot is a Python framework for interacting with the decentralized TellorX network.
-This <code>telliot-core</code> package provides core functionality used by other Telliot
-subpackages and data feeds.</p>
-<p>With Telliot, you (or your smart contract) can:</p>
+With Telliot, you (or your smart contract) can:</p>
 <ul>
 <li>
 <p>Ask the TellorX Decentralized Oracle to answer a question (we call that <em>tipping</em>)</p>
@@ -575,6 +587,20 @@ TellorX also supports arbitrary questions and answers.  Any question is OK, prov
 that the Tellor community can answer it with a reasonable
 degree of confidence (remember, Reporters may lose TRB if the network votes
 the answer incorrect!)</p>
+<h2 id="telliot-software">Telliot Software<a class="headerlink" href="#telliot-software" title="Permanent link">&para;</a></h2>
+<p>The telliot software currently consists of two main python packages:</p>
+<ul>
+<li><a href="https://github.com/tellor-io/telliot-core">Telliot Core</a></li>
+<li>
+<p>This package provides core functionality and a plugin framework for use
+    by other Telliot subpackages and custom data feeds.</p>
+</li>
+<li>
+<p><a href="https://github.com/tellor-io/telliot-feed-examples">Telliot Feed Examples</a></p>
+</li>
+<li>This package provides several working examples of data feeds that can be either customized
+    or used directly.</li>
+</ul>
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
 <p>Telliot aims to make it easier to ask questions in a format that the Oracle
 can understand, and specify the format (i.e. data structure) of the

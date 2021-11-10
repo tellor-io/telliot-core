@@ -20,7 +20,7 @@
     
     
       
-        <title>Developer's Guide - Telliot Documentation (DRAFT - DO NOT USE)</title>
+        <title>Developer's Guide - Telliot Documentation</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#environment-setup" class="md-skip">
+        <a href="#contributing" class="md-skip">
           Skip to content
         </a>
       
@@ -86,7 +86,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-header__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
+    <a href=".." title="Telliot Documentation" class="md-header__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
   <img src="../assets/tellor_swoosh.png" alt="logo">
 
@@ -98,7 +98,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Telliot Documentation (DRAFT - DO NOT USE)
+            Telliot Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -185,12 +185,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Telliot Documentation (DRAFT - DO NOT USE)" class="md-nav__button md-logo" aria-label="Telliot Documentation (DRAFT - DO NOT USE)" data-md-component="logo">
+    <a href=".." title="Telliot Documentation" class="md-nav__button md-logo" aria-label="Telliot Documentation" data-md-component="logo">
       
   <img src="../assets/tellor_swoosh.png" alt="logo">
 
     </a>
-    Telliot Documentation (DRAFT - DO NOT USE)
+    Telliot Documentation
   </label>
   
     <div class="md-nav__source">
@@ -427,9 +427,55 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Developer's Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Developer's Guide
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#development-environment-setup" class="md-nav__link">
+    Development Environment Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-environment" class="md-nav__link">
+    Test Environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-contributions" class="md-nav__link">
+    Making Contributions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -477,6 +523,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#development-environment-setup" class="md-nav__link">
+    Development Environment Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-environment" class="md-nav__link">
+    Test Environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-contributions" class="md-nav__link">
+    Making Contributions
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -488,42 +563,45 @@
               
                 
                 
-                <h1 id="environment-setup">Environment Setup<a class="headerlink" href="#environment-setup" title="Permanent link">&para;</a></h1>
-<p>Clone the repository:</p>
+                <h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
+<h2 id="development-environment-setup">Development Environment Setup<a class="headerlink" href="#development-environment-setup" title="Permanent link">&para;</a></h2>
+<p><em>These instructions assume that a working Python interpreter (version &gt;=3.8)
+is already installed on the system.</em></p>
+<p>Clone the repository to a local working directory:</p>
 <div class="highlight"><pre><span></span><code>git clone https://github.com/tellor-io/pytelliot.git
 </code></pre></div>
-<p>Create a virtual environment:</p>
-<div class="highlight"><pre><span></span><code>python -m venv env
-</code></pre></div>
-<p>Activate the virtual environment</p>
+<p>Create and activate a <a href="https://docs.python.org/3/library/venv.html">virtual environment</a>.  In this example, the virtual environment is 
+located in a subfolder called <code>tenv</code>:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Linux</label><label for="__tabbed_1_2">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>source env/bin/activate
+<div class="highlight"><pre><span></span><code>python3 -m venv tenv
+tenv tutorial_env/bin/activate
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>.\venv\Scripts\activate.bat
+<div class="highlight"><pre><span></span><code>py -m venv tenv
+tenv\Scripts\activate
 </code></pre></div>
 </div>
 </div>
 </div>
-<p>Install dependencies and project</p>
-<div class="highlight"><pre><span></span><code>pip install -r requirements-dev.txt
-pip install -e .
+<p>Install the project using using an <a href="https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs">editable installation</a>.</p>
+<div class="highlight"><pre><span></span><code>pip install -e .
+pip install -r requirements-dev.txt
 </code></pre></div>
-<h1 id="verify-environment">Verify Environment<a class="headerlink" href="#verify-environment" title="Permanent link">&para;</a></h1>
-<p>Run pytest to make sure that all tests pass:</p>
+<h2 id="test-environment">Test Environment<a class="headerlink" href="#test-environment" title="Permanent link">&para;</a></h2>
+<p>Verify the development environment by running <code>pytest</code> and ensure that all tests pass.</p>
 <div class="highlight"><pre><span></span><code>pytest
 </code></pre></div>
-<h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
+<h2 id="making-contributions">Making Contributions<a class="headerlink" href="#making-contributions" title="Permanent link">&para;</a></h2>
 <p>Once your dev environment is set up, make desired changes, create new tests for those changes,
 and conform to the style &amp; typing format of the project. To do so, in the project home directory:</p>
-<p>Run tests:</p>
+<p>Run all unit tests:</p>
 <div class="highlight"><pre><span></span><code>pytest
 </code></pre></div>
-<p>Check typing:</p>
-<div class="highlight"><pre><span></span><code>mypy src --strict --implicit-reexport --ignore-missing-imports --disable-error-code misc
+<p>Check code typing:</p>
+<div class="highlight"><pre><span></span><code>tox -e typing
 </code></pre></div>
 <p>Check style (you may need run this step several times):</p>
 <div class="highlight"><pre><span></span><code>tox -e style
