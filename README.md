@@ -13,26 +13,17 @@ Please refer to the following for additional information:
 - [DRAFT Telliot Documentation](https://tellor-io.github.io/pytelliot/)
 - [TellorX Whitepaper](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf).
 
-# Development Status
+# Development Setup
 
-## Rough roadmap & spec
-### by Nov 1st:
-- test with TellorX rinkeby deployment
-- publish to PyPI
+You'll need Python and `pip` on the search path.
+Clone the Telliot Core git repository to your computer, for example in `/work/telliot-core`.
+Now create an [editable install](https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs)
+and download the dependencies of code and test suite by executing:
 
-### later:
-- tipping, voting, disputing
-- gui for data feed and submitter
+    cd /work/telliot-core
+    pip install -e .
+    pip install -r requirements-dev.txt
 
-## Setup & usage
-Here's how to report the price of BTC in USD to the oracle on the Rinkeby test network.
-#### 1. download package
-```
-pip install telliot
-```
-(not yet released to PyPI)
+To test your development environment, run
 
-#### 2. Start reporting
-```
-telliot report btc-usd-median
-```
+    pytest

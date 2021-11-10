@@ -79,10 +79,8 @@ class ConfigFile:
 
         else:
             # Create a default configuration and save it
-            print(f"Creating default {self.name} config file")
             options = self.config_type()
             self.save_config(options)
-            print(f"Saved config file: {self.config_file}")
 
     def get_config(self) -> ConfigOptions:
         """Load Configuration from a .yaml file"""
@@ -125,7 +123,6 @@ class ConfigFile:
                 with open(self.config_file, "w") as f:
 
                     state = serialize(config)
-                    print(state)
                     yaml.dump(state, f, Dumper=Dumper, sort_keys=False)
 
             elif self.config_format == "json":
@@ -135,7 +132,7 @@ class ConfigFile:
                     jstr = json.dumps(state, indent=2)
                     f.write(jstr)
 
-            print("Saved {} to {}".format(self.name, self.config_file))
+            print("Saved config '{}' to {}".format(self.name, self.config_file))
 
         except FileNotFoundError as e:
             print(

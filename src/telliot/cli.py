@@ -5,26 +5,28 @@ Configure telliot's settings via this interface's command line flags
 or in the configuration file.
 """
 import click
-
+from telliot.apps.telliot_config import TelliotConfig
 
 @click.group()
 def main() -> None:
-    """Run the CLI."""
+    """Telliot command line interface
+
+    """
     pass
 
 
-@main.command()
-@click.argument("datafeed_uid")
-def report(datafeed_uid: str) -> None:
-    """Report data to Tellor oracle."""
-    click.echo("Reporting to the Tellor oracle.")
-    click.echo(f"Chosen datafeed uid: {datafeed_uid}")
+@main.group()
+def config() -> None:
+    """Manage telliot configuration
 
+    """
+    pass
 
-@main.command()
-def status() -> None:
-    """Print to_state & configurations of current telliot client."""
-    click.echo("State/configuration of current telliot client.")
+@config.command()
+def init() -> None:
+    """Create initial configuration files"""
+    cfg = TelliotConfig()
+
 
 
 if __name__ == "__main__":

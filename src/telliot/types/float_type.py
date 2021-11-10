@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
-from pydantic import validator
 from telliot.types.value_type import ValueType
 
 
@@ -63,10 +62,3 @@ class UnsignedFloatType(ValueType):
 
         return intval / 10.0 ** self.decimals
 
-    @validator("abi_type")
-    def require_ufixed_abi_type(cls, v: str) -> str:
-        """Validator to require a ufixed abi type"""
-        if v[:6] != "ufixed":
-            raise ValueError("Abi Type must be ufixedMxN")
-
-        return v.lower()
