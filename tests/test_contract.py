@@ -59,6 +59,7 @@ async def test_faucet(cfg, master):
     assert balance2 - balance1 == 1e21
 
 
+@pytest.mark.skip('Move to end-to-end tests')
 @pytest.mark.asyncio
 async def test_trb_transfer(cfg, master):
     """Test TRB transfer through TellorMaster contract (and its proxies)"""
@@ -91,6 +92,7 @@ async def test_trb_transfer(cfg, master):
     print("after:", balance / 1e18)
 
 
+@pytest.mark.skip('Move to end-to-end tests')
 @pytest.mark.asyncio
 async def test_submit_value(cfg, master, oracle):
     """E2E test for submitting a value to rinkeby"""

@@ -20,15 +20,13 @@ def test_rpc_endpoint():
     print(endpt.get_state())
 
 
+
 def test_very_bad_rpc_url():
     """an invalid url will raise an exception in RPCEndpoint"""
     url = "this is not a valid rpc url"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
-    connected = endpt.connect()
-    assert not connected
-    # expect bad url error from requests library
-    with pytest.raises(requests.exceptions.MissingSchema):
-        endpt.web3.eth.block_number
+    with pytest.raises(ValueError):
+        connected = endpt.connect()
 
 
 def test_incomplete_rpc_url():
