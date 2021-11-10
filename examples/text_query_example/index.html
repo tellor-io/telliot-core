@@ -490,10 +490,10 @@
                 
                 <h1 id="text-query-example">Text Query Example<a class="headerlink" href="#text-query-example" title="Permanent link">&para;</a></h1>
 <p>The following example demonstrates how to create a 
-<a href="../../code/queries/#telliot.queries.string_query.StringQuery"><code>StringQuery</code></a> request.</p>
+<a href="../../code/queries/#telliot_core.queries.string_query.StringQuery"><code>StringQuery</code></a> request.</p>
 <p>Create a <code>StringQuery</code> and view the corresponding query descriptor::</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
+<span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
 <span class="hll"><span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 </span><span class="hll"><span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
@@ -518,7 +518,7 @@ the <code>TellorX.Oracle.tipQuery()</code> contract call
 requires two arguments: <code>queryData</code> and <code>queryId</code>.  These arguments are provided by 
 the <code>query_data</code> and <code>query_id</code> attributes of the <code>StringQuery</code> object:</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
+<span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
 <span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
@@ -544,11 +544,11 @@ to submit on-chain using the <code>TellorX.Oracle.submitValue()</code> contract 
 <div class="highlight"><pre><span></span><code>Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life
 </code></pre></div>
 <p>use the 
-<a href="../../code/types/#telliot.types.value_type.ValueType.encode"><code>encode</code></a> and 
-<a href="../../code/types/#telliot.types.value_type.ValueType.decode"><code>decode</code></a> methods of the response
-<a href="../../code/types/#telliot.types.value_type.ValueType"><code>ValueType</code></a>.</p>
+<a href="../../code/types/#telliot_core.types.value_type.ValueType.encode"><code>encode</code></a> and 
+<a href="../../code/types/#telliot_core.types.value_type.ValueType.decode"><code>decode</code></a> methods of the response
+<a href="../../code/types/#telliot_core.types.value_type.ValueType"><code>ValueType</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
+<span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
 <span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
