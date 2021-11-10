@@ -66,9 +66,9 @@ class TelliotConfig(Base):
             config_dir=self.config_dir,
         )
 
-        self.main = main_file.get_config()  # type: ignore
-        self.endpoints = ep_file.get_config()  # type: ignore
-        self.chains = chain_file.get_config()  # type: ignore
+        self.main = main_file.get_config()
+        self.endpoints = ep_file.get_config()
+        self.chains = chain_file.get_config()
 
     def get_endpoint(self) -> Optional[RPCEndpoint]:
         """Search endpoints for current chain_id"""

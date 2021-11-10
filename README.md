@@ -17,7 +17,7 @@ Please refer to the following for additional information:
 
 This package should not be installed directly.
 Instead, it will be automatically installed by any Tellor feed that uses it,
-such as `telliot-feed-examples`. 
+such as `telliot-feed-examples`.
 
 
 # Telliot Configuration
@@ -28,7 +28,7 @@ First, create the default configuration files:
 
     telliot config init
 
-The default configuration files are created in a folder called `telliot` in your user home folder: 
+The default configuration files are created in a folder called `telliot` in your user home folder:
 
     Saved config 'main' to ~/telliot/main.yaml
     Saved config 'endpoints' to ~/telliot/endpoints.yaml
@@ -37,7 +37,7 @@ The default configuration files are created in a folder called `telliot` in your
 ## Main Configuration File
 
 The main configuration file allows you to choose which network Telliot will interact with.
-By default, Telliot is configured to run on Rinkeby testnet, as shown in the example below. 
+By default, Telliot is configured to run on Rinkeby testnet, as shown in the example below.
 To run on Etherium mainnet, use `chain_id: 1` and `network: mainnet`.
 
 To submit values to the Tellor oracle, a `private_key` must also be configured.
@@ -53,7 +53,7 @@ private_key: ''
 ```
 
 
-    
+
 ## Configure endpoints
 
 Edit `endpoints.yaml` to use to your own endpoints.
@@ -62,7 +62,7 @@ If you don't have an endpoint, a free one is available at [Infura.io](www.infura
 
 We recommend configuring endpoints for both Etherium mainnet and Rinkeby testnet.
 
-Note that endpoints must use the websocket protocol because HTTPS endpoints do not support event listeners.  
+Note that endpoints must use the websocket protocol because HTTPS endpoints do not support event listeners.
 
 *Example `endpoints.yaml` file:*
 ```yaml
@@ -98,5 +98,3 @@ endpoints:
     pip install -e .
     pip install -r requirements-dev.txt
     pytest
-
-

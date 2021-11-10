@@ -11,4 +11,3 @@ def test_config_cmd():
     result = runner.invoke(main, ["config", "init"])
 
     print(result)
-

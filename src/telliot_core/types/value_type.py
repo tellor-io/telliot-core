@@ -4,11 +4,10 @@
 from dataclasses import dataclass
 from typing import Any
 
+from clamfig import Serializable
 from eth_abi.abi import decode_single
 from eth_abi.abi import encode_single
 from eth_abi.packed import encode_single_packed
-
-from clamfig import Serializable
 
 
 @dataclass

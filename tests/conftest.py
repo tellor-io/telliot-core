@@ -60,5 +60,3 @@ def oracle(cfg):
     )
     oracle.connect()
     return oracle
-
-
