@@ -1,25 +1,13 @@
 """
-Unit tests covering telliot CLI commands.
+Unit tests covering telliot_core CLI commands.
 """
 from click.testing import CliRunner
-from telliot.cli import main
+from telliot_core.cli import main
 
 
-def test_report_cmd():
-    """Test telliot CLI command: report."""
+def test_config_cmd():
+    """Test telliot_core CLI command: report."""
     runner = CliRunner()
-    result = runner.invoke(main, ["report", "btc-usd-median"])
+    result = runner.invoke(main, ["config", "init"])
 
-    assert result.exit_code == 0
-    assert "Reporting to the Tellor oracle." in result.output
-    assert "Chosen datafeed uid: btc-usd-median" in result.output
-
-
-def test_status_cmd():
-    """Test telliot CLI command: status."""
-    runner = CliRunner()
-    result = runner.invoke(main, ["status"])
-    expected_output = "State/configuration of current telliot client."
-
-    assert result.exit_code == 0
-    assert expected_output in result.output
+    print(result)

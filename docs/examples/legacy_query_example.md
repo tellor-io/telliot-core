@@ -1,7 +1,7 @@
 # Legacy Query Example
 
 The following example demonstrates how to create a 
-[`LegacyRequest`][telliot.queries.legacy_query.LegacyRequest]
+[`LegacyRequest`][telliot_core.queries.legacy_query.LegacyRequest]
 requesting the ETH/USD price.  The legacy request ID for ETH/USD is `1`, 
 in accordance with the 
 [Legacy Data Feed ID Specifications](https://docs.tellor.io/tellor/integration/data-ids/current-data-feeds).
@@ -37,9 +37,9 @@ The `LegacyQuery` object also demonstrates how to encode a response
 to submit on-chain using the `TellorX.Oracle.submitValue()` contract call.
 
 For example, to submit the value `10000.1234567`, use the 
-[`encode`][telliot.types.value_type.ValueType.encode] and 
-[`decode`][telliot.types.value_type.ValueType.decode] methods of the response
-[`ValueType`][telliot.types.value_type.ValueType].
+[`encode`][telliot_core.types.value_type.ValueType.encode] and 
+[`decode`][telliot_core.types.value_type.ValueType.decode] methods of the response
+[`ValueType`][telliot_core.types.value_type.ValueType].
 
 ```python hl_lines="9-16"
 --8<-- "examples/legacy_query_example.py"
