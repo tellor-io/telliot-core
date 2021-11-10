@@ -13,10 +13,10 @@
         <meta name="author" content="Tellor Development Community">
       
       
-        <link rel="canonical" href="https://tellor-io.github.io/pytelliot/code/datafeed/">
+        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/code/datafeed/">
       
       <link rel="icon" href="../../assets/favicon-32x32.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#telliot.datafeed.data_feed.DataFeed" class="md-skip">
+        <a href="#telliot.datasource.DataSource" class="md-skip">
           Skip to content
         </a>
       
@@ -150,13 +150,13 @@
     
       <div class="md-header__source">
         
-<a href="https://github.com/tellor-io/pytelliot" title="Go to repository" class="md-source" data-md-component="source">
+<a href="https://github.com/tellor-io/telliot-core" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    tellor-io/pytelliot
+    tellor-io/telliot-core
   </div>
 </a>
       </div>
@@ -195,13 +195,13 @@
   
     <div class="md-nav__source">
       
-<a href="https://github.com/tellor-io/pytelliot" title="Go to repository" class="md-source" data-md-component="source">
+<a href="https://github.com/tellor-io/telliot-core" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    tellor-io/pytelliot
+    tellor-io/telliot-core
   </div>
 </a>
     </div>
@@ -385,6 +385,8 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -397,14 +399,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_feed.DataFeed" class="md-nav__link">
-    DataFeed
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSource" class="md-nav__link">
+  <a href="#telliot.datasource.DataSource" class="md-nav__link">
     DataSource
   </a>
   
@@ -412,14 +407,42 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSource.update_value" class="md-nav__link">
-    update_value()
+  <a href="#telliot.datasource.DataSource.latest" class="md-nav__link">
+    latest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.datasource.DataSource.store_datapoint" class="md-nav__link">
+    store_datapoint()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.datasource.DataSource.get_all_datapoints" class="md-nav__link">
+    get_all_datapoints()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.datasource.DataSource.fetch_new_datapoint" class="md-nav__link">
+    fetch_new_datapoint()
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telliot.datafeed.DataFeed" class="md-nav__link">
+    DataFeed
+  </a>
   
 </li>
       
@@ -514,6 +537,8 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -526,14 +551,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_feed.DataFeed" class="md-nav__link">
-    DataFeed
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSource" class="md-nav__link">
+  <a href="#telliot.datasource.DataSource" class="md-nav__link">
     DataSource
   </a>
   
@@ -541,14 +559,42 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#telliot.datafeed.data_source.DataSource.update_value" class="md-nav__link">
-    update_value()
+  <a href="#telliot.datasource.DataSource.latest" class="md-nav__link">
+    latest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.datasource.DataSource.store_datapoint" class="md-nav__link">
+    store_datapoint()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.datasource.DataSource.get_all_datapoints" class="md-nav__link">
+    get_all_datapoints()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot.datasource.DataSource.fetch_new_datapoint" class="md-nav__link">
+    fetch_new_datapoint()
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telliot.datafeed.DataFeed" class="md-nav__link">
+    DataFeed
+  </a>
   
 </li>
       
@@ -571,9 +617,9 @@
 
 
 
-<h2 id="telliot.datafeed.data_feed.DataFeed" class="doc doc-heading">
+<h2 id="telliot.datasource.DataSource" class="doc doc-heading">
         <code>
-DataFeed            (<a title="telliot.datafeed.data_source.DataSource" href="#telliot.datafeed.data_source.DataSource">DataSource</a>, <span title="abc.ABC">ABC</span>)
+DataSource            (<span title="typing.Generic">Generic</span>, <span title="telliot.model.base.Base">Base</span>)
         </code>
 
 
@@ -581,13 +627,14 @@ DataFeed            (<a title="telliot.datafeed.data_source.DataSource" href="#t
       <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
-<a href="#telliot.datafeed.data_feed.DataFeed" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#telliot.datasource.DataSource" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-      <p>Data feed</p>
-<p>A data feed is a DataSource that creates a response value for an
-<code>OracleQuery</code>.</p>
+      <p>Base Class for a DataSource</p>
+<p>A DataSource provides an input to a <code>DataFeed</code>
+It also contains a store for all previously fetched data points.</p>
+<p>All subclasses must implement <code>DataSource.fetch_new_datapoint()</code></p>
 
 
 
@@ -601,9 +648,120 @@ DataFeed            (<a title="telliot.datafeed.data_source.DataSource" href="#t
 
 
 
+  <div class="doc doc-object doc-attribute">
 
 
 
+<h3 id="telliot.datasource.DataSource.latest" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">latest</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">,</span> <span class="n">NoneType</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]]</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#telliot.datasource.DataSource.latest" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Returns the most recent datapoint or none if history is empty</p>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="telliot.datasource.DataSource.store_datapoint" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">store_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoint</span><span class="p">)</span></code>
+
+
+<a href="#telliot.datasource.DataSource.store_datapoint" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Store a datapoint</p>
+
+        <details class="quote">
+          <summary>Source code in <code>telliot\datasource.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">store_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoint</span><span class="p">:</span> <span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Store a datapoint&quot;&quot;&quot;</span>
+    <span class="n">v</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">datapoint</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datapoint</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="telliot.datasource.DataSource.get_all_datapoints" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_all_datapoints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#telliot.datasource.DataSource.get_all_datapoints" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Get a list of all available data points</p>
+
+        <details class="quote">
+          <summary>Source code in <code>telliot\datasource.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_datapoints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of all available data points&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="telliot.datasource.DataSource.fetch_new_datapoint" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">fetch_new_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-async"><code>async</code></small>
+  </span>
+
+<a href="#telliot.datasource.DataSource.fetch_new_datapoint" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Fetch new value and store it for later retrieval</p>
+
+        <details class="quote">
+          <summary>Source code in <code>telliot\datasource.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_new_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OptionalDataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Fetch new value and store it for later retrieval&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -621,9 +779,9 @@ DataFeed            (<a title="telliot.datafeed.data_source.DataSource" href="#t
 
 
 
-<h2 id="telliot.datafeed.data_source.DataSource" class="doc doc-heading">
+<h2 id="telliot.datafeed.DataFeed" class="doc doc-heading">
         <code>
-DataSource            (<span title="telliot.model.base.Base">Base</span>, <span title="abc.ABC">ABC</span>)
+DataFeed            (<span title="typing.Generic">Generic</span>, <span title="telliot.model.base.Base">Base</span>)
         </code>
 
 
@@ -631,13 +789,35 @@ DataSource            (<span title="telliot.model.base.Base">Base</span>, <span 
       <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
   </span>
 
-<a href="#telliot.datafeed.data_source.DataSource" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#telliot.datafeed.DataFeed" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-      <p>Base Class for a DataSource.</p>
-<p>A DataSource provides an input to a <code>DataFeed</code></p>
+      <p>Data feed providing query response</p>
+<p>A data feed contains a DataSource to fetch values in response to an <code>OracleQuery</code>.</p>
 
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>OracleQuery</code></td>
+        <td><p>The Query that this feed responds to</p></td>
+      </tr>
+      <tr>
+        <td><code>source</code></td>
+        <td><code>telliot.datasource.DataSource[~T]</code></td>
+        <td><p>Data source for feed</p></td>
+      </tr>
+  </tbody>
+</table>
 
 
 
@@ -654,57 +834,6 @@ DataSource            (<span title="telliot.model.base.Base">Base</span>, <span 
 
 
 
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot.datafeed.data_source.DataSource.update_value" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-async"><code>async</code></small>
-  </span>
-
-<a href="#telliot.datafeed.data_source.DataSource.update_value" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Update current value with time-stamped value fetched from source</p>
-
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>Optional[telliot.datafeed.data_source.TimeStampedAnswer[Any]]</code></td>
-      <td><p>Current time-stamped value</p></td>
-    </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>telliot\datafeed\data_source.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TimeStampedAnswer</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
-    <span class="c1"># async def update_value(self) -&gt; SourceOutputType:</span>
-
-    <span class="sd">&quot;&quot;&quot;Update current value with time-stamped value fetched from source</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Current time-stamped value</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -791,10 +920,10 @@ DataSource            (<span title="telliot.model.base.Base">Base</span>, <span 
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>
