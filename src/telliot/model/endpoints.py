@@ -46,7 +46,13 @@ class RPCEndpoint(Base):
         if self._web3:
             return True
 
-        self._web3 = Web3(Web3.HTTPProvider(self.url))
+        if self.url.startswith('ws'):
+            self._web3 = Web3(Web3.WebsocketProvider(self.url))
+        elif self.url.startswith('http'):
+            self._web3 = Web3(Web3.HTTPProvider(self.url))
+        else:
+            raise ValueError(f"Invalid endpoint url: {self.url}")
+
         # Inject middlware if connecting to rinkeby
         try:
             if self.network == "rinkeby":
