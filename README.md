@@ -4,9 +4,11 @@
 [![Discord Chat](https://img.shields.io/discord/461602746336935936)](https://discord.com/invite/n7drGjh)
 [![Twitter Follow](https://img.shields.io/twitter/follow/wearetellor?style=social)](https://twitter.com/WeAreTellor)
 
-# Telliot
+# Telliot Core
 
 Telliot is a Python framework for interacting with the decentralized TellorX network.
+This `telliot-core` repo contains the telliot core functionality used by all other telliot 
+packages and data feeds.
 
 Please refer to the following for additional information:
 
@@ -34,6 +36,10 @@ The default configuration files are created in a folder called `telliot` in your
     Saved config 'endpoints' to ~/telliot/endpoints.yaml
     Saved config 'chains' to ~/telliot/chains.json
 
+To show the current configuration:
+
+    telliot config show
+
 ## Main Configuration File
 
 The main configuration file allows you to choose which network Telliot will interact with.
@@ -42,7 +48,8 @@ To run on Etherium mainnet, use `chain_id: 1` and `network: mainnet`.
 
 To submit values to the Tellor oracle, a `private_key` must also be configured.
 
-* Example main configuration file.*
+*Example main configuration file:*
+
 ```yaml
 type: MainConfig
 loglevel: INFO
