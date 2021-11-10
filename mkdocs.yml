@@ -76,4 +76,5 @@ nav:
   - Contributing:
       - Developer's Guide: contributing.md
       - Documentation: documentation.md
+  - Release Process: release-process.md
 
