@@ -4,7 +4,7 @@
 from datetime import datetime
 
 import pytest
-from telliot.datasource import RandomSource
+from telliot_core.datasource import RandomSource
 
 
 @pytest.mark.asyncio

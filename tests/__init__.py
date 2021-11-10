@@ -1,1 +1,1 @@
-"""Test telliot and telliot subpackages."""
+"""Test telliot_core and telliot_core subpackages."""

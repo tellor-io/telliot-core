@@ -1,13 +1,13 @@
 """
-Unit tests covering telliot config options.
+Unit tests covering telliot_core config options.
 """
 import os
 from dataclasses import dataclass
 from dataclasses import field
 from pathlib import Path
 
-from telliot.apps.config import ConfigFile
-from telliot.apps.config import ConfigOptions
+from telliot_core.apps.config import ConfigFile
+from telliot_core.apps.config import ConfigOptions
 
 
 @dataclass

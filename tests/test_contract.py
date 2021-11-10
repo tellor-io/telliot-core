@@ -4,8 +4,8 @@ Test covering Pytelliot EVM contract connection utils.
 import pytest
 import web3
 from hexbytes.main import HexBytes
-from telliot.contract.gas import fetch_gas_price
-from telliot.queries.legacy_query import LegacyRequest
+from telliot_core.contract.gas import fetch_gas_price
+from telliot_core.queries.legacy_query import LegacyRequest
 from web3 import Web3
 
 

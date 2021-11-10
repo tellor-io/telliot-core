@@ -7,8 +7,8 @@ import threading
 import time
 from pathlib import Path
 
-from telliot.apps.app import Application
-from telliot.utils.home import default_homedir
+from telliot_core.apps.app import Application
+from telliot_core.utils.home import default_homedir
 
 # Temp file location
 testhome = Path("./temp").resolve().absolute()

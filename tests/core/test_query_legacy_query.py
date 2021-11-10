@@ -3,7 +3,7 @@
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
-from telliot.queries.legacy_query import LegacyRequest
+from telliot_core.queries.legacy_query import LegacyRequest
 
 
 def test_legacy_query():

@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 
-from telliot.apps.telliot_config import TelliotConfig
-from telliot.model.endpoints import RPCEndpoint
+from telliot_core.apps.telliot_config import TelliotConfig
+from telliot_core.model.endpoints import RPCEndpoint
 
 
 def prep_dir(clean=False):
@@ -26,7 +26,7 @@ def prep_dir(clean=False):
 
 
 def test_telliot_config():
-    """Test main telliot configuration"""
+    """Test main telliot_core configuration"""
     tmpdir = prep_dir()
 
     cfg = TelliotConfig(config_dir=tmpdir)

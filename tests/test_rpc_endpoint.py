@@ -3,8 +3,8 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
-from telliot.model.endpoints import EndpointList
-from telliot.model.endpoints import RPCEndpoint
+from telliot_core.model.endpoints import EndpointList
+from telliot_core.model.endpoints import RPCEndpoint
 
 network = "mainnet"
 provider = "pokt"

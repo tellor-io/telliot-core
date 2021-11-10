@@ -1,5 +1,5 @@
-from telliot.model.chain import Chain
-from telliot.model.chain import ChainList
+from telliot_core.model.chain import Chain
+from telliot_core.model.chain import ChainList
 
 
 def test_chain():

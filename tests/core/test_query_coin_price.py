@@ -3,7 +3,7 @@
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
-from telliot.queries.coin_price import CoinPrice
+from telliot_core.queries.coin_price import CoinPrice
 
 
 def test_constructor():
