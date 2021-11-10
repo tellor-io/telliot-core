@@ -7,3 +7,4 @@ requests==2.26.0
 SQLAlchemy==1.4.23
 web3==5.23.1
 setuptools==57.0.0
+clamfig==0.1.3
