@@ -2,7 +2,11 @@
 
 ## Overview
 
+
 Telliot is a Python framework for interacting with the decentralized TellorX network.
+This `telliot-core` package provides core functionality used by other Telliot
+subpackages and data feeds.
+
 With Telliot, you (or your smart contract) can:
 
 * Ask the TellorX Decentralized Oracle to answer a question (we call that *tipping*)
