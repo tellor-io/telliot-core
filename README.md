@@ -7,7 +7,7 @@
 # Telliot Core
 
 Telliot is a Python framework for interacting with the decentralized TellorX network.
-This `telliot-core` repo contains the telliot core functionality used by all other telliot 
+This `telliot-core` repo contains the telliot core functionality used by all other telliot
 packages and data feeds.
 
 Please refer to the following for additional information:
