@@ -1,17 +1,18 @@
 """ :mod:`telliot.queries.value_type`
 
 """
+from dataclasses import dataclass
 from typing import Any
 
-import eth_abi.grammar
 from eth_abi.abi import decode_single
 from eth_abi.abi import encode_single
 from eth_abi.packed import encode_single_packed
-from pydantic import validator
-from telliot.model.registry import RegisteredModel
+
+from clamfig import Serializable
 
 
-class ValueType(RegisteredModel):
+@dataclass
+class ValueType(Serializable):
     """Value Type
 
     A ValueType specifies the data structure of ``value`` included in
@@ -40,14 +41,14 @@ class ValueType(RegisteredModel):
         """Decode bytes into a value using abi type string."""
         return decode_single(self.abi_type, bytes_val)
 
-    @validator("abi_type")
-    def require_valid_grammar(cls, v: str) -> str:
-        """A validator to require well formed ABI type string grammar."""
-        t = eth_abi.grammar.parse(v)
-        t.validate()
-        return eth_abi.grammar.normalize(v)  # type: ignore
-
-    def json(self, **kwargs: Any) -> str:
-        """Return compact json format used in query descriptor"""
-
-        return super().json(**kwargs, separators=(",", ":"))
+    # @validator("abi_type")
+    # def require_valid_grammar(cls, v: str) -> str:
+    #     """A validator to require well formed ABI type string grammar."""
+    #     t = eth_abi.grammar.parse(v)
+    #     t.validate()
+    #     return eth_abi.grammar.normalize(v)  # type: ignore
+    #
+    # def json(self, **kwargs: Any) -> str:
+    #     """Return compact json format used in query descriptor"""
+    #
+    #     return super().json(**kwargs, separators=(",", ":"))

@@ -3,7 +3,7 @@
 ::: telliot.queries.query.OracleQuery
 
 
-::: telliot.queries.legacy_query.LegacyQuery
+::: telliot.queries.legacy_query.LegacyRequest
 
 
 ::: telliot.queries.coin_price.CoinPrice

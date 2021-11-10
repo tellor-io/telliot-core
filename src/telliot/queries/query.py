@@ -1,16 +1,15 @@
 """  Oracle Query Module
 
 """
-# Copyright (c) 2021-, Tellor Development Community
-# Distributed under the terms of the MIT License.
-from typing import Any
+import json
 
-from telliot.model.registry import RegisteredModel
 from telliot.types.value_type import ValueType
 from web3 import Web3
 
+from clamfig import Serializable
 
-class OracleQuery(RegisteredModel):
+
+class OracleQuery(Serializable):
     """Oracle Query
 
     An OracleQuery specifies how to pose a question to the
@@ -26,14 +25,12 @@ class OracleQuery(RegisteredModel):
 
     The base class provides:
 
-    - Calculation of the contents of the ``data`` field to include with the
-      ``TellorX.Oracle.tipQuery()`` contract call.
+    - Calculation of the contents of the `data` field to include with the
+      `TellorX.Oracle.tipQuery()` contract call.
 
-    - Calculation of the ``id`` field field to include with the
-      ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``
+    - Calculation of the `id` field field to include with the
+      `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`
       contract calls.
-
-    WORK IN PROGRESS - Descriptor formats still under development
 
     """
 
@@ -44,12 +41,11 @@ class OracleQuery(RegisteredModel):
         The descriptor is required for users to specify the query to TellorX
         through the ``TellorX.Oracle.tipQuery()`` contract call.
 
-        By convention, the descriptor includes the text representation
-        of the OracleQuery and the :class:`ValueType` of its response.
 
-            `query` ? `value_type`
         """
-        return f"{self.json()}?{self.value_type.json()}"
+        state = self.get_state()
+        jstr = json.dumps(state, separators=(",", ":"))
+        return jstr
 
     @property
     def value_type(self) -> ValueType:
@@ -78,8 +74,3 @@ class OracleQuery(RegisteredModel):
         contract calls.
         """
         return bytes(Web3.keccak(self.query_data))
-
-    def json(self, **kwargs: Any) -> str:
-        """Convert to compact JSON format used in query descriptor"""
-
-        return super().json(**kwargs, separators=(",", ":"))

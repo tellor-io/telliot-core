@@ -1,7 +1,7 @@
 # Legacy Query Example
 
 The following example demonstrates how to create a 
-[`LegacyQuery`][telliot.queries.legacy_query.LegacyQuery]
+[`LegacyRequest`][telliot.queries.legacy_query.LegacyRequest]
 requesting the ETH/USD price.  The legacy request ID for ETH/USD is `1`, 
 in accordance with the 
 [Legacy Data Feed ID Specifications](https://docs.tellor.io/tellor/integration/data-ids/current-data-feeds).
@@ -16,7 +16,7 @@ The query descriptor string uniquely identifies this query to the
 TellorX Oracle network.
 
 ```json
-{"type":"LegacyQuery","inputs":{"legacy_request_id":1}}?{"type":"UnsignedFloatType","inputs":{"abi_type":"ufixed256x6","packed":false}}
+{"type":"LegacyRequest","legacy_id":1}
 ```
 
 To make the corresponding on-chain Query request, 
@@ -30,7 +30,7 @@ the `query_data` and `query_id` attributes of the `LegacyQuery` object:
 
 which, for this example, are:
 
-    tipQuery data: 0x7b2274797065223a224c65676163795175657279222c22696e70757473223a7b226c65676163795f726571756573745f6964223a317d7d3f7b2274797065223a22556e7369676e6564466c6f617454797065222c22696e70757473223a7b226162695f74797065223a227566697865643235367836222c227061636b6564223a66616c73657d7d
+    tipQuery data: 0x7b2274797065223a224c656761637952657175657374222c226c65676163795f6964223a317d
     tipQuery ID: 0x0000000000000000000000000000000000000000000000000000000000000001
 
 The `LegacyQuery` object also demonstrates how to encode a response

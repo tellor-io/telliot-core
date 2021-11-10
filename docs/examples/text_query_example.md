@@ -13,7 +13,7 @@ The query descriptor string uniquely identifies this query to the
 TellorX Oracle network.
 
 ```json
-{"type":"StringQuery","inputs":{"text":"What is the meaning of life?"}}?{"type":"ValueType","inputs":{"abi_type":"string","packed":false}}
+{"type":"StringQuery","text":"What is the meaning of life?"}
 ```
 
 To make the corresponding on-chain Query request, 
@@ -27,7 +27,7 @@ the `query_data` and `query_id` attributes of the `StringQuery` object:
 
 which, for this example, are:
 
-    tipQuery data: 0x7b2274797065223a22537472696e675175657279222c22696e70757473223a7b2274657874223a225768617420697320746865206d65616e696e67206f66206c6966653f227d7d3f7b2274797065223a2256616c756554797065222c22696e70757473223a7b226162695f74797065223a22737472696e67222c227061636b6564223a66616c73657d7d
+    tipQuery data: 0x7b2274797065223a22537472696e675175657279222c2274657874223a225768617420697320746865206d65616e696e67206f66206c6966653f227d
     tipQuery ID: 0xdd349fc565b13987a11bed4cc9e7382863491638769020afad1abe3840ec14b7
 
 The `StringQuery` object also demonstrates how to encode a response

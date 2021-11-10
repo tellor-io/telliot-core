@@ -23,7 +23,7 @@ def report(datafeed_uid: str) -> None:
 
 @main.command()
 def status() -> None:
-    """Print state & configurations of current telliot client."""
+    """Print to_state & configurations of current telliot client."""
     click.echo("State/configuration of current telliot client.")
 
 
