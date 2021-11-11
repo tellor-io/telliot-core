@@ -3,8 +3,8 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
-from telliot.model.endpoints import EndpointList
-from telliot.model.endpoints import RPCEndpoint
+from telliot_core.model.endpoints import EndpointList
+from telliot_core.model.endpoints import RPCEndpoint
 
 network = "mainnet"
 provider = "pokt"
@@ -24,11 +24,8 @@ def test_very_bad_rpc_url():
     """an invalid url will raise an exception in RPCEndpoint"""
     url = "this is not a valid rpc url"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
-    connected = endpt.connect()
-    assert not connected
-    # expect bad url error from requests library
-    with pytest.raises(requests.exceptions.MissingSchema):
-        endpt.web3.eth.block_number
+    with pytest.raises(ValueError):
+        _ = endpt.connect()
 
 
 def test_incomplete_rpc_url():

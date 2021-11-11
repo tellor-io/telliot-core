@@ -1,5 +1,5 @@
 """Legacy Query Example """
-from telliot.queries import LegacyRequest
+from telliot_core.queries import LegacyRequest
 
 q = LegacyRequest(legacy_id=1)
 print(q.descriptor)

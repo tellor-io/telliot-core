@@ -4,35 +4,20 @@
 [![Discord Chat](https://img.shields.io/discord/461602746336935936)](https://discord.com/invite/n7drGjh)
 [![Twitter Follow](https://img.shields.io/twitter/follow/wearetellor?style=social)](https://twitter.com/WeAreTellor)
 
-# Telliot
+# Telliot Core
 
 Telliot is a Python framework for interacting with the decentralized TellorX network.
+This `telliot-core` repo contains the telliot core functionality and plugin framework
+for use by other telliot packages and data feeds.
 
 Please refer to the following for additional information:
 
-- [DRAFT Telliot Documentation](https://tellor-io.github.io/pytelliot/)
-- [TellorX Whitepaper](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf).
+- [Telliot Core Documentation](https://tellor-io.github.io/telliot-core/)
+- [TellorX Whitepaper](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf)
 
-# Development Status
+This package should only be installed by advanced users, contributors, and developers of
+custom data feeds.  For more information on contributing and setting up a development environment, please
+[check here](https://tellor-io.github.io/telliot-core/contributing/)
 
-## Rough roadmap & spec
-### by Nov 1st:
-- test with TellorX rinkeby deployment
-- publish to PyPI
-
-### later:
-- tipping, voting, disputing
-- gui for data feed and submitter
-
-## Setup & usage
-Here's how to report the price of BTC in USD to the oracle on the Rinkeby test network.
-#### 1. download package
-```
-pip install telliot
-```
-(not yet released to PyPI)
-
-#### 2. Start reporting
-```
-telliot report btc-usd-median
-```
+To become a Tellor reporter, begin by installing the
+[telliot-feed-examples](https://github.com/tellor-io/telliot-feed-examples) package.

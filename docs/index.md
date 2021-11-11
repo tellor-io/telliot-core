@@ -2,6 +2,7 @@
 
 ## Overview
 
+
 Telliot is a Python framework for interacting with the decentralized TellorX network.
 With Telliot, you (or your smart contract) can:
 
@@ -21,6 +22,21 @@ TellorX also supports arbitrary questions and answers.  Any question is OK, prov
 that the Tellor community can answer it with a reasonable
 degree of confidence (remember, Reporters may lose TRB if the network votes
 the answer incorrect!)
+
+## Telliot Software
+
+The telliot software currently consists of two main python packages:
+
+- [Telliot Core](https://github.com/tellor-io/telliot-core)
+  - This package provides core functionality and a plugin framework for use
+    by other Telliot subpackages and custom data feeds.
+
+- [Telliot Feed Examples](https://github.com/tellor-io/telliot-feed-examples)
+  - This package provides several working examples of data feeds that can be either customized
+    or used directly.
+
+
+
 
 ## Scope
 
