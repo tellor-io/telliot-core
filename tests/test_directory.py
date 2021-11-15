@@ -1,13 +1,15 @@
-from telliot_core.directory.tellorx import TellorDirectory
+from telliot_core.directory.tellorx import tellor_directory
 
 
 def test_telliot_directory():
-    # Assert chain_id 1 and 4
-    assert 1 in TellorDirectory
-    assert 4 in TellorDirectory
 
-    rinkeby_master_address = TellorDirectory[4]["master"]["address"]
-    assert isinstance(rinkeby_master_address, str)
+    tellor_contracts = tellor_directory.find(org="tellor")
+    assert len(tellor_contracts) == 10
 
-    rinkeby_master_abi = TellorDirectory[4]["master"]["abi"]
-    assert isinstance(rinkeby_master_abi, list)
+    rinkeby_contracts = tellor_directory.find(org="tellor", chain_id=4)
+    assert len(rinkeby_contracts) == 5
+
+    tellor_master_rinkeby = tellor_directory.find(
+        org="tellor", name="master", chain_id=4
+    )
+    assert len(tellor_master_rinkeby) == 1
