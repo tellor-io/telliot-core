@@ -6,6 +6,7 @@ from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import TellorDirectory
 
+
 @pytest.fixture(scope="session", autouse=True)
 def rinkeby_cfg():
     """Get rinkeby endpoint from config
@@ -55,7 +56,7 @@ def oracle(rinkeby_cfg):
     endpoint = rinkeby_cfg.get_endpoint()
     endpoint.connect()
     oracle = Contract(
-        address=rinkeby_oracle_address, # "0x07b521108788C6fD79F471D603A2594576D47477",
+        address=rinkeby_oracle_address,  # "0x07b521108788C6fD79F471D603A2594576D47477",
         abi=rinkeby_oracle_abi,
         node=endpoint,
         private_key=rinkeby_cfg.main.private_key,
