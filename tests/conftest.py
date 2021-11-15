@@ -9,7 +9,7 @@ from telliot_core.utils.abi import rinkeby_tellor_oracle
 
 
 @pytest.fixture(scope="session", autouse=True)
-def cfg():
+def rinkeby_cfg():
     """Get rinkeby endpoint from config
 
     If environment variables are defined, they will override the values in config files
@@ -33,30 +33,30 @@ def cfg():
 
 
 @pytest.fixture(scope="session")
-def master(cfg):
+def master(rinkeby_cfg):
     """Helper function for connecting to a contract at an address"""
-    endpoint = cfg.get_endpoint()
+    endpoint = rinkeby_cfg.get_endpoint()
     endpoint.connect()
     master = Contract(
         address="0x657b95c228A5de81cdc3F85be7954072c08A6042",
         abi=rinkeby_tellor_master,
         node=endpoint,
-        private_key=cfg.main.private_key,
+        private_key=rinkeby_cfg.main.private_key,
     )
     master.connect()
     return master
 
 
 @pytest.fixture(scope="session", autouse=True)
-def oracle(cfg):
+def oracle(rinkeby_cfg):
     """Helper function for connecting to a contract at an address"""
-    endpoint = cfg.get_endpoint()
+    endpoint = rinkeby_cfg.get_endpoint()
     endpoint.connect()
     oracle = Contract(
         address="0x07b521108788C6fD79F471D603A2594576D47477",
         abi=rinkeby_tellor_oracle,
         node=endpoint,
-        private_key=cfg.main.private_key,
+        private_key=rinkeby_cfg.main.private_key,
     )
     oracle.connect()
     return oracle
