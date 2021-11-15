@@ -1,20 +1,10 @@
 import json
-from dataclasses import dataclass
-from dataclasses import field
 from pathlib import Path
-from typing import Any
-from typing import List
-from typing import Optional
 
-__all__ = ["ContractInfo", "ContractDirectory", "tellor_directory"]
+from telliot_core.directory.base import ContractDirectory
+from telliot_core.directory.base import ContractInfo
 
-
-# Read contract ABIs from json files
-_abi_folder = Path(__file__).resolve().parent / "_tellorx"
-_abi_dict = {}
-for name in ["master", "controller", "oracle", "governance", "treasury"]:
-    with open(_abi_folder / f"{name}_abi.json", "r") as f:
-        _abi_dict[name] = json.load(f)
+__all__ = ["tellor_directory"]
 
 _tellor_address_mainnet = {
     "master": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
@@ -32,50 +22,12 @@ _tellor_address_rinkeby = {
     "treasury": "0x2dB91443f2b562B8b2B2e8E4fC0A3EDD6c195147",
 }
 
-
-@dataclass
-class ContractInfo:
-    org: str
-    name: str
-    chain_id: int
-    address: str
-    abi: Optional[List[Any]] = field(repr=False)
-
-
-@dataclass
-class ContractDirectory:
-    # Private directory storage
-    _contents: List[ContractInfo] = field(default_factory=list)
-
-    def add_contract(self, info: ContractInfo) -> None:
-        self._contents.append(info)
-
-    def find(
-        self,
-        *,
-        org: str = "tellor",
-        name: Optional[str] = None,
-        address: Optional[str] = None,
-        chain_id: Optional[int] = None,
-    ) -> List[ContractInfo]:
-        result = []
-        for info in self._contents:
-            if info.org != org:
-                continue
-            if chain_id is not None:
-                if chain_id != info.chain_id:
-                    continue
-            if name is not None:
-                if info.name is not name:
-                    continue
-            if address is not None:
-                if info.address is not address:
-                    continue
-
-            result.append(info)
-
-        return result
-
+# Read contract ABIs from json files
+_abi_folder = Path(__file__).resolve().parent / "_tellorx"
+_abi_dict = {}
+for name in ["master", "controller", "oracle", "governance", "treasury"]:
+    with open(_abi_folder / f"{name}_abi.json", "r") as f:
+        _abi_dict[name] = json.load(f)
 
 # Create default tellor directory
 tellor_directory = ContractDirectory()
