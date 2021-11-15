@@ -9,7 +9,7 @@ from telliot_core.queries.legacy_query import LegacyRequest
 from web3 import Web3
 
 
-def test_connect_to_tellor(cfg, master):
+def test_connect_to_tellor(rinkeby_cfg, master):
     """Contract object should access Tellor functions"""
     assert len(master.contract.all_functions()) > 0
     assert isinstance(
@@ -19,7 +19,7 @@ def test_connect_to_tellor(cfg, master):
 
 @pytest.mark.skip(reason="for playground.")
 @pytest.mark.asyncio
-async def test_call_read_function(cfg, master):
+async def test_call_read_function(rinkeby_cfg, master):
     """Contract object should be able to call arbitrary contract read function"""
 
     output, status = await master.read(
@@ -31,12 +31,12 @@ async def test_call_read_function(cfg, master):
 
 @pytest.mark.skip(reason="oracle contract does not have faucet right now")
 @pytest.mark.asyncio
-async def test_faucet(cfg, master):
+async def test_faucet(rinkeby_cfg, master):
     """Contract call to mint to an account with the contract faucet"""
     # estimate gas
     gas_price = await fetch_gas_price()
     # set up user
-    user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
+    user = master.node.web3.eth.account.from_key(rinkeby_cfg.main.private_key).address
     # read balance
     balance1, status = await master.read(func_name="balanceOf", _user=user)
     assert status.ok
@@ -61,11 +61,11 @@ async def test_faucet(cfg, master):
 
 @pytest.mark.skip("Move to end-to-end tests")
 @pytest.mark.asyncio
-async def test_trb_transfer(cfg, master):
+async def test_trb_transfer(rinkeby_cfg, master):
     """Test TRB transfer through TellorMaster contract (and its proxies)"""
 
     gas_price = await fetch_gas_price()
-    sender = master.node.web3.eth.account.from_key(cfg.main.private_key).address
+    sender = master.node.web3.eth.account.from_key(rinkeby_cfg.main.private_key).address
     balance, status = await master.read("balanceOf", _user=sender)
     print("my sender address:", sender)
     print("my sender balance:", balance / 1e18)
@@ -94,11 +94,11 @@ async def test_trb_transfer(cfg, master):
 
 @pytest.mark.skip("Move to end-to-end tests")
 @pytest.mark.asyncio
-async def test_submit_value(cfg, master, oracle):
+async def test_submit_value(rinkeby_cfg, master, oracle):
     """E2E test for submitting a value to rinkeby"""
 
     gas_price_gwei = await fetch_gas_price()
-    user = master.node.web3.eth.account.from_key(cfg.main.private_key).address
+    user = master.node.web3.eth.account.from_key(rinkeby_cfg.main.private_key).address
     print(user)
 
     balance, status = await master.read("balanceOf", _user=user)
