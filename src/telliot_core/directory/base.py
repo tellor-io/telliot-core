@@ -1,4 +1,6 @@
-from typing import TypedDict, Dict, Any
+from typing import Any
+from typing import Dict
+from typing import TypedDict
 
 
 # Container for contract access information

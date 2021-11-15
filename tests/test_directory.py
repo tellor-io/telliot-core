@@ -6,8 +6,8 @@ def test_telliot_directory():
     assert 1 in TellorDirectory
     assert 4 in TellorDirectory
 
-    rinkeby_master_address = TellorDirectory[4]['master']['address']
+    rinkeby_master_address = TellorDirectory[4]["master"]["address"]
     assert isinstance(rinkeby_master_address, str)
 
-    rinkeby_master_abi = TellorDirectory[4]['master']['abi']
+    rinkeby_master_abi = TellorDirectory[4]["master"]["abi"]
     assert isinstance(rinkeby_master_abi, list)
