@@ -10,7 +10,7 @@ for name in ['master', 'controller', 'oracle', 'governance', 'treasury']:
         _abi_dict[name] = json.load(f)
 
 # Main directory for tellorX contracts
-TelliotDirectory: Directory = {
+TellorDirectory: Directory = {
     1: {
         'master':
             {'address': '0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0',
