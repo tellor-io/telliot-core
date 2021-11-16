@@ -1,9 +1,18 @@
+""" Listener Module
+
+This module adds contract event listening capability for websocket endpoints
+(like infura) that is lacking from web3.py.
+
+The goal is to allow users to subscribe to and define async callbacks for each event.
+
+*Work in Progress*
+"""
 import asyncio
 import logging
 from dataclasses import dataclass
 from typing import Any
+from typing import Awaitable
 from typing import Callable
-from typing import Coroutine
 from typing import List
 
 import aiohttp
@@ -12,7 +21,7 @@ from web3.types import LogReceipt
 
 logger = logging.getLogger("__name__")
 
-AsyncCallable = Callable[[Any], Coroutine[Any, Any, None]]
+AsyncCallable = Callable[[Any], Awaitable]
 
 
 async def event_message_handler(msg: Any) -> None:
@@ -86,7 +95,6 @@ async def contract_event_listener(
     address: str,
     message_handler: AsyncCallable,
 ) -> None:
-
     async with session.ws_connect(ws_url) as ws1:
         await subscribe_contract_events(ws1, address)
         await receive_messages(ws1, message_handler)
@@ -94,18 +102,30 @@ async def contract_event_listener(
 
 @dataclass
 class AddressEventListener:
-    """A listener that handles all event logs from a contract address"""
+    """Address Event Listener
 
-    #: Contract address
+    A listener that handles all event logs from a contract address
+
+    Attributes:
+        address: Contract address
+        handler: Function that takes the received JSON message as a single argument
+
+    """
+
     address: str
-
-    #: Handler that takes the received JSON message a single argument
     handler: AsyncCallable
 
 
-async def listener_client(
-    ws_url: str, chain_id: int, listeners: List[AddressEventListener]
-) -> None:
+async def listener_client(ws_url: str, listeners: List[AddressEventListener]) -> None:
+    """Top level Listener Client
+
+    This function creates a single session that is shared by multiple listeners.
+
+    Args:
+        listeners: List of listeners to add to the main client session
+        ws_url: URL of the websocket to use for each listener connection
+    """
+
     async with aiohttp.ClientSession() as session:
         logger.info("Listener session created")
 

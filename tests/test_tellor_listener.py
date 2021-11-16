@@ -9,6 +9,29 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
+@pytest.mark.skip("Doesn't work in pytest")
+def test_main(rinkeby_cfg, caplog):
+    caplog.set_level(logging.INFO)
+
+    url = rinkeby_cfg.get_endpoint().url
+
+    async def run_listener() -> None:
+        task = asyncio.create_task(tellor_listener_client(ws_url=url, chain_id=4))
+
+        # Wait for 1 second
+        await asyncio.sleep(120)
+
+        task.cancel()
+
+        try:
+            logger.info("awaiting task")
+            await task
+        except asyncio.CancelledError:
+            logger.info("run_listener(): Task cancelled")
+
+    asyncio.run(run_listener())
+
+
 @pytest.mark.skip("TODO")
 def test_tellor_listener(rinkeby_cfg, event_loop, caplog):
     caplog.set_level(logging.INFO)

@@ -22,7 +22,7 @@ async def tellor_listener_client(ws_url: str, chain_id: int) -> None:
         ),
     ]
 
-    await listener_client(ws_url=ws_url, chain_id=chain_id, listeners=listeners)
+    await listener_client(ws_url=ws_url, listeners=listeners)
 
 
 if __name__ == "__main__":
