@@ -1,4 +1,0 @@
-""" telliot_core.tellormon
-
-
-"""
