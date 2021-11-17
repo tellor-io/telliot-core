@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from telliot_core.directory._tellorx.temp_contracts import rinkeby_tellor_master
+from telliot_core.directory._tellorx.temp_contracts import rinkeby_tellor_oracle
 from telliot_core.directory.base import ContractDirectory
 from telliot_core.directory.base import ContractInfo
 
@@ -57,18 +59,16 @@ for name in ["master", "controller", "oracle", "governance", "treasury"]:
 
 
 # TEMPORARY OVERRIDE ADDRESS and ABI WITH TEST VALUES
-from telliot_core.directory._tellorx.temp_contracts import rinkeby_tellor_master, rinkeby_tellor_oracle
+
 _tellor_address_rinkeby_temp = {
     "master": "0x657b95c228A5de81cdc3F85be7954072c08A6042",
     "oracle": "0x07b521108788C6fD79F471D603A2594576D47477",
 }
 
 tellor_master_rinkeby = tellor_directory.find(chain_id=4, name="master")[0]
-tellor_master_rinkeby.address = _tellor_address_rinkeby_temp['master']
+tellor_master_rinkeby.address = _tellor_address_rinkeby_temp["master"]
 tellor_master_rinkeby.abi = rinkeby_tellor_master
 
 tellor_oracle_rinkeby = tellor_directory.find(chain_id=4, name="oracle")[0]
-tellor_oracle_rinkeby.address = _tellor_address_rinkeby_temp['oracle']
+tellor_oracle_rinkeby.address = _tellor_address_rinkeby_temp["oracle"]
 tellor_oracle_rinkeby.abi = rinkeby_tellor_oracle
-
-
