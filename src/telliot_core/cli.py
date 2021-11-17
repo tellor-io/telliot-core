@@ -6,6 +6,7 @@ or in the configuration file.
 """
 import click
 import yaml
+
 from telliot_core.apps.telliot_config import TelliotConfig
 
 

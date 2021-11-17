@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 import pytest
+
 from telliot_core.contract.tellor_listener import tellor_listener_client
 
 logger = logging.getLogger(__name__)

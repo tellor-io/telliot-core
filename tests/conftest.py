@@ -2,6 +2,7 @@
 import os
 
 import pytest
+
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory

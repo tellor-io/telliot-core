@@ -9,10 +9,11 @@ from typing import Tuple
 from typing import Union
 
 from eth_typing.evm import ChecksumAddress
-from telliot_core.model.endpoints import RPCEndpoint
-from telliot_core.utils.response import ResponseStatus
 from web3 import Web3
 from web3.datastructures import AttributeDict
+
+from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.utils.response import ResponseStatus
 
 
 class Contract:

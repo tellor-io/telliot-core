@@ -11,9 +11,10 @@ import yaml
 from clamfig import deserialize
 from clamfig import Serializable
 from clamfig import serialize
-from telliot_core.utils.home import telliot_homedir
 from yaml import CDumper as Dumper
 from yaml import CLoader as Loader
+
+from telliot_core.utils.home import telliot_homedir
 
 logger = logging.getLogger(__name__)
 

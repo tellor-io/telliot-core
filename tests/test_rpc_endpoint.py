@@ -3,6 +3,7 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
+
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
 
