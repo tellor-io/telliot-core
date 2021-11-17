@@ -6,11 +6,12 @@ from dataclasses import field
 from typing import List
 from typing import Optional
 
+from web3 import Web3
+from web3.middleware import geth_poa_middleware
+
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
 from telliot_core.model.base import Base
-from web3 import Web3
-from web3.middleware import geth_poa_middleware
 
 
 @dataclass

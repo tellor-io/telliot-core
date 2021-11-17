@@ -4,9 +4,10 @@ Test covering Pytelliot EVM contract connection utils.
 import pytest
 import web3
 from hexbytes.main import HexBytes
+from web3 import Web3
+
 from telliot_core.contract.gas import fetch_gas_price
 from telliot_core.queries.legacy_query import LegacyRequest
-from web3 import Web3
 
 
 def test_connect_to_tellor(rinkeby_cfg, master):

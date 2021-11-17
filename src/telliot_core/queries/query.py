@@ -4,8 +4,9 @@
 import json
 
 from clamfig import Serializable
-from telliot_core.types.value_type import ValueType
 from web3 import Web3
+
+from telliot_core.types.value_type import ValueType
 
 
 class OracleQuery(Serializable):

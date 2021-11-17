@@ -2,6 +2,7 @@
 Unit tests covering telliot_core CLI commands.
 """
 from click.testing import CliRunner
+
 from telliot_core.cli import main
 
 
