@@ -67,7 +67,8 @@ class RPCEndpoint(Base):
         except Exception:
             connected = self._web3.eth.get_block_number() > 1
         if connected:
-            print("Connected to {}".format(self))
+            # print("Connected to {}".format(self)) #TODO: logging
+            pass
         else:
             print("Could not connect to {}".format(self))
 
