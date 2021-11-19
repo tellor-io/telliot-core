@@ -11,13 +11,14 @@ from telliot_core.types.value_type import ValueType
 
 @dataclass
 class ERC20SpotPrice(OracleQuery):
-    """ Query the price of an ERC-20 token in US Dollars
+    """Query the price of an ERC-20 token in US Dollars
 
     Attributes:
         address: Token contract address
         chain_id: Token chain ID
         currency: Selected currency
-            'native': returns the price in the native currency of the chain (e.g. ETH for chain_id = 1)
+            'native': returns the price in the native currency of the chain
+              (e.g. ETH for chain_id = 1)
             'usd': returns the price in USD
 
     """
@@ -26,20 +27,20 @@ class ERC20SpotPrice(OracleQuery):
 
     chain_id: int
 
-    currency: Literal['native', 'usd']
+    currency: Literal["native", "usd"]
 
     @property
     def value_type(self) -> ValueType:
-        """Returns the fixed value type for a CoinPrice."""
+        """Returns the response value type for a ERC20SpotPrice query."""
         return UnsignedFloatType(abi_type="ufixed256x18", packed=True)
 
 
 if __name__ == "__main__":
     """ERC20SpotPriceUSD Example."""
 
-    TRB_address = '0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0'
+    TRB_address = "0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0"
 
-    q = ERC20SpotPrice(address=TRB_address, chain_id=1, currency='usd')
+    q = ERC20SpotPrice(address=TRB_address, chain_id=1, currency="usd")
 
     print(q.descriptor)
     print(f"queryData: 0x{q.query_data.hex()}")

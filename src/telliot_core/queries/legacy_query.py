@@ -18,9 +18,7 @@ class LegacyRequest(OracleQuery):
     an integer less than 100.
 
     The LegacyQuery class is deprecated and should not be used by
-    new projects.  Instead, use the
-    [`CoinPrice`][telliot_core.queries.coin_price.CoinPrice]
-    query or create a new query.
+    new projects.
 
     Refer to [tellor documentation](https://docs.tellor.io/tellor/integration/data-ids)
     for a description of each ``id``

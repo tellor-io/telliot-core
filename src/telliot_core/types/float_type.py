@@ -38,8 +38,7 @@ class UnsignedFloatType(ValueType):
     def encode(self, value: float) -> bytes:
         """An encoder for float values
 
-        This encoder converts a float value to the CoinPrice ABI
-        data type.
+        This encoder converts a float value to the ABI data type.
         """
 
         decimal_value = Decimal(value).quantize(Decimal(10) ** -self.decimals)
@@ -49,7 +48,7 @@ class UnsignedFloatType(ValueType):
     def decode(self, bytes_val: bytes) -> Any:
         """A decoder for float values
 
-        This decoder converts from the CoinPrice ABI data type to
+        This decoder converts from the ABI data type to
         a floating point value.
         """
         nbytes = self.nbits / 8
