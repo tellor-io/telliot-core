@@ -70,7 +70,7 @@ class RPCEndpoint(Base):
         except Exception:
             connected = self._web3.eth.get_block_number() > 1
         if connected:
-            logger.info("Connected to {}".format(self))
+            logger.debug("Connected to {}".format(self))
         else:
             logger.error("Could not connect to {}".format(self))
 
