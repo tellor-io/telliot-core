@@ -1,12 +1,15 @@
 """ :mod:`telliot_core.queries.price_query`
 
 """
+import logging
 from dataclasses import dataclass
 from typing import Literal
 
 from telliot_core.queries.query import OracleQuery
 from telliot_core.types.float_type import UnsignedFloatType
 from telliot_core.types.value_type import ValueType
+
+logger = logging.getLogger(__name__)
 
 price_types = Literal["current", "eod", "24hr_twap", "1hr_twap"]
 

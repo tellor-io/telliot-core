@@ -132,10 +132,10 @@ class ConfigFile:
                     jstr = json.dumps(state, indent=2)
                     f.write(jstr)
 
-            print("Saved config '{}' to {}".format(self.name, self.config_file))
+            logger.info("Saved config '{}' to {}".format(self.name, self.config_file))
 
         except FileNotFoundError as e:
-            print(
+            logger.error(
                 "Error saving {} to {}".format(
                     self.__class__.__name__, self.config_file
                 )
