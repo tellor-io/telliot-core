@@ -1,6 +1,7 @@
 """
 Utils for creating a JSON RPC connection to an EVM blockchain
 """
+import logging
 from dataclasses import dataclass
 from dataclasses import field
 from typing import List
@@ -12,6 +13,8 @@ from web3.middleware import geth_poa_middleware
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
 from telliot_core.model.base import Base
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -59,7 +62,7 @@ class RPCEndpoint(Base):
             if self.network == "rinkeby":
                 self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
         except Exception:
-            print("unable to connect to rinkeby")
+            logger.error("unable to connect to rinkeby")
 
         try:
             connected = self._web3.isConnected()
@@ -67,10 +70,9 @@ class RPCEndpoint(Base):
         except Exception:
             connected = self._web3.eth.get_block_number() > 1
         if connected:
-            # print("Connected to {}".format(self)) #TODO: logging
-            pass
+            logger.info("Connected to {}".format(self))
         else:
-            print("Could not connect to {}".format(self))
+            logger.error("Could not connect to {}".format(self))
 
         return connected
 

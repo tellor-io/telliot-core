@@ -1,6 +1,7 @@
 """
 Utils for connecting to an EVM contract
 """
+import logging
 from typing import Any
 from typing import Dict
 from typing import List
@@ -14,6 +15,8 @@ from web3.datastructures import AttributeDict
 
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.response import ResponseStatus
+
+logger = logging.getLogger(__name__)
 
 
 class Contract:
@@ -98,10 +101,10 @@ class Contract:
             transaction = contract_function(**kwargs)
             # estimated_gas = transaction.estimateGas()
             gas_limit = 500000  # TODO optimize for gas/profitability
-            print("gas limit:", gas_limit)
+            logger.info("gas limit:", gas_limit)
 
-            print("address: ----- ", acc.address)
-            print("gas price:", gas_price)
+            logger.info("address: ----- ", acc.address)
+            logger.info("gas price:", gas_price)
 
             built_tx = transaction.buildTransaction(
                 {
@@ -115,16 +118,16 @@ class Contract:
 
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
-            print(" tx signed")
+            logger.info(" tx signed")
             tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
-            print("tx sent")
+            logger.info("tx sent")
             # Confirm transaction
             tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
                 tx_hash, timeout=360
             )
 
             # Point to relevant explorer
-            print(
+            logger.info(
                 f"""View reported data: \n
                 {self.node.explorer}/tx/{tx_hash.hex()}
                 """
@@ -166,11 +169,11 @@ class Contract:
                     **kwargs,
                 )
 
-                print("write status: ", status)
+                logger.info("write status: ", status)
 
                 # Exit loop if transaction successful
                 if tx_receipt and status.ok and tx_receipt["status"] == 1:
-                    print(
+                    logger.info(
                         f"tx was successful! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}"  # noqa: E501
                     )  # noqa: E501
                     return tx_receipt, status
@@ -202,7 +205,7 @@ class Contract:
                     and tx_receipt["status"] == 0  # type: ignore # error won't be none
                 ):
                     status.error = "tx reverted by contract/evm logic"
-                    print(f"tx was reverted by evm! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none # noqa: E501
+                    logger.info(f"tx was reverted by evm! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none # noqa: E501
                     return tx_receipt, status
                 else:
                     extra_gas_price = 0
