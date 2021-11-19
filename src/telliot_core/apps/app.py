@@ -94,8 +94,8 @@ class Application:
         """
         seconds = 0
         while not self._shutdown.wait(1.0):
-            print("Main thread processing: {}".format(seconds))
+            logger.info("Main thread processing: {}".format(seconds))
             seconds += 1
 
-        print("Application {} received shutdown event".format(self.name))
+        logger.info("Application {} received shutdown event".format(self.name))
         self._shutdown.clear()
