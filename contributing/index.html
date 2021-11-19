@@ -568,7 +568,7 @@
 <p><em>These instructions assume that a working Python interpreter (version &gt;=3.8)
 is already installed on the system.</em></p>
 <p>Clone the repository to a local working directory:</p>
-<div class="highlight"><pre><span></span><code>git clone https://github.com/tellor-io/pytelliot.git
+<div class="highlight"><pre><span></span><code>git clone https://github.com/tellor-io/telliot-core.git
 </code></pre></div>
 <p>Create and activate a <a href="https://docs.python.org/3/library/venv.html">virtual environment</a>.  In this example, the virtual environment is 
 located in a subfolder called <code>tenv</code>:</p>
@@ -576,7 +576,7 @@ located in a subfolder called <code>tenv</code>:</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>python3 -m venv tenv
-tenv tutorial_env/bin/activate
+source tenv/bin/activate
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -586,6 +586,10 @@ tenv\Scripts\activate
 </div>
 </div>
 </div>
+<p>If working on Ubuntu, may need to install one of the following packages (<a href="https://github.com/ethereum/web3.py/issues/1726">see this issue</a>).</p>
+<div class="highlight"><pre><span></span><code>sudo apt install libpython3.8-dev
+sudo apt install libpython3.9-dev
+</code></pre></div>
 <p>Install the project using using an <a href="https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs">editable installation</a>.</p>
 <div class="highlight"><pre><span></span><code>pip install -e .
 pip install -r requirements-dev.txt
@@ -607,7 +611,7 @@ and conform to the style &amp; typing format of the project. To do so, in the pr
 <div class="highlight"><pre><span></span><code>tox -e style
 </code></pre></div>
 <p>Once all those pass, you're ready to make a pull request to the project's main branch.</p>
-<p>Link any related issues, tag desired reviewers, and watch the <a href="https://discord.gg/URXVQdGjAT">#pytelliot</a> channel in the
+<p>Link any related issues, tag desired reviewers, and watch the <a href="https://discord.gg/URXVQdGjAT">#telliot-core</a> channel in the
 community discord for updates.</p>
                 
               
