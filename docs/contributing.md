@@ -16,7 +16,7 @@ located in a subfolder called `tenv`:
 
     ```
     python3 -m venv tenv
-    tenv tutorial_env/bin/activate
+    source tenv/bin/activate
     ```
 
 === "Windows"
@@ -25,6 +25,11 @@ located in a subfolder called `tenv`:
     py -m venv tenv
     tenv\Scripts\activate
     ```
+
+If working on Ubuntu, may need to install one of the following packages ([see this issue](https://github.com/ethereum/web3.py/issues/1726)).
+
+    sudo apt install libpython3.8-dev
+    sudo apt install libpython3.9-dev
 
 Install the project using using an [editable installation](https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs).
 
