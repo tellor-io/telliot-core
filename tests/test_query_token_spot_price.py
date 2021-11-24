@@ -3,7 +3,7 @@
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
-from telliot_core.queries.erc20spot import ERC20SpotPrice
+from telliot_core.queries.token_spot_price import TokenSpotPrice
 
 TRB_address = "0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0"
 
@@ -11,10 +11,10 @@ TRB_address = "0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0"
 def test_erc20_spot_price_usd():
     """Validate price query"""
 
-    q = ERC20SpotPrice(address=TRB_address, chain_id=1, currency="usd")
+    q = TokenSpotPrice(address=TRB_address, chain_id=1, currency="usd")
 
     exp = (
-        b'{"type":"ERC20SpotPrice",'
+        b'{"type":"TokenSpotPrice",'
         b'"address":"0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0",'
         b'"chain_id":1,"currency":"usd"}'
     )
@@ -22,16 +22,16 @@ def test_erc20_spot_price_usd():
     print(q.query_data)
     assert q.query_data == exp
 
-    exp = "2c8932428647ecc49f97a319c2ebfc2f6e667cf8ee0e96d9eb1ebf1dbb777492"
+    exp = "c83928d2035b30eb2ed0fa81b1dd45051360813e46f6a91fcdefe11a0653250c"
     assert q.query_id.hex() == exp
 
 
 def test_erc20_spot_price_eth():
     """Validate price_type setting"""
-    q = ERC20SpotPrice(address=TRB_address, chain_id=1, currency="native")
+    q = TokenSpotPrice(address=TRB_address, chain_id=1, currency="native")
 
     exp = (
-        b'{"type":"ERC20SpotPrice",'
+        b'{"type":"TokenSpotPrice",'
         b'"address":"0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0",'
         b'"chain_id":1,"currency":"native"}'
     )
@@ -39,5 +39,5 @@ def test_erc20_spot_price_eth():
     print(q.query_data)
     assert q.query_data == exp
 
-    exp = "a5e36e716292c57ff85d462666fa9064f2dd7f0f169cfb771d4b2c23c26ab944"
+    exp = "b77c3f01bfbf486f4bdc5e5aae007ebbdaf47dc7cb0572d6a2cc473ad957f69a"
     assert q.query_id.hex() == exp

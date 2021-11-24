@@ -10,7 +10,7 @@ from telliot_core.types.value_type import ValueType
 
 
 @dataclass
-class ERC20SpotPrice(OracleQuery):
+class TokenSpotPrice(OracleQuery):
     """Query the price of an ERC-20 token in US Dollars
 
     Attributes:
@@ -31,7 +31,7 @@ class ERC20SpotPrice(OracleQuery):
 
     @property
     def value_type(self) -> ValueType:
-        """Returns the response value type for a ERC20SpotPrice query."""
+        """Returns the response value type for a TokenSpotPrice query."""
         return UnsignedFloatType(abi_type="ufixed256x18", packed=True)
 
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     TRB_address = "0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0"
 
-    q = ERC20SpotPrice(address=TRB_address, chain_id=1, currency="usd")
+    q = TokenSpotPrice(address=TRB_address, chain_id=1, currency="usd")
 
     print(q.descriptor)
     print(f"queryData: 0x{q.query_data.hex()}")

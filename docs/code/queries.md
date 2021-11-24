@@ -6,7 +6,7 @@
 ::: telliot_core.queries.legacy_query.LegacyRequest
 
 
-::: telliot_core.queries.erc20spot.ERC20SpotPrice
+::: telliot_core.queries.token_spot_price.TokenSpotPrice
 
 
 ::: telliot_core.queries.string_query.StringQuery
