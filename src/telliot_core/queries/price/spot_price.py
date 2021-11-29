@@ -27,7 +27,6 @@ def get_spot_price_pairs() -> List[Tuple[str, str]]:
     pairs = []
     for s in state:
         asset_id, currency = s.split("/")
-        print(f"{asset_id} / {currency}")
         pairs.append((asset_id.lower(), currency.lower()))
 
     return pairs
@@ -41,8 +40,10 @@ class SpotPrice(OracleQuery):
     """Returns the spot price of a cryptocurrency asset in the given currency.
 
     Attributes:
-        asset: Asset ID
-        currency: Currency ID (default = USD)
+
+        asset: Asset ID (see data specifications for a full list of supported assets)
+
+        currency: Currency (default = `usd`)
 
     """
 
@@ -52,7 +53,11 @@ class SpotPrice(OracleQuery):
 
     @property
     def value_type(self) -> ValueType:
-        """Returns the fixed value type for a SpotPrice."""
+        """Data type returned for a SpotPrice query.
+
+        - `ufixed256x18`: 256-bit unsigned integer with 18 decimals of precision
+        - `packed`: false
+        """
         return UnsignedFloatType(abi_type="ufixed256x18", packed=False)
 
     def __post_init__(self) -> None:

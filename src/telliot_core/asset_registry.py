@@ -1,13 +1,14 @@
-from clamfig import deserialize
 import json
-from telliot_core.utils.home import TELLIOT_CORE_ROOT
-from typing import Dict
-from telliot_core.model.base import Base
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict
 from typing import Optional
 
+from clamfig import deserialize
+
+from telliot_core.model.base import Base
 from telliot_core.model.tokens import BlockChainAsset
+from telliot_core.utils.home import TELLIOT_CORE_ROOT
 
 
 @dataclass
@@ -39,4 +40,4 @@ class AssetRegistry(Base):
         return self.assets.get(asset_id)
 
 
-asset_registry = AssetRegistry.from_file(TELLIOT_CORE_ROOT / 'data/assets.json')
+asset_registry = AssetRegistry.from_file(TELLIOT_CORE_ROOT / "data/assets.json")
