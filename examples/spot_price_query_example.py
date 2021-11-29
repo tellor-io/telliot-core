@@ -1,7 +1,7 @@
 """SpotPrice Query Example """
 from telliot_core.queries import SpotPrice
 
-q = SpotPrice(asset='btc', currency='usd')
+q = SpotPrice(asset="btc", currency="usd")
 print(q.descriptor)
 
 print(f"tipQuery data: 0x{q.query_data.hex()}")
