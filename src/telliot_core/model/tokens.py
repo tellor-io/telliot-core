@@ -5,11 +5,20 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+from telliot_core.model.asset import Asset
 from telliot_core.model.base import Base
 
 
 @dataclass
-class ERC20Token(Base):
+class BlockChainAsset(Asset):
+    symbol: str
+
+    def __post_init__(self) -> None:
+        self.symbol = self.symbol.lower()
+
+
+@dataclass
+class ERC20Token(BlockChainAsset):
     """Representation of an ERC20 token"""
 
     #: Chain ID
@@ -18,17 +27,11 @@ class ERC20Token(Base):
     #: Contract address on chain
     address: str
 
-    #: Token Symbol
-    symbol: str
-
     #: Conversion factor in currency calculations
     decimals: int
 
-    #: Descriptive name
-    name: str
-
     #: Logo URI
-    logo_uri: Optional[str]
+    logo_uri: str = ""
 
 
 TokenListVersion = namedtuple(
@@ -70,6 +73,7 @@ class ERC20TokenList(Base):
         for token in jtokens:
             tokens.append(
                 ERC20Token(
+                    id=token.get("symbol", None),
                     name=token.get("name", None),
                     symbol=token.get("symbol", None),
                     chain_id=token.get("chainId", None),

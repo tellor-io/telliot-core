@@ -1,0 +1,65 @@
+[
+  {
+    "type": "BlockChainAsset",
+    "id": "btc",
+    "name": "bitcoin",
+    "symbol": "BTC"
+  },
+  {
+    "type": "BlockChainAsset",
+    "id": "eth",
+    "name": "ethereum",
+    "symbol": "ETH"
+  },
+  {
+    "type": "BlockChainAsset",
+    "id": "bnb",
+    "name": "Binance Coin",
+    "symbol": "BNB"
+  },
+  {
+    "type": "ERC20Token",
+    "id": "trb",
+    "name": "Tellor Tributes",
+    "symbol": "TRB",
+    "chain_id": 1,
+    "address": "0x88df592f8eb5d7bd38bfef7deb0fbc02cf3778a0",
+    "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "ampl",
+    "name": "Ampleforth",
+    "symbol": "AMPL",
+    "chain_id": 1,
+    "address": "0xd46ba6d942050d489dbd938a2c909a5d5039a161",
+    "decimals": 9
+  },
+  {
+    "type": "ERC20Token",
+    "id": "forth",
+    "name": "Ampleforth Governance Token",
+    "symbol": "FORTH",
+    "chain_id": 1,
+    "address": "0x77fba179c79de5b7653f68b5039af940ada60ce0",
+    "decimals": 9
+  },
+  {
+    "type": "ERC20Token",
+    "id": "matic",
+    "name": "Matic Token",
+    "symbol": "MATIC",
+    "chain_id": 1,
+    "address": "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+    "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "matic-polygon",
+    "name": "Matic Token on polygon",
+    "symbol": "MATIC",
+    "chain_id": 137,
+    "address": "0x0000000000000000000000000000000000001010",
+    "decimals": 18
+  }
+]
