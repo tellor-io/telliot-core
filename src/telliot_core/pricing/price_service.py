@@ -19,9 +19,9 @@ class PriceServiceInterface(ABC):
 
     @abstractmethod
     async def get_price(self, asset: str, currency: str) -> OptionalDataPoint[float]:
-        """Fetch the price of an coin
+        """Fetch the price of an asset
 
-        TODO: Strictly specify compliant coin/currency symbols so concrete
+        TODO: Strictly specify compliant asset/currency symbols so concrete
             classes can comply.
 
         Args:
@@ -29,7 +29,7 @@ class PriceServiceInterface(ABC):
             currency: Currency of returned price (Ticker Symbol)
 
         Returns:
-            Time-stamped coin price or None if an exception occurs
+            Time-stamped asset price or None if an exception occurs
         """
         raise NotImplementedError
 

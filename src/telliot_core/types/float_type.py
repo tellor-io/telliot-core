@@ -38,7 +38,7 @@ class UnsignedFloatType(ValueType):
     def encode(self, value: float) -> bytes:
         """An encoder for float values
 
-        This encoder converts a float value to the CoinPrice ABI
+        This encoder converts a float value to the SpotPrice ABI
         data type.
         """
 
@@ -49,7 +49,7 @@ class UnsignedFloatType(ValueType):
     def decode(self, bytes_val: bytes) -> Any:
         """A decoder for float values
 
-        This decoder converts from the CoinPrice ABI data type to
+        This decoder converts from the SpotPrice ABI data type to
         a floating point value.
         """
         nbytes = self.nbits / 8

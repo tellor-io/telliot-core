@@ -19,7 +19,7 @@ class LegacyRequest(OracleQuery):
 
     The LegacyQuery class is deprecated and should not be used by
     new projects.  Instead, use the
-    [`CoinPrice`][telliot_core.queries.coin_price.CoinPrice]
+    [`SpotPrice`][telliot_core.queries.coin_price.SpotPrice]
     query or create a new query.
 
     Refer to [tellor documentation](https://docs.tellor.io/tellor/integration/data-ids)

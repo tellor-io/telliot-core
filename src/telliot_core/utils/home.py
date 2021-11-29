@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Optional
 from typing import Union
 
+TELLIOT_CORE_ROOT = Path(__file__).parent.parent
+
 
 def default_homedir() -> pathlib.Path:
     """Return default home directory, creating it if necessary
