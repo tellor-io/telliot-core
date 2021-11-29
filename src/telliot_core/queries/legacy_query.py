@@ -26,7 +26,7 @@ class LegacyRequest(OracleQuery):
     """
 
     legacy_id: int
-    """The request ID of all legacy queries is a static integer 1 < N <=100"""
+    """The request ID of all legacy queries is a static integer between 1 and 100"""
 
     @property
     def value_type(self) -> ValueType:
