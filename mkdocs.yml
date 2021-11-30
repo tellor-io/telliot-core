@@ -67,6 +67,7 @@ nav:
   - Home: index.md
   - Getting started: getting-started.md
   - Examples:
+      - SpotPrice Query: examples/spot_price_query_example.md
       - Legacy Query: examples/legacy_query_example.md
       - Text Query: examples/text_query_example.md
   - Code Reference:

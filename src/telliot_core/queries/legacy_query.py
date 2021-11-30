@@ -15,12 +15,10 @@ class LegacyRequest(OracleQuery):
     Legacy request are queries that existed prior to TellorX
     A legacy query uses arbitrary query ``data`` and a static query ``id``.
     The query ``id`` is always set to the legacy request ID, which is
-    an integer less than 100.
+    a static integer less than 100.
 
     The LegacyQuery class is deprecated and should not be used by
-    new projects.  Instead, use the
-    [`CoinPrice`][telliot_core.queries.coin_price.CoinPrice]
-    query or create a new query.
+    new projects.
 
     Refer to [tellor documentation](https://docs.tellor.io/tellor/integration/data-ids)
     for a description of each ``id``
@@ -28,7 +26,6 @@ class LegacyRequest(OracleQuery):
     """
 
     legacy_id: int
-    """The request ID of all legacy queries is a static integer 1 < N <=100"""
 
     @property
     def value_type(self) -> ValueType:

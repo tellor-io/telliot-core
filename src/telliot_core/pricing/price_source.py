@@ -10,7 +10,7 @@ from telliot_core.types.datapoint import OptionalDataPoint
 class PriceSource(DataSource[float]):
     """Current Asset Price
 
-    The Current Asset Price data source retrieves the price of a coin
+    The Current Asset Price data source retrieves the price of a asset
     in the specified current from a `WebPriceService`.
     """
 
