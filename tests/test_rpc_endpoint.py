@@ -33,10 +33,9 @@ def test_incomplete_rpc_url():
     """an incomplete url will raise an exception in RPCEndpoint"""
     url = "https://eth-rinkeby.gateway.pokt.network/v1/lb/"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
-    endpt.connect()
     # expect bad url error from requests library
     with pytest.raises(requests.exceptions.HTTPError):
-        endpt.web3.eth.block_number
+        _ = endpt.connect()
 
 
 def test_endpoint_list():

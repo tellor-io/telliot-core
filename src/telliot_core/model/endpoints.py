@@ -7,6 +7,7 @@ from dataclasses import field
 from typing import List
 from typing import Optional
 
+import websockets.exceptions
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
 
@@ -43,6 +44,9 @@ class RPCEndpoint(Base):
     def connect(self) -> bool:
         """Connect to EVM blockchain
 
+        A connection failure does not raise an exception.  This is left
+        to the caller.
+
         returns:
             True if connection was successful
         """
@@ -57,22 +61,22 @@ class RPCEndpoint(Base):
         else:
             raise ValueError(f"Invalid endpoint url: {self.url}")
 
-        # Inject middlware if connecting to rinkeby
-        try:
-            if self.network == "rinkeby":
-                self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
-        except Exception:
-            logger.error("unable to connect to rinkeby")
+        # Inject middleware if connecting to rinkeby (chain_id=4)
+        if self.chain_id == 4:
+            self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
+        connected = False
         try:
-            connected = self._web3.isConnected()
-        # Pokt nodes won't submit isConnected rpc call
-        except Exception:
             connected = self._web3.eth.get_block_number() > 1
-        if connected:
             logger.debug("Connected to {}".format(self))
-        else:
-            logger.error("Could not connect to {}".format(self))
+
+        except websockets.exceptions.InvalidStatusCode as e:
+            connected = False
+            msg = f"Could not connect to RPC endpoint at: {self.url}"
+            logger.error(e)
+            logger.error(msg)
+            print(e)
+            print(msg)
 
         return connected
 
