@@ -34,6 +34,14 @@ def get_contract(name: str, chain_id: int, endpoint: RPCEndpoint, key: str) -> C
 
 
 @dataclass
+class ContractSet:
+    master: Contract
+    oracle: Contract
+    governance: Contract
+    treasury: Contract
+
+
+@dataclass
 class BaseApplication:
     """BaseApplication base class"""
 
@@ -50,10 +58,7 @@ class BaseApplication:
     endpoint: Optional[RPCEndpoint] = None
 
     #: Contract storage
-    master: Optional[Contract] = None
-    oracle: Optional[Contract] = None
-    governance: Optional[Contract] = None
-    treasury: Optional[Contract] = None
+    tellorx: Optional[ContractSet] = None
 
     def __post_init__(self) -> None:
         if not self.config:
@@ -70,9 +75,7 @@ class BaseApplication:
     def connect(self) -> bool:
         """Connect to the tellorX network"""
 
-        if not self.endpoint:
-            raise Exception("No endpoint configured")
-
+        assert self.endpoint
         assert self.config
 
         connected = self.endpoint.connect()
@@ -82,12 +85,12 @@ class BaseApplication:
         chain_id = self.config.main.chain_id
         private_key = self.config.main.private_key
 
-        self.master = get_contract("master", chain_id, self.endpoint, private_key)
-        self.oracle = get_contract("oracle", chain_id, self.endpoint, private_key)
-        self.governance = get_contract(
-            "governance", chain_id, self.endpoint, private_key
+        self.tellorx = ContractSet(
+            master=get_contract("master", chain_id, self.endpoint, private_key),
+            oracle=get_contract("oracle", chain_id, self.endpoint, private_key),
+            governance=get_contract("governance", chain_id, self.endpoint, private_key),
+            treasury=get_contract("treasury", chain_id, self.endpoint, private_key),
         )
-        self.treasury = get_contract("treasury", chain_id, self.endpoint, private_key)
 
         return connected
 
