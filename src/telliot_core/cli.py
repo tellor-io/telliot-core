@@ -14,11 +14,40 @@ from telliot_core.apps.app import BaseApplication
 from telliot_core.apps.telliot_config import TelliotConfig
 
 
+def get_app(ctx: click.Context) -> BaseApplication:
+    """Get an app configured using CLI context"""
+
+    app = BaseApplication(name="CLI")
+    chain_id = ctx.obj["chain_id"]
+    if chain_id is not None:
+        assert app.config
+        app.config.main.chain_id = chain_id
+    _ = app.connect()
+
+    assert app.config
+    assert app.tellorx
+
+    return app
+
+
 @click.group(invoke_without_command=True)
 @click.pass_context
-def main(ctx: click.Context) -> None:
+@click.option(
+    "--chain_id",
+    type=int,
+    help="Override chain ID (the default is provided by main config file).",
+)
+@click.option(
+    "-v", "--version", is_flag=True, help="Display telliot-core version and exit."
+)
+def main(ctx: click.Context, version: bool, chain_id: int) -> None:
+    ctx.ensure_object(dict)
+    ctx.obj["chain_id"] = chain_id
+
+    if version:
+        print(f"Version {telliot_core.__version__}")
+        return
     """Telliot command line interface"""
-    print(f"Telliot Core Version {telliot_core.__version__}")
     if ctx.invoked_subcommand is None:
         print(ctx.command.get_help(ctx))
 
@@ -50,14 +79,13 @@ def read() -> None:
 
 @read.command()
 @click.argument("address")
-def getstakerinfo(address: str) -> None:
-    app = BaseApplication(name="CLI")
-    _ = app.connect()
+@click.pass_context
+def getstakerinfo(ctx: click.Context, address: str) -> None:
 
-    assert app.tellorx
+    app = get_app(ctx)
 
     result, read_response = asyncio.run(
-        app.tellorx.master.read("getStakerInfo", _staker=address)
+        app.tellorx.master.read("getStakerInfo", _staker=address)  # type: ignore
     )
     if not read_response.ok:
         print(read_response)
@@ -66,17 +94,19 @@ def getstakerinfo(address: str) -> None:
 
 
 @read.command()
-def gettimebasedreward() -> None:
-    app = BaseApplication(name="CLI")
-    _ = app.connect()
-    assert app.tellorx is not None
+@click.pass_context
+def gettimebasedreward(ctx: click.Context) -> None:
 
-    result, read_response = asyncio.run(app.tellorx.oracle.read("getTimeBasedReward"))
+    app = get_app(ctx)
+
+    result, read_response = asyncio.run(
+        app.tellorx.oracle.read("getTimeBasedReward")  # type: ignore
+    )
 
     if not read_response.ok:
         print(read_response)
     else:
-        trb_reward = result / 1.0e18  # type: ignore
+        trb_reward = result / 1.0e18
         print(f"{trb_reward} TRB")
 
 
