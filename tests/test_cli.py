@@ -1,6 +1,7 @@
 """
 Unit tests covering telliot_core CLI commands.
 """
+import pytest
 from click.testing import CliRunner
 
 from telliot_core.cli import main
@@ -14,6 +15,7 @@ def test_config_cmd():
     print(result)
 
 
+@pytest.mark.skip()
 def test_getStakerInfo(rinkeby_core):
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
@@ -27,6 +29,7 @@ def test_getStakerInfo(rinkeby_core):
     # assert isinstance(output[1], int)
 
 
+@pytest.mark.skip()
 def test_gettimebasedreward(rinkeby_core):
     runner = CliRunner()
     result = runner.invoke(main, ["read", "gettimebasedreward"])
