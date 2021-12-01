@@ -69,7 +69,7 @@ def test_application_subclassing():
 
 
 def test_app_connect(rinkeby_cfg):
-    app = BaseApplication(name="testapp")
+    app = BaseApplication(name="testapp", config=rinkeby_cfg)
     assert app.connect()
 
 
