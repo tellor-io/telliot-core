@@ -9,41 +9,90 @@ from pathlib import Path
 from typing import Optional
 
 from telliot_core.apps.telliot_config import TelliotConfig
+from telliot_core.contract.contract import Contract
+from telliot_core.directory.tellorx import tellor_directory
+from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.home import telliot_homedir
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class Application:
-    """Application base class"""
+def get_contract(name: str, chain_id: int, endpoint: RPCEndpoint, key: str) -> Contract:
+    contract_info = tellor_directory.find(chain_id=chain_id, name=name)[0]
+    if not contract_info:
+        raise Exception(f"contract not found: {name}, {chain_id}")
+    assert contract_info.abi
 
-    #: Application Name
+    contract = Contract(
+        address=contract_info.address,
+        abi=contract_info.abi,
+        node=endpoint,
+        private_key=key,
+    )
+    contract.connect()
+    return contract
+
+
+@dataclass
+class BaseApplication:
+    """BaseApplication base class"""
+
+    #: BaseApplication Name
     name: str
 
     #: Home directory
     homedir: Path = field(default_factory=telliot_homedir)
 
-    #: Application configuration object
+    #: BaseApplication configuration object
     config: Optional[TelliotConfig] = None
 
-    #: Private thread storage
-    _thread: Optional[threading.Thread] = None
-    _shutdown: threading.Event = field(default_factory=threading.Event)
+    #: Endpoint storage
+    endpoint: Optional[RPCEndpoint] = None
+
+    #: Contract storage
+    master: Optional[Contract] = None
+    oracle: Optional[Contract] = None
+    governance: Optional[Contract] = None
+    treasury: Optional[Contract] = None
 
     def __post_init__(self) -> None:
-
         if not self.config:
             self.config = TelliotConfig(config_dir=self.homedir)
 
         # Logging
         self.configure_logging()
 
-        logger.info("Created new {} application object".format(self.name))
-        logger.info("Home Directory: {}".format(self.homedir))
+        logger.info(f"Initialized {self.name}")
+        logger.info(f"Home Folder: {self.homedir}")
+
+        self.endpoint = self.config.get_endpoint()
+
+    def connect(self) -> bool:
+        """Connect to the tellorX network"""
+
+        if not self.endpoint:
+            raise Exception("No endpoint configured")
+
+        assert self.config
+
+        connected = self.endpoint.connect()
+        if not connected:
+            raise Exception(f"Could not connect to endpoint: {self.endpoint.url}")
+
+        chain_id = self.config.main.chain_id
+        private_key = self.config.main.private_key
+
+        self.master = get_contract("master", chain_id, self.endpoint, private_key)
+        self.oracle = get_contract("oracle", chain_id, self.endpoint, private_key)
+        self.governance = get_contract(
+            "governance", chain_id, self.endpoint, private_key
+        )
+        self.treasury = get_contract("treasury", chain_id, self.endpoint, private_key)
+
+        return connected
 
     def configure_logging(self) -> None:
-        """Configure Application logging
+        """Configure BaseApplication logging
 
         Subclasses may override this method as required
         """
@@ -59,23 +108,30 @@ class Application:
         logfile = self.homedir / (self.name + ".log")
         logging.basicConfig(filename=str(logfile), level=loglevel)
 
+
+@dataclass
+class ThreadedApplication(BaseApplication):
+    #: Private thread storage
+    _thread: Optional[threading.Thread] = None
+    _shutdown: threading.Event = field(default_factory=threading.Event)
+
     def startup(self) -> None:
-        """Startup Application
+        """Startup BaseApplication
 
         Start the main application thread
         """
-        logger.info("Starting {} Application".format(self.name))
+        logger.info("Starting {} BaseApplication".format(self.name))
         self._thread = threading.Thread(target=self.main, name=self.name)
         self._thread.start()
 
     def shutdown(self) -> None:
-        """Startup Application
+        """Startup BaseApplication
 
         Send a shutdown event to the main application thread and wait
         for it to terminate.
         """
         if self._thread:
-            logger.info("Terminating {} Application".format(self.name))
+            logger.info("Terminating {} BaseApplication".format(self.name))
 
             self._shutdown.set()
 
@@ -97,5 +153,5 @@ class Application:
             logger.info("Main thread processing: {}".format(seconds))
             seconds += 1
 
-        logger.info("Application {} received shutdown event".format(self.name))
+        logger.info("BaseApplication {} received shutdown event".format(self.name))
         self._shutdown.clear()
