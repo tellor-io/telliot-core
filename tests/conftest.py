@@ -33,12 +33,17 @@ def rinkeby_cfg():
     return cfg
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def rinkeby_core(rinkeby_cfg):
-    app = TelliotCore.get()
-    if not app:
-        app = TelliotCore(config=rinkeby_cfg)
-        app.connect()
+    # app = TelliotCore.get()
+    # if not app:
+    #     app = TelliotCore(config=rinkeby_cfg)
+    #     app.connect()
+    # yield app
+    # app.destroy()
+
+    app = TelliotCore(config=rinkeby_cfg)
+    app.connect()
     yield app
     app.destroy()
 
