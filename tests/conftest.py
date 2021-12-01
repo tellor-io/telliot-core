@@ -3,6 +3,7 @@ import os
 
 import pytest
 
+from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
@@ -30,6 +31,16 @@ def rinkeby_cfg():
         rinkeby_endpoint.url = os.environ["NODE_URL"]
 
     return cfg
+
+
+@pytest.fixture(scope="session")
+def rinkeby_core(rinkeby_cfg):
+    app = TelliotCore.get()
+    if not app:
+        app = TelliotCore(config=rinkeby_cfg)
+        app.connect()
+    yield app
+    app.destroy()
 
 
 @pytest.fixture(scope="session")

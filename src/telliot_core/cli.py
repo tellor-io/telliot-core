@@ -10,14 +10,17 @@ import click
 import yaml
 
 import telliot_core
-from telliot_core.apps.app import BaseApplication
+from telliot_core.apps.core import TelliotCore  # type: ignore
 from telliot_core.apps.telliot_config import TelliotConfig
+from telliot_core.apps.tellorx_read import getStakerInfo
+from telliot_core.apps.tellorx_read import getTimeBasedReward
 
 
-def get_app(ctx: click.Context) -> BaseApplication:
+def get_app(ctx: click.Context) -> TelliotCore:
     """Get an app configured using CLI context"""
 
-    app = BaseApplication(name="CLI")
+    app = TelliotCore.get() or TelliotCore()
+
     chain_id = ctx.obj["chain_id"]
     if chain_id is not None:
         assert app.config
@@ -78,36 +81,29 @@ def read() -> None:
 
 
 @read.command()
-@click.argument("address")
+@click.pass_context
+def gettimebasedreward(ctx: click.Context) -> None:
+    _ = get_app(ctx)  # Initialize app
+
+    result, status = asyncio.run(getTimeBasedReward())
+
+    if not status.ok:
+        print(status)
+    else:
+        print(f"{result} TRB")
+
+
+@read.command()
+@click.argument("address", required=False)
 @click.pass_context
 def getstakerinfo(ctx: click.Context, address: str) -> None:
+    _ = get_app(ctx)  # Initialize app
+    result, read_response = asyncio.run(getStakerInfo(address=address))
 
-    app = get_app(ctx)
-
-    result, read_response = asyncio.run(
-        app.tellorx.master.read("getStakerInfo", _staker=address)  # type: ignore
-    )
     if not read_response.ok:
         print(read_response)
     else:
         print(result)
-
-
-@read.command()
-@click.pass_context
-def gettimebasedreward(ctx: click.Context) -> None:
-
-    app = get_app(ctx)
-
-    result, read_response = asyncio.run(
-        app.tellorx.oracle.read("getTimeBasedReward")  # type: ignore
-    )
-
-    if not read_response.ok:
-        print(read_response)
-    else:
-        trb_reward = result / 1.0e18
-        print(f"{trb_reward} TRB")
 
 
 if __name__ == "__main__":
