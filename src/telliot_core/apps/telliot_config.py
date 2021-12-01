@@ -11,6 +11,7 @@ from telliot_core.model.base import Base
 from telliot_core.model.chain import ChainList
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.apps.staker import StakerList
 
 
 @dataclass
@@ -46,6 +47,8 @@ class TelliotConfig(Base):
 
     chains: ChainList = field(default_factory=ChainList)
 
+    stakers: StakerList = field(default_factory=StakerList)
+
     def __post_init__(self) -> None:
         main_file = ConfigFile(
             name="main",
@@ -65,10 +68,17 @@ class TelliotConfig(Base):
             config_format="json",
             config_dir=self.config_dir,
         )
+        staker_file = ConfigFile(
+            name="stakers",
+            config_type=StakerList,
+            config_format="yaml",
+            config_dir=self.config_dir,
+        )
 
         self.main = main_file.get_config()
         self.endpoints = ep_file.get_config()
         self.chains = chain_file.get_config()
+        self.stakers = staker_file.get_config()
 
     def get_endpoint(self) -> Optional[RPCEndpoint]:
         """Search endpoints for current chain_id"""
