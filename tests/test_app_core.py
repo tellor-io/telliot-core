@@ -1,12 +1,12 @@
-
-from telliot_core.utils.home import default_homedir
-from telliot_core.apps.core import TelliotCore
-from pathlib import Path
-import pathlib
-import os
-import pytest
 import logging
+import pathlib
 import shutil
+from pathlib import Path
+
+import pytest
+
+from telliot_core.apps.core import TelliotCore
+from telliot_core.utils.home import default_homedir
 
 
 logger = logging.getLogger(__name__)
@@ -86,10 +86,10 @@ def test_app_constrctor():
     app.destroy()
 
     # Create a new app using local home folder
-    tmpdir = Path('.tmp')
+    tmpdir = Path(".tmp")
     if not tmpdir.exists():
         tmpdir.mkdir()
-    app = TelliotCore(homedir=Path('.tmp'))
+    app = TelliotCore(homedir=Path(".tmp"))
     app.destroy()
 
     # Test app getter (create from scratch)
@@ -103,5 +103,3 @@ def test_app_constrctor():
 
     app1.destroy()
     app2.destroy()
-
-

@@ -1,7 +1,9 @@
+from typing import Any
+from typing import Optional
+from typing import Tuple
+
 from telliot_core.apps.core import TelliotCore  # type: ignore
 from telliot_core.utils.response import ResponseStatus
-import asyncio
-from typing import Optional, Tuple, Any
 
 
 async def getTimeBasedReward() -> Tuple[Any, ResponseStatus]:
@@ -24,11 +26,3 @@ async def getStakerInfo(address: Optional[str] = None) -> Tuple[Any, ResponseSta
     result, status = await core.tellorx.master.read("getStakerInfo", _staker=address)
 
     return result, status
-
-
-if __name__ == '__main__':
-    app = TelliotCore()
-    app.connect()
-    r, s = asyncio.run(getStakerInfo('0xF754856Ed7751976447b3fA64eadeac4C7344CcD'))
-    print(s)
-    print(r)

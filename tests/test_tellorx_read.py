@@ -1,5 +1,7 @@
-from telliot_core.apps.tellorx_read import *
 import pytest
+
+from telliot_core.apps.tellorx_read import getStakerInfo
+from telliot_core.apps.tellorx_read import getTimeBasedReward
 
 
 @pytest.mark.asyncio

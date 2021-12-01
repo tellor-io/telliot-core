@@ -1,17 +1,19 @@
 # type: ignore
+import logging
+from pathlib import Path
+from typing import Optional
 
-from atom.api import Atom, Typed, Str
+from atom.api import Atom
+from atom.api import Str
+from atom.api import Typed
+
 import telliot_core
+from telliot_core.apps.app import get_contract
+from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.home import telliot_homedir
-from pathlib import Path
-from telliot_core.apps.app import get_contract
-from telliot_core.apps.staker import Staker
-from typing import Optional
-
-import logging
 
 logger = logging.getLogger(__name__)
 networks = {1: "eth-mainnet", 4: "eth-rinkeby"}
@@ -25,12 +27,10 @@ class ContractSet(Atom):
 
 
 class TelliotCore(Atom):
-    """ Telliot core application
-
-    """
+    """Telliot core application"""
 
     #: BaseApplication Name
-    name = Str('telliot-core')
+    name = Str("telliot-core")
 
     #: Home directory
     homedir = Typed(Path, factory=telliot_homedir)
@@ -63,25 +63,21 @@ class TelliotCore(Atom):
         self.endpoint = self.config.get_endpoint()
 
     def __new__(cls, *args, **kwargs):
-        """ Create a new App
-
-        """
+        """Create a new App"""
         if TelliotCore._instance is not None:
-            raise RuntimeError('An application already exists')
+            raise RuntimeError("An application already exists")
         self = super(TelliotCore, cls).__new__(cls, *args, **kwargs)
         TelliotCore._instance = self
         return self
 
     @staticmethod
     def get() -> "TelliotCore":
-        """ Get the global app instance
-
-        """
+        """Get the global app instance"""
         return TelliotCore._instance
 
     @staticmethod
     def destroy() -> None:
-        """ Destroy the instance.
+        """Destroy the instance.
 
         This method must be called prior to creating another instance of this class.
         """
@@ -130,9 +126,7 @@ class TelliotCore(Atom):
         return connected
 
     def configure_logging(self) -> None:
-        """ Configure logging
-
-        """
+        """Configure logging"""
 
         # type checking does not seem to recognize that config
         # and homedir were validated/coerced in __init__
