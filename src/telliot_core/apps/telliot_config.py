@@ -7,11 +7,11 @@ from typing import Union
 
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
+from telliot_core.apps.staker import StakerList
 from telliot_core.model.base import Base
 from telliot_core.model.chain import ChainList
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
-from telliot_core.apps.staker import StakerList
 
 
 @dataclass

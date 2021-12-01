@@ -1,10 +1,10 @@
-from telliot_core.apps.config import ConfigOptions
 from dataclasses import dataclass
-from telliot_core.model.base import Base
-from typing import Dict
 from dataclasses import field
-from typing import Optional
 from typing import List
+from typing import Optional
+
+from telliot_core.apps.config import ConfigOptions
+from telliot_core.model.base import Base
 
 
 @dataclass
@@ -17,17 +17,17 @@ class Staker(Base):
 
 default_stakers = [
     Staker(
-        tag='my_mainnet_staker',
-        address='0x00001234',
-        private_key='0x0000xxxx',
-        chain_id=1
+        tag="my_mainnet_staker",
+        address="0x00001234",
+        private_key="0x0000xxxx",
+        chain_id=1,
     ),
     Staker(
-        tag='my_rinkeby_staker',
-        address='0x00005678',
-        private_key='0x0000xxxx',
-        chain_id=4
-    )
+        tag="my_rinkeby_staker",
+        address="0x00005678",
+        private_key="0x0000xxxx",
+        chain_id=4,
+    ),
 ]
 
 
@@ -35,12 +35,13 @@ default_stakers = [
 class StakerList(ConfigOptions):
     stakers: List[Staker] = field(default_factory=lambda: default_stakers)
 
-    def get(self,
-            tag: Optional[str] = None,
-            address: Optional[str] = None,
-            private_key: Optional[str] = None,
-            chain_id: Optional[int] = None
-            ) -> List[Staker]:
+    def get(
+        self,
+        tag: Optional[str] = None,
+        address: Optional[str] = None,
+        private_key: Optional[str] = None,
+        chain_id: Optional[int] = None,
+    ) -> List[Staker]:
         """Returns a list of stakers matching the search parameters"""
 
         stakers = []
