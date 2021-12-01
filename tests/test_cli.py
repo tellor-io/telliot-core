@@ -14,7 +14,7 @@ def test_config_cmd():
     print(result)
 
 
-def test_getStakerInfo():
+def test_getStakerInfo(rinkeby_core):
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
     result = runner.invoke(main, ["read", "getstakerinfo"])
@@ -27,7 +27,7 @@ def test_getStakerInfo():
     # assert isinstance(output[1], int)
 
 
-def test_gettimebasedreward():
+def test_gettimebasedreward(rinkeby_core):
     runner = CliRunner()
     result = runner.invoke(main, ["read", "gettimebasedreward"])
     print(result.output)

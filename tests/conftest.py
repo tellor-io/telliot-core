@@ -33,7 +33,7 @@ def rinkeby_cfg():
     return cfg
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def rinkeby_core(rinkeby_cfg):
     app = TelliotCore.get()
     if not app:
