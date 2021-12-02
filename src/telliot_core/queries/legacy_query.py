@@ -29,8 +29,12 @@ class LegacyRequest(OracleQuery):
 
     @property
     def value_type(self) -> ValueType:
-        """Returns the Legacy Value Type for all legacy queries"""
-        return UnsignedFloatType(abi_type="ufixed256x6", packed=False)
+        if self.legacy_id in [10, 41]:
+            """Returns the Legacy Value Type for AMPL legacy queries"""
+            return UnsignedFloatType(abi_type="ufixed256x18", packed=False)
+        else:
+            """Returns the Legacy Value Type for all other legacy queries"""
+            return UnsignedFloatType(abi_type="ufixed256x6", packed=False)
 
     @property
     def query_id(self) -> bytes:
