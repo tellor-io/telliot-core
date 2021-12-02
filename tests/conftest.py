@@ -3,6 +3,7 @@ import os
 
 import pytest
 
+from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
@@ -30,6 +31,22 @@ def rinkeby_cfg():
         rinkeby_endpoint.url = os.environ["NODE_URL"]
 
     return cfg
+
+
+@pytest.fixture()
+def rinkeby_core(rinkeby_cfg):
+
+    app = TelliotCore(config=rinkeby_cfg)
+
+    # Replace staker private key
+    staker = app.get_default_staker()
+    if os.getenv("PRIVATE_KEY", None):
+        staker.private_key = rinkeby_cfg.main.private_key
+        staker.address = "0x8D8D2006A485FA4a75dFD8Da8f63dA31401B8fA2"
+
+    app.connect()
+    yield app
+    app.destroy()
 
 
 @pytest.fixture(scope="session")

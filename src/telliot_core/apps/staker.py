@@ -19,13 +19,13 @@ default_stakers = [
     Staker(
         tag="my_mainnet_staker",
         address="0x00001234",
-        private_key="0x0000xxxx",
+        private_key="0x00009999",
         chain_id=1,
     ),
     Staker(
         tag="my_rinkeby_staker",
         address="0x00005678",
-        private_key="0x0000xxxx",
+        private_key="0x00009999",
         chain_id=4,
     ),
 ]

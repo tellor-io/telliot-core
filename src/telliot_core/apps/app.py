@@ -8,6 +8,7 @@ from dataclasses import field
 from pathlib import Path
 from typing import Optional
 
+import telliot_core
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
@@ -39,6 +40,9 @@ class ContractSet:
     oracle: Contract
     governance: Contract
     treasury: Contract
+
+
+networks = {1: "eth-mainnet", 4: "eth-rinkeby"}
 
 
 @dataclass
@@ -74,7 +78,9 @@ class BaseApplication:
 
     def connect(self) -> bool:
         """Connect to the tellorX network"""
-
+        # re-get endpoint to make sure it matches chain_id
+        assert self.config
+        self.endpoint = self.config.get_endpoint()
         assert self.endpoint
         assert self.config
 
@@ -91,6 +97,14 @@ class BaseApplication:
             governance=get_contract("governance", chain_id, self.endpoint, private_key),
             treasury=get_contract("treasury", chain_id, self.endpoint, private_key),
         )
+
+        if connected:
+            msg = (
+                f"{self.name} application connected to {networks[chain_id]} "
+                f"(using telliot-core {telliot_core.__version__})"
+            )
+            print(msg)
+            logger.info(msg)
 
         return connected
 
