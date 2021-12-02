@@ -1,6 +1,6 @@
 from typing import Optional
 
-from telliot_core.apps.core import TelliotCore # type: ignore
+from telliot_core.apps.core import TelliotCore  # type: ignore
 from telliot_core.apps.oracle_read import ReadRespType
 
 
