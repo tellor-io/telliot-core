@@ -40,7 +40,9 @@ def rinkeby_core(rinkeby_cfg):
 
     # Replace staker private key
     staker = app.get_default_staker()
-    staker.private_key = rinkeby_cfg.main.private_key
+    if os.getenv("PRIVATE_KEY", None):
+        staker.private_key = rinkeby_cfg.main.private_key
+        staker.address = "0x8D8D2006A485FA4a75dFD8Da8f63dA31401B8fA2"
 
     app.connect()
     yield app
