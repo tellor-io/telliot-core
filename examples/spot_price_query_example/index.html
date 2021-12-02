@@ -13,14 +13,14 @@
         <meta name="author" content="Tellor Development Community">
       
       
-        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/examples/legacy_query_example/">
+        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/examples/spot_price_query_example/">
       
       <link rel="icon" href="../../assets/favicon-32x32.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
-        <title>Legacy Query - Telliot Documentation</title>
+        <title>SpotPrice Query - Telliot Documentation</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#legacy-query-example" class="md-skip">
+        <a href="#spot-price-query-example" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Legacy Query
+              SpotPrice Query
             
           </span>
         </div>
@@ -274,20 +274,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../spot_price_query_example/" class="md-nav__link">
-        SpotPrice Query
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -300,12 +286,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Legacy Query
+          SpotPrice Query
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Legacy Query
+        SpotPrice Query
       </a>
       
         
@@ -356,6 +342,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legacy_query_example/" class="md-nav__link">
+        Legacy Query
+      </a>
     </li>
   
 
@@ -591,50 +591,46 @@
               
                 
                 
-                <h1 id="legacy-query-example">Legacy Query Example<a class="headerlink" href="#legacy-query-example" title="Permanent link">&para;</a></h1>
-<p>This example demonstrates how to create a 
-<a href="../../code/queries/#telliot_core.queries.legacy_query.LegacyRequest"><code>LegacyRequest</code></a>
-requesting the ETH/USD price.  The legacy request ID for ETH/USD is <code>1</code>, 
-in accordance with the 
-<a href="https://docs.tellor.io/tellor/integration/data-ids/current-data-feeds">Legacy Data Feed ID Specifications</a>.</p>
+                <h1 id="spot-price-query-example">Spot Price Query Example<a class="headerlink" href="#spot-price-query-example" title="Permanent link">&para;</a></h1>
+<p>This example demonstrates how to use the 
+<a href="../../code/queries/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a> Oracle query.</p>
 <h2 id="create-the-query">Create the query<a class="headerlink" href="#create-the-query" title="Permanent link">&para;</a></h2>
-<p>Create a LegacyQuery and view the corresponding query descriptor:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">LegacyRequest</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyRequest</span><span class="p">(</span><span class="n">legacy_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<p>Create a <code>SpotPrice</code> query for the price of Bitcoin in US dollars,
+and view the corresponding descriptor::</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">SpotPrice</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">SpotPrice</span><span class="p">(</span><span class="n">asset</span><span class="o">=</span><span class="s1">&#39;btc&#39;</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="s1">&#39;usd&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
 </code></pre></div>
-<p>The query descriptor string uniquely identifies this query to the 
-TellorX Oracle network.</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;LegacyRequest&quot;</span><span class="p">,</span><span class="nt">&quot;legacy_id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<p>The query <code>.descriptor</code> attribute returns a unique string that identifies this query to the 
+TellorX Oracle network:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;SpotPrice&quot;</span><span class="p">,</span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="s2">&quot;btc&quot;</span><span class="p">,</span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="s2">&quot;usd&quot;</span><span class="p">}</span>
 </code></pre></div>
 <h2 id="on-chain-representation">On-chain representation<a class="headerlink" href="#on-chain-representation" title="Permanent link">&para;</a></h2>
 <p>To make the corresponding on-chain Query request, 
 the <code>TellorX.Oracle.tipQuery()</code> contract call
-requires two arguments: <code>queryData</code> and <code>queryId</code>.  These arguments are provided by 
-the <code>query_data</code> and <code>query_id</code> attributes of the <code>LegacyQuery</code> object:</p>
+requires two arguments: <code>queryData</code> and <code>queryId</code>.  These arguments are computed solely from the
+query <code>descriptor</code>, and are provided by 
+the <code>query_data</code> and <code>query_id</code> attributes as a convenience.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>which, for this example, are:</p>
-<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a224c656761637952657175657374222c226c65676163795f6964223a317d
-tipQuery ID: 0x0000000000000000000000000000000000000000000000000000000000000001
+<div class="highlight"><pre><span></span><code>tipQuery data: 0x7b2274797065223a2253706f745072696365222c226173736574223a22627463222c2263757272656e6379223a22757364227d
+tipQuery ID: 0xd66b36afdec822c56014e56f468dee7c7b082ed873aba0f7663ec7c6f25d2c0a
 </code></pre></div>
 <h2 id="response-encodingdecoding">Response encoding/decoding<a class="headerlink" href="#response-encodingdecoding" title="Permanent link">&para;</a></h2>
-<p>The <code>LegacyQuery</code> object also demonstrates how to encode a response
+<p>The <code>SpotPrice</code> query can also be used to encode a response
 to submit on-chain using the <code>TellorX.Oracle.submitValue()</code> contract call.</p>
-<p>For example, to submit the value <code>10000.1234567</code>, use the 
-<a href="../../code/types/#telliot_core.types.value_type.ValueType.encode"><code>encode</code></a> and 
-<a href="../../code/types/#telliot_core.types.value_type.ValueType.decode"><code>decode</code></a> methods of the response
-<a href="../../code/types/#telliot_core.types.value_type.ValueType"><code>ValueType</code></a>.</p>
-<div class="highlight"><pre><span></span><code><span class="n">value</span> <span class="o">=</span> <span class="mf">10000.1234567</span>
+<p>For example, to submit the real world value <code>99.9</code> use the 
+<a href="../../code/types/#telliot_core.types.value_type.ValueType"><code>ValueType</code></a>.<a href="../../code/types/#telliot_core.types.value_type.ValueType.encode"><code>encode</code></a> 
+method.</p>
+<div class="highlight"><pre><span></span><code><span class="n">value</span> <span class="o">=</span> <span class="mf">99.99</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (float): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">encoded_bytes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">value_type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (bytes): 0x</span><span class="si">{</span><span class="n">encoded_bytes</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>Note that the on-chain and decoded values are limited to 
-6 decimals of precision in accordance with the on-chain data type:</p>
-<div class="highlight"><pre><span></span><code>submitValue (float): 10000.1234567
-submitValue (bytes): 0x00000000000000000000000000000000000000000000000000000002540dc641
+<div class="highlight"><pre><span></span><code>submitValue (float): 99.99
+submitValue (bytes): 0x0000000000000000000000000000000000000000000000056ba3d73af34eec04
 </code></pre></div>
 <p>Similarly, the 
 <a href="../../code/types/#telliot_core.types.value_type.ValueType.decode"><code>decode</code></a> method can be used to convert
@@ -642,20 +638,20 @@ the on-chain bytes value to a real-world value:</p>
 <div class="highlight"><pre><span></span><code><span class="n">decoded_value</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">value_type</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded_bytes</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decoded value (float): </span><span class="si">{</span><span class="n">decoded_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>Decoded value (float): 10000.123457
+<div class="highlight"><pre><span></span><code>Decoded value (float): 99.99
 </code></pre></div>
 <h2 id="full-example">Full Example<a class="headerlink" href="#full-example" title="Permanent link">&para;</a></h2>
 <p>The full example is provided here for reference</p>
-<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Legacy Query Example &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">LegacyRequest</span>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Text Query Example &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">telliot_core.queries</span> <span class="kn">import</span> <span class="n">StringQuery</span>
 
-<span class="n">q</span> <span class="o">=</span> <span class="n">LegacyRequest</span><span class="p">(</span><span class="n">legacy_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">StringQuery</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;What is the meaning of life?&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">descriptor</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery data: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tipQuery ID: 0x</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="n">value</span> <span class="o">=</span> <span class="mf">10000.1234567</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (float): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;Please refer to: https://en.wikipedia.org/wiki/Meaning_of_life&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (str): </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">encoded_bytes</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">value_type</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;submitValue (bytes): 0x</span><span class="si">{</span><span class="n">encoded_bytes</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -682,7 +678,7 @@ the on-chain bytes value to a real-world value:</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../spot_price_query_example/" class="md-footer__link md-footer__link--prev" aria-label="Previous: SpotPrice Query" rel="prev">
+        <a href="../../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -691,20 +687,20 @@ the on-chain bytes value to a real-world value:</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              SpotPrice Query
+              Getting started
             </div>
           </div>
         </a>
       
       
         
-        <a href="../text_query_example/" class="md-footer__link md-footer__link--next" aria-label="Next: Text Query" rel="next">
+        <a href="../legacy_query_example/" class="md-footer__link md-footer__link--next" aria-label="Next: Legacy Query" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Text Query
+              Legacy Query
             </div>
           </div>
           <div class="md-footer__button md-icon">

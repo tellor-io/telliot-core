@@ -274,6 +274,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../examples/spot_price_query_example/" class="md-nav__link">
+        SpotPrice Query
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../examples/legacy_query_example/" class="md-nav__link">
         Legacy Query
       </a>
@@ -866,7 +880,7 @@ to/from floating point values.</p>
     <div class="doc doc-contents ">
 
       <p>An encoder for float values</p>
-<p>This encoder converts a float value to the CoinPrice ABI
+<p>This encoder converts a float value to the SpotPrice ABI
 data type.</p>
 
         <details class="quote">
@@ -874,7 +888,7 @@ data type.</p>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An encoder for float values</span>
 
-<span class="sd">    This encoder converts a float value to the CoinPrice ABI</span>
+<span class="sd">    This encoder converts a float value to the SpotPrice ABI</span>
 <span class="sd">    data type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -902,7 +916,7 @@ data type.</p>
     <div class="doc doc-contents ">
 
       <p>A decoder for float values</p>
-<p>This decoder converts from the CoinPrice ABI data type to
+<p>This decoder converts from the SpotPrice ABI data type to
 a floating point value.</p>
 
         <details class="quote">
@@ -910,7 +924,7 @@ a floating point value.</p>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bytes_val</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A decoder for float values</span>
 
-<span class="sd">    This decoder converts from the CoinPrice ABI data type to</span>
+<span class="sd">    This decoder converts from the SpotPrice ABI data type to</span>
 <span class="sd">    a floating point value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nbytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbits</span> <span class="o">/</span> <span class="mi">8</span>

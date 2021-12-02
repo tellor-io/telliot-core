@@ -274,6 +274,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../examples/spot_price_query_example/" class="md-nav__link">
+        SpotPrice Query
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../examples/legacy_query_example/" class="md-nav__link">
         Legacy Query
       </a>
@@ -412,19 +426,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#telliot_core.queries.price.spot_price.SpotPrice" class="md-nav__link">
+    SpotPrice
+  </a>
+  
+    <nav class="md-nav" aria-label="SpotPrice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.price.spot_price.SpotPrice.value_type" class="md-nav__link">
+    value_type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#telliot_core.queries.legacy_query.LegacyRequest" class="md-nav__link">
     LegacyRequest
   </a>
   
     <nav class="md-nav" aria-label="LegacyRequest">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.legacy_query.LegacyRequest.legacy_id" class="md-nav__link">
-    legacy_id
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#telliot_core.queries.legacy_query.LegacyRequest.value_type" class="md-nav__link">
@@ -436,26 +463,6 @@
           <li class="md-nav__item">
   <a href="#telliot_core.queries.legacy_query.LegacyRequest.query_id" class="md-nav__link">
     query_id
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot_core.queries.coin_price.CoinPrice" class="md-nav__link">
-    CoinPrice
-  </a>
-  
-    <nav class="md-nav" aria-label="CoinPrice">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.coin_price.CoinPrice.value_type" class="md-nav__link">
-    value_type
   </a>
   
 </li>
@@ -659,19 +666,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#telliot_core.queries.price.spot_price.SpotPrice" class="md-nav__link">
+    SpotPrice
+  </a>
+  
+    <nav class="md-nav" aria-label="SpotPrice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.price.spot_price.SpotPrice.value_type" class="md-nav__link">
+    value_type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#telliot_core.queries.legacy_query.LegacyRequest" class="md-nav__link">
     LegacyRequest
   </a>
   
     <nav class="md-nav" aria-label="LegacyRequest">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.legacy_query.LegacyRequest.legacy_id" class="md-nav__link">
-    legacy_id
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#telliot_core.queries.legacy_query.LegacyRequest.value_type" class="md-nav__link">
@@ -683,26 +703,6 @@
           <li class="md-nav__item">
   <a href="#telliot_core.queries.legacy_query.LegacyRequest.query_id" class="md-nav__link">
     query_id
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot_core.queries.coin_price.CoinPrice" class="md-nav__link">
-    CoinPrice
-  </a>
-  
-    <nav class="md-nav" aria-label="CoinPrice">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.coin_price.CoinPrice.value_type" class="md-nav__link">
-    value_type
   </a>
   
 </li>
@@ -914,6 +914,105 @@ contract calls.</p>
 
 
 
+<h2 id="telliot_core.queries.price.spot_price.SpotPrice" class="doc doc-heading">
+        <code>
+SpotPrice            (<a title="telliot_core.queries.query.OracleQuery" href="#telliot_core.queries.query.OracleQuery">OracleQuery</a>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#telliot_core.queries.price.spot_price.SpotPrice" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+      <p>Returns the spot price of a cryptocurrency asset in the given currency.</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>asset</code></td>
+        <td><code>str</code></td>
+        <td><p>Asset ID (see data specifications for a full list of supported assets)</p></td>
+      </tr>
+      <tr>
+        <td><code>currency</code></td>
+        <td><code>str</code></td>
+        <td><p>Currency (default = <code>usd</code>)</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="telliot_core.queries.price.spot_price.SpotPrice.value_type" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">value_type</span><span class="p">:</span> <span class="n">ValueType</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#telliot_core.queries.price.spot_price.SpotPrice.value_type" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Data type returned for a SpotPrice query.</p>
+<ul>
+<li><code>ufixed256x18</code>: 256-bit unsigned integer with 18 decimals of precision</li>
+<li><code>packed</code>: false</li>
+</ul>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
 <h2 id="telliot_core.queries.legacy_query.LegacyRequest" class="doc doc-heading">
         <code>
 LegacyRequest            (<a title="telliot_core.queries.query.OracleQuery" href="#telliot_core.queries.query.OracleQuery">OracleQuery</a>)
@@ -932,11 +1031,9 @@ LegacyRequest            (<a title="telliot_core.queries.query.OracleQuery" href
 <p>Legacy request are queries that existed prior to TellorX
 A legacy query uses arbitrary query <code>data</code> and a static query <code>id</code>.
 The query <code>id</code> is always set to the legacy request ID, which is
-an integer less than 100.</p>
+a static integer less than 100.</p>
 <p>The LegacyQuery class is deprecated and should not be used by
-new projects.  Instead, use the
-<a href="#telliot_core.queries.coin_price.CoinPrice"><code>CoinPrice</code></a>
-query or create a new query.</p>
+new projects.</p>
 <p>Refer to <a href="https://docs.tellor.io/tellor/integration/data-ids">tellor documentation</a>
 for a description of each <code>id</code></p>
 
@@ -949,27 +1046,6 @@ for a description of each <code>id</code></p>
 
 
 
-
-
-  <div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="telliot_core.queries.legacy_query.LegacyRequest.legacy_id" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">legacy_id</span><span class="p">:</span> <span class="nb">int</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-dataclass-field"><code>dataclass-field</code></small>
-  </span>
-
-<a href="#telliot_core.queries.legacy_query.LegacyRequest.legacy_id" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>The request ID of all legacy queries is a static integer 1 &lt; N &lt;=100</p>
-    </div>
-
-  </div>
 
 
 
@@ -1013,106 +1089,6 @@ for a description of each <code>id</code></p>
     <div class="doc doc-contents ">
 
       <p>Override query <code>id</code> with the legacy request ID.</p>
-    </div>
-
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
-<h2 id="telliot_core.queries.coin_price.CoinPrice" class="doc doc-heading">
-        <code>
-CoinPrice            (<a title="telliot_core.queries.query.OracleQuery" href="#telliot_core.queries.query.OracleQuery">OracleQuery</a>)
-        </code>
-
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
-  </span>
-
-<a href="#telliot_core.queries.coin_price.CoinPrice" class="headerlink" title="Permanent link">&para;</a></h2>
-
-    <div class="doc doc-contents first">
-
-      <p>Query the price of a cryptocurrency coin. <strong>PROTOTYPE: DO NOT USE</strong></p>
-
-<p><strong>Attributes:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>coin</code></td>
-        <td><code>str</code></td>
-        <td><p>Token symbol</p></td>
-      </tr>
-      <tr>
-        <td><code>currency</code></td>
-        <td><code>str</code></td>
-        <td><p>Price currency symbol (default = USD)</p></td>
-      </tr>
-      <tr>
-        <td><code>price_type</code></td>
-        <td><code>Literal[&#39;current&#39;, &#39;eod&#39;, &#39;24hr_twap&#39;, &#39;1hr_twap&#39;]</code></td>
-        <td><p>Price Type (default = current)</p></td>
-      </tr>
-  </tbody>
-</table>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="telliot_core.queries.coin_price.CoinPrice.value_type" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">value_type</span><span class="p">:</span> <span class="n">ValueType</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-property"><code>property</code></small>
-      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
-  </span>
-
-<a href="#telliot_core.queries.coin_price.CoinPrice.value_type" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns the fixed value type for a CoinPrice.</p>
     </div>
 
   </div>
