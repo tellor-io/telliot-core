@@ -11,9 +11,9 @@ import yaml
 
 import telliot_core
 from telliot_core.apps.core import TelliotCore  # type: ignore
+from telliot_core.apps.oracle_read import getStakerInfo
+from telliot_core.apps.oracle_read import getTimeBasedReward
 from telliot_core.apps.telliot_config import TelliotConfig
-from telliot_core.apps.tellorx_read import getStakerInfo
-from telliot_core.apps.tellorx_read import getTimeBasedReward
 
 
 def get_app(ctx: click.Context) -> TelliotCore:
@@ -112,14 +112,14 @@ def getstakerinfo(ctx: click.Context, address: str) -> None:
 @click.option("--data", is_flag=True, help="Retrieve all datapoints from blockchain")
 def legacyqueryinfo(ctx: click.Context, lid: int, data: bool) -> None:
     """Show query info"""
-    from telliot_core.apps.tellorx_read import (
+    from telliot_core.apps.oracle_read import (
         getTimestampCountById,
         getBlockNumberByTimestamp,
         getTipsById,
         getReportTimestampByIndex,
         getCurrentReward,
     )
-    from telliot_core.apps.tellorx_read import (
+    from telliot_core.apps.oracle_read import (
         getCurrentValue,
         getTimeOfLastNewValue,
         getValueByTimestamp,

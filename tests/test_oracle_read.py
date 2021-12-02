@@ -1,14 +1,14 @@
 import pytest
 
-from telliot_core.apps.tellorx_read import getBlockNumberByTimestamp
-from telliot_core.apps.tellorx_read import getCurrentReward
-from telliot_core.apps.tellorx_read import getReportingLock
-from telliot_core.apps.tellorx_read import getReportTimestampByIndex
-from telliot_core.apps.tellorx_read import getStakerInfo
-from telliot_core.apps.tellorx_read import getTimeBasedReward
-from telliot_core.apps.tellorx_read import getTimeOfLastNewValue
-from telliot_core.apps.tellorx_read import getTimestampCountById
-from telliot_core.apps.tellorx_read import getTipsById
+from telliot_core.apps.oracle_read import getBlockNumberByTimestamp
+from telliot_core.apps.oracle_read import getCurrentReward
+from telliot_core.apps.oracle_read import getReportingLock
+from telliot_core.apps.oracle_read import getReportTimestampByIndex
+from telliot_core.apps.oracle_read import getStakerInfo
+from telliot_core.apps.oracle_read import getTimeBasedReward
+from telliot_core.apps.oracle_read import getTimeOfLastNewValue
+from telliot_core.apps.oracle_read import getTimestampCountById
+from telliot_core.apps.oracle_read import getTipsById
 
 
 @pytest.mark.asyncio
