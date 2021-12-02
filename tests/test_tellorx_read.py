@@ -55,7 +55,7 @@ async def test_getCurrentReward(rinkeby_core):
 
 
 @pytest.mark.asyncio
-async def test_get_block_number_by_timestamp(rinkeby_core):
+async def test_getBlockNumberByTimestamp(rinkeby_core):
     queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
     timestamp = 1638377944
     result, status = await getBlockNumberByTimestamp(queryId, timestamp)

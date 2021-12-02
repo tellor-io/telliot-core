@@ -106,5 +106,75 @@ def getstakerinfo(ctx: click.Context, address: str) -> None:
         print(result)
 
 
+@main.command()
+@click.pass_context
+@click.argument("lid", type=int)
+@click.option("--data", is_flag=True, help="Retrieve all datapoints from blockchain")
+def legacyqueryinfo(ctx: click.Context, lid: int, data: bool) -> None:
+    """Show query info"""
+    from telliot_core.apps.tellorx_read import (
+        getTimestampCountById,
+        getBlockNumberByTimestamp,
+        getTipsById,
+        getReportTimestampByIndex,
+        getCurrentReward,
+    )
+    from telliot_core.apps.tellorx_read import (
+        getCurrentValue,
+        getTimeOfLastNewValue,
+        getValueByTimestamp,
+        getReporterByTimestamp,
+    )
+
+    _ = get_app(ctx)  # Initialize app
+    from telliot_core.queries import LegacyRequest
+
+    q = LegacyRequest(legacy_id=lid)
+    print(f"Descriptor: {q.descriptor}")
+    queryId = f"0x{q.query_id.hex()}"
+    print(f"queryId: {queryId}")
+
+    count, status = asyncio.run(getTimestampCountById(queryId))
+    print(f"Timestamp count: {count}")
+
+    bytes_value, status = asyncio.run(getCurrentValue(queryId))
+    if bytes_value is not None:
+        value = q.value_type.decode(bytes_value)
+        print(f"Current value: {value}")
+    else:
+        print("Current value: None")
+
+    tlnv, status = asyncio.run(getTimeOfLastNewValue())
+    print(f"Time of last new value (all queryIds): {tlnv}")
+
+    tips, status = asyncio.run(getTipsById(queryId))
+    print(f"Tips (TRB): {tips}")
+
+    (tips2, reward), status = asyncio.run(getCurrentReward(queryId))
+    print(f"Tips/reward (TRB): {tips2} / {reward}")
+
+    if data:
+        print("On-chain data:")
+        for k in range(count):
+            ts, status = asyncio.run(getReportTimestampByIndex(queryId, k))
+            blocknum, status = asyncio.run(getBlockNumberByTimestamp(queryId, ts))
+            bytes_value, status = asyncio.run(getValueByTimestamp(queryId, ts))
+            value = q.value_type.decode(bytes_value)
+            reporter, status = asyncio.run(getReporterByTimestamp(queryId, ts))
+            print(
+                f" index: {k}, timestamp: {ts}, block: {blocknum}, "
+                f"value:{value}, reporter: {reporter} "
+            )
+
+
+# @main.command()
+# @click.argument("descriptor", required=True, help="Query Descriptor")
+# def queryinfo(descriptor) -> None:
+#     """Execute a command"""
+#     from telliot_core.model.base import Base
+#     import json
+#     q = Base.from_state(json.loads(descriptor))
+#     print(q)
+
 if __name__ == "__main__":
     main()
