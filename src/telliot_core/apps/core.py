@@ -117,7 +117,7 @@ class TelliotCore(Atom):
         if connected:
             msg = (
                 f"{self.name} application connected to {networks[chain_id]} "
-                f"with address {default_staker.address} "
+                f"with staker {default_staker.tag} "
                 f"(using telliot-core {telliot_core.__version__})"
             )
             print(msg)
