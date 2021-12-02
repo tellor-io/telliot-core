@@ -167,14 +167,5 @@ def legacyqueryinfo(ctx: click.Context, lid: int, data: bool) -> None:
             )
 
 
-# @main.command()
-# @click.argument("descriptor", required=True, help="Query Descriptor")
-# def queryinfo(descriptor) -> None:
-#     """Execute a command"""
-#     from telliot_core.model.base import Base
-#     import json
-#     q = Base.from_state(json.loads(descriptor))
-#     print(q)
-
 if __name__ == "__main__":
     main()
