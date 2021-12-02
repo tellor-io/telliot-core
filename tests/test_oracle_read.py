@@ -4,20 +4,10 @@ from telliot_core.apps.oracle_read import getBlockNumberByTimestamp
 from telliot_core.apps.oracle_read import getCurrentReward
 from telliot_core.apps.oracle_read import getReportingLock
 from telliot_core.apps.oracle_read import getReportTimestampByIndex
-from telliot_core.apps.oracle_read import getStakerInfo
 from telliot_core.apps.oracle_read import getTimeBasedReward
 from telliot_core.apps.oracle_read import getTimeOfLastNewValue
 from telliot_core.apps.oracle_read import getTimestampCountById
 from telliot_core.apps.oracle_read import getTipsById
-
-
-@pytest.mark.asyncio
-async def test_get_staker_info(rinkeby_core):
-    result, status = await getStakerInfo()
-    assert status.ok
-    assert len(result) == 2
-    assert isinstance(result[0], int)
-    assert isinstance(result[1], int)
 
 
 @pytest.mark.asyncio
