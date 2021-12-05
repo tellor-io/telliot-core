@@ -3,6 +3,8 @@
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
+import decimal
+
 from telliot_core.queries.legacy_query import LegacyRequest
 
 
@@ -25,6 +27,11 @@ def test_legacy_ample_query():
     )
 
     assert (
-        q.value_type.encode(116.7).hex()
-        == "0000000000000000000000000000000000000000000000065389afb268160b1a"
+        q.value_type.encode(116.788).hex()
+        == "00000000000000000000000000000000000000000000000654c2533b0c51f31f"
+    )
+
+    assert (
+        q.value_type.encode(decimal.Decimal("116.788")).hex()
+        == "00000000000000000000000000000000000000000000000654c2533b0c520000"
     )
