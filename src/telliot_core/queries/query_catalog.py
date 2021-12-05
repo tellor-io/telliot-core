@@ -24,7 +24,6 @@ class CatalogEntry(Base):
     descriptor: str
     query_id: str
     active: bool
-    manual: bool
 
     @property
     def query(self) -> OracleQuery:
@@ -38,12 +37,7 @@ class Catalog(Base):
     _entries: Dict[str, CatalogEntry] = field(default_factory=dict)
 
     def add_entry(
-        self,
-        tag: str,
-        title: str,
-        q: OracleQuery,
-        active: bool = True,
-        manual: bool = False,
+        self, tag: str, title: str, q: OracleQuery, active: bool = True
     ) -> None:
 
         if tag in self._entries:
@@ -56,7 +50,6 @@ class Catalog(Base):
             descriptor=q.descriptor,
             query_id=f"0x{q.query_id.hex()}",
             active=active,
-            manual=manual,
         )
 
         self._entries[tag] = entry
@@ -68,7 +61,6 @@ class Catalog(Base):
         query_id: Optional[str] = None,
         query_type: Optional[str] = None,
         active: Optional[bool] = None,
-        manual: Optional[bool] = None,
     ) -> List[OracleQuery]:
         """Returns a list of queries matching the search parameters"""
 
@@ -85,9 +77,6 @@ class Catalog(Base):
                     continue
             if active is not None:
                 if active != entry.active:
-                    continue
-            if manual is not None:
-                if manual != entry.manual:
                     continue
 
             entries.append(entry)
@@ -109,7 +98,6 @@ class Catalog(Base):
             lines.append(f"| Active | `{entry.active}` |")
             lines.append(f"| Type | `{entry.query_type}` |")
             lines.append(f"| Descriptor | `{entry.descriptor}` |")
-            lines.append(f"| Manual | `{entry.manual}` |")
             lines.append(f"| Query ID | `{entry.query_id}` |")  # type: ignore
             lines.append(f"| Query data | `0x{entry.query.query_data.hex()}` |")
             lines.append("")
@@ -141,10 +129,7 @@ query_catalog.add_entry(
 )
 
 query_catalog.add_entry(
-    tag="uspce-legacy",
-    title="Legacy USPCE value",
-    q=LegacyRequest(legacy_id=41),
-    manual=True,
+    tag="uspce-legacy", title="Legacy USPCE value", q=LegacyRequest(legacy_id=41)
 )
 
 query_catalog.add_entry(

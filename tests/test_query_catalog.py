@@ -9,14 +9,6 @@ def test_query_catalog():
     assert isinstance(q.query, OracleQuery)
 
 
-def test_find_manual():
-    """Search for manual queries.  Only USPCE for now."""
-    qlst = query_catalog.find(manual=True)
-    print(qlst)
-    q = qlst[0]
-    assert q.tag == "uspce-legacy"
-
-
 def test_find_all():
     """Find all query entries"""
     qlst = query_catalog.find()
