@@ -46,6 +46,7 @@ async def test_faucet(rinkeby_cfg, master):
     # mint tokens to user
     receipt, status = await master.write_with_retry(
         func_name="setBalanceTest",
+        gas_limit=350000,
         gas_price=gas_price,
         extra_gas_price=20,
         retries=1,
@@ -82,6 +83,7 @@ async def test_trb_transfer(rinkeby_cfg, master):
         "transfer",
         _to=recipient,
         _amount=1,
+        gas_limit=350000,
         gas_price=gas_price,
         extra_gas_price=20,
         retries=2,
@@ -111,6 +113,7 @@ async def test_submit_value(rinkeby_cfg, master, oracle):
     if is_staked[0] == 0:
         _, status = await master.write_with_retry(
             func_name="depositStake",
+            gas_limit=350000,
             gas_price=gas_price_gwei,
             extra_gas_price=20,
             retries=2,
@@ -132,6 +135,7 @@ async def test_submit_value(rinkeby_cfg, master, oracle):
 
     receipt, status = await oracle.write_with_retry(
         func_name="submitValue",
+        gas_limit=350000,
         gas_price=gas_price_gwei,
         extra_gas_price=40,
         retries=5,

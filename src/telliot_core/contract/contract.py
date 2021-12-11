@@ -76,7 +76,7 @@ class Contract:
         func_name: str,
         gas_price: int,
         acc_nonce: int,
-        gas_limit: int = 500000,
+        gas_limit: int,
         **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction once without retries
@@ -149,7 +149,7 @@ class Contract:
         gas_price: int,
         extra_gas_price: int,
         retries: int,
-        gas_limit: int = 500000,
+        gas_limit: int,
         **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction. Retries supported!
