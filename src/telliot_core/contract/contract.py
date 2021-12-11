@@ -72,7 +72,12 @@ class Contract:
             return None, ResponseStatus(ok=False, error=msg)
 
     async def write(
-        self, func_name: str, gas_price: int, acc_nonce: int, **kwargs: Any
+        self,
+        func_name: str,
+        gas_price: int,
+        acc_nonce: int,
+        gas_limit: int,
+        **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction once without retries
 
@@ -99,8 +104,6 @@ class Contract:
             # build transaction
             contract_function = self.contract.get_function_by_name(func_name)
             transaction = contract_function(**kwargs)
-            # estimated_gas = transaction.estimateGas()
-            gas_limit = 500000  # TODO optimize for gas/profitability
             logger.info("gas limit:", gas_limit)
 
             logger.info("address: ----- ", acc.address)
@@ -146,6 +149,7 @@ class Contract:
         gas_price: int,
         extra_gas_price: int,
         retries: int,
+        gas_limit: int,
         **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction. Retries supported!
@@ -166,6 +170,7 @@ class Contract:
                     func_name=func_name,
                     gas_price=gas_price,
                     acc_nonce=acc_nonce,
+                    gas_limit=gas_limit,
                     **kwargs,
                 )
 
