@@ -1,15 +1,15 @@
-from typing import ClassVar, Dict, Any
+from typing import Any
+from typing import ClassVar
+from typing import Dict
 
 
 class Singleton(type):
-    """ Metaclass for class that only allows a single instance
-
-    """
+    """Metaclass for class that only allows a single instance"""
 
     _instances: ClassVar[Dict[type, Any]] = {}
 
     def __call__(cls, *args: Any, **kwargs: Any) -> Any:
-        """ Return a new singleton instance of type cls
+        """Return a new singleton instance of type cls
 
         If the singleton already exists, an exception will be raised
         """
@@ -22,15 +22,11 @@ class Singleton(type):
         return self
 
     def get(cls) -> Any:
-        """ Get the singleton instance of type cls
-
-        """
+        """Get the singleton instance of type cls"""
         if cls not in Singleton._instances:
             raise LookupError(f"{cls.__name__} does not exist")
         return Singleton._instances[cls]
 
     def destroy(cls) -> None:
-        """ Destroy the singleton instance
-
-        """
+        """Destroy the singleton instance"""
         Singleton._instances.pop(cls, None)

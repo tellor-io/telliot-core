@@ -1,4 +1,5 @@
 import pytest
+
 from telliot_core.apps.singleton import Singleton
 
 
