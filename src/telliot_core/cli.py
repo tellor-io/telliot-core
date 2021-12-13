@@ -52,7 +52,12 @@ def main(ctx: click.Context, version: bool, chain_id: int) -> None:
         if len(telliot_plugins) > 1:
             for name, pkg in telliot_plugins.items():
                 if name != "telliot_core":
-                    print(f"{name} (plugin): Version {pkg.__version__}")
+                    try:
+                        print(
+                            f"{name} (plugin): Version {pkg.__version__}"  # type: ignore
+                        )
+                    except AttributeError:
+                        print(f"{name} (plugin): Version UNKNOWN")
 
         return
     """Telliot command line interface"""
