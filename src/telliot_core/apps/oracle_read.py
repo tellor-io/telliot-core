@@ -2,7 +2,7 @@ from typing import Any
 from typing import Optional
 from typing import Tuple
 
-from telliot_core.apps.core import TelliotCore  # type: ignore
+from telliot_core.apps.core import TelliotCore
 from telliot_core.utils.response import ResponseStatus
 
 ReadRespType = Tuple[Any, ResponseStatus]

@@ -46,7 +46,9 @@ def rinkeby_core(rinkeby_cfg):
 
     app.connect()
     yield app
-    app.destroy()
+
+    # Destroy app instance after test
+    TelliotCore.destroy()
 
 
 @pytest.fixture(scope="session")
