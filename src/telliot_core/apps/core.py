@@ -5,16 +5,32 @@ from typing import Optional
 from typing import Union
 
 import telliot_core
-from telliot_core.apps.app import get_contract
 from telliot_core.apps.singleton import Singleton
 from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
+from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.home import telliot_homedir
 
 logger = logging.getLogger(__name__)
 networks = {1: "eth-mainnet", 4: "eth-rinkeby"}
+
+
+def get_contract(name: str, chain_id: int, endpoint: RPCEndpoint, key: str) -> Contract:
+    contract_info = tellor_directory.find(chain_id=chain_id, name=name)[0]
+    if not contract_info:
+        raise Exception(f"contract not found: {name}, {chain_id}")
+    assert contract_info.abi
+
+    contract = Contract(
+        address=contract_info.address,
+        abi=contract_info.abi,
+        node=endpoint,
+        private_key=key,
+    )
+    contract.connect()
+    return contract
 
 
 @dataclass
