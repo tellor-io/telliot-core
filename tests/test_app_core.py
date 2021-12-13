@@ -29,77 +29,42 @@ def test_application_homedir():
         shutil.rmtree(testhome)
 
     testhome.mkdir(parents=True)
-    app = TelliotCore(name="appname", homedir=testhome)
+    app = TelliotCore(homedir=testhome)
     assert isinstance(app.homedir, pathlib.Path)
 
     shutil.rmtree(testhome)
-    app.destroy()
+    TelliotCore.destroy()
 
 
 def test_application_default_home():
     """Test default application directory"""
 
-    app = TelliotCore(name="appname")
+    app = TelliotCore()
     assert app.homedir == default_homedir()
     assert "telliot" in str(app.homedir)
-    app.destroy()
-
-
-def test_application_subclassing():
-    """Test application features"""
-
-    # Create BaseApplication subclass
-    # Note: other attributes-specific can be added as required
-    class MyApp(TelliotCore):
-
-        # Insert other attributes here
-
-        def __init__(self, **data):
-            super().__init__(name="myapp", **data)
-
-    # Make sure temp dir exists
-    testhome.mkdir(parents=True, exist_ok=True)
-
-    #: Instantiate application subclass
-    app = MyApp(homedir=testhome)
-    assert app.homedir == testhome
-
-    shutil.rmtree(testhome)
-    app.destroy()
+    TelliotCore.destroy()
 
 
 def test_app_connect(rinkeby_cfg):
-    app = TelliotCore(name="testapp", config=rinkeby_cfg)
+    app = TelliotCore(config=rinkeby_cfg)
     assert app.connect()
-    app.destroy()
+    TelliotCore.destroy()
 
 
 def test_app_constrctor():
     # Create a default application
-    app = TelliotCore()
+    _ = TelliotCore()
 
     # Prevent creating two Applications
     with pytest.raises(RuntimeError):
-        app = TelliotCore()
+        _ = TelliotCore()
 
     # Destroy existing app
-    app.destroy()
+    TelliotCore.destroy()
 
     # Create a new app using local home folder
     tmpdir = Path(".tmp")
     if not tmpdir.exists():
         tmpdir.mkdir()
-    app = TelliotCore(homedir=Path(".tmp"))
-    app.destroy()
-
-    # Test app getter (create from scratch)
-    app.destroy()
-    app1 = TelliotCore().get()
-
-    # Re-get existing app object
-    app2 = TelliotCore.get()
-
-    assert app1 is app2
-
-    app1.destroy()
-    app2.destroy()
+    _ = TelliotCore(homedir=Path(".tmp"))
+    TelliotCore.destroy()

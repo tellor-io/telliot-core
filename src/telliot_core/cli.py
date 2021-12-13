@@ -10,7 +10,7 @@ import click
 import yaml
 
 import telliot_core
-from telliot_core.apps.core import TelliotCore  # type: ignore
+from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.master_read import getStakerInfo
 from telliot_core.apps.oracle_read import getTimeBasedReward
 from telliot_core.apps.telliot_config import TelliotConfig
