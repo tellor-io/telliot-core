@@ -24,12 +24,6 @@ class MainConfig(ConfigOptions):
     #: Select chain id
     chain_id: int = 4
 
-    #: Select network (e.g. mainnet, testnet, rinkeby
-    network: str = "rinkeby"
-
-    #: Private key for selected chain_id/network
-    private_key: str = ""
-
 
 @dataclass
 class TelliotConfig(Base):
