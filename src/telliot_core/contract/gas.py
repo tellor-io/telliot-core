@@ -1,9 +1,9 @@
 import json
-from typing import Literal, Tuple
+from typing import Literal
 
 import requests
 
-ethgastypes = Literal["SafeGasPrice", "ProposeGasPrice", "FastGasPrice"]
+ethgastypes = Literal["fast", "fastest", "safeLow", "average"]
 
 
 async def fetch_gas_price() -> int:
@@ -14,15 +14,13 @@ async def fetch_gas_price() -> int:
     Returns:
         eth gas price in gwei
     """
-    return await etherscan_gas_api("fast")
+    return await ethgasstation("fast")
 
 
-async def etherscan_gas_api(style: ethgastypes = "FastGasPrice") -> Tuple[int]:
+async def ethgasstation(style: ethgastypes = "fast") -> int:
     """Fetch gas price from ethgasstation in gwei"""
-    rsp = requests.get("https://api.etherscan.io/api?module=gastracker&action=gasoracle")
-    json_ = json.loads(rsp.content)
+    rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
+    prices = json.loads(rsp.content)
+    gas_price = int(prices[style])
 
-    base_fee = int(json_["result"]["suggestBaseFee"])
-    priority_fee = int(json_["result"][style])
-
-    return base_fee, priority_fee
+    return int(gas_price / 10)  # json output is gwei*10

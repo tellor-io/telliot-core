@@ -114,7 +114,7 @@ class Contract:
                     "from": acc.address,
                     "nonce": acc_nonce,
                     "gas": gas_limit,
-                    "gasPrice": self.node.web3.toWei(gas_price, "gwei"),
+                    "baseFeePerGas": self.node.web3.toWei(gas_price, "gwei"),
                     "chainId": self.node.chain_id,
                 }
             )
