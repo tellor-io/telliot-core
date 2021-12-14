@@ -15,7 +15,8 @@ def test_connect_to_tellor(rinkeby_core):
 
     assert len(rinkeby_core.tellorx.master.contract.all_functions()) > 0
     assert isinstance(
-        rinkeby_core.tellorx.master.contract.all_functions()[0], web3.contract.ContractFunction
+        rinkeby_core.tellorx.master.contract.all_functions()[0],
+        web3.contract.ContractFunction,
     )
 
 
@@ -38,9 +39,13 @@ async def test_faucet(rinkeby_core):
     # estimate gas
     gas_price = await fetch_gas_price()
     # set up user
-    user = rinkeby_core.tellorx.master.node.web3.eth.account.from_key(rinkeby_core.config.main.private_key).address
+    user = rinkeby_core.tellorx.master.node.web3.eth.account.from_key(
+        rinkeby_core.config.main.private_key
+    ).address
     # read balance
-    balance1, status = await rinkeby_core.tellorx.master.read(func_name="balanceOf", _user=user)
+    balance1, status = await rinkeby_core.tellorx.master.read(
+        func_name="balanceOf", _user=user
+    )
     assert status.ok
     assert balance1 >= 0
     print(balance1)
@@ -56,7 +61,9 @@ async def test_faucet(rinkeby_core):
     )
     assert status.ok
     # read balance again
-    balance2, status = await rinkeby_core.tellorx.master.read(func_name="balanceOf", _user=user)
+    balance2, status = await rinkeby_core.tellorx.master.read(
+        func_name="balanceOf", _user=user
+    )
     assert status.ok
     print(balance2)
     assert balance2 - balance1 == 1e21
@@ -68,7 +75,9 @@ async def test_trb_transfer(rinkeby_core):
     """Test TRB transfer through TellorMaster contract (and its proxies)"""
 
     gas_price = await fetch_gas_price()
-    sender = rinkeby_core.tellorx.master.node.web3.eth.account.from_key(rinkeby_core.config.main.private_key).address
+    sender = rinkeby_core.tellorx.master.node.web3.eth.account.from_key(
+        rinkeby_core.config.main.private_key
+    ).address
     balance, status = await rinkeby_core.tellorx.master.read("balanceOf", _user=sender)
     print("my sender address:", sender)
     print("my sender balance:", balance / 1e18)
@@ -76,7 +85,9 @@ async def test_trb_transfer(rinkeby_core):
         Web3.toChecksumAddress("0xf3428C75CAfb3FBA46D3E190B7539Fbbfb96f244")
     )
 
-    balance, status = await rinkeby_core.tellorx.master.read("balanceOf", _user=recipient)
+    balance, status = await rinkeby_core.tellorx.master.read(
+        "balanceOf", _user=recipient
+    )
     assert status.ok
     print("before:", balance / 1e18)
 
@@ -92,7 +103,9 @@ async def test_trb_transfer(rinkeby_core):
     print(status.error)
     assert status.ok
 
-    balance, status = await rinkeby_core.tellorx.master.read("balanceOf", _user=recipient)
+    balance, status = await rinkeby_core.tellorx.master.read(
+        "balanceOf", _user=recipient
+    )
     print("after:", balance / 1e18)
 
 
@@ -102,13 +115,17 @@ async def test_submit_value(rinkeby_core):
     """E2E test for submitting a value to rinkeby"""
 
     gas_price_gwei = await fetch_gas_price()
-    user = master.node.web3.eth.account.from_key(rinkeby_core.config.main.private_key).address
+    user = rinkeby_core.tellorx.master.node.web3.eth.account.from_key(
+        rinkeby_core.config.main.private_key
+    ).address
     print(user)
 
     balance, status = await rinkeby_core.tellorx.master.read("balanceOf", _user=user)
     print(balance / 1e18)
 
-    is_staked, status = await rinkeby_core.tellorx.master.read("getStakerInfo", _staker=user)
+    is_staked, status = await rinkeby_core.tellorx.master.read(
+        "getStakerInfo", _staker=user
+    )
     print(is_staked)
 
     if is_staked[0] == 0:

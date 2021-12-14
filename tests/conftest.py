@@ -47,5 +47,3 @@ def rinkeby_core(rinkeby_cfg):
 
     # Destroy app instance after test
     TelliotCore.destroy()
-
-

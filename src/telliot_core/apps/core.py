@@ -116,6 +116,10 @@ class TelliotCore(metaclass=Singleton):
         chain_id = self.config.main.chain_id
 
         default_staker = self.get_default_staker()
+        if default_staker is None:
+            raise RuntimeError(
+                "Cannot start tellor-core application.  No staker found."
+            )
 
         private_key = default_staker.private_key
 
