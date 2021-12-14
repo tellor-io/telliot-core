@@ -14,6 +14,7 @@ from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.master_read import getStakerInfo
 from telliot_core.apps.oracle_read import getTimeBasedReward
 from telliot_core.apps.telliot_config import TelliotConfig
+from telliot_core.plugin.discover import telliot_plugins
 
 
 def get_app(ctx: click.Context) -> TelliotCore:
@@ -46,9 +47,18 @@ def get_app(ctx: click.Context) -> TelliotCore:
 def main(ctx: click.Context, version: bool, chain_id: int) -> None:
     ctx.ensure_object(dict)
     ctx.obj["chain_id"] = chain_id
-
     if version:
-        print(f"Version {telliot_core.__version__}")
+        print(f"telliot-core: Version {telliot_core.__version__}")
+        if len(telliot_plugins) > 1:
+            for name, pkg in telliot_plugins.items():
+                if name != "telliot_core":
+                    try:
+                        print(
+                            f"{name} (plugin): Version {pkg.__version__}"  # type: ignore
+                        )
+                    except AttributeError:
+                        print(f"{name} (plugin): Version UNKNOWN")
+
         return
     """Telliot command line interface"""
     if ctx.invoked_subcommand is None:
