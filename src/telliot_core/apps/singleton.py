@@ -22,9 +22,11 @@ class Singleton(type):
         return self
 
     def get(cls) -> Any:
-        """Get the singleton instance of type cls"""
+        """Get the singleton instance of type cls
+
+        Returns None if no instance exists"""
         if cls not in Singleton._instances:
-            raise LookupError(f"{cls.__name__} does not exist")
+            return None
         return Singleton._instances[cls]
 
     def destroy(cls) -> None:

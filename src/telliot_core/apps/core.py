@@ -114,7 +114,10 @@ class TelliotCore(metaclass=Singleton):
             raise Exception(f"Could not connect to endpoint: {self.endpoint.url}")
 
         chain_id = self.config.main.chain_id
-        private_key = self.config.main.private_key
+
+        default_staker = self.get_default_staker()
+
+        private_key = default_staker.private_key
 
         self._tellorx = ContractSet(
             master=get_contract("master", chain_id, self.endpoint, private_key),

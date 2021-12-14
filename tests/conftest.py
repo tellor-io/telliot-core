@@ -5,8 +5,6 @@ import pytest
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.telliot_config import TelliotConfig
-from telliot_core.contract.contract import Contract
-from telliot_core.directory.tellorx import tellor_directory
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -51,33 +49,3 @@ def rinkeby_core(rinkeby_cfg):
     TelliotCore.destroy()
 
 
-@pytest.fixture(scope="session")
-def master(rinkeby_cfg):
-    """Helper function for connecting to a contract at an address"""
-    tellor_master = tellor_directory.find(chain_id=4, name="master")[0]
-    endpoint = rinkeby_cfg.get_endpoint()
-    endpoint.connect()
-    master = Contract(
-        address=tellor_master.address,  # "0x657b95c228A5de81cdc3F85be7954072c08A6042",
-        abi=tellor_master.abi,
-        node=endpoint,
-        private_key=rinkeby_cfg.main.private_key,
-    )
-    master.connect()
-    return master
-
-
-@pytest.fixture(scope="session", autouse=True)
-def oracle(rinkeby_cfg):
-    """Helper function for connecting to a contract at an address"""
-    tellor_oracle = tellor_directory.find(chain_id=4, name="oracle")[0]
-    endpoint = rinkeby_cfg.get_endpoint()
-    endpoint.connect()
-    oracle = Contract(
-        address=tellor_oracle.address,  # "0x07b521108788C6fD79F471D603A2594576D47477",
-        abi=tellor_oracle.abi,
-        node=endpoint,
-        private_key=rinkeby_cfg.main.private_key,
-    )
-    oracle.connect()
-    return oracle
