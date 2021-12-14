@@ -1,0 +1,70 @@
+{
+  "type": "ChainList",
+  "chains": [
+    {
+      "type": "Chain",
+      "name": "Ethereum Mainnet",
+      "chain": "ETH",
+      "network": "mainnet",
+      "chain_id": 1,
+      "currency": {
+        "type": "EVMCurrency",
+        "name": "Ether",
+        "symbol": "ETH",
+        "decimals": 18
+      }
+    },
+    {
+      "type": "Chain",
+      "name": "Ethereum Testnet Ropsten",
+      "chain": "ETH",
+      "network": "ropsten",
+      "chain_id": 3,
+      "currency": {
+        "type": "EVMCurrency",
+        "name": "Ropsten Ether",
+        "symbol": "ROP",
+        "decimals": 18
+      }
+    },
+    {
+      "type": "Chain",
+      "name": "Ethereum Testnet Rinkeby",
+      "chain": "ETH",
+      "network": "rinkeby",
+      "chain_id": 4,
+      "currency": {
+        "type": "EVMCurrency",
+        "name": "Rinkeby Ether",
+        "symbol": "RIN",
+        "decimals": 18
+      }
+    },
+    {
+      "type": "Chain",
+      "name": "Matic(Polygon) Mainnet",
+      "chain": "Matic(Polygon)",
+      "network": "mainnet",
+      "chain_id": 137,
+      "currency": {
+        "type": "EVMCurrency",
+        "name": "Matic",
+        "symbol": "MATIC",
+        "decimals": 18
+      }
+    },
+    {
+      "type": "Chain",
+      "name": "Matic(Polygon) Testnet Mumbai",
+      "chain": "Matic(Polygon)",
+      "network": "testnet",
+      "chain_id": 80001,
+      "currency": {
+        "type": "EVMCurrency",
+        "name": "Matic",
+        "symbol": "tMATIC",
+        "decimals": 18
+      }
+    }
+  ]
+}

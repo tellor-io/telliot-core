@@ -1,0 +1,5 @@
+type: MainConfig
+loglevel: INFO
+chain_id: 4
+network: rinkeby
+private_key: ''
