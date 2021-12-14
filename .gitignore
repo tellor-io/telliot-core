@@ -150,5 +150,7 @@ cython_debug/
 *.db
 *.sqlite3
 
+temp/
+.tmp/
 Pipfile
 Pipfile.lock
