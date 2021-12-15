@@ -137,12 +137,16 @@ class Contract:
                 tx_hash, timeout=360
             )
 
-            # Point to relevant explorer
-            logger.info(
-                f"""View {func_name} transaction: \n
-                {self.node.explorer}/tx/{tx_hash.hex()}
-                """
-            )
+            tx_url = f"{self.node.explorer}/tx/{tx_hash.hex()}"
+
+            if tx_receipt["status"] == 1:
+                logger.info(f"{func_name} transaction succeeded. ({tx_url})")
+                return tx_receipt, status
+
+            elif tx_receipt["status"] == 0:
+                msg = f"{func_name} transaction reverted. ({tx_url})"
+                return tx_receipt, error_status(msg, log=logger.error)
+
             return tx_receipt, status
 
         except Exception as e:
@@ -172,6 +176,11 @@ class Contract:
             # Iterate through retry attempts
             for k in range(retries + 1):
 
+                attempt = k + 1
+
+                if k >= 1:
+                    logger.info(f"Retrying {func_name} (attempt #{attempt}")
+
                 # Attempt write
                 tx_receipt, status = await self.write(
                     func_name=func_name,
@@ -181,28 +190,28 @@ class Contract:
                     **kwargs,
                 )
 
-                logger.debug(f"Attempt {k} status: ", status)
+                logger.debug(f"Attempt {attempt} status: ", status)
 
                 # Exit loop if transaction successful
                 if status.ok:
                     assert tx_receipt  # for typing
-                    tx_url = f"{self.node.explorer}/tx/{tx_receipt['transactionHash']}"
+                    tx_url = (
+                        f"{self.node.explorer}/tx/{tx_receipt['transactionHash'].hex()}"
+                    )
 
                     if tx_receipt["status"] == 1:
-                        logger.info(f"tx was successful! check it out at {tx_url}")
                         return tx_receipt, status
 
                     elif tx_receipt["status"] == 0:
-                        status.error = "tx reverted by contract/evm logic"
-                        logger.info(f"tx was reverted by evm! check it out at {tx_url}")
-                        return tx_receipt, status
+                        msg = f"Write attempt {attempt} failed, tx reverted ({tx_url}):"
+                        return tx_receipt, error_status(msg, log=logger.info)
 
                     else:
-                        msg = f"Write attempt {k}: Invalid TX Receipt status: {tx_receipt['status']}"  # noqa: E501
+                        msg = f"Write attempt {attempt}: Invalid TX Receipt status: {tx_receipt['status']}"  # noqa: E501
                         error_status(msg, log=logger.info)
 
                 else:
-                    logger.info(f"Write attempt {k} failed:")
+                    logger.info(f"Write attempt {attempt} failed:")
                     msg = str(status.error)
                     error_status(msg, log=logger.info)
                     if status.error:
