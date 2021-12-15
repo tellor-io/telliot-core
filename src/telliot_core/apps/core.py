@@ -87,10 +87,9 @@ class TelliotCore(metaclass=Singleton):
                 )
 
         # Logging
-        self.configure_logging()
-
-        logger.info(f"Initialized {self.name}")
-        logger.info(f"Home Folder: {self.homedir}")
+        # self.configure_logging()
+        # logger.info(f"Initialized {self.name}")
+        # logger.info(f"Home Folder: {self.homedir}")
 
     def get_default_staker(self) -> Optional[Staker]:
         stakers = self.config.stakers.get(chain_id=self.config.main.chain_id)
