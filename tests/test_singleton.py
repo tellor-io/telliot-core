@@ -36,5 +36,4 @@ def test_main():
         _ = OtherClass()
 
     SomeClass.destroy()
-    with pytest.raises(LookupError):
-        SomeClass.get()
+    assert SomeClass.get() is None
