@@ -10,6 +10,7 @@ import yaml
 
 from telliot_core.model.base import Base
 from telliot_core.queries.legacy_query import LegacyRequest
+from telliot_core.queries.price.spot_price import SpotPrice
 from telliot_core.queries.query import OracleQuery
 
 
@@ -142,4 +143,8 @@ query_catalog.add_entry(
     tag="eth-jpy-legacy",
     title="Legacy ETH/JPY spot price",
     q=LegacyRequest(legacy_id=59),
+)
+
+query_catalog.add_entry(
+    tag="ohm-eth", title="OHM/ETH spot price", q=SpotPrice(asset="ohm", currency="eth")
 )
