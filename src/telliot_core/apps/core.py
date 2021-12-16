@@ -86,6 +86,8 @@ class TelliotCore(metaclass=Singleton):
                     f"Endpoint not found for chain id: {self.config.main.chain_id}"
                 )
 
+        print(f"telliot-core {telliot_core.__version__}")
+
         # Logging
         # self.configure_logging()
         # logger.info(f"Initialized {self.name}")
@@ -134,11 +136,7 @@ class TelliotCore(metaclass=Singleton):
             raise Exception("No staker found")
 
         if connected:
-            msg = (
-                f"{self.name} application connected to {networks[chain_id]} "
-                f"with staker {default_staker.tag} "
-                f"(using telliot-core {telliot_core.__version__})"
-            )
+            msg = f"connected: {networks[chain_id]} [staker: {default_staker.tag}]"
             print(msg)
             logger.info(msg)
 

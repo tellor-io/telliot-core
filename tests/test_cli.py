@@ -4,7 +4,15 @@ Unit tests covering telliot_core CLI commands.
 import pytest
 from click.testing import CliRunner
 
-from telliot_core.cli import main
+from telliot_core.cli.main import main
+
+
+def test_main_help():
+    """Test telliot_core CLI command: report."""
+    runner = CliRunner()
+    result = runner.invoke(main, [])
+
+    assert result.stdout[0:6] == "Usage:"
 
 
 def test_config_cmd():

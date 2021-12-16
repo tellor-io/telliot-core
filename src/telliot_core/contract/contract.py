@@ -179,7 +179,7 @@ class Contract:
                 attempt = k + 1
 
                 if k >= 1:
-                    logger.info(f"Retrying {func_name} (attempt #{attempt}")
+                    logger.info(f"Retrying {func_name} (attempt #{attempt})")
 
                 # Attempt write
                 tx_receipt, status = await self.write(
