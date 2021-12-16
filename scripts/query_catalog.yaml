@@ -1,0 +1,49 @@
+- type: CatalogEntry
+  tag: eth-usd-legacy
+  title: Legacy ETH/USD spot price
+  query_type: LegacyRequest
+  descriptor: '{"type":"LegacyRequest","legacy_id":1}'
+  query_id: '0x0000000000000000000000000000000000000000000000000000000000000001'
+  active: true
+- type: CatalogEntry
+  tag: btc-usd-legacy
+  title: Legacy BTC/USD spot price
+  query_type: LegacyRequest
+  descriptor: '{"type":"LegacyRequest","legacy_id":2}'
+  query_id: '0x0000000000000000000000000000000000000000000000000000000000000002'
+  active: true
+- type: CatalogEntry
+  tag: ampl-legacy
+  title: Legacy AMPL/USD custom price
+  query_type: LegacyRequest
+  descriptor: '{"type":"LegacyRequest","legacy_id":10}'
+  query_id: '0x000000000000000000000000000000000000000000000000000000000000000a'
+  active: true
+- type: CatalogEntry
+  tag: uspce-legacy
+  title: Legacy USPCE value
+  query_type: LegacyRequest
+  descriptor: '{"type":"LegacyRequest","legacy_id":41}'
+  query_id: '0x0000000000000000000000000000000000000000000000000000000000000029'
+  active: true
+- type: CatalogEntry
+  tag: trb-usd-legacy
+  title: Legacy TRB/USD spot price
+  query_type: LegacyRequest
+  descriptor: '{"type":"LegacyRequest","legacy_id":50}'
+  query_id: '0x0000000000000000000000000000000000000000000000000000000000000032'
+  active: true
+- type: CatalogEntry
+  tag: eth-jpy-legacy
+  title: Legacy ETH/JPY spot price
+  query_type: LegacyRequest
+  descriptor: '{"type":"LegacyRequest","legacy_id":59}'
+  query_id: '0x000000000000000000000000000000000000000000000000000000000000003b'
+  active: true
+- type: CatalogEntry
+  tag: ohm-eth-spot
+  title: OHM/ETH spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"ohm","currency":"eth"}'
+  query_id: '0x0136f215d1f75daabc0c0726ad4356debeb9bc95b24344165145a56684995966'
+  active: true

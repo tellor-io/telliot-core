@@ -14,7 +14,7 @@ from telliot_core.utils.home import TELLIOT_CORE_ROOT
 
 logger = logging.getLogger(__name__)
 
-currencies = ["usd", "jpy"]
+currencies = ["usd", "jpy", "eth"]
 
 
 def get_spot_price_pairs() -> List[Tuple[str, str]]:
