@@ -4,24 +4,38 @@ Unit tests covering telliot_core CLI commands.
 import pytest
 from click.testing import CliRunner
 
-from telliot_core.cli import main
+from telliot_core.cli.main import main
+
+
+def test_main_help():
+    """Test telliot_core CLI command: report."""
+    runner = CliRunner()
+    result = runner.invoke(main, [])
+
+    assert "Usage:" in result.stdout
 
 
 def test_config_cmd():
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
     result = runner.invoke(main, ["config", "init"])
+    assert not result.exception
+    print(result.stdout)
 
-    print(result)
+
+def test_disputesbyid(rinkeby_core):
+    runner = CliRunner()
+    result = runner.invoke(main, ["read", "master", "disputesbyid", "1"])
+    assert "DisputeReport" in result.stdout
+    assert not result.exception
 
 
-@pytest.mark.skip()
 def test_getStakerInfo(rinkeby_core):
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
-    result = runner.invoke(main, ["read", "getstakerinfo"])
+    result = runner.invoke(main, ["read", "master", "getstakerinfo"])
 
-    print(result.output)
+    print(result.stdout)
     # expect a tuple of integers
     # output = eval(result.output.strip())
     # assert len(output) == 2

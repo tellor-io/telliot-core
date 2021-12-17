@@ -49,7 +49,7 @@ class Contract:
         return ResponseStatus(ok=True)
 
     async def read(
-        self, func_name: str, **kwargs: Any
+        self, func_name: str, *args: Any, **kwargs: Any
     ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
@@ -63,7 +63,7 @@ class Contract:
         if self.contract:
             try:
                 contract_function = self.contract.get_function_by_name(func_name)
-                output = contract_function(**kwargs).call()
+                output = contract_function(*args, **kwargs).call()
                 return output, ResponseStatus(ok=True)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
@@ -179,7 +179,7 @@ class Contract:
                 attempt = k + 1
 
                 if k >= 1:
-                    logger.info(f"Retrying {func_name} (attempt #{attempt}")
+                    logger.info(f"Retrying {func_name} (attempt #{attempt})")
 
                 # Attempt write
                 tx_receipt, status = await self.write(
