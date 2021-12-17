@@ -1,5 +1,6 @@
-from telliot_core.utils.timestamp import TimeStamp
 from datetime import datetime
+
+from telliot_core.utils.timestamp import TimeStamp
 
 
 def test_main():
@@ -19,5 +20,3 @@ def test_repr():
     ts = 1639756400
     ts = TimeStamp(ts)
     assert repr(ts) == "TimeStamp(1639756400)"
-
-

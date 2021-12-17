@@ -12,7 +12,7 @@ def test_main_help():
     runner = CliRunner()
     result = runner.invoke(main, [])
 
-    assert result.stdout[0:6] == "Usage:"
+    assert "Usage:" in result.stdout
 
 
 def test_config_cmd():
