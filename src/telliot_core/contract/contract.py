@@ -49,7 +49,7 @@ class Contract:
         return ResponseStatus(ok=True)
 
     async def read(
-        self, func_name: str, *args, **kwargs: Any
+        self, func_name: str, *args: Any, **kwargs: Any
     ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
