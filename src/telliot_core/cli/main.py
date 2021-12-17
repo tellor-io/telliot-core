@@ -21,9 +21,7 @@ from telliot_core.plugin.discover import telliot_plugins
     type=int,
     help="Override chain ID (the default is provided by main config file).",
 )
-@click.option(
-    "-v", "--version", is_flag=True, help="Display telliot-core version and exit."
-)
+@click.option("--version", is_flag=True, help="Display telliot-core version and exit.")
 def main(ctx: click.Context, version: bool, chain_id: int) -> None:
     ctx.ensure_object(dict)
     ctx.obj["chain_id"] = chain_id

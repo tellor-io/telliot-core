@@ -1,8 +1,9 @@
+from typing import Optional
+
 import click
 
 from telliot_core.data.query_catalog import query_catalog
 from telliot_core.queries.catalog import CatalogEntry
-from typing import Optional
 
 
 def dump_catalog_entry(entry: CatalogEntry, detail: bool = False) -> None:
@@ -20,7 +21,7 @@ def dump_catalog_entry(entry: CatalogEntry, detail: bool = False) -> None:
 
 @click.group()
 def catalog() -> None:
-    """Tellorx Query Catalog"""
+    """Browse and search the query catalog."""
     pass
 
 
@@ -29,10 +30,12 @@ def catalog() -> None:
 @click.option("--tag", type=str, help="Filter for query tag")
 @click.option("--id", type=str, help="Filter for query ID")
 @click.option("--type", type=str, help="Filter for Query Type (e.g. SpotPrice)")
-def search(ctx: click.Context,
-           tag: Optional[str] = None,
-           id: Optional[str] = None,
-           type: Optional[str] = None) -> None:
+def search(
+    ctx: click.Context,
+    tag: Optional[str] = None,
+    id: Optional[str] = None,
+    type: Optional[str] = None,
+) -> None:
     """Search the catalog for queries matching selected filters."""
     if tag is None and id is None and type is None:
         print(ctx.command.get_help(ctx))
@@ -44,8 +47,9 @@ def search(ctx: click.Context,
 
 
 @catalog.command()
-@click.option("-d", "--detail", is_flag=True,
-              help="Print detailed information for each query")
+@click.option(
+    "-d", "--detail", is_flag=True, help="Print detailed information for each query"
+)
 def list(detail: bool) -> None:
     """List all queries in the catalog (use --detail for verbose output)."""
     entries = query_catalog.find()

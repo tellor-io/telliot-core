@@ -8,7 +8,7 @@ from telliot_core.data.query_catalog import query_catalog
 
 @click.group()
 def query() -> None:
-    """Tellorx Query CLI"""
+    """Access on-chain query information."""
     pass
 
 

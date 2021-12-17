@@ -6,19 +6,19 @@ from telliot_core.apps.telliot_config import TelliotConfig
 
 @click.group()
 def config() -> None:
-    """Manage telliot_core configuration"""
+    """Manage Telliot configuration."""
     pass
 
 
 @config.command()
 def init() -> None:
-    """Create initial configuration files"""
+    """Create initial configuration files."""
     _ = TelliotConfig()
 
 
 @config.command()
 def show() -> None:
-    """Create initial configuration files"""
+    """Show current configuration."""
     cfg = TelliotConfig()
     state = cfg.get_state()
 
