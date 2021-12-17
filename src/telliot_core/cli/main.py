@@ -7,9 +7,10 @@ or in the configuration file.
 import click
 
 import telliot_core
-from telliot_core.cli.config import config
-from telliot_core.cli.queryinfo import queryinfo
-from telliot_core.cli.read import read
+from telliot_core.cli.commands.catalog import catalog
+from telliot_core.cli.commands.config import config
+from telliot_core.cli.commands.query import query
+from telliot_core.cli.commands.read import read
 from telliot_core.plugin.discover import telliot_plugins
 
 
@@ -46,7 +47,8 @@ def main(ctx: click.Context, version: bool, chain_id: int) -> None:
 
 main.add_command(config)
 main.add_command(read)
-main.add_command(queryinfo)
+main.add_command(query)
+main.add_command(catalog)
 
 if __name__ == "__main__":
     main()

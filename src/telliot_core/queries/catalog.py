@@ -69,10 +69,13 @@ class Catalog(Base):
                 if tag not in entry.tag:  # includes search for substring
                     continue
             if query_id is not None:
+                # Add 0x if necessary for match
+                if query_id[:2] not in ["0x", "0X"]:
+                    query_id = "0x" + query_id
                 if query_id.lower() != entry.query_id.lower():
                     continue
             if query_type is not None:
-                if query_type != entry.query_type:
+                if query_type.lower() != entry.query_type.lower():
                     continue
             if active is not None:
                 if active != entry.active:

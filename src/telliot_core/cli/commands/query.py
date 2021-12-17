@@ -6,11 +6,17 @@ from telliot_core.cli.utils import get_app
 from telliot_core.data.query_catalog import query_catalog
 
 
-@click.command()
+@click.group()
+def query() -> None:
+    """Tellorx Query CLI"""
+    pass
+
+
+@query.command()
 @click.pass_context
 @click.argument("query_tag", type=str)
 @click.option("--data", is_flag=True, help="Retrieve all datapoints from blockchain")
-def queryinfo(ctx: click.Context, query_tag: str, data: bool) -> None:
+def status(ctx: click.Context, query_tag: str, data: bool) -> None:
     """Show query information
 
     QUERY_TAG: Choose from query catalog:
@@ -42,9 +48,7 @@ def queryinfo(ctx: click.Context, query_tag: str, data: bool) -> None:
     # Get the query object from the catalog entry
     q = catalog_entry.query
 
-    print(f"Descriptor: {q.descriptor}")
     queryId = f"0x{q.query_id.hex()}"
-    print(f"queryId: {queryId}")
 
     count, status = asyncio.run(getTimestampCountById(queryId))
     print(f"Timestamp count: {count}")

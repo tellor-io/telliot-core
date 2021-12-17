@@ -20,4 +20,13 @@ def init() -> None:
 def show() -> None:
     """Create initial configuration files"""
     cfg = TelliotConfig()
-    print(yaml.dump(cfg.get_state(), sort_keys=False))
+    state = cfg.get_state()
+
+    # remove stakers private keys
+    stakers = state.pop("stakers")
+    stakers = stakers.pop("stakers")
+    for staker in stakers:
+        staker.pop("private_key")
+
+    print(yaml.dump(state, sort_keys=False))
+    print(yaml.dump(stakers, sort_keys=False))
