@@ -4,6 +4,7 @@
 
 /temp
 /.tmp
+/tests/.tmp
 
 # Github 'standard' python ignores
 # https://github.com/github/gitignore/blob/master/Python.gitignore

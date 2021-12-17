@@ -89,7 +89,7 @@ class TelliotCore(metaclass=Singleton):
         show_telliot_versions()
 
     def get_default_staker(self) -> Optional[Staker]:
-        stakers = self.config.stakers.get(chain_id=self.config.main.chain_id)
+        stakers = self.config.stakers.find(chain_id=self.config.main.chain_id)
         if len(stakers) > 0:
             default_staker = stakers[0]
             assert isinstance(default_staker, Staker)
