@@ -23,6 +23,13 @@ def test_config_cmd():
     print(result)
 
 
+def test_disputesbyid(rinkeby_core):
+    runner = CliRunner()
+    result = runner.invoke(main, ["read", "master", "disputesbyid", "1"])
+
+    print(result)
+
+
 @pytest.mark.skip()
 def test_getStakerInfo(rinkeby_core):
     """Test telliot_core CLI command: report."""
