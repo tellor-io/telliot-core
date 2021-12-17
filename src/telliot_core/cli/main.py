@@ -10,6 +10,7 @@ from telliot_core.cli.commands.catalog import catalog
 from telliot_core.cli.commands.config import config
 from telliot_core.cli.commands.query import query
 from telliot_core.cli.commands.read import read
+from telliot_core.cli.commands.staker import staker
 from telliot_core.utils.versions import show_telliot_versions
 
 
@@ -29,7 +30,6 @@ def main(ctx: click.Context, version: bool, chain_id: int) -> None:
         return
 
     """Telliot command line interface"""
-    show_telliot_versions()
     if ctx.invoked_subcommand is None:
         print(ctx.command.get_help(ctx))
 
@@ -38,6 +38,7 @@ main.add_command(config)
 main.add_command(read)
 main.add_command(query)
 main.add_command(catalog)
+main.add_command(staker)
 
 if __name__ == "__main__":
     main()

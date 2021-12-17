@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Optional
 from typing import Union
 
-import telliot_core
 from telliot_core.apps.singleton import Singleton
 from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
@@ -12,6 +11,7 @@ from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.home import telliot_homedir
+from telliot_core.utils.versions import show_telliot_versions
 
 logger = logging.getLogger(__name__)
 networks = {1: "eth-mainnet", 4: "eth-rinkeby"}
@@ -86,12 +86,7 @@ class TelliotCore(metaclass=Singleton):
                     f"Endpoint not found for chain id: {self.config.main.chain_id}"
                 )
 
-        print(f"telliot-core {telliot_core.__version__}")
-
-        # Logging
-        # self.configure_logging()
-        # logger.info(f"Initialized {self.name}")
-        # logger.info(f"Home Folder: {self.homedir}")
+        show_telliot_versions()
 
     def get_default_staker(self) -> Optional[Staker]:
         stakers = self.config.stakers.get(chain_id=self.config.main.chain_id)

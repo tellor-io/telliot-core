@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime
+from typing import Tuple
 
 import click
 
@@ -8,6 +9,7 @@ from telliot_core.apps.master_read import getStakerInfo
 from telliot_core.apps.oracle_read import getReporterLastTimestamp
 from telliot_core.apps.oracle_read import getTimeBasedReward
 from telliot_core.cli.utils import get_app
+from telliot_core.utils.timestamp import TimeStamp
 
 
 @click.group()
@@ -61,26 +63,36 @@ def master() -> None:
     pass
 
 
+def get_staker_info(ctx: click.Context, address: str) -> Tuple[str, TimeStamp]:
+    """Get staker information."""
+    _ = get_app(ctx)  # Initialize app
+
+    (staker_status, date_staked), status = asyncio.run(getStakerInfo(address=address))
+
+    return staker_status, date_staked
+
+
 @master.command()
 @click.argument("address", required=False)
 @click.pass_context
 def getstakerinfo(ctx: click.Context, address: str) -> None:
     """Get staker information."""
-    _ = get_app(ctx)  # Initialize app
-    result, read_response = asyncio.run(getStakerInfo(address=address))
+    (staker_status, date_staked) = get_staker_info(ctx, address)
 
-    if not read_response.ok:
-        print(read_response)
-    else:
-        status, ts_staked = result
-        date_staked = datetime.fromtimestamp(ts_staked)
-        length_staked = datetime.now() - date_staked  # todo: check timezone
-        print(f"Status: {status}")
-        print(f"Date Staked: {ts_staked} ({datetime.fromtimestamp(ts_staked)})")
-        print(
-            f"Staked for: {length_staked.days} days, "
-            f"{round(length_staked.seconds / 60.0 / 60.0, 2)} hours"
-        )
+    print(f"Status: {staker_status}")
+    if staker_status != "NotStaked":
+        print(f"Staked on {date_staked} ({date_staked.age} ago)")
+
+    # _ = get_app(ctx)  # Initialize app
+    # result, read_response = asyncio.run(getStakerInfo(address=address))
+    #
+    # if not read_response.ok:
+    #     print(read_response)
+    # else:
+    #     status, date_staked = result
+    #     print(f"Status: {status}")
+    #     if status is not "NotStaked":
+    #         print(f"Staked on {date_staked} ({date_staked.age} ago)")
 
 
 @master.command()

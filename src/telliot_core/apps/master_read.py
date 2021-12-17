@@ -3,6 +3,7 @@ from typing import Optional
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.oracle_read import ReadRespType
+from telliot_core.utils.timestamp import TimeStamp
 
 staker_status_map = {
     0: "NotStaked",
@@ -36,9 +37,13 @@ async def getStakerInfo(address: Optional[str] = None) -> ReadRespType:
 
     result, status = await core.tellorx.master.read("getStakerInfo", _staker=address)
 
-    currentStatus, date_staked = result
-
-    return (staker_status_map[currentStatus], date_staked), status
+    if status.ok:
+        current_status, ts_staked = result
+        staker_status = staker_status_map[current_status]
+        date_staked = TimeStamp(ts_staked)
+        return (staker_status, date_staked), status
+    else:
+        return (None, None), status
 
 
 async def disputesById(dispute_id: int) -> ReadRespType:

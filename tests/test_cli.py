@@ -19,24 +19,23 @@ def test_config_cmd():
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
     result = runner.invoke(main, ["config", "init"])
-
-    print(result)
+    assert not result.exception
+    print(result.stdout)
 
 
 def test_disputesbyid(rinkeby_core):
     runner = CliRunner()
     result = runner.invoke(main, ["read", "master", "disputesbyid", "1"])
+    assert "DisputeReport" in result.stdout
+    assert not result.exception
 
-    print(result)
 
-
-@pytest.mark.skip()
 def test_getStakerInfo(rinkeby_core):
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
-    result = runner.invoke(main, ["read", "getstakerinfo"])
+    result = runner.invoke(main, ["read", "master", "getstakerinfo"])
 
-    print(result.output)
+    print(result.stdout)
     # expect a tuple of integers
     # output = eval(result.output.strip())
     # assert len(output) == 2
