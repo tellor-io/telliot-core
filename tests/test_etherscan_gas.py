@@ -1,5 +1,7 @@
-from telliot_core.gas.etherscan_gas import EtherscanGasPriceSource, EtherscanGasPrice
 import pytest
+
+from telliot_core.gas.etherscan_gas import EtherscanGasPrice
+from telliot_core.gas.etherscan_gas import EtherscanGasPriceSource
 
 
 @pytest.mark.asyncio
