@@ -1,11 +1,12 @@
-import aiohttp
 import asyncio
-from typing import Optional
 from typing import Any
+from typing import Optional
+
+import aiohttp
 
 
 class ClientSessionManager:
-    """ Session Manager
+    """Session Manager
 
     Manage a single `aiohttp.ClientSession` for efficient
     handling of telliot requests for http access.
@@ -26,9 +27,7 @@ class ClientSessionManager:
         self._s = aiohttp.ClientSession()
 
     async def fetch_json(self, url: str) -> Any:
-        """ Fetch JSON response from URL
-
-        """
+        """Fetch JSON response from URL"""
         assert self.s
         async with self.s.get(url) as resp:
             if resp.status == 200:
@@ -43,9 +42,7 @@ class ClientSessionManager:
             await self.s.close()
 
     def __del__(self) -> None:
-        """Make sure the client session is closed when this object is deleted.
-
-        """
+        """Make sure the client session is closed when this object is deleted."""
         if self.s:
             if not self.s.closed:
                 try:
