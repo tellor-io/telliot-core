@@ -3,7 +3,6 @@ Test covering Pytelliot EVM contract connection utils.
 """
 import pytest
 import web3
-from hexbytes.main import HexBytes
 from web3 import Web3
 
 from telliot_core.contract.gas import fetch_gas_price
@@ -20,16 +19,16 @@ def test_connect_to_tellor(rinkeby_core):
     )
 
 
-@pytest.mark.skip(reason="for playground.")
 @pytest.mark.asyncio
 async def test_call_read_function(rinkeby_core):
     """Contract object should be able to call arbitrary contract read function"""
 
-    output, status = await rinkeby_core.tellorx.master.read(
-        func_name="getTimestampCountById", _queryId=Web3.keccak(HexBytes(2))
+    (reward, tips), status = await rinkeby_core.tellorx.oracle.read(
+        func_name="getCurrentReward",
+        _queryId="0x0000000000000000000000000000000000000000000000000000000000000001",
     )
     assert status.ok
-    assert output >= 0
+    assert reward >= 0
 
 
 @pytest.mark.skip(reason="oracle contract does not have faucet right now")
@@ -40,7 +39,7 @@ async def test_faucet(rinkeby_core):
     gas_price = await fetch_gas_price()
     # set up user
     user = rinkeby_core.tellorx.master.node.web3.eth.account.from_key(
-        rinkeby_core.config.main.private_key
+        rinkeby_core.get_default_staker().private_key
     ).address
     # read balance
     balance1, status = await rinkeby_core.tellorx.master.read(

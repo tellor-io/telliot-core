@@ -1,5 +1,5 @@
+from telliot_core.data.query_catalog import query_catalog
 from telliot_core.queries.query import OracleQuery
-from telliot_core.queries.query_catalog import query_catalog
 
 
 def test_query_catalog():
@@ -12,7 +12,7 @@ def test_query_catalog():
 def test_find_all():
     """Find all query entries"""
     qlst = query_catalog.find()
-    assert len(qlst) == 6
+    assert len(qlst) == 7
 
 
 def test_yaml_catalog():

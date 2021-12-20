@@ -14,6 +14,7 @@ from web3 import Web3
 from web3.datastructures import AttributeDict
 
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.utils.response import error_status
 from telliot_core.utils.response import ResponseStatus
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,7 @@ class Contract:
         return ResponseStatus(ok=True)
 
     async def read(
-        self, func_name: str, **kwargs: Any
+        self, func_name: str, *args: Any, **kwargs: Any
     ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
@@ -62,7 +63,7 @@ class Contract:
         if self.contract:
             try:
                 contract_function = self.contract.get_function_by_name(func_name)
-                output = contract_function(**kwargs).call()
+                output = contract_function(*args, **kwargs).call()
                 return output, ResponseStatus(ok=True)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
@@ -88,26 +89,23 @@ class Contract:
         status = ResponseStatus()
 
         if not self.contract:
-            msg = "unable to connect to contract"
-            return None, ResponseStatus(ok=False, error=msg)
+            msg = f"Contract.write({func_name}) error: Unable to connect to contract"
+            return None, error_status(msg, log=logger.error)
 
         if not self.node:
-            msg = "no node instance"
-            return None, ResponseStatus(ok=False, error=msg)
+            msg = f"Contract.write({func_name}) error: No node instance"
+            return None, error_status(msg, log=logger.error)
 
         if self.private_key:
             acc = self.node.web3.eth.account.from_key(self.private_key)
         else:
-            msg = "Private key missing"
-            return None, ResponseStatus(ok=False, error=msg)
+            msg = f"Contract.write({func_name}) error: Private key missing"
+            return None, error_status(msg, log=logger.error)
+
         try:
             # build transaction
             contract_function = self.contract.get_function_by_name(func_name)
             transaction = contract_function(**kwargs)
-            logger.info("gas limit:", gas_limit)
-
-            logger.info("address: ----- ", acc.address)
-            logger.info("gas price:", gas_price)
 
             built_tx = transaction.buildTransaction(
                 {
@@ -118,30 +116,42 @@ class Contract:
                     "chainId": self.node.chain_id,
                 }
             )
-
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
-            logger.info(" tx signed")
+
+        except Exception as e:
+            note = "Failed to build transaction"
+            return None, error_status(note, log=logger.error, e=e)
+
+        try:
+            logger.debug(f"Sending transaction: {func_name}")
             tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
-            logger.info("tx sent")
+
+        except Exception as e:
+            note = "Send transaction failed"
+            return None, error_status(note, log=logger.error, e=e)
+
+        try:
             # Confirm transaction
             tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
                 tx_hash, timeout=360
             )
 
-            # Point to relevant explorer
-            logger.info(
-                f"""View reported data: \n
-                {self.node.explorer}/tx/{tx_hash.hex()}
-                """
-            )
+            tx_url = f"{self.node.explorer}/tx/{tx_hash.hex()}"
+
+            if tx_receipt["status"] == 1:
+                logger.info(f"{func_name} transaction succeeded. ({tx_url})")
+                return tx_receipt, status
+
+            elif tx_receipt["status"] == 0:
+                msg = f"{func_name} transaction reverted. ({tx_url})"
+                return tx_receipt, error_status(msg, log=logger.error)
 
             return tx_receipt, status
+
         except Exception as e:
-            status.ok = False
-            status.error = str(e.args)
-            status.e = e
-            return None, status
+            note = "Failed to confirm transaction"
+            return None, error_status(note, log=logger.error, e=e)
 
     async def write_with_retry(
         self,
@@ -164,8 +174,14 @@ class Contract:
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
 
             # Iterate through retry attempts
-            for _ in range(retries + 1):
+            for k in range(retries + 1):
 
+                attempt = k + 1
+
+                if k >= 1:
+                    logger.info(f"Retrying {func_name} (attempt #{attempt})")
+
+                # Attempt write
                 tx_receipt, status = await self.write(
                     func_name=func_name,
                     gas_price=gas_price,
@@ -174,46 +190,49 @@ class Contract:
                     **kwargs,
                 )
 
-                logger.info("write status: ", status)
+                logger.debug(f"Attempt {attempt} status: ", status)
 
                 # Exit loop if transaction successful
-                if tx_receipt and status.ok and tx_receipt["status"] == 1:
-                    logger.info(
-                        f"tx was successful! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}"  # noqa: E501
-                    )  # noqa: E501
-                    return tx_receipt, status
-                elif (
-                    not status.ok
-                    and status.error
-                    and "replacement transaction underpriced" in status.error
-                ):
-                    gas_price += extra_gas_price
-                elif not status.ok and status.error and "already known" in status.error:
-                    acc_nonce += 1
-                elif not status.ok and status.error and "nonce too low" in status.error:
-                    acc_nonce += 1
-                # a different rpc error
-                elif (
-                    not status.ok
-                    and status.error
-                    and "nonce is too low" in status.error
-                ):
-                    acc_nonce += 1
-                elif (
-                    not status.ok
-                    and status.error
-                    and "not in the chain" in status.error
-                ):
-                    gas_price += extra_gas_price
-                elif (
-                    status.ok
-                    and tx_receipt["status"] == 0  # type: ignore # error won't be none
-                ):
-                    status.error = "tx reverted by contract/evm logic"
-                    logger.info(f"tx was reverted by evm! check it out at {self.node.explorer}/tx/{tx_receipt['transactionHash']}")  # type: ignore # tx receipt won't be none # noqa: E501
-                    return tx_receipt, status
+                if status.ok:
+                    assert tx_receipt  # for typing
+                    tx_url = (
+                        f"{self.node.explorer}/tx/{tx_receipt['transactionHash'].hex()}"
+                    )
+
+                    if tx_receipt["status"] == 1:
+                        return tx_receipt, status
+
+                    elif tx_receipt["status"] == 0:
+                        msg = f"Write attempt {attempt} failed, tx reverted ({tx_url}):"
+                        return tx_receipt, error_status(msg, log=logger.info)
+
+                    else:
+                        msg = f"Write attempt {attempt}: Invalid TX Receipt status: {tx_receipt['status']}"  # noqa: E501
+                        error_status(msg, log=logger.info)
+
                 else:
-                    extra_gas_price = 0
+                    logger.info(f"Write attempt {attempt} failed:")
+                    msg = str(status.error)
+                    error_status(msg, log=logger.info)
+                    if status.error:
+                        if "replacement transaction underpriced" in status.error:
+                            gas_price += extra_gas_price
+                            logger.info(f"Next gas price: {gas_price}")
+                        elif "already known" in status.error:
+                            acc_nonce += 1
+                            logger.info(f"Incrementing nonce: {acc_nonce}")
+                        elif "nonce too low" in status.error:
+                            acc_nonce += 1
+                            logger.info(f"Incrementing nonce: {acc_nonce}")
+                        # a different rpc error
+                        elif "nonce is too low" in status.error:
+                            acc_nonce += 1
+                            logger.info(f"Incrementing nonce: {acc_nonce}")
+                        elif "not in the chain" in status.error:
+                            gas_price += extra_gas_price
+                            logger.info(f"Next gas price: {gas_price}")
+                        else:
+                            extra_gas_price = 0
 
             status.ok = False
             status.error = "ran out of retries, tx unsuccessful"
@@ -221,10 +240,7 @@ class Contract:
             return tx_receipt, status
 
         except Exception as e:
-            status.ok = False
-            status.error = str(e.args)
-            status.e = e
-            return None, status
+            return None, error_status("Other error", log=logger.error, e=e)
 
     def listen(self) -> None:
         """Wrapper for listening for contract events"""

@@ -35,7 +35,7 @@ default_stakers = [
 class StakerList(ConfigOptions):
     stakers: List[Staker] = field(default_factory=lambda: default_stakers)
 
-    def get(
+    def find(
         self,
         tag: Optional[str] = None,
         address: Optional[str] = None,
@@ -47,7 +47,7 @@ class StakerList(ConfigOptions):
         stakers = []
         for staker in self.stakers:
             if tag is not None:
-                if tag != staker.tag:
+                if tag.lower() != staker.tag.lower():
                     continue
             if address is not None:
                 if address.lower() != staker.address.lower():

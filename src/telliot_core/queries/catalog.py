@@ -9,7 +9,6 @@ import clamfig
 import yaml
 
 from telliot_core.model.base import Base
-from telliot_core.queries.legacy_query import LegacyRequest
 from telliot_core.queries.query import OracleQuery
 
 
@@ -70,10 +69,13 @@ class Catalog(Base):
                 if tag not in entry.tag:  # includes search for substring
                     continue
             if query_id is not None:
+                # Add 0x if necessary for match
+                if query_id[:2] not in ["0x", "0X"]:
+                    query_id = "0x" + query_id
                 if query_id.lower() != entry.query_id.lower():
                     continue
             if query_type is not None:
-                if query_type != entry.query_type:
+                if query_type.lower() != entry.query_type.lower():
                     continue
             if active is not None:
                 if active != entry.active:
@@ -103,43 +105,3 @@ class Catalog(Base):
             lines.append("")
 
         return "\n".join(lines)
-
-
-# --------------------------------------------------------------------------------------
-# Query Catalog Entries
-# --------------------------------------------------------------------------------------
-query_catalog = Catalog()
-
-query_catalog.add_entry(
-    tag="eth-usd-legacy",
-    title="Legacy ETH/USD spot price",
-    q=LegacyRequest(legacy_id=1),
-)
-
-query_catalog.add_entry(
-    tag="btc-usd-legacy",
-    title="Legacy BTC/USD spot price",
-    q=LegacyRequest(legacy_id=2),
-)
-
-query_catalog.add_entry(
-    tag="ampl-legacy",
-    title="Legacy AMPL/USD custom price",
-    q=LegacyRequest(legacy_id=10),
-)
-
-query_catalog.add_entry(
-    tag="uspce-legacy", title="Legacy USPCE value", q=LegacyRequest(legacy_id=41)
-)
-
-query_catalog.add_entry(
-    tag="trb-usd-legacy",
-    title="Legacy TRB/USD spot price",
-    q=LegacyRequest(legacy_id=50),
-)
-
-query_catalog.add_entry(
-    tag="eth-jpy-legacy",
-    title="Legacy ETH/JPY spot price",
-    q=LegacyRequest(legacy_id=59),
-)
