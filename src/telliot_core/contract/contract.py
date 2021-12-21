@@ -124,6 +124,9 @@ class Contract:
             #else if (if legacy gas price is None) and max fee is not None, use max fee
             elif max_fee_per_gas is not None:
                 tx_dict["maxFeePerGas"] = self.node.web3.toWei(max_fee_per_gas, "gwei")
+                
+                if max_priority_fee_per_gas is not None:
+                    tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
 
             #else if (if legacy price and max fee are not provided), use max priority fee
             elif max_priority_fee_per_gas is not None:
@@ -244,9 +247,10 @@ class Contract:
                         if "replacement transaction underpriced" in status.error:
                             if using_legacy_gas:
                                 gas_price += extra_gas_price
+                                logger.info(f"Next gas price: {gas_price}")
                             else:
                                 max_priority_fee_per_gas += extra_gas_price
-                            logger.info(f"Next gas price: {gas_price}")
+                                logger.info(f"Next priority fee: {max_priority_fee_per_gas}")
                         elif "already known" in status.error:
                             acc_nonce += 1
                             logger.info(f"Incrementing nonce: {acc_nonce}")
@@ -261,7 +265,12 @@ class Contract:
                             if using_legacy_gas:
                                 gas_price += extra_gas_price
                             else:
-                                max_priority_fee_per_gas += extra_gas_price                            logger.info(f"Next gas price: {gas_price}")
+                                if using_legacy_gas:
+                                    gas_price += extra_gas_price
+                                    logger.info(f"Next gas price: {gas_price}")
+                                else:
+                                    max_priority_fee_per_gas += extra_gas_price
+                                    logger.info(f"Next priority fee: {max_priority_fee_per_gas}")
                         else:
                             extra_gas_price = 0
 
