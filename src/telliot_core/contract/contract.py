@@ -117,6 +117,9 @@ class Contract:
                 "chainId": self.node.chain_id
             }
 
+            if (gas_price is not None) and ((max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)):
+                raise ValueError("invalid combination of legacy gas arguments and EIP-1559 modern gas arguments")
+
             #if legacy gas price is not None, use it
             if gas_price is not None:
                 tx_dict["gasPrice"] = self.node.web3.toWei(gas_price, "gwei")
