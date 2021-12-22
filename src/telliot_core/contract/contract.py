@@ -75,7 +75,7 @@ class Contract:
     async def write(
         self,
         func_name: str,
-        gas_price: int,
+        legacy_gas_price: int,
         max_priority_fee_per_gas: int,
         max_fee_per_gas: int,
         acc_nonce: int,
@@ -117,12 +117,12 @@ class Contract:
                 "chainId": self.node.chain_id
             }
 
-            if (gas_price is not None) and ((max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)):
+            if (legacy_gas_price is not None) and ((max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)):
                 raise ValueError("invalid combination of legacy gas arguments and EIP-1559 modern gas arguments")
 
             #if legacy gas price is not None, use it
-            if gas_price is not None:
-                tx_dict["gasPrice"] = self.node.web3.toWei(gas_price, "gwei")
+            if legacy_gas_price is not None:
+                tx_dict["gasPrice"] = self.node.web3.toWei(legacy_gas_price, "gwei")
 
             #else if (if legacy gas price is None) and max fee is not None, use max fee
             elif max_fee_per_gas is not None:
@@ -180,7 +180,7 @@ class Contract:
     async def write_with_retry(
         self,
         func_name: str,
-        gas_price: int,
+        legacy_gas_price: int,
         max_priority_fee_per_gas: int,
         max_fee_per_gas: int,
         extra_gas_price: int,
@@ -200,7 +200,7 @@ class Contract:
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
 
             using_legacy_gas = False
-            if gas_price is not None:
+            if legacy_gas_price is not None:
                 using_legacy_gas = True
 
             # Iterate through retry attempts
@@ -214,7 +214,7 @@ class Contract:
                 # Attempt write
                 tx_receipt, status = await self.write(
                     func_name=func_name,
-                    gas_price=gas_price,
+                    legacy_gas_price=legacy_gas_price,
                     max_priority_fee_per_gas=max_priority_fee_per_gas,
                     max_fee_per_gas=max_fee_per_gas,
                     acc_nonce=acc_nonce,
@@ -249,8 +249,8 @@ class Contract:
                     if status.error:
                         if "replacement transaction underpriced" in status.error:
                             if using_legacy_gas:
-                                gas_price += extra_gas_price
-                                logger.info(f"Next gas price: {gas_price}")
+                                legacy_gas_price += extra_gas_price
+                                logger.info(f"Next gas price: {legacy_gas_price}")
                             else:
                                 max_priority_fee_per_gas += extra_gas_price
                                 logger.info(f"Next priority fee: {max_priority_fee_per_gas}")
@@ -266,11 +266,11 @@ class Contract:
                             logger.info(f"Incrementing nonce: {acc_nonce}")
                         elif "not in the chain" in status.error:
                             if using_legacy_gas:
-                                gas_price += extra_gas_price
+                                legacy_gas_price += extra_gas_price
                             else:
                                 if using_legacy_gas:
-                                    gas_price += extra_gas_price
-                                    logger.info(f"Next gas price: {gas_price}")
+                                    legacy_gas_price += extra_gas_price
+                                    logger.info(f"Next gas price: {legacy_gas_price}")
                                 else:
                                     max_priority_fee_per_gas += extra_gas_price
                                     logger.info(f"Next priority fee: {max_priority_fee_per_gas}")
