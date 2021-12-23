@@ -164,3 +164,33 @@ async def test_submit_value(rinkeby_core):
 
     print(status.error)
     assert status.ok
+
+
+@pytest.mark.asyncio()
+async def test_prevent_mixed_gas_strategies(rinkeby_core):
+
+    with pytest.raises(ValueError):
+        await rinkeby_core.tellorx.master.write_with_retry(
+            func_name="transfer",
+            gas_limit=350000,
+            legacy_gas_price=20,
+            max_fee_per_gas=1,
+            extra_gas_price=5,
+            retries=0,
+            _to="0xF90cd1D6C1da49CE2cF5C39f82999D7145aa66aD",
+            _amount=1,
+        )
+
+
+@pytest.mark.asyncio()
+async def test_no_gas_strategy_provided(rinkeby_core):
+
+    with pytest.raises(ValueError):
+        await rinkeby_core.tellorx.master.write_with_retry(
+            func_name="transfer",
+            gas_limit=350000,
+            extra_gas_price=20,
+            retries=0,
+            _to="0xF90cd1D6C1da49CE2cF5C39f82999D7145aa66aD",
+            _amount=1,
+        )

@@ -75,11 +75,11 @@ class Contract:
     async def write(
         self,
         func_name: str,
-        legacy_gas_price: int,
-        max_priority_fee_per_gas: int,
-        max_fee_per_gas: int,
         acc_nonce: int,
         gas_limit: int,
+        legacy_gas_price: Optional[int] = None,
+        max_priority_fee_per_gas: Optional[int] = None,
+        max_fee_per_gas: Optional[int] = None,
         **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction once without retries
@@ -89,6 +89,14 @@ class Contract:
         """
 
         status = ResponseStatus()
+
+        if (legacy_gas_price is not None) and (
+            (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)
+        ):
+            raise ValueError(
+                """invalid combination of legacy gas arguments
+                 and EIP-1559 modern gas arguments"""
+            )
 
         if not self.contract:
             msg = f"Contract.write({func_name}) error: Unable to connect to contract"
@@ -109,36 +117,37 @@ class Contract:
             contract_function = self.contract.get_function_by_name(func_name)
             transaction = contract_function(**kwargs)
 
-            #start tx dict with static elements
+            # start tx dict with static elements
             tx_dict = {
                 "from": acc.address,
                 "nonce": acc_nonce,
                 "gas": gas_limit,
-                "chainId": self.node.chain_id
+                "chainId": self.node.chain_id,
             }
 
-            if (legacy_gas_price is not None) and ((max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)):
-                raise ValueError("invalid combination of legacy gas arguments and EIP-1559 modern gas arguments")
-
-            #if legacy gas price is not None, use it
+            # if legacy gas price is not None, use it
             if legacy_gas_price is not None:
                 tx_dict["gasPrice"] = self.node.web3.toWei(legacy_gas_price, "gwei")
 
-            #else if (if legacy gas price is None) and max fee is not None, use max fee
+            # else if (if legacy gas price is None) and max fee is not None, use max fee
             elif max_fee_per_gas is not None:
                 tx_dict["maxFeePerGas"] = self.node.web3.toWei(max_fee_per_gas, "gwei")
-                
+
                 if max_priority_fee_per_gas is not None:
-                    tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
+                    tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(
+                        max_priority_fee_per_gas, "gwei"
+                    )
 
-            #else if (if legacy price and max fee are not provided), use max priority fee
+            # else if (if legacy price and max fee are not provided), use max priority fee
             elif max_priority_fee_per_gas is not None:
-                tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
+                tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(
+                    max_priority_fee_per_gas, "gwei"
+                )
 
-            #else (if none are provided) estimate max priority fee with rpc node
+            # else (if none are provided) estimate max priority fee with rpc node
             else:
                 tx_dict["maxPriorityFeePerGas"] = self.node.web3.eth.max_priority_fee
-            #pass in tx dict to build the transaction
+            # pass in tx dict to build the transaction
             built_tx = transaction.buildTransaction(tx_dict)
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
@@ -180,12 +189,12 @@ class Contract:
     async def write_with_retry(
         self,
         func_name: str,
-        legacy_gas_price: int,
-        max_priority_fee_per_gas: int,
-        max_fee_per_gas: int,
         extra_gas_price: int,
         retries: int,
         gas_limit: int,
+        legacy_gas_price: Optional[int] = None,
+        max_priority_fee_per_gas: Optional[int] = None,
+        max_fee_per_gas: Optional[int] = None,
         **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction. Retries supported!
@@ -193,15 +202,25 @@ class Contract:
         gas_price measured in gwei
 
         """
+        if (legacy_gas_price is not None) and (
+            (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)
+        ):
+            raise ValueError(
+                """invalid combination of legacy gas arguments
+                 and EIP-1559 modern gas arguments"""
+            )
+
+        if (
+            (legacy_gas_price is None)
+            and (max_fee_per_gas is None)
+            and (max_priority_fee_per_gas is None)
+        ):
+            raise ValueError("no gas strategy selected!")
 
         try:
             status = ResponseStatus()
             acc = self.node.web3.eth.account.from_key(self.private_key)
             acc_nonce = self.node.web3.eth.get_transaction_count(acc.address)
-
-            using_legacy_gas = False
-            if legacy_gas_price is not None:
-                using_legacy_gas = True
 
             # Iterate through retry attempts
             for k in range(retries + 1):
@@ -248,12 +267,17 @@ class Contract:
                     error_status(msg, log=logger.info)
                     if status.error:
                         if "replacement transaction underpriced" in status.error:
-                            if using_legacy_gas:
+                            if legacy_gas_price is not None:
                                 legacy_gas_price += extra_gas_price
                                 logger.info(f"Next gas price: {legacy_gas_price}")
-                            else:
+                            elif max_fee_per_gas is not None:
+                                max_fee_per_gas += extra_gas_price
+                                logger.info(f"Next max fee: {max_fee_per_gas}")
+                            elif max_priority_fee_per_gas is not None:
                                 max_priority_fee_per_gas += extra_gas_price
-                                logger.info(f"Next priority fee: {max_priority_fee_per_gas}")
+                                logger.info(
+                                    f"Next priority fee: {max_priority_fee_per_gas}"
+                                )
                         elif "already known" in status.error:
                             acc_nonce += 1
                             logger.info(f"Incrementing nonce: {acc_nonce}")
@@ -265,15 +289,17 @@ class Contract:
                             acc_nonce += 1
                             logger.info(f"Incrementing nonce: {acc_nonce}")
                         elif "not in the chain" in status.error:
-                            if using_legacy_gas:
+                            if legacy_gas_price is not None:
                                 legacy_gas_price += extra_gas_price
-                            else:
-                                if using_legacy_gas:
-                                    legacy_gas_price += extra_gas_price
-                                    logger.info(f"Next gas price: {legacy_gas_price}")
-                                else:
-                                    max_priority_fee_per_gas += extra_gas_price
-                                    logger.info(f"Next priority fee: {max_priority_fee_per_gas}")
+                                logger.info(f"Next gas price: {legacy_gas_price}")
+                            elif max_fee_per_gas is not None:
+                                max_fee_per_gas += extra_gas_price
+                                logger.info(f"Next max fee: {max_fee_per_gas}")
+                            elif max_priority_fee_per_gas is not None:
+                                max_priority_fee_per_gas += extra_gas_price
+                                logger.info(
+                                    f"Next priority fee: {max_priority_fee_per_gas}"
+                                )
                         else:
                             extra_gas_price = 0
 
