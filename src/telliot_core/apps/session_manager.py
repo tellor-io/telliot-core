@@ -22,9 +22,14 @@ class ClientSessionManager:
     def __init__(self) -> None:
         self._s = None
 
-    async def start(self) -> None:
+    async def open(self) -> None:
         """Create the client session"""
         self._s = aiohttp.ClientSession()
+
+    async def close(self) -> None:
+        """Close the client session."""
+        if self.s:
+            await self.s.close()
 
     async def fetch_json(self, url: str) -> Any:
         """Fetch JSON response from URL"""
@@ -35,11 +40,6 @@ class ClientSessionManager:
                 return json_obj
             else:
                 return await None
-
-    async def close(self) -> None:
-        """Close the client session."""
-        if self.s:
-            await self.s.close()
 
     def __del__(self) -> None:
         """Make sure the client session is closed when this object is deleted."""
