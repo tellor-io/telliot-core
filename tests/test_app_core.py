@@ -74,8 +74,8 @@ async def test_app_constructor():
 
 
 @pytest.mark.asyncio
-async def test_context_manager():
+async def test_context_manager(rinkeby_cfg):
 
-    async with TelliotCore() as core:
+    async with TelliotCore(config=rinkeby_cfg) as core:
         await core.startup()
         print(core.name)
