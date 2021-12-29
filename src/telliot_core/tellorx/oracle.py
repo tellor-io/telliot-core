@@ -1,4 +1,6 @@
-from typing import Optional, Tuple, Any
+from typing import Any
+from typing import Optional
+from typing import Tuple
 
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
@@ -9,38 +11,34 @@ ReadRespType = Tuple[Any, ResponseStatus]
 
 
 class TellorxOracleContract(Contract):
-
-    def __init__(
-            self,
-            node: RPCEndpoint,
-            private_key: str = ""
-    ):
-        contract_info = tellor_directory.find(chain_id=node.chain_id, name='oracle')[0]
+    def __init__(self, node: RPCEndpoint, private_key: str = ""):
+        contract_info = tellor_directory.find(chain_id=node.chain_id, name="oracle")[0]
         if not contract_info:
-            raise Exception(f"TellorX oracle contract not "
-                            f"found on chain_id {node.chain_id}")
+            raise Exception(
+                f"TellorX oracle contract not found on chain_id {node.chain_id}"
+            )
         assert contract_info.abi
 
-        super().__init__(address=contract_info.address,
-                         abi=contract_info.abi,
-                         node=node,
-                         private_key=private_key)
+        super().__init__(
+            address=contract_info.address,
+            abi=contract_info.abi,
+            node=node,
+            private_key=private_key,
+        )
 
-    async def getBlockNumberByTimestamp(self, queryId: str,
-                                        timestamp: int) -> ReadRespType:
+    async def getBlockNumberByTimestamp(
+        self, queryId: str, timestamp: int
+    ) -> ReadRespType:
 
         result, status = await self.read(
-            "getBlockNumberByTimestamp", _queryId=queryId,
-            _timestamp=timestamp
+            "getBlockNumberByTimestamp", _queryId=queryId, _timestamp=timestamp
         )
 
         return result, status
 
     async def getCurrentReward(self, queryId: str) -> ReadRespType:
 
-        result, status = await self.read(
-            "getCurrentReward", _queryId=queryId
-        )
+        result, status = await self.read("getCurrentReward", _queryId=queryId)
 
         if status.ok:
             (tips, reward) = result
@@ -60,7 +58,9 @@ class TellorxOracleContract(Contract):
 
         return result, status
 
-    async def getReporterByTimestamp(self, queryId: str, timestamp: int) -> ReadRespType:
+    async def getReporterByTimestamp(
+        self, queryId: str, timestamp: int
+    ) -> ReadRespType:
 
         result, status = await self.read(
             "getReporterByTimestamp", _queryId=queryId, _timestamp=timestamp
@@ -69,16 +69,16 @@ class TellorxOracleContract(Contract):
         return result, status
 
     async def getReporterLastTimestamp(
-            self, reporter: Optional[str] = None) -> ReadRespType:
+        self, reporter: Optional[str] = None
+    ) -> ReadRespType:
 
-        result, status = await self.read(
-            "getReporterLastTimestamp", _reporter=reporter
-        )
+        result, status = await self.read("getReporterLastTimestamp", _reporter=reporter)
 
         return result, status
 
     async def getReportsSubmittedByAddress(
-            self, reporter: Optional[str] = None) -> ReadRespType:
+        self, reporter: Optional[str] = None
+    ) -> ReadRespType:
 
         result, status = await self.read(
             "getReportsSubmittedByAddress", _reporter=reporter
@@ -104,9 +104,7 @@ class TellorxOracleContract(Contract):
 
     async def getTimestampCountById(self, queryId: str) -> ReadRespType:
 
-        result, status = await self.read(
-            "getTimestampCountById", _queryId=queryId
-        )
+        result, status = await self.read("getTimestampCountById", _queryId=queryId)
 
         return result, status
 
@@ -116,12 +114,12 @@ class TellorxOracleContract(Contract):
 
         return result, status
 
-    async def getTimestampIndexByTimestamp(self, queryId: str,
-                                           timestamp: int) -> ReadRespType:
+    async def getTimestampIndexByTimestamp(
+        self, queryId: str, timestamp: int
+    ) -> ReadRespType:
 
         result, status = await self.read(
-            "getTimestampIndexByTimestamp", _queryId=queryId,
-            _timestamp=timestamp
+            "getTimestampIndexByTimestamp", _queryId=queryId, _timestamp=timestamp
         )
 
         return result, status

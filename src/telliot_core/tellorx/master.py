@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from telliot_core.tellorx.oracle import ReadRespType
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.tellorx.oracle import ReadRespType
 from telliot_core.utils.timestamp import TimeStamp
 
 staker_status_map = {
@@ -30,23 +30,20 @@ class DisputeReport:
 
 
 class TellorxMasterContract(Contract):
-
-    def __init__(
-            self,
-            node: RPCEndpoint,
-            private_key: str = ""
-    ):
-        contract_info = tellor_directory.find(chain_id=node.chain_id,
-                                              name='master')[0]
+    def __init__(self, node: RPCEndpoint, private_key: str = ""):
+        contract_info = tellor_directory.find(chain_id=node.chain_id, name="master")[0]
         if not contract_info:
-            raise Exception(f"TellorX master contract not "
-                            f"found on chain_id {node.chain_id}")
+            raise Exception(
+                f"TellorX master contract not found on chain_id {node.chain_id}"
+            )
         assert contract_info.abi
 
-        super().__init__(address=contract_info.address,
-                         abi=contract_info.abi,
-                         node=node,
-                         private_key=private_key)
+        super().__init__(
+            address=contract_info.address,
+            abi=contract_info.abi,
+            node=node,
+            private_key=private_key,
+        )
 
     async def getStakerInfo(self, address: Optional[str] = None) -> ReadRespType:
         """Get Staker Info"""
