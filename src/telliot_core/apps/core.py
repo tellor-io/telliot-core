@@ -10,6 +10,8 @@ from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.tellorx.master import TellorxMasterContract
+from telliot_core.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
@@ -63,17 +65,32 @@ class TelliotCore(metaclass=Singleton):
     tellorx = property(lambda self: self._tellorx)
     _tellorx: ContractSet
 
+    #: Session manager
+    # _session_manager: ClientSessionManager
+
+    @property
+    def running(self) -> bool:
+        """True if core application is running"""
+        return self._running
+
+    _running: bool
+
     def __init__(
         self,
         *,
         homedir: Optional[Union[str, Path]] = None,
         config: Optional[TelliotConfig] = None,
         endpoint: Optional[RPCEndpoint] = None,
+        chain_id: Optional[int] = None,
     ):
 
         self._homedir = telliot_homedir(homedir)
 
         self._config = config or TelliotConfig(config_dir=self.homedir)
+
+        if chain_id is not None:
+            # Override chain ID
+            self._config.main.chain_id = chain_id
 
         if endpoint:
             self._endpoint = endpoint
@@ -86,6 +103,10 @@ class TelliotCore(metaclass=Singleton):
                     f"Endpoint not found for chain id: {self.config.main.chain_id}"
                 )
 
+        # self. = ClientSessionManager()
+
+        self._running = False
+
         show_telliot_versions()
 
     def get_default_staker(self) -> Optional[Staker]:
@@ -97,7 +118,7 @@ class TelliotCore(metaclass=Singleton):
         else:
             return None
 
-    def connect(self) -> bool:
+    async def startup(self) -> bool:
         """Connect to the tellorX network"""
         # re-get endpoint to make sure it matches chain_id
         assert self.config
@@ -119,9 +140,15 @@ class TelliotCore(metaclass=Singleton):
 
         private_key = default_staker.private_key
 
+        master = TellorxMasterContract(node=self.endpoint, private_key=private_key)
+        master.connect()
+
+        oracle = TellorxOracleContract(node=self.endpoint, private_key=private_key)
+        oracle.connect()
+
         self._tellorx = ContractSet(
-            master=get_contract("master", chain_id, self.endpoint, private_key),
-            oracle=get_contract("oracle", chain_id, self.endpoint, private_key),
+            master=master,
+            oracle=oracle,
             governance=get_contract("governance", chain_id, self.endpoint, private_key),
             treasury=get_contract("treasury", chain_id, self.endpoint, private_key),
         )
@@ -133,9 +160,29 @@ class TelliotCore(metaclass=Singleton):
         if connected:
             msg = f"connected: {networks[chain_id]} [staker: {default_staker.tag}]"
             print(msg)
-            logger.info(msg)
+            # logger.info(msg)
+
+        # await self._session_manager.open()
+
+        self._running = True
 
         return bool(connected)
+
+    async def shutdown(self) -> None:
+        """Cleanly shutdown core"""
+
+        # Close aiohttp session
+        # await self._session_manager.close()
+
+        self._running = False
+
+    async def destroy(self) -> None:
+
+        if self._running:
+            await self.shutdown()
+
+        # Call Singleton destructor
+        Singleton.destroy(TelliotCore)
 
     def configure_logging(self) -> None:
         """Configure logging"""
@@ -150,3 +197,16 @@ class TelliotCore(metaclass=Singleton):
 
         logfile = self.homedir / (self.name + ".log")
         logging.basicConfig(filename=str(logfile), level=loglevel)
+
+    async def __aenter__(self) -> "TelliotCore":
+        await self.startup()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:  # type: ignore
+        if exc_type:
+            logger.error("Exception occurred in telliot-core app")
+            logger.error(exc_type)
+            logger.error(exc_val)
+            logger.error(exc_tb)
+        await self.shutdown()
+        await self.destroy()

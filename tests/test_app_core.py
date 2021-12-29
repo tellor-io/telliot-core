@@ -8,7 +8,6 @@ import pytest
 from telliot_core.apps.core import TelliotCore
 from telliot_core.utils.home import default_homedir
 
-
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
@@ -23,7 +22,8 @@ def test_homedir():
     assert hd.exists()
 
 
-def test_application_homedir():
+@pytest.mark.asyncio
+async def test_application_homedir():
     """Test home directory handling"""
     if testhome.exists():
         shutil.rmtree(testhome)
@@ -33,38 +33,49 @@ def test_application_homedir():
     assert isinstance(app.homedir, pathlib.Path)
 
     shutil.rmtree(testhome)
-    TelliotCore.destroy()
+    await app.destroy()
 
 
-def test_application_default_home():
+@pytest.mark.asyncio
+async def test_application_default_home():
     """Test default application directory"""
 
     app = TelliotCore()
     assert app.homedir == default_homedir()
     assert "telliot" in str(app.homedir)
-    TelliotCore.destroy()
+    await app.destroy()
 
 
-def test_app_connect(rinkeby_cfg):
+@pytest.mark.asyncio
+async def test_app_connect(rinkeby_cfg):
     app = TelliotCore(config=rinkeby_cfg)
-    assert app.connect()
-    TelliotCore.destroy()
+    assert await app.startup()
+    await app.destroy()
 
 
-def test_app_constrctor():
+@pytest.mark.asyncio
+async def test_app_constructor():
     # Create a default application
-    _ = TelliotCore()
+    app = TelliotCore()
 
     # Prevent creating two Applications
     with pytest.raises(RuntimeError):
         _ = TelliotCore()
 
     # Destroy existing app
-    TelliotCore.destroy()
+    await app.destroy()
 
     # Create a new app using local home folder
     tmpdir = Path(".tmp")
     if not tmpdir.exists():
         tmpdir.mkdir()
-    _ = TelliotCore(homedir=Path(".tmp"))
-    TelliotCore.destroy()
+    app2 = TelliotCore(homedir=Path(".tmp"))
+    await app2.destroy()
+
+
+@pytest.mark.asyncio
+async def test_context_manager():
+
+    async with TelliotCore() as core:
+        await core.startup()
+        print(core.name)
