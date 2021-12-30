@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional
 from typing import Union
 
+from telliot_core.apps.session_manager import ClientSessionManager
 from telliot_core.apps.singleton import Singleton
 from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
@@ -66,7 +67,7 @@ class TelliotCore(metaclass=Singleton):
     _tellorx: ContractSet
 
     #: Session manager
-    # _session_manager: ClientSessionManager
+    _session_manager: ClientSessionManager
 
     @property
     def running(self) -> bool:
@@ -103,7 +104,7 @@ class TelliotCore(metaclass=Singleton):
                     f"Endpoint not found for chain id: {self.config.main.chain_id}"
                 )
 
-        # self. = ClientSessionManager()
+        self._session_manager = ClientSessionManager()
 
         self._running = False
 
@@ -162,7 +163,7 @@ class TelliotCore(metaclass=Singleton):
             print(msg)
             # logger.info(msg)
 
-        # await self._session_manager.open()
+        await self._session_manager.open()
 
         self._running = True
 
@@ -172,7 +173,7 @@ class TelliotCore(metaclass=Singleton):
         """Cleanly shutdown core"""
 
         # Close aiohttp session
-        # await self._session_manager.close()
+        await self._session_manager.close()
 
         self._running = False
 
