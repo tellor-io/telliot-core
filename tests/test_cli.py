@@ -30,7 +30,9 @@ def test_config_cmd():
 
 def test_disputesbyid(caplog):
     runner = CliRunner()
-    result = runner.invoke(main, ["read", "master", "disputesbyid", "1"])
+    result = runner.invoke(
+        main, ["--test_config", "read", "master", "disputesbyid", "1"]
+    )
     assert "DisputeReport" in result.stdout
     assert not result.exception
 
@@ -38,7 +40,7 @@ def test_disputesbyid(caplog):
 def test_getStakerInfo():
     """Test telliot_core CLI command: report."""
     runner = CliRunner()
-    result = runner.invoke(main, ["read", "master", "getstakerinfo"])
+    result = runner.invoke(main, ["--test_config", "read", "master", "getstakerinfo"])
 
     print(result.stdout)
     # expect a tuple of integers
@@ -51,12 +53,12 @@ def test_getStakerInfo():
 @pytest.mark.skip()
 def test_gettimebasedreward():
     runner = CliRunner()
-    result = runner.invoke(main, ["read", "gettimebasedreward"])
+    result = runner.invoke(main, ["--test_config", "read", "gettimebasedreward"])
     assert "TRB" in result.output
 
 
 def test_query_info():
     runner = CliRunner()
-    result = runner.invoke(main, ["query", "status", "uspce-legacy"])
+    result = runner.invoke(main, ["--test_config", "query", "status", "uspce-legacy"])
     assert not result.exception
     assert "Current value" in result.stdout

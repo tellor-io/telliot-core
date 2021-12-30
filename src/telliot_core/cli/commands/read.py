@@ -3,8 +3,8 @@ from typing import Tuple
 
 import click
 
-from telliot_core.apps.core import TelliotCore
 from telliot_core.cli.utils import async_run
+from telliot_core.cli.utils import cli_core
 from telliot_core.utils.timestamp import TimeStamp
 
 
@@ -27,7 +27,7 @@ def oracle() -> None:
 @click.pass_context
 @async_run
 async def gettimebasedreward(ctx: click.Context) -> None:
-    async with TelliotCore(chain_id=ctx.obj["chain_id"]) as core:
+    async with cli_core(ctx) as core:
 
         result, status = await core.tellorx.oracle.getTimeBasedReward()
 
@@ -42,7 +42,7 @@ async def gettimebasedreward(ctx: click.Context) -> None:
 @click.pass_context
 @async_run
 async def getteporterlasttimestamp(ctx: click.Context, address: str) -> None:
-    async with TelliotCore(chain_id=ctx.obj["chain_id"]) as core:
+    async with cli_core(ctx) as core:
 
         ts, status = await core.tellorx.oracle.getReporterLastTimestamp(address)
 
@@ -64,7 +64,7 @@ def master() -> None:
 async def get_staker_info(ctx: click.Context, address: str) -> Tuple[str, TimeStamp]:
     """Get staker information."""
 
-    async with TelliotCore(chain_id=ctx.obj["chain_id"]) as core:
+    async with cli_core(ctx) as core:
         (staker_status, date_staked), status = await core.tellorx.oracle.getStakerInfo(
             address=address
         )
@@ -91,7 +91,7 @@ async def getstakerinfo(ctx: click.Context, address: str) -> None:
 async def disputesbyid(ctx: click.Context, dispute_id: int) -> None:
     """Get disputes by ID."""
 
-    async with TelliotCore(chain_id=ctx.obj["chain_id"]) as core:
+    async with cli_core(ctx) as core:
         result, read_response = await core.tellorx.master.disputesById(dispute_id)
 
     if not read_response.ok:

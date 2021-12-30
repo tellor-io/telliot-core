@@ -21,10 +21,16 @@ from telliot_core.utils.versions import show_telliot_versions
     type=int,
     help="Override chain ID (the default is provided by main config file).",
 )
+@click.option(
+    "--test_config",
+    is_flag=True,
+    help="Runs command with test configuration (developer use only)",
+)
 @click.option("--version", is_flag=True, help="Display telliot-core version and exit.")
-def main(ctx: click.Context, version: bool, chain_id: int) -> None:
+def main(ctx: click.Context, version: bool, chain_id: int, test_config: bool) -> None:
     ctx.ensure_object(dict)
     ctx.obj["chain_id"] = chain_id
+    ctx.obj["test_config"] = test_config
     if version:
         show_telliot_versions()
         return

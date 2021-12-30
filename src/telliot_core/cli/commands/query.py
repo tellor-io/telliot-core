@@ -1,7 +1,7 @@
 import click
 
-from telliot_core.apps.core import TelliotCore
 from telliot_core.cli.utils import async_run
+from telliot_core.cli.utils import cli_core
 from telliot_core.data.query_catalog import query_catalog
 
 
@@ -29,7 +29,7 @@ async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
     \b https://github.com/tellor-io/dataSpecs/blob/main/catalog.md
     """
 
-    async with TelliotCore(chain_id=ctx.obj["chain_id"]) as core:
+    async with cli_core(ctx) as core:
 
         entries = query_catalog.find(tag=query_tag)
         if len(entries) == 0:
