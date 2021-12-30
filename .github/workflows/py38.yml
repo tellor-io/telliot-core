@@ -34,10 +34,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade tox tox-gh-actions          
 
-      - name: "Configure telliot for git testing ${{ matrix.python-version }}"
-        run:
-          telliot config git
-
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
           tox -e py38
