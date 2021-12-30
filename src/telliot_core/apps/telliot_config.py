@@ -43,36 +43,42 @@ class TelliotConfig(Base):
 
     stakers: StakerList = field(default_factory=StakerList)
 
+    # Private storage for config files
+    _main_config_file: Optional[ConfigFile] = None
+    _ep_config_file: Optional[ConfigFile] = None
+    _chain_config_file: Optional[ConfigFile] = None
+    _staker_config_file: Optional[ConfigFile] = None
+
     def __post_init__(self) -> None:
-        main_file = ConfigFile(
+        self._main_config_file = ConfigFile(
             name="main",
             config_type=MainConfig,
             config_format="yaml",
             config_dir=self.config_dir,
         )
-        ep_file = ConfigFile(
+        self._ep_config_file = ConfigFile(
             name="endpoints",
             config_type=EndpointList,
             config_format="yaml",
             config_dir=self.config_dir,
         )
-        chain_file = ConfigFile(
+        self._chain_config_file = ConfigFile(
             name="chains",
             config_type=ChainList,
             config_format="json",
             config_dir=self.config_dir,
         )
-        staker_file = ConfigFile(
+        self._staker_config_file = ConfigFile(
             name="stakers",
             config_type=StakerList,
             config_format="yaml",
             config_dir=self.config_dir,
         )
 
-        self.main = main_file.get_config()
-        self.endpoints = ep_file.get_config()
-        self.chains = chain_file.get_config()
-        self.stakers = staker_file.get_config()
+        self.main = self._main_config_file.get_config()
+        self.endpoints = self._ep_config_file.get_config()
+        self.chains = self._chain_config_file.get_config()
+        self.stakers = self._staker_config_file.get_config()
 
     def get_endpoint(self) -> Optional[RPCEndpoint]:
         """Search endpoints for current chain_id"""
