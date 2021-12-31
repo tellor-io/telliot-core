@@ -50,7 +50,7 @@ def event_loop():
 @pytest.fixture(scope="module")
 async def client_session():
     cm = ClientSessionManager()
-    await cm.start()
+    await cm.open()
     yield cm
     await asyncio.sleep(0)
     await cm.close()

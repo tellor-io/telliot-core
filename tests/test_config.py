@@ -27,18 +27,18 @@ def main(config_format):
     # Make sure that config file does not exist
     tmpdir = Path("./temp").resolve().absolute()
     config_file = tmpdir / f"myconfig.{config_format}"
-    config_file_bak = config_file.with_suffix(".bak")
     if config_file.exists():
         os.remove(config_file)
-    if config_file_bak.exists():
-        os.remove(config_file_bak)
+    for filename in config_file.parent.glob("myconfig*.bak"):
+        filename.unlink()
 
     # Create folder if it doesn't exist
     tmpdir.mkdir(parents=True, exist_ok=True)
 
     # Make sure starting with clean folder
     assert not config_file.exists()
-    assert not config_file_bak.exists()
+    for filename in config_file.parent.glob("myconfig*.bak"):
+        filename.unlink()
 
     cf = ConfigFile(
         name="myconfig",
@@ -55,7 +55,6 @@ def main(config_format):
     # Make a change to the config and save it
     options.option_a = 3
     cf.save_config(options)
-    assert config_file_bak.exists()
 
     # Create a new config object from the existing file.  Verify new values
     cf2 = ConfigFile(
@@ -69,7 +68,8 @@ def main(config_format):
 
     # Cleanup
     os.remove(config_file)
-    os.remove(config_file_bak)
+    for filename in config_file.parent.glob("myconfig*.bak"):
+        filename.unlink()
 
 
 def test_yaml():

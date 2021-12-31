@@ -3,7 +3,6 @@ import os
 
 import pytest
 
-from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.telliot_config import TelliotConfig
 
 
@@ -21,29 +20,17 @@ def rinkeby_cfg():
     rinkeby_endpoint = cfg.get_endpoint()
     # assert rinkeby_endpoint.network == "rinkeby"
 
-    # Optionally override private key and URL with ENV vars for testing
-    if os.getenv("PRIVATE_KEY", None):
-        cfg.main.private_key = os.environ["PRIVATE_KEY"]
-
     if os.getenv("NODE_URL", None):
         rinkeby_endpoint.url = os.environ["NODE_URL"]
 
-    return cfg
-
-
-@pytest.fixture(scope="module")
-def rinkeby_core(rinkeby_cfg):
-
-    app = TelliotCore(config=rinkeby_cfg)
-
     # Replace staker private key
-    staker = app.get_default_staker()
     if os.getenv("PRIVATE_KEY", None):
-        staker.private_key = rinkeby_cfg.main.private_key
-        staker.address = "0x8D8D2006A485FA4a75dFD8Da8f63dA31401B8fA2"
+        private_key = os.environ["PRIVATE_KEY"]
+        rinkeby_stakers = cfg.stakers.find(chain_id=4)
+        if len(rinkeby_stakers) == 0:
+            raise Exception("No staker/private key defined for rinkeby")
+        rinkeby_staker = rinkeby_stakers[0]
+        rinkeby_staker.private_key = private_key
+        rinkeby_staker.address = "0x8D8D2006A485FA4a75dFD8Da8f63dA31401B8fA2"
 
-    app.connect()
-    yield app
-
-    # Destroy app instance after test
-    TelliotCore.destroy()
+    return cfg
