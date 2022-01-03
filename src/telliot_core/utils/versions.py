@@ -14,8 +14,6 @@ def show_telliot_versions(
             for name, pkg in telliot_plugins.items():
                 if name != "telliot_core":
                     try:
-                        caller(
-                            f"{name} (plugin): Version {pkg.__version__}"  # type: ignore
-                        )
+                        caller(f"{name} (plugin): Version {pkg.__version__}")
                     except AttributeError:
                         caller(f"{name} (plugin): Version UNKNOWN")

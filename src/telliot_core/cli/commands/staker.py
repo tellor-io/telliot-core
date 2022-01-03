@@ -2,6 +2,7 @@ import click
 
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.cli.commands.read import get_staker_info
+from telliot_core.cli.utils import async_run
 
 
 @click.group()
@@ -14,11 +15,12 @@ def staker(ctx: click.Context, address: str) -> None:
 
 @staker.command()
 @click.pass_context
-def status(ctx: click.Context) -> None:
+@async_run
+async def status(ctx: click.Context) -> None:
     """Get on-chain staker status"""
     address = ctx.obj.get("address", None)
 
-    staker_status, date_staked = get_staker_info(ctx, address)
+    staker_status, date_staked = await get_staker_info(ctx, address)
 
     print(f"Status: {staker_status}")
     if staker_status != "NotStaked":

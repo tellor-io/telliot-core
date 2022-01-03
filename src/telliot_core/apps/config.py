@@ -1,6 +1,7 @@
 """telliot_core.apps.config module"""
 import json
 import logging
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
 from typing import Optional
@@ -116,7 +117,12 @@ class ConfigFile:
 
             # Back up existing file
             if self.config_file.exists():
-                self.config_file.rename(self.config_file.with_suffix(".bak"))
+                dt_str = datetime.now().strftime("%Y%M%d-%H%M%S")
+                path = self.config_file
+                backup_file = path.with_name(
+                    path.stem + "_" + dt_str + path.suffix + ".bak"
+                )
+                self.config_file.replace(backup_file)
 
             if self.config_format == "yaml":
 

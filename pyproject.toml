@@ -5,3 +5,10 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+# Pytest Live Logs breaks some CliRunner tests.
+#   - https://github.com/pallets/click/issues/2156
+#   - https://github.com/pallets/click/issues/824
+# [tool.pytest.ini_options]
+# log_cli = true
+# log_cli_level = "INFO"
