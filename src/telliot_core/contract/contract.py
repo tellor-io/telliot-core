@@ -120,29 +120,37 @@ class Contract:
             # use legacy gas strategy if only legacy gas price is provided
             if legacy_gas_price is not None:
 
-                if (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None):
+                if (max_fee_per_gas is not None) or (
+                    max_priority_fee_per_gas is not None
+                ):
                     raise ValueError(
-                    """"cannot use both legacy gas arguments and type 2 transaction (EIP1559) args in one transaction"""
+                        """"cannot use both legacy gas arguments
+                        and type 2 transaction (EIP1559) args in one transaction"""
                     )
-                    
+
                 tx_dict["gasPrice"] = self.node.web3.toWei(legacy_gas_price, "gwei")
 
-            # use EIP-1559 gas strategy if maxFeePerGas and/or MaxPriorityFeePerGas are provided
+            # use EIP-1559 gas strategy if maxFeePerGas
+            # and/or MaxPriorityFeePerGas are provided
             else:
                 if legacy_gas_price is not None:
                     raise ValueError(
-                    """"cannot use both legacy gas arguments and type 2 transaction (EIP1559) args in one transaction"""
+                        """"cannot use both legacy gas arguments
+                         and type 2 transaction (EIP1559) args in one transaction"""
                     )
 
                 if max_fee_per_gas is not None:
-                    tx_dict["maxFeePerGas"] = self.node.web3.toWei(max_fee_per_gas, "gwei")
+                    tx_dict["maxFeePerGas"] = self.node.web3.toWei(
+                        max_fee_per_gas, "gwei"
+                    )
 
                     if max_priority_fee_per_gas is not None:
                         tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(
                             max_priority_fee_per_gas, "gwei"
                         )
 
-                    # else if (if legacy price and max fee are not provided), use max priority fee
+                    # else if (if legacy price and max fee are not provided)
+                    # use max priority fee
                     elif max_priority_fee_per_gas is not None:
                         tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(
                             max_priority_fee_per_gas, "gwei"
@@ -151,8 +159,10 @@ class Contract:
                     # raise ValueError if no gas arguments are provided
                     else:
                         raise ValueError(
-                        "no gas strategy selected! must provide either legacy or EIP-1559 gas arguments"
-                    )           
+                            """no gas strategy selected!
+                            must provide either legacy
+                            or EIP-1559 gas arguments"""
+                        )
             # pass in tx dict to build the transaction
             built_tx = transaction.buildTransaction(tx_dict)
             # submit transaction
@@ -206,7 +216,8 @@ class Contract:
         """For submitting any contract transaction.
         Will attempt to retry (resubmit) the transaction a set number of times
         if it fails to be picked up by the chain.
-        Can submit a tx with either legacy gas strategy or the London fork EIP-1559 strategy
+        Can submit a tx with either legacy gas strategy
+        or the London fork EIP-1559 strategy
 
         Quick explainer...
         Legacy: gas cost = gasLimit*gasPrice where...
@@ -214,19 +225,25 @@ class Contract:
         EIP-1559: gas cost = gasLimit*(baseFee+priorityFee) where...
          - you can set the highest priorityFee you would pay (max_priority_fee_per_gas)
          OR
-         - you can set the highest maxFee (baseFee+priorityFee) you would pay (max_fee_per_gas)
+         - you can set the highest maxFee (i.e. baseFee+priorityFee)
+           you are willing to pay (ths is the max_fee_per_gas)
         also...
          - baseFee is set by the block
 
         Args:
             func_name (str): name of contract function
-            extra_gas_price (int): the amount of gas the tx resends with if it fails due to gas strategy
-                (adds to legacy_gas_price or max_priority_fee_per_gas depending on tx gas strategy)
+            extra_gas_price (int): the amount of gas the tx resends
+                with if it fails due to gas strategy
+                (adds to legacy_gas_price or max_priority_fee_per_gas
+                depending on tx gas strategy)
             retries (int): number of times to attempt tx resubmission
-            gas_limit (int): the maximum amount of gas units (not gas price!) to assign to the tx
+            gas_limit (int): the maximum amount of gas units (not gas price!)
+                to assign to the tx
             legacy_gas_price (int): the legacy gas price for a legacy tx
-            max_priority_fee_per_gas (int): the highest priorityFee in gwei you would pay (see guide above)
-            max_fee_per_gas (int): the highest maxFee in gwei (baseFee+priorityFee) you would pay (see guide above)
+            max_priority_fee_per_gas (int): the highest priorityFee in gwei
+                you would pay (see guide above)
+            max_fee_per_gas (int): the highest maxFee in gwei
+                (baseFee+priorityFee) you would pay (see guide above)
 
         Returns:
             transaction receipt (if transaction is picked up by chain)
