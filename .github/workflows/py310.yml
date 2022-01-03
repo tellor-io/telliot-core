@@ -1,5 +1,5 @@
 ---
-name: style
+name: CI
 
 on:
   push:
@@ -9,13 +9,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  docs:
-    name: "Style enforcement on Python ${{ matrix.python-version }}"
+  tests:
+    name: "Python ${{ matrix.python-version }}"
     runs-on: "ubuntu-latest"
+    env:
+      USING_COVERAGE: '3.10'
+      NODE_URL: ${{ secrets.TEST_NODE_URL }} 
+      PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+      TEST_SECRET: ${{ secrets.TEST_SECRET }}
+      RAPID_KEY: ${{ secrets.TEST_RAPID_KEY }}
+      ANYBLOCK_KEY: ${{ secrets.TEST_ANYBLOCK_KEY }}
 
     strategy:
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.10"]
 
     steps:
       - uses: "actions/checkout@v2"
@@ -29,4 +36,7 @@ jobs:
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
-          tox -e style
+          tox -e py310
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
