@@ -5,7 +5,6 @@ from typing import Optional
 from typing import Union
 
 from telliot_core.apps.session_manager import ClientSessionManager
-from telliot_core.apps.singleton import Singleton
 from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
@@ -44,7 +43,7 @@ class ContractSet:
     treasury: Contract
 
 
-class TelliotCore(metaclass=Singleton):
+class TelliotCore:
     """Telliot core application"""
 
     #: BaseApplication Name
@@ -177,14 +176,6 @@ class TelliotCore(metaclass=Singleton):
 
         self._running = False
 
-    async def destroy(self) -> None:
-
-        if self._running:
-            await self.shutdown()
-
-        # Call Singleton destructor
-        Singleton.destroy(TelliotCore)
-
     def configure_logging(self) -> None:
         """Configure logging"""
 
@@ -210,4 +201,3 @@ class TelliotCore(metaclass=Singleton):
             logger.error(exc_val)
             logger.error(exc_tb)
         await self.shutdown()
-        await self.destroy()

@@ -33,49 +33,23 @@ async def test_application_homedir():
     assert isinstance(app.homedir, pathlib.Path)
 
     shutil.rmtree(testhome)
-    await app.destroy()
 
 
 @pytest.mark.asyncio
 async def test_application_default_home():
     """Test default application directory"""
 
-    app = TelliotCore()
-    assert app.homedir == default_homedir()
-    assert "telliot" in str(app.homedir)
-    await app.destroy()
+    async with TelliotCore() as app:
+        assert app.homedir == default_homedir()
+        assert "telliot" in str(app.homedir)
 
 
 @pytest.mark.asyncio
-async def test_app_connect(rinkeby_cfg):
-    app = TelliotCore(config=rinkeby_cfg)
-    assert await app.startup()
-    await app.destroy()
-
-
-@pytest.mark.asyncio
-async def test_app_constructor():
-    # Create a default application
-    app = TelliotCore()
-
-    # Prevent creating two Applications
-    with pytest.raises(RuntimeError):
-        _ = TelliotCore()
-
-    # Destroy existing app
-    await app.destroy()
-
-    # Create a new app using local home folder
+async def test_app_constructor(rinkeby_cfg):
     tmpdir = Path(".tmp")
     if not tmpdir.exists():
         tmpdir.mkdir()
-    app2 = TelliotCore(homedir=Path(".tmp"))
-    await app2.destroy()
 
-
-@pytest.mark.asyncio
-async def test_context_manager(rinkeby_cfg):
-
-    async with TelliotCore(config=rinkeby_cfg) as core:
-        await core.startup()
-        print(core.name)
+    # Create a default application
+    async with TelliotCore(config=rinkeby_cfg, homedir=Path(".tmp")) as app:
+        assert app.homedir.absolute() == tmpdir.absolute()
