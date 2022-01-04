@@ -63,9 +63,11 @@ def master() -> None:
 
 async def get_staker_info(ctx: click.Context, address: str) -> Tuple[str, TimeStamp]:
     """Get staker information."""
-
     async with cli_core(ctx) as core:
-        (staker_status, date_staked), status = await core.tellorx.oracle.getStakerInfo(
+        if not address:
+            address = core.get_staker().address
+
+        (staker_status, date_staked), status = await core.tellorx.master.getStakerInfo(
             address=address
         )
         return staker_status, date_staked

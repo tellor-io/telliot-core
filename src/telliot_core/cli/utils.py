@@ -8,24 +8,6 @@ from telliot_core.apps.telliot_config import override_test_config
 from telliot_core.apps.telliot_config import TelliotConfig
 
 
-def get_app(ctx: click.Context) -> TelliotCore:
-    """Get an app configured using CLI context"""
-
-    app = TelliotCore.get() or TelliotCore()
-
-    chain_id = ctx.obj["chain_id"]
-    if chain_id is not None:
-        assert app.config
-        app.config.main.chain_id = chain_id
-
-    _ = app.startup()
-
-    assert app.config
-    assert app.tellorx
-
-    return app
-
-
 def async_run(f):  # type: ignore
     """Call and run an async function.
 
@@ -38,14 +20,26 @@ def async_run(f):  # type: ignore
     return wrapper
 
 
-def cli_core(ctx: click.Context) -> TelliotCore:
-    """Returns a TelliotCore configured with the CLI context"""
-    if ctx.obj["test_config"]:
+def cli_config(ctx: click.Context) -> TelliotConfig:
+    """Return a telliot configuration using the CLI context"""
+    if ctx.obj["TEST_CONFIG"]:
         cfg = override_test_config(TelliotConfig())
 
     else:
         cfg = TelliotConfig()
-        if ctx.obj["chain_id"]:
-            cfg.main.chain_id = ctx.obj["chain_id"]
+        if ctx.obj["CHAIN_ID"]:
+            cfg.main.chain_id = ctx.obj["CHAIN_ID"]
 
-    return TelliotCore(config=cfg)
+    return cfg
+
+
+def cli_core(ctx: click.Context) -> TelliotCore:
+    """Returns a TelliotCore configured with the CLI context
+
+    The returned object should be used as a context manager for CLI commands
+    """
+    staker_tag = ctx.obj.get("STAKER_TAG", None)
+
+    cfg = cli_config(ctx)
+    core = TelliotCore(config=cfg, staker_tag=staker_tag)
+    return core
