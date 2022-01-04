@@ -3,6 +3,7 @@ import click
 from telliot_core.cli.utils import async_run
 from telliot_core.cli.utils import cli_core
 from telliot_core.data.query_catalog import query_catalog
+from telliot_core.reporters.reporter_utils import tellorx_suggested_report
 
 
 @click.group()
@@ -79,3 +80,15 @@ async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
                 f" index: {k}, timestamp: {ts}, block: {blocknum}, "
                 f"value:{value}, reporter: {reporter} "
             )
+
+
+@query.command()
+@click.pass_context
+@async_run
+async def suggest(ctx: click.Context) -> None:
+    """Get the current suggested query for reporter synchronization."""
+
+    async with cli_core(ctx) as core:
+        qtag = await tellorx_suggested_report(core.tellorx.oracle)
+        assert isinstance(qtag, str)
+        print(f"Suggested query: {qtag}")

@@ -6,6 +6,7 @@ from telliot_core.contract.contract import Contract
 from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.response import ResponseStatus
+from telliot_core.utils.timestamp import TimeStamp
 
 ReadRespType = Tuple[Any, ResponseStatus]
 
@@ -112,7 +113,12 @@ class TellorxOracleContract(Contract):
 
         result, status = await self.read("getTimeOfLastNewValue")
 
-        return result, status
+        if status.ok:
+            t = TimeStamp(result)
+        else:
+            t = None
+
+        return t, status
 
     async def getTimestampIndexByTimestamp(
         self, queryId: str, timestamp: int
