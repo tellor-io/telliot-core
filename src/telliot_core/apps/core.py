@@ -160,13 +160,13 @@ class TelliotCore:
 
         chain_id = self.config.main.chain_id
 
-        default_staker = self.get_default_staker()
-        if default_staker is None:
+        staker = self.get_staker()
+        if staker is None:
             raise RuntimeError(
                 "Cannot start tellor-core application.  No staker found."
             )
 
-        private_key = default_staker.private_key
+        private_key = staker.private_key
 
         master = TellorxMasterContract(node=self.endpoint, private_key=private_key)
         master.connect()
@@ -181,12 +181,8 @@ class TelliotCore:
             treasury=get_contract("treasury", chain_id, self.endpoint, private_key),
         )
 
-        staker = self.get_staker()
-        if not staker:
-            raise Exception("No staker found")
-
         if connected:
-            msg = f"connected: {networks[chain_id]} [staker: {default_staker.tag}]"
+            msg = f"connected: {networks[chain_id]} [staker: {staker.tag}]"
             print(msg)
             # logger.info(msg)
 
