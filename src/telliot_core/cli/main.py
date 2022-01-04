@@ -29,8 +29,8 @@ from telliot_core.utils.versions import show_telliot_versions
 @click.option("--version", is_flag=True, help="Display telliot-core version and exit.")
 def main(ctx: click.Context, version: bool, chain_id: int, test_config: bool) -> None:
     ctx.ensure_object(dict)
-    ctx.obj["chain_id"] = chain_id
-    ctx.obj["test_config"] = test_config
+    ctx.obj["CHAIN_ID"] = chain_id
+    ctx.obj["TEST_CONFIG"] = test_config
     if version:
         show_telliot_versions()
         return

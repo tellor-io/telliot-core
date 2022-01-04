@@ -65,6 +65,10 @@ class TelliotCore:
     tellorx = property(lambda self: self._tellorx)
     _tellorx: ContractSet
 
+    #: User-specified staker
+    staker_tag = property(lambda self: self._staker_tag)
+    _staker_tag: Optional[str] = None
+
     #: Session manager
     _session_manager: ClientSessionManager
 
@@ -82,6 +86,7 @@ class TelliotCore:
         config: Optional[TelliotConfig] = None,
         endpoint: Optional[RPCEndpoint] = None,
         chain_id: Optional[int] = None,
+        staker_tag: Optional[str] = None,
     ):
 
         self._homedir = telliot_homedir(homedir)
@@ -91,6 +96,9 @@ class TelliotCore:
         if chain_id is not None:
             # Override chain ID
             self._config.main.chain_id = chain_id
+
+        if staker_tag is not None:
+            self.set_staker_tag(staker_tag)
 
         if endpoint:
             self._endpoint = endpoint
@@ -109,14 +117,34 @@ class TelliotCore:
 
         show_telliot_versions()
 
-    def get_default_staker(self) -> Optional[Staker]:
+    def set_staker_tag(self, staker_tag: str) -> None:
+        _ = self.get_staker()  # Make sure it exists
+        self._staker_tag = staker_tag
+
+    def get_staker(self) -> Staker:
+        """Retrieve the user specified staker
+
+        If None configured, the default first matching staker will be used
+
+        """
+        if self.staker_tag:
+            stakers = self.config.stakers.find(tag=self.staker_tag)
+            if len(stakers) > 0:
+                assert isinstance(stakers[0], Staker)
+                return stakers[0]
+            else:
+                raise ValueError(f"Staker {self.staker_tag} not found.")
+        else:
+            return self.get_default_staker()
+
+    def get_default_staker(self) -> Staker:
         stakers = self.config.stakers.find(chain_id=self.config.main.chain_id)
         if len(stakers) > 0:
             default_staker = stakers[0]
             assert isinstance(default_staker, Staker)
             return default_staker
         else:
-            return None
+            raise Exception(f"No staker found for chain id {self.config.main.chain_id}")
 
     async def startup(self) -> bool:
         """Connect to the tellorX network"""
@@ -153,8 +181,8 @@ class TelliotCore:
             treasury=get_contract("treasury", chain_id, self.endpoint, private_key),
         )
 
-        default_staker = self.get_default_staker()
-        if not default_staker:
+        staker = self.get_staker()
+        if not staker:
             raise Exception("No staker found")
 
         if connected:

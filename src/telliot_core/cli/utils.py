@@ -20,14 +20,26 @@ def async_run(f):  # type: ignore
     return wrapper
 
 
-def cli_core(ctx: click.Context) -> TelliotCore:
-    """Returns a TelliotCore configured with the CLI context"""
-    if ctx.obj["test_config"]:
+def cli_config(ctx: click.Context) -> TelliotConfig:
+    """Return a telliot configuration using the CLI context"""
+    if ctx.obj["TEST_CONFIG"]:
         cfg = override_test_config(TelliotConfig())
 
     else:
         cfg = TelliotConfig()
-        if ctx.obj["chain_id"]:
-            cfg.main.chain_id = ctx.obj["chain_id"]
+        if ctx.obj["CHAIN_ID"]:
+            cfg.main.chain_id = ctx.obj["CHAIN_ID"]
 
-    return TelliotCore(config=cfg)
+    return cfg
+
+
+def cli_core(ctx: click.Context) -> TelliotCore:
+    """Returns a TelliotCore configured with the CLI context
+
+    The returned object should be used as a context manager for CLI commands
+    """
+    staker_tag = ctx.obj.get("STAKER_TAG", None)
+
+    cfg = cli_config(ctx)
+    core = TelliotCore(config=cfg, staker_tag=staker_tag)
+    return core
