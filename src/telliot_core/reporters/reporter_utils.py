@@ -1,24 +1,24 @@
 from typing import Optional
 
+from telliot_core.data.query_catalog import query_catalog
+from telliot_core.queries import OracleQuery
+from telliot_core.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
 
-from telliot_core.queries import OracleQuery
-from telliot_core.data.query_catalog import query_catalog
-from telliot_core.tellorx.oracle import TellorxOracleContract
-
 reporter_sync_schedule = [
-    'eth-usd-legacy',
-    'btc-usd-legacy',
-    'ampl-legacy',
-    'trb-usd-legacy',
-    'ohm-eth-spot'
+    "eth-usd-legacy",
+    "btc-usd-legacy",
+    "ampl-legacy",
+    "trb-usd-legacy",
+    "ohm-eth-spot",
 ]
 
 
 async def tellorx_suggested_report(
-        oracle: TellorxOracleContract) -> Optional[OracleQuery]:
-    """ Returns the currently suggested query to report against.
+    oracle: TellorxOracleContract,
+) -> Optional[OracleQuery]:
+    """Returns the currently suggested query to report against.
 
     The suggested query changes each time a block contains a query response.
     The time of last report is used to randomly index into the
