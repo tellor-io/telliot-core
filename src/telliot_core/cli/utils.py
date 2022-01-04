@@ -27,7 +27,7 @@ def cli_config(ctx: click.Context) -> TelliotConfig:
 
     else:
         cfg = TelliotConfig()
-        if ctx.obj["CHAIN_ID"]:
+        if ctx.obj.get("CHAIN_ID", None):
             cfg.main.chain_id = ctx.obj["CHAIN_ID"]
 
     return cfg
