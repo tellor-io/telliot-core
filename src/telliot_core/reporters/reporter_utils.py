@@ -8,7 +8,6 @@ from telliot_core.tellorx.oracle import TellorxOracleContract
 reporter_sync_schedule: List[str] = [
     "eth-usd-legacy",
     "btc-usd-legacy",
-    "ampl-legacy",
     "trb-usd-legacy",
     "ohm-eth-spot",
 ]
