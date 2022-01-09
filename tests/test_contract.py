@@ -33,19 +33,18 @@ async def test_call_read_function(rinkeby_cfg):
 
 @pytest.mark.asyncio
 async def test_mixed_gas_inputs(rinkeby_cfg):
-    """Contract.write_with_retry() should refuse a combination of
+    """Contract.write() should refuse a combination of
     legacy gas args and EIP-1559 gas args"""
 
     with pytest.raises(ValueError):
 
         async with TelliotCore(config=rinkeby_cfg) as core:
 
-            tx_receipt, status = await core.tellorx.oracle.write_with_retry(
+            tx_receipt, status = await core.tellorx.oracle.write(
                 func_name="transfer",
                 _to="0xF90cd1D6C1da49CE2cF5C39f82999D7145aa66aD",
                 _amount=1,
                 extra_gas_price=0,
-                retries=0,
                 gas_limit=350000,
                 legacy_gas_price=1,
                 max_fee_per_gas=2,
