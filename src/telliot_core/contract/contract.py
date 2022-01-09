@@ -293,27 +293,29 @@ class Contract:
                 logger.debug(f"Attempt {attempt} status: ", status)
 
                 # Exit loop if transaction successful
-                if status.ok:
-                    assert tx_receipt  # for typing
-                    tx_url = (
-                        f"{self.node.explorer}/tx/{tx_receipt['transactionHash'].hex()}"
-                    )
-
-                    if tx_receipt["status"] == 1:
-                        return tx_receipt, status
-
-                    elif tx_receipt["status"] == 0:
-                        msg = f"Write attempt {attempt} failed, tx reverted ({tx_url}):"
-                        return tx_receipt, error_status(msg, log=logger.info)
-
-                    else:
-                        msg = f"Write attempt {attempt}: Invalid TX Receipt status: {tx_receipt['status']}"  # noqa: E501
-                        error_status(msg, log=logger.info)
+                if (
+                    status.ok
+                    and (tx_receipt is not None)
+                    and (tx_receipt["status"] == 1)
+                ):
+                    return tx_receipt, status
 
                 else:
                     logger.info(f"Write attempt {attempt} failed:")
                     msg = str(status.error)
-                    error_status(msg, log=logger.info)
+                    _ = error_status(msg, log=logger.info)
+
+                    if tx_receipt is not None:
+                        tx_url = f"{self.node.explorer}/tx/{tx_receipt['transactionHash'].hex()}"  # noqa: E501
+
+                        if tx_receipt["status"] == 0:
+                            msg = f"Write attempt {attempt} failed, tx reverted ({tx_url}):"  # noqa: E501
+                            return tx_receipt, error_status(msg, log=logger.info)
+
+                        else:
+                            msg = f"Write attempt {attempt}: Invalid TX Receipt status: {tx_receipt['status']}"  # noqa: E501
+                            return tx_receipt, error_status(msg, log=logger.info)
+
                     if status.error:
                         if "replacement transaction underpriced" in status.error:
                             if legacy_gas_price is not None:
