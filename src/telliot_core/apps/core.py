@@ -1,22 +1,23 @@
 import logging
 from dataclasses import dataclass
 from pathlib import Path
+from traceback import format_tb
 from typing import Optional
 from typing import Union
-from traceback import print_tb, format_tb
+
 import aiohttp
-import asyncio
+
 from telliot_core.apps.session_manager import ClientSessionManager
 from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
+from telliot_core.contract.listener import Listener
 from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellorx.master import TellorxMasterContract
 from telliot_core.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
-from telliot_core.contract.listener import Listener
 
 logger = logging.getLogger(__name__)
 networks = {1: "eth-mainnet", 4: "eth-rinkeby"}
@@ -92,13 +93,13 @@ class TelliotCore:
     _running: bool
 
     def __init__(
-            self,
-            *,
-            homedir: Optional[Union[str, Path]] = None,
-            config: Optional[TelliotConfig] = None,
-            endpoint: Optional[RPCEndpoint] = None,
-            chain_id: Optional[int] = None,
-            staker_tag: Optional[str] = None,
+        self,
+        *,
+        homedir: Optional[Union[str, Path]] = None,
+        config: Optional[TelliotConfig] = None,
+        endpoint: Optional[RPCEndpoint] = None,
+        chain_id: Optional[int] = None,
+        staker_tag: Optional[str] = None,
     ):
 
         self._homedir = telliot_homedir(homedir)
@@ -202,8 +203,7 @@ class TelliotCore:
 
         await self._session_manager.open()
 
-        self._listener = Listener(session=self.shared_session,
-                                  ws_url=self.endpoint.url)
+        self._listener = Listener(session=self.shared_session, ws_url=self.endpoint.url)
 
         self._running = True
 
@@ -220,7 +220,6 @@ class TelliotCore:
         await self._session_manager.close()
 
         self._running = False
-
 
     def configure_logging(self) -> None:
         """Configure logging"""

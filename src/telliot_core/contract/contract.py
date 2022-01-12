@@ -9,12 +9,10 @@ from typing import Optional
 from typing import Tuple
 from typing import Union
 
-import aiohttp
 from eth_typing.evm import ChecksumAddress
 from web3 import Web3
 from web3.datastructures import AttributeDict
 
-from telliot_core.contract.listener import AsyncCallable, event_logger
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.response import error_status
 from telliot_core.utils.response import ResponseStatus
@@ -26,11 +24,11 @@ class Contract:
     """Convenience wrapper for connecting to an Ethereum contract"""
 
     def __init__(
-            self,
-            address: Union[str, ChecksumAddress],
-            abi: Union[List[Dict[str, Any]], str],
-            node: RPCEndpoint,
-            private_key: str = "",
+        self,
+        address: Union[str, ChecksumAddress],
+        abi: Union[List[Dict[str, Any]], str],
+        node: RPCEndpoint,
+        private_key: str = "",
     ):
 
         self.address = Web3.toChecksumAddress(address)
@@ -51,7 +49,7 @@ class Contract:
         return ResponseStatus(ok=True)
 
     async def read(
-            self, func_name: str, *args: Any, **kwargs: Any
+        self, func_name: str, *args: Any, **kwargs: Any
     ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
@@ -75,14 +73,14 @@ class Contract:
             return None, ResponseStatus(ok=False, error=msg)
 
     async def write(
-            self,
-            func_name: str,
-            gas_limit: int,
-            legacy_gas_price: Optional[int] = None,
-            max_priority_fee_per_gas: Optional[int] = None,
-            max_fee_per_gas: Optional[int] = None,
-            acc_nonce: Optional[int] = None,
-            **kwargs: Any,
+        self,
+        func_name: str,
+        gas_limit: int,
+        legacy_gas_price: Optional[int] = None,
+        max_priority_fee_per_gas: Optional[int] = None,
+        max_fee_per_gas: Optional[int] = None,
+        acc_nonce: Optional[int] = None,
+        **kwargs: Any,
     ) -> Tuple[Optional[AttributeDict[Any, Any]], ResponseStatus]:
         """For submitting any contract transaction once without retries
 
@@ -92,7 +90,7 @@ class Contract:
 
         # Validate inputs
         if (legacy_gas_price is not None) and (
-                (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)
+            (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)
         ):
             raise ValueError(
                 """invalid combination of legacy gas arguments
@@ -100,9 +98,9 @@ class Contract:
             )
 
         if (
-                (legacy_gas_price is None)
-                and (max_fee_per_gas is None)
-                and (max_priority_fee_per_gas is None)
+            (legacy_gas_price is None)
+            and (max_fee_per_gas is None)
+            and (max_priority_fee_per_gas is None)
         ):
             raise ValueError("no gas strategy selected!")
 
@@ -143,7 +141,7 @@ class Contract:
             if legacy_gas_price is not None:
 
                 if (max_fee_per_gas is not None) or (
-                        max_priority_fee_per_gas is not None
+                    max_priority_fee_per_gas is not None
                 ):
                     raise ValueError(
                         """"cannot use both legacy gas arguments
@@ -223,4 +221,3 @@ class Contract:
         except Exception as e:
             note = "Failed to confirm transaction"
             return None, error_status(note, log=logger.error, e=e)
-

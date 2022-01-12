@@ -1,9 +1,10 @@
+import asyncio
+import logging
+
 import pytest
 
 from telliot_core.apps.core import TelliotCore
-from telliot_core.contract.listener import event_logger, block_logger
-import asyncio
-import logging
+from telliot_core.contract.listener import block_logger
 
 
 async def block_printer(msg) -> None:

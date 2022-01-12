@@ -10,18 +10,18 @@ The goal is to allow users to subscribe to and define async callbacks for each e
 import asyncio
 import logging
 import warnings
-from typing import Any, Optional, Literal
+from typing import Any
 from typing import Awaitable
 from typing import Callable
-from typing import List, Dict
-
-from aiohttp.client import _WSRequestContextManager
-from hexbytes import HexBytes
+from typing import List
+from typing import Literal
 
 import aiohttp
-from web3._utils.method_formatters import log_entry_formatter, block_formatter, transaction_result_formatter, \
-    syncing_formatter
-from web3.types import LogReceipt
+from aiohttp.client import _WSRequestContextManager
+from hexbytes import HexBytes
+from web3._utils.method_formatters import block_formatter
+from web3._utils.method_formatters import log_entry_formatter
+from web3._utils.method_formatters import syncing_formatter
 
 from telliot_core.directory.tellorx import tellor_directory
 
@@ -32,10 +32,11 @@ AsyncCallable = Callable[[Any], Awaitable]
 SubscriptionType = Literal["newHeads", "logs", "newPendingTransactions", "syncing"]
 
 
-async def receive_message_task(ws: aiohttp.ClientWebSocketResponse,
-                               handler: AsyncCallable,
-                               formatter: Callable[..., Any],
-                               ) -> None:
+async def receive_message_task(
+    ws: aiohttp.ClientWebSocketResponse,
+    handler: AsyncCallable,
+    formatter: Callable[..., Any],
+) -> None:
     """A long running task that listens for JSON messages on an open websocket.
     The handler is called once for each message.
 
@@ -65,11 +66,14 @@ async def receive_message_task(ws: aiohttp.ClientWebSocketResponse,
             continue
 
 
-async def eth_subscribe(*, ws: aiohttp.ClientWebSocketResponse,
-                        name: SubscriptionType,
-                        lid: int = 1,
-                        **kwargs: Any) -> HexBytes:
-    """ Subscribe
+async def eth_subscribe(
+    *,
+    ws: aiohttp.ClientWebSocketResponse,
+    name: SubscriptionType,
+    lid: int = 1,
+    **kwargs: Any,
+) -> HexBytes:
+    """Subscribe
 
     Args:
         ws: Websocket connection
@@ -85,7 +89,12 @@ async def eth_subscribe(*, ws: aiohttp.ClientWebSocketResponse,
     logger.info(f"New {name} subscription")
 
     if kwargs:
-        msg = {"jsonrpc": "2.0", "id": lid, "method": "eth_subscribe", "params": [name, kwargs]}
+        msg = {
+            "jsonrpc": "2.0",
+            "id": lid,
+            "method": "eth_subscribe",
+            "params": [name, kwargs],
+        }
     else:
         msg = {"jsonrpc": "2.0", "id": lid, "method": "eth_subscribe", "params": [name]}
     await ws.send_json(msg)
@@ -97,13 +106,12 @@ async def eth_subscribe(*, ws: aiohttp.ClientWebSocketResponse,
 
     sub_result = subscription_response.get("result")
     if not sub_result:
-        raise Exception('Subscription Failed')
+        raise Exception("Subscription Failed")
 
     return HexBytes(sub_result)
 
 
 class Listener:
-
     def __init__(self, *, session: aiohttp.ClientSession, ws_url: str):
 
         self._session = session
@@ -120,17 +128,24 @@ class Listener:
         self._listener_id += 1
         return self._listener_id
 
-    async def eth_subscribe(self, handler: AsyncCallable, name: SubscriptionType,
-                            formatter: Callable[..., Any], **kwargs: Any) -> None:
-        """ Create a subscription using eth_subscribe
+    async def eth_subscribe(
+        self,
+        handler: AsyncCallable,
+        name: SubscriptionType,
+        formatter: Callable[..., Any],
+        **kwargs: Any,
+    ) -> None:
+        """Create a subscription using eth_subscribe
 
         Args:
             handler:
                 An async function that takes the JSON message as a single argument
             name:
-                Subscription type/name, one of "newHeads", "logs", "newPendingTransactions", "syncing"
+                Subscription type/name, one of:
+                    "newHeads", "logs", "newPendingTransactions", "syncing"
             **kwargs:
-                Subscription parameter dict.  See (see https://geth.ethereum.org/docs/rpc/pubsub)
+                Subscription parameter dict.
+                See (see https://geth.ethereum.org/docs/rpc/pubsub)
 
         Returns:
 
@@ -144,40 +159,52 @@ class Listener:
         # Note that storing this reference delays exceptions until garbage collection.
         # Therefore, task is wrapped with a task_done callback to immediately catch exceptions
         task = asyncio.create_task(
-            self._eth_subscribe_task(handler=handler,
-                                     name=name,
-                                     lid=lid,
-                                     formatter=formatter,
-                                     **kwargs),
-            name=task_name)
+            self._eth_subscribe_task(
+                handler=handler, name=name, lid=lid, formatter=formatter, **kwargs
+            ),
+            name=task_name,
+        )
 
         task.add_done_callback(_handle_task_result)
         self._tasks.append(task)
 
     async def subscribe_new_blocks(self, handler: AsyncCallable) -> None:
 
-        await self.eth_subscribe(handler=handler, name='newHeads', formatter=block_formatter)
+        await self.eth_subscribe(
+            handler=handler, name="newHeads", formatter=block_formatter
+        )
 
-    async def subscribe_contract_events(self, handler: AsyncCallable, address: str) -> None:
+    async def subscribe_contract_events(
+        self, handler: AsyncCallable, address: str
+    ) -> None:
 
-        await self.eth_subscribe(handler=handler, name='logs', address=address, formatter=log_entry_formatter)
+        await self.eth_subscribe(
+            handler=handler, name="logs", address=address, formatter=log_entry_formatter
+        )
 
     async def subscribe_pending_transactions(self, handler: AsyncCallable) -> None:
 
-        await self.eth_subscribe(handler=handler, name='newPendingTransactions',
-                                 formatter=pending_transaction_formatter)
+        await self.eth_subscribe(
+            handler=handler,
+            name="newPendingTransactions",
+            formatter=pending_transaction_formatter,
+        )
         # await self.eth_subscribe(handler=handler, name='newPendingTransactions')
 
     async def subscribe_syncing(self, handler: AsyncCallable) -> None:
 
-        await self.eth_subscribe(handler=handler, name='syncing', formatter=syncing_formatter)
+        await self.eth_subscribe(
+            handler=handler, name="syncing", formatter=syncing_formatter
+        )
 
-    async def _eth_subscribe_task(self, handler: AsyncCallable,
-                                  name: SubscriptionType,
-                                  lid: int,
-                                  formatter: Callable[..., Any],
-                                  **kwargs: Any
-                                  ) -> None:
+    async def _eth_subscribe_task(
+        self,
+        handler: AsyncCallable,
+        name: SubscriptionType,
+        lid: int,
+        formatter: Callable[..., Any],
+        **kwargs: Any,
+    ) -> None:
         """A long running listener task.
 
         Note: Does not return until asyncio.Cancelled event
@@ -191,14 +218,14 @@ class Listener:
     async def shutdown(self) -> None:
         """Shut down all asyncio subscription tasks"""
         for task in self._tasks:
-            logger.info(f'Shutting down listener {task.get_name()}')
+            logger.info(f"Shutting down listener {task.get_name()}")
             task.cancel()
         await asyncio.gather(*self._tasks)
         self._tasks = []
 
     def __del__(self) -> None:
         if self._tasks:
-            warnings.warn('Listener.shutdown() not awaited.')
+            warnings.warn("Listener.shutdown() not awaited.")
 
 
 def _handle_task_result(task: asyncio.Task[Any]) -> None:
@@ -208,7 +235,7 @@ def _handle_task_result(task: asyncio.Task[Any]) -> None:
     except asyncio.CancelledError:
         pass  # Task cancellation should not be logged as an error.
     except Exception:
-        logger.exception('Exception raised by task = %r', task)
+        logger.exception("Exception raised by task = %r", task)
 
 
 async def event_logger(log: Any) -> None:
@@ -238,32 +265,38 @@ async def syncing_logger(msg: Any) -> None:
     logger.info(f"New sync: {msg}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from telliot_core.apps.core import TelliotCore
     import asyncio
 
     logging.basicConfig(level=logging.INFO)
 
-
     async def main() -> None:
         async with TelliotCore() as core:
-            master_info = tellor_directory.find(name="master", chain_id=core.config.main.chain_id)[0]
-            oracle_info = tellor_directory.find(name="oracle", chain_id=core.config.main.chain_id)[0]
+            master_info = tellor_directory.find(
+                name="master", chain_id=core.config.main.chain_id
+            )[0]
+            oracle_info = tellor_directory.find(
+                name="oracle", chain_id=core.config.main.chain_id
+            )[0]
 
             # Subscribe to blocks
-            assert core.listener # typing
+            assert core.listener  # typing
             await core.listener.subscribe_new_blocks(handler=block_logger)
             await core.listener.subscribe_syncing(handler=syncing_logger)
 
             # Subscribe to contract events
-            await core.listener.subscribe_contract_events(handler=event_logger, address=master_info.address)
-            await core.listener.subscribe_contract_events(handler=event_logger, address=oracle_info.address)
+            await core.listener.subscribe_contract_events(
+                handler=event_logger, address=master_info.address
+            )
+            await core.listener.subscribe_contract_events(
+                handler=event_logger, address=oracle_info.address
+            )
 
             # Subscribe to pending transactions:
             # Warning: Very high RPC transaction rate
             # await core.listener.subscribe_pending_transactions(handler=pending_transaction_logger)
 
             await asyncio.sleep(10)
-
 
     asyncio.run(main())

@@ -18,7 +18,9 @@ class ClientSessionManager:
         if self._session:
             return self._session
         else:
-            raise Exception('Client session does not exist.  Use ClientSessionManager.open().')
+            raise Exception(
+                "Client session does not exist.  Use ClientSessionManager.open()."
+            )
 
     _session: Optional[aiohttp.ClientSession]
 
