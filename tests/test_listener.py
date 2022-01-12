@@ -15,9 +15,9 @@ async def block_printer(msg) -> None:
 
 
 @pytest.mark.asyncio
-async def test_subscribe_new_blocks(caplog):
+async def test_subscribe_new_blocks(caplog, rinkeby_cfg):
     caplog.set_level(logging.INFO)
-    async with TelliotCore() as core:
+    async with TelliotCore(config=rinkeby_cfg) as core:
         # Subscribe to blocks
         await core.listener.subscribe_new_blocks(handler=block_logger)
         await asyncio.sleep(1)  # Note delay needed
