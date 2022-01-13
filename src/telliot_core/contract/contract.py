@@ -221,7 +221,3 @@ class Contract:
         except Exception as e:
             note = "Failed to confirm transaction"
             return None, error_status(note, log=logger.error, e=e)
-
-    def listen(self) -> None:
-        """Wrapper for listening for contract events"""
-        pass

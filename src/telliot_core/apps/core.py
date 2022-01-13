@@ -1,13 +1,17 @@
 import logging
 from dataclasses import dataclass
 from pathlib import Path
+from traceback import format_tb
 from typing import Optional
 from typing import Union
+
+import aiohttp
 
 from telliot_core.apps.session_manager import ClientSessionManager
 from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
+from telliot_core.contract.listener import Listener
 from telliot_core.directory.tellorx import tellor_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellorx.master import TellorxMasterContract
@@ -69,8 +73,17 @@ class TelliotCore:
     staker_tag = property(lambda self: self._staker_tag)
     _staker_tag: Optional[str] = None
 
-    #: Session manager
+    #: Shared session management
+    # csm = property(lambda self: self._session_manager)
     _session_manager: ClientSessionManager
+
+    @property
+    def shared_session(self) -> aiohttp.ClientSession:
+        return self._session_manager.session
+
+    @property
+    def listener(self) -> Optional[Listener]:
+        return self._listener
 
     @property
     def running(self) -> bool:
@@ -114,6 +127,8 @@ class TelliotCore:
         self._session_manager = ClientSessionManager()
 
         self._running = False
+
+        self._listener: Optional[Listener] = None
 
         show_telliot_versions()
 
@@ -188,12 +203,18 @@ class TelliotCore:
 
         await self._session_manager.open()
 
+        self._listener = Listener(session=self.shared_session, ws_url=self.endpoint.url)
+
         self._running = True
 
         return bool(connected)
 
     async def shutdown(self) -> None:
         """Cleanly shutdown core"""
+
+        # SHut down listeners
+        if self.listener:
+            await self.listener.shutdown()
 
         # Close aiohttp session
         await self._session_manager.close()
@@ -223,5 +244,5 @@ class TelliotCore:
             logger.error("Exception occurred in telliot-core app")
             logger.error(exc_type)
             logger.error(exc_val)
-            logger.error(exc_tb)
+            logger.error(format_tb(exc_tb))
         await self.shutdown()

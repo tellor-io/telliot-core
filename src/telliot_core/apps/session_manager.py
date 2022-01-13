@@ -9,32 +9,36 @@ class ClientSessionManager:
     """Session Manager
 
     Manage a single `aiohttp.ClientSession` for efficient
-    handling of telliot requests for http access.
+    handling of user requests for http access.
     """
 
     @property
-    def s(self) -> Optional[aiohttp.ClientSession]:
-        """Returns the client session or None"""
-        return self._s
+    def session(self) -> aiohttp.ClientSession:
+        """Returns the client session"""
+        if self._session:
+            return self._session
+        else:
+            raise Exception(
+                "Client session does not exist.  Use ClientSessionManager.open()."
+            )
 
-    _s: Optional[aiohttp.ClientSession]
+    _session: Optional[aiohttp.ClientSession]
 
     def __init__(self) -> None:
-        self._s = None
+        self._session = None
 
     async def open(self) -> None:
-        """Create the client session"""
-        self._s = aiohttp.ClientSession()
+        """Create the client session."""
+        self._session = aiohttp.ClientSession()
 
     async def close(self) -> None:
         """Close the client session."""
-        if self.s:
-            await self.s.close()
+        if self.session:
+            await self.session.close()
 
     async def fetch_json(self, url: str) -> Any:
         """Fetch JSON response from URL"""
-        assert self.s
-        async with self.s.get(url) as resp:
+        async with self.session.get(url) as resp:
             if resp.status == 200:
                 json_obj = await resp.json()
                 return json_obj
@@ -43,8 +47,8 @@ class ClientSessionManager:
 
     def __del__(self) -> None:
         """Make sure the client session is closed when this object is deleted."""
-        if self.s:
-            if not self.s.closed:
+        if self._session:
+            if not self._session.closed:
                 try:
                     loop = asyncio.get_event_loop()
                     if loop.is_running():
