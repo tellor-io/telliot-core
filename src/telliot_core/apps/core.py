@@ -1,5 +1,4 @@
 import logging
-import warnings
 from dataclasses import dataclass
 from pathlib import Path
 from traceback import format_tb
@@ -7,7 +6,6 @@ from typing import Optional
 from typing import Union
 
 import aiohttp
-from web3 import Web3
 
 from telliot_core.apps.session_manager import ClientSessionManager
 from telliot_core.apps.staker import Staker
@@ -205,10 +203,7 @@ class TelliotCore:
 
         await self._session_manager.open()
 
-        if isinstance(self._endpoint.web3, Web3.WebsocketProvider):
-            self._listener = Listener(session=self.shared_session, ws_url=self.endpoint.url)
-        else:
-            raise Exception("Listener requires a websocket connection.")
+        self._listener = Listener(session=self.shared_session, ws_url=self.endpoint.url)
 
         self._running = True
 
