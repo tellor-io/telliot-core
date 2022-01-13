@@ -107,7 +107,7 @@ default_endpoint_list = [
         chain_id=80001,
         provider="Matic",
         network="mumbai",
-        url="",
+        url="https://polygon-mumbai.infura.io/v3/{INFURA_API_KEY}",
         explorer="https://mumbai.polygonscan.com/",
     ),
 ]
