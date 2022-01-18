@@ -42,7 +42,7 @@ async def gettimebasedreward(ctx: click.Context) -> None:
 @click.option("--address", type=str, help="Reporter address (starting with 0x).")
 @click.pass_context
 @async_run
-async def getteporterlasttimestamp(ctx: click.Context, address: str) -> None:
+async def getreporterlasttimestamp(ctx: click.Context, address: str) -> None:
     async with cli_core(ctx) as core:
 
         tellorx = core.get_tellorx_contracts()
