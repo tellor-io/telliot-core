@@ -281,7 +281,7 @@ if __name__ == "__main__":
             # Subscribe to blocks
             assert core.listener  # typing
             await core.listener.subscribe_new_blocks(handler=block_logger)
-            await core.listener.subscribe_syncing(handler=syncing_logger)
+            # await core.listener.subscribe_syncing(handler=syncing_logger)
 
             # Subscribe to contract events
             await core.listener.subscribe_contract_events(
@@ -295,8 +295,10 @@ if __name__ == "__main__":
 
             # Subscribe to pending transactions:
             # Warning: Very high RPC transaction rate
-            # await core.listener.subscribe_pending_transactions(handler=pending_transaction_logger)
+            await core.listener.subscribe_pending_transactions(
+                handler=pending_transaction_logger
+            )
 
-            await asyncio.sleep(10)
+            await asyncio.sleep(1011)
 
     asyncio.run(main())

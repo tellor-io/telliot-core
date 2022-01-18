@@ -101,7 +101,10 @@ def default_contracts() -> list[ContractInfo]:
         ContractInfo(
             org="tellor",
             name="tellorflex-oracle",
-            address={1: "", 4: "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537"},
+            address={
+                137: "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
+                80001: "0xF281e2De3bB71dE348040b10B420615104359c10",
+            },
             abi_file="tellorflex-oracle-abi.json",
         ),
     ]

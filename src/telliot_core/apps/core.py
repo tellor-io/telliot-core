@@ -19,7 +19,12 @@ from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
 logger = logging.getLogger(__name__)
-networks = {1: "eth-mainnet", 4: "eth-rinkeby"}
+networks = {
+    1: "eth-mainnet",
+    4: "eth-rinkeby",
+    137: "polygon-mainnet",
+    80008: "polygon-mumbai",
+}
 
 
 @dataclass
