@@ -37,6 +37,7 @@ class StakerList(ConfigOptions):
 
     def find(
         self,
+        *,
         tag: Optional[str] = None,
         address: Optional[str] = None,
         private_key: Optional[str] = None,

@@ -23,8 +23,6 @@ from web3._utils.method_formatters import block_formatter
 from web3._utils.method_formatters import log_entry_formatter
 from web3._utils.method_formatters import syncing_formatter
 
-from telliot_core.directory.tellorx import tellor_directory
-
 logger = logging.getLogger(__name__)
 
 AsyncCallable = Callable[[Any], Awaitable]
@@ -273,11 +271,11 @@ if __name__ == "__main__":
 
     async def main() -> None:
         async with TelliotCore() as core:
-            master_info = tellor_directory.find(
-                name="master", chain_id=core.config.main.chain_id
+            master_info = core.config.directory.find(
+                name="tellorx-master", chain_id=core.config.main.chain_id
             )[0]
-            oracle_info = tellor_directory.find(
-                name="oracle", chain_id=core.config.main.chain_id
+            oracle_info = core.config.directory.find(
+                name="tellorx-oracle", chain_id=core.config.main.chain_id
             )[0]
 
             # Subscribe to blocks
@@ -287,10 +285,12 @@ if __name__ == "__main__":
 
             # Subscribe to contract events
             await core.listener.subscribe_contract_events(
-                handler=event_logger, address=master_info.address
+                handler=event_logger,
+                address=master_info.address[core.config.main.chain_id],
             )
             await core.listener.subscribe_contract_events(
-                handler=event_logger, address=oracle_info.address
+                handler=event_logger,
+                address=oracle_info.address[core.config.main.chain_id],
             )
 
             # Subscribe to pending transactions:
