@@ -6,9 +6,11 @@ from telliot_core.apps.core import TelliotCore
 @pytest.mark.asyncio
 async def test_getReportTimestampByIndex(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
+        tellorx = core.get_tellorx_contracts()
+
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
         index = 2
-        timestamp, status = await core.tellorx.oracle.getReportTimestampByIndex(
+        timestamp, status = await tellorx.oracle.getReportTimestampByIndex(
             queryId, index
         )
         assert status.ok
@@ -20,7 +22,9 @@ async def test_getReportTimestampByIndex(rinkeby_cfg):
 @pytest.mark.asyncio
 async def test_getReportingLock(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
-        result, status = await core.tellorx.oracle.getReportingLock()
+        tellorx = core.get_tellorx_contracts()
+
+        result, status = await tellorx.oracle.getReportingLock()
         assert status.ok
         print(result)
 
@@ -29,7 +33,9 @@ async def test_getReportingLock(rinkeby_cfg):
 async def test_gettimebasedreward(rinkeby_cfg):
 
     async with TelliotCore(config=rinkeby_cfg) as core:
-        result, status = await core.tellorx.oracle.getTimeBasedReward()
+        tellorx = core.get_tellorx_contracts()
+
+        result, status = await tellorx.oracle.getTimeBasedReward()
         assert status.ok
         print(result)
 
@@ -37,9 +43,10 @@ async def test_gettimebasedreward(rinkeby_cfg):
 @pytest.mark.asyncio
 async def test_getCurrentReward(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
+        tellorx = core.get_tellorx_contracts()
 
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
-        (tips, reward), status = await core.tellorx.oracle.getCurrentReward(queryId)
+        (tips, reward), status = await tellorx.oracle.getCurrentReward(queryId)
         assert status.ok
         print(tips)
         print(reward)
@@ -48,10 +55,11 @@ async def test_getCurrentReward(rinkeby_cfg):
 @pytest.mark.asyncio
 async def test_getBlockNumberByTimestamp(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
+        tellorx = core.get_tellorx_contracts()
 
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
         timestamp = 1638377944
-        result, status = await core.tellorx.oracle.getBlockNumberByTimestamp(
+        result, status = await tellorx.oracle.getBlockNumberByTimestamp(
             queryId, timestamp
         )
         assert status.ok
@@ -61,8 +69,10 @@ async def test_getBlockNumberByTimestamp(rinkeby_cfg):
 @pytest.mark.asyncio
 async def test_getTimestampCountById(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
+        tellorx = core.get_tellorx_contracts()
+
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
-        result, status = await core.tellorx.oracle.getTimestampCountById(queryId)
+        result, status = await tellorx.oracle.getTimestampCountById(queryId)
         print(result)
         assert status.ok
         assert result > 30
@@ -71,8 +81,8 @@ async def test_getTimestampCountById(rinkeby_cfg):
 @pytest.mark.asyncio
 async def test_getTimeOfLastNewValue(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
-
-        result, status = await core.tellorx.oracle.getTimeOfLastNewValue()
+        tellorx = core.get_tellorx_contracts()
+        result, status = await tellorx.oracle.getTimeOfLastNewValue()
         assert status.ok
         print(result)
 
@@ -80,8 +90,9 @@ async def test_getTimeOfLastNewValue(rinkeby_cfg):
 @pytest.mark.asyncio
 async def test_getTipsById(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
+        tellorx = core.get_tellorx_contracts()
 
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000002"
-        result, status = await core.tellorx.oracle.getTipsById(queryId)
+        result, status = await tellorx.oracle.getTipsById(queryId)
         print(result)
         assert status.ok

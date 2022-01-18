@@ -11,9 +11,10 @@ from telliot_core.apps.core import TelliotCore
 async def test_connect_to_tellor(rinkeby_cfg):
     """Contract object should access Tellor functions"""
     async with TelliotCore(config=rinkeby_cfg) as core:
-        assert len(core.tellorx.master.contract.all_functions()) > 0
+        tellorx = core.get_tellorx_contracts()
+        assert len(tellorx.master.contract.all_functions()) > 0
         assert isinstance(
-            core.tellorx.master.contract.all_functions()[0],
+            tellorx.master.contract.all_functions()[0],
             web3.contract.ContractFunction,
         )
 
@@ -23,7 +24,8 @@ async def test_call_read_function(rinkeby_cfg):
     """Contract object should be able to call arbitrary contract read function"""
 
     async with TelliotCore(config=rinkeby_cfg) as core:
-        (reward, tips), status = await core.tellorx.oracle.read(
+        tellorx = core.get_tellorx_contracts()
+        (reward, tips), status = await tellorx.oracle.read(
             func_name="getCurrentReward",
             _queryId="0x0000000000000000000000000000000000000000000000000000000000000001",
         )
@@ -39,8 +41,9 @@ async def test_mixed_gas_inputs(rinkeby_cfg):
     with pytest.raises(ValueError):
 
         async with TelliotCore(config=rinkeby_cfg) as core:
+            tellorx = core.get_tellorx_contracts()
 
-            tx_receipt, status = await core.tellorx.oracle.write(
+            tx_receipt, status = await tellorx.oracle.write(
                 func_name="transfer",
                 _to="0xF90cd1D6C1da49CE2cF5C39f82999D7145aa66aD",
                 _amount=1,

@@ -119,6 +119,27 @@ class EndpointList(ConfigOptions):
 
         return None
 
+    def find(
+        self,
+        *,
+        chain_id: Optional[int] = None,
+        provider: Optional[str] = None,
+    ) -> list[RPCEndpoint]:
+
+        result = []
+        for ep in self.endpoints:
+
+            if chain_id is not None:
+                if chain_id is not ep.chain_id:
+                    continue
+            if provider is not None:
+                if provider != ep.provider:
+                    continue
+
+            result.append(ep)
+
+        return result
+
 
 if __name__ == "__main__":
     cf = ConfigFile(name="endpoints", config_type=EndpointList, config_format="yaml")

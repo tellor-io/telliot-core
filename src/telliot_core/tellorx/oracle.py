@@ -3,7 +3,7 @@ from typing import Optional
 from typing import Tuple
 
 from telliot_core.contract.contract import Contract
-from telliot_core.directory.tellorx import tellor_directory
+from telliot_core.directory import directory_config_file
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
@@ -13,7 +13,8 @@ ReadRespType = Tuple[Any, ResponseStatus]
 
 class TellorxOracleContract(Contract):
     def __init__(self, node: RPCEndpoint, private_key: str = ""):
-        contract_info = tellor_directory.find(chain_id=node.chain_id, name="oracle")[0]
+        directory = directory_config_file().get_config()
+        contract_info = directory.find(chain_id=node.chain_id, name="oracle")[0]
         if not contract_info:
             raise Exception(
                 f"TellorX oracle contract not found on chain_id {node.chain_id}"
@@ -21,7 +22,7 @@ class TellorxOracleContract(Contract):
         assert contract_info.abi
 
         super().__init__(
-            address=contract_info.address,
+            address=contract_info.address[node.chain_id],
             abi=contract_info.abi,
             node=node,
             private_key=private_key,

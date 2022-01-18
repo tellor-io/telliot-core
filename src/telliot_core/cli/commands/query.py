@@ -44,38 +44,35 @@ async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
 
         queryId = f"0x{q.query_id.hex()}"
 
-        count, status = await core.tellorx.oracle.getTimestampCountById(queryId)
+        tellorx = core.get_tellorx_contracts()
+        count, status = await tellorx.oracle.getTimestampCountById(queryId)
         print(f"Timestamp count: {count}")
 
-        bytes_value, status = await core.tellorx.oracle.getCurrentValue(queryId)
+        bytes_value, status = await tellorx.oracle.getCurrentValue(queryId)
         if bytes_value is not None:
             value = q.value_type.decode(bytes_value)
             print(f"Current value: {value}")
         else:
             print("Current value: None")
 
-        tlnv, status = await core.tellorx.oracle.getTimeOfLastNewValue()
+        tlnv, status = await tellorx.oracle.getTimeOfLastNewValue()
         print(f"Time of last new value (all queryIds): {tlnv}")
 
-        tips, status = await core.tellorx.oracle.getTipsById(queryId)
+        tips, status = await tellorx.oracle.getTipsById(queryId)
         print(f"Tips (TRB): {tips}")
 
-        (tips2, reward), status = await core.tellorx.oracle.getCurrentReward(queryId)
+        (tips2, reward), status = await tellorx.oracle.getCurrentReward(queryId)
         print(f"Tips/reward (TRB): {tips2} / {reward}")
 
         print(f"{npoints} most recent on-chain datapoints:")
         for k in range(count - npoints, count):
-            ts, status = await core.tellorx.oracle.getReportTimestampByIndex(queryId, k)
-            blocknum, status = await core.tellorx.oracle.getBlockNumberByTimestamp(
+            ts, status = await tellorx.oracle.getReportTimestampByIndex(queryId, k)
+            blocknum, status = await tellorx.oracle.getBlockNumberByTimestamp(
                 queryId, ts
             )
-            bytes_value, status = await core.tellorx.oracle.getValueByTimestamp(
-                queryId, ts
-            )
+            bytes_value, status = await tellorx.oracle.getValueByTimestamp(queryId, ts)
             value = q.value_type.decode(bytes_value)
-            reporter, status = await core.tellorx.oracle.getReporterByTimestamp(
-                queryId, ts
-            )
+            reporter, status = await tellorx.oracle.getReporterByTimestamp(queryId, ts)
             print(
                 f" index: {k}, timestamp: {ts}, block: {blocknum}, "
                 f"value:{value}, reporter: {reporter} "
@@ -89,6 +86,7 @@ async def suggest(ctx: click.Context) -> None:
     """Get the current suggested query for reporter synchronization."""
 
     async with cli_core(ctx) as core:
-        qtag = await tellorx_suggested_report(core.tellorx.oracle)
+        tellorx = core.get_tellorx_contracts()
+        qtag = await tellorx_suggested_report(tellorx.oracle)
         assert isinstance(qtag, str)
         print(f"Suggested query: {qtag}")

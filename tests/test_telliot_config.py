@@ -13,6 +13,7 @@ def prep_dir(clean=False):
     main_file = tmpdir / "main.yaml"
     ep_file = tmpdir / "endpoints.yaml"
     chain_file = tmpdir / "chains.json"
+    directory_file = tmpdir / "directory.json"
 
     if clean:
         if main_file.exists():
@@ -21,6 +22,8 @@ def prep_dir(clean=False):
             os.remove(ep_file)
         if chain_file.exists():
             os.remove(chain_file)
+        if directory_file.exists():
+            os.remove(directory_file)
 
     return tmpdir
 

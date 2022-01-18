@@ -9,11 +9,12 @@ from telliot_core.utils.timestamp import TimeStamp
 async def test_get_staker_info(rinkeby_cfg):
 
     async with TelliotCore(config=rinkeby_cfg) as core:
+        tellorx = core.get_tellorx_contracts()
 
-        staker = core.get_default_staker()
+        staker = core.get_staker()
         address = staker.address
 
-        result, status = await core.tellorx.master.getStakerInfo(address)
+        result, status = await tellorx.master.getStakerInfo(address)
         assert status.ok
         assert len(result) == 2
         assert result[0] in staker_status_map.values()
