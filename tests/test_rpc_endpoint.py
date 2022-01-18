@@ -41,5 +41,5 @@ def test_incomplete_rpc_url():
 def test_endpoint_list():
     sl = EndpointList()
     # print(json.dumps(sl.get_state(), indent=2))
-    ep4 = sl.get_chain_endpoint(4)
+    ep4 = sl.find(chain_id=4)[0]
     assert ep4.network == "rinkeby"

@@ -33,7 +33,11 @@ class ConfigOptions(Serializable):
 
 
 class ConfigFile:
-    """ConfigFile"""
+    """Configuration File
+
+    Provides the ability to load and store a `ConfigOptions` object from a
+    human readable file in JSON or YAML formats.
+    """
 
     @property
     def config_file(self) -> Path:
@@ -89,17 +93,20 @@ class ConfigFile:
         if self.config_format == "yaml":
 
             with open(self.config_file, "r") as f:
-
-                state = yaml.load(f, Loader=Loader)
-
-                # Try to parse file
-                config = deserialize(state)
+                try:
+                    state = yaml.load(f, Loader=Loader)
+                    config = deserialize(state)
+                except Exception:
+                    raise Exception(f"Error reading config file {self.config_file}")
 
         elif self.config_format == "json":
 
             with open(self.config_file, "r") as f:
-                state = json.load(f)
-                config = deserialize(state)
+                try:
+                    state = json.load(f)
+                    config = deserialize(state)
+                except Exception:
+                    raise Exception(f"Error reading config file {self.config_file}")
 
         else:
             raise AttributeError(f"Invalid config file type: {self.config_format}")
