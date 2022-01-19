@@ -5,9 +5,7 @@ import telliot_core
 from telliot_core.plugin.discover import telliot_plugins
 
 
-def show_telliot_versions(
-    caller: Callable[[Any], None] = print, include_plugins: bool = True
-) -> None:
+def show_telliot_versions(caller: Callable[[Any], None] = print, include_plugins: bool = True) -> None:
     caller(f"telliot-core {telliot_core.__version__}")
     if include_plugins:
         if len(telliot_plugins) > 1:

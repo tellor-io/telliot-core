@@ -30,13 +30,9 @@ class TellorxOracleContract(Contract):
             private_key=private_key,
         )
 
-    async def getBlockNumberByTimestamp(
-        self, queryId: str, timestamp: int
-    ) -> ReadRespType:
+    async def getBlockNumberByTimestamp(self, queryId: str, timestamp: int) -> ReadRespType:
 
-        result, status = await self.read(
-            "getBlockNumberByTimestamp", _queryId=queryId, _timestamp=timestamp
-        )
+        result, status = await self.read("getBlockNumberByTimestamp", _queryId=queryId, _timestamp=timestamp)
 
         return result, status
 
@@ -62,39 +58,27 @@ class TellorxOracleContract(Contract):
 
         return result, status
 
-    async def getReporterByTimestamp(
-        self, queryId: str, timestamp: int
-    ) -> ReadRespType:
+    async def getReporterByTimestamp(self, queryId: str, timestamp: int) -> ReadRespType:
 
-        result, status = await self.read(
-            "getReporterByTimestamp", _queryId=queryId, _timestamp=timestamp
-        )
+        result, status = await self.read("getReporterByTimestamp", _queryId=queryId, _timestamp=timestamp)
 
         return result, status
 
-    async def getReporterLastTimestamp(
-        self, reporter: Optional[str] = None
-    ) -> ReadRespType:
+    async def getReporterLastTimestamp(self, reporter: Optional[str] = None) -> ReadRespType:
 
         result, status = await self.read("getReporterLastTimestamp", _reporter=reporter)
 
         return result, status
 
-    async def getReportsSubmittedByAddress(
-        self, reporter: Optional[str] = None
-    ) -> ReadRespType:
+    async def getReportsSubmittedByAddress(self, reporter: Optional[str] = None) -> ReadRespType:
 
-        result, status = await self.read(
-            "getReportsSubmittedByAddress", _reporter=reporter
-        )
+        result, status = await self.read("getReportsSubmittedByAddress", _reporter=reporter)
 
         return result, status
 
     async def getReportTimestampByIndex(self, queryId: str, index: int) -> ReadRespType:
 
-        result, status = await self.read(
-            "getReportTimestampByIndex", _queryId=queryId, _index=index
-        )
+        result, status = await self.read("getReportTimestampByIndex", _queryId=queryId, _index=index)
 
         return result, status
 
@@ -123,13 +107,9 @@ class TellorxOracleContract(Contract):
 
         return t, status
 
-    async def getTimestampIndexByTimestamp(
-        self, queryId: str, timestamp: int
-    ) -> ReadRespType:
+    async def getTimestampIndexByTimestamp(self, queryId: str, timestamp: int) -> ReadRespType:
 
-        result, status = await self.read(
-            "getTimestampIndexByTimestamp", _queryId=queryId, _timestamp=timestamp
-        )
+        result, status = await self.read("getTimestampIndexByTimestamp", _queryId=queryId, _timestamp=timestamp)
 
         return result, status
 
@@ -147,9 +127,7 @@ class TellorxOracleContract(Contract):
 
     async def getValueByTimestamp(self, queryId: str, timestamp: int) -> ReadRespType:
 
-        result, status = await self.read(
-            "getValueByTimestamp", _queryId=queryId, _timestamp=timestamp
-        )
+        result, status = await self.read("getValueByTimestamp", _queryId=queryId, _timestamp=timestamp)
 
         return result, status
 

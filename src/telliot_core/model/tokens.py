@@ -34,9 +34,7 @@ class ERC20Token(BlockChainAsset):
     logo_uri: str = ""
 
 
-TokenListVersion = namedtuple(
-    "TokenListVersion", ["major", "minor", "patch"], defaults=[0, 0, 0]
-)
+TokenListVersion = namedtuple("TokenListVersion", ["major", "minor", "patch"], defaults=[0, 0, 0])
 
 
 @dataclass

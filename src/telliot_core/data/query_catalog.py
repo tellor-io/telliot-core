@@ -26,9 +26,7 @@ query_catalog.add_entry(
     q=LegacyRequest(legacy_id=10),
 )
 
-query_catalog.add_entry(
-    tag="uspce-legacy", title="Legacy USPCE value", q=LegacyRequest(legacy_id=41)
-)
+query_catalog.add_entry(tag="uspce-legacy", title="Legacy USPCE value", q=LegacyRequest(legacy_id=41))
 
 query_catalog.add_entry(
     tag="trb-usd-legacy",

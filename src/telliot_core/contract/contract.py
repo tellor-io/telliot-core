@@ -48,9 +48,7 @@ class Contract:
         self.contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
         return ResponseStatus(ok=True)
 
-    async def read(
-        self, func_name: str, *args: Any, **kwargs: Any
-    ) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
+    async def read(self, func_name: str, *args: Any, **kwargs: Any) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
         """
         Reads data from contract
         inputs:
@@ -89,19 +87,13 @@ class Contract:
         """
 
         # Validate inputs
-        if (legacy_gas_price is not None) and (
-            (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)
-        ):
+        if (legacy_gas_price is not None) and ((max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None)):
             raise ValueError(
                 """invalid combination of legacy gas arguments
                  and EIP-1559 gas arguments"""
             )
 
-        if (
-            (legacy_gas_price is None)
-            and (max_fee_per_gas is None)
-            and (max_priority_fee_per_gas is None)
-        ):
+        if (legacy_gas_price is None) and (max_fee_per_gas is None) and (max_priority_fee_per_gas is None):
             raise ValueError("no gas strategy selected!")
 
         status = ResponseStatus()
@@ -140,9 +132,7 @@ class Contract:
             # use legacy gas strategy if only legacy gas price is provided
             if legacy_gas_price is not None:
 
-                if (max_fee_per_gas is not None) or (
-                    max_priority_fee_per_gas is not None
-                ):
+                if (max_fee_per_gas is not None) or (max_priority_fee_per_gas is not None):
                     raise ValueError(
                         """"cannot use both legacy gas arguments
                         and type 2 transaction (EIP1559) args in one transaction"""
@@ -160,21 +150,15 @@ class Contract:
                     )
 
                 if max_fee_per_gas is not None:
-                    tx_dict["maxFeePerGas"] = self.node.web3.toWei(
-                        max_fee_per_gas, "gwei"
-                    )
+                    tx_dict["maxFeePerGas"] = self.node.web3.toWei(max_fee_per_gas, "gwei")
 
                     if max_priority_fee_per_gas is not None:
-                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(
-                            max_priority_fee_per_gas, "gwei"
-                        )
+                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
 
                     # else if (if legacy price and max fee are not provided)
                     # use max priority fee
                     elif max_priority_fee_per_gas is not None:
-                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(
-                            max_priority_fee_per_gas, "gwei"
-                        )
+                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
 
                     # raise ValueError if no gas arguments are provided
                     else:
@@ -202,9 +186,7 @@ class Contract:
 
         try:
             # Confirm transaction
-            tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(
-                tx_hash, timeout=360
-            )
+            tx_receipt = self.node.web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360)
 
             tx_url = f"{self.node.explorer}/tx/{tx_hash.hex()}"
 

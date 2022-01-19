@@ -66,9 +66,7 @@ default_chain_list = [
 class ChainList(ConfigOptions):
     chains: List[Chain] = field(default_factory=lambda: default_chain_list)
 
-    def get_chain(
-        self, chain: str = "ETH", network: str = "rinkeby"
-    ) -> Optional[Chain]:
+    def get_chain(self, chain: str = "ETH", network: str = "rinkeby") -> Optional[Chain]:
         """Get chain"""
 
         for ch in self.chains:

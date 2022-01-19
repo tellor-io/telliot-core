@@ -16,8 +16,7 @@ EXAMPLE_TOKEN_LIST = {
             "name": "Aave",
             "symbol": "AAVE",
             "decimals": 18,
-            "logoURI": "https://assets.coingecko.com/coins/images/"
-            "12645/thumb/AAVE.png?1601374110",
+            "logoURI": "https://assets.coingecko.com/coins/images/12645/thumb/AAVE.png?1601374110",
         },
         {
             "chainId": 1,
@@ -25,8 +24,7 @@ EXAMPLE_TOKEN_LIST = {
             "name": "Amp",
             "symbol": "AMP",
             "decimals": 18,
-            "logoURI": "https://assets.coingecko.com/coins/images/"
-            "12409/thumb/amp-200x200.png?1599625397",
+            "logoURI": "https://assets.coingecko.com/coins/images/12409/thumb/amp-200x200.png?1599625397",
         },
         {
             "name": "Aragon Network Token",

@@ -157,9 +157,7 @@ class Listener:
         # Note that storing this reference delays exceptions until garbage collection.
         # Therefore, task is wrapped with a task_done callback to immediately catch exceptions
         task = asyncio.create_task(
-            self._eth_subscribe_task(
-                handler=handler, name=name, lid=lid, formatter=formatter, **kwargs
-            ),
+            self._eth_subscribe_task(handler=handler, name=name, lid=lid, formatter=formatter, **kwargs),
             name=task_name,
         )
 
@@ -168,17 +166,11 @@ class Listener:
 
     async def subscribe_new_blocks(self, handler: AsyncCallable) -> None:
 
-        await self.eth_subscribe(
-            handler=handler, name="newHeads", formatter=block_formatter
-        )
+        await self.eth_subscribe(handler=handler, name="newHeads", formatter=block_formatter)
 
-    async def subscribe_contract_events(
-        self, handler: AsyncCallable, address: str
-    ) -> None:
+    async def subscribe_contract_events(self, handler: AsyncCallable, address: str) -> None:
 
-        await self.eth_subscribe(
-            handler=handler, name="logs", address=address, formatter=log_entry_formatter
-        )
+        await self.eth_subscribe(handler=handler, name="logs", address=address, formatter=log_entry_formatter)
 
     async def subscribe_pending_transactions(self, handler: AsyncCallable) -> None:
 
@@ -191,9 +183,7 @@ class Listener:
 
     async def subscribe_syncing(self, handler: AsyncCallable) -> None:
 
-        await self.eth_subscribe(
-            handler=handler, name="syncing", formatter=syncing_formatter
-        )
+        await self.eth_subscribe(handler=handler, name="syncing", formatter=syncing_formatter)
 
     async def _eth_subscribe_task(
         self,
@@ -271,12 +261,8 @@ if __name__ == "__main__":
 
     async def main() -> None:
         async with TelliotCore() as core:
-            master_info = core.config.directory.find(
-                name="tellorx-master", chain_id=core.config.main.chain_id
-            )[0]
-            oracle_info = core.config.directory.find(
-                name="tellorx-oracle", chain_id=core.config.main.chain_id
-            )[0]
+            master_info = core.config.directory.find(name="tellorx-master", chain_id=core.config.main.chain_id)[0]
+            oracle_info = core.config.directory.find(name="tellorx-oracle", chain_id=core.config.main.chain_id)[0]
 
             # Subscribe to blocks
             assert core.listener  # typing
@@ -295,9 +281,7 @@ if __name__ == "__main__":
 
             # Subscribe to pending transactions:
             # Warning: Very high RPC transaction rate
-            await core.listener.subscribe_pending_transactions(
-                handler=pending_transaction_logger
-            )
+            await core.listener.subscribe_pending_transactions(handler=pending_transaction_logger)
 
             await asyncio.sleep(1011)
 
