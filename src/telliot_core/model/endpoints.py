@@ -107,7 +107,7 @@ default_endpoint_list = [
         chain_id=80001,
         provider="Matic",
         network="mumbai",
-        url="https://polygon-mumbai.infura.io/v3/{INFURA_API_KEY}",
+        url="https://rpc-mumbai.matic.today",
         explorer="https://mumbai.polygonscan.com/",
     ),
 ]
@@ -137,7 +137,7 @@ class EndpointList(ConfigOptions):
         for ep in self.endpoints:
 
             if chain_id is not None:
-                if chain_id is not ep.chain_id:
+                if chain_id != ep.chain_id:
                     continue
             if provider is not None:
                 if provider != ep.provider:

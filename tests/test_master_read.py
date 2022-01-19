@@ -1,7 +1,7 @@
 import pytest
 
 from telliot_core.apps.core import TelliotCore
-from telliot_core.tellorx.master import staker_status_map
+from telliot_core.tellor.tellorx.master import staker_status_map
 from telliot_core.utils.timestamp import TimeStamp
 
 

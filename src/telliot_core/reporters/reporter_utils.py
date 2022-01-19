@@ -1,7 +1,7 @@
 from typing import List
 from typing import Optional
 
-from telliot_core.tellorx.oracle import TellorxOracleContract
+from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
 
