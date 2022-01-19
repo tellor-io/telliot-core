@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from telliot_core.contract.contract import Contract
-from telliot_core.directory import directory_config_file
+from telliot_core.directory import contract_directory as directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellorx.oracle import ReadRespType
 from telliot_core.utils.timestamp import TimeStamp
@@ -31,18 +31,19 @@ class DisputeReport:
 
 class TellorxMasterContract(Contract):
     def __init__(self, node: RPCEndpoint, private_key: str = ""):
-        directory = directory_config_file().get_config()
-        entries = directory.find(name="tellorx-master", chain_id=node.chain_id)
+
+        chain_id = node.chain_id
+        assert chain_id is not None
+
+        entries = directory.find(name="tellorx-master", chain_id=chain_id)
         contract_info = entries[0]
         if not contract_info:
-            raise Exception(
-                f"TellorX master contract not found on chain_id {node.chain_id}"
-            )
-        assert contract_info.abi
+            raise Exception(f"TellorX master contract not found on chain_id {chain_id}")
+        contract_abi = contract_info.get_abi(chain_id=chain_id)
 
         super().__init__(
-            address=contract_info.address[node.chain_id],
-            abi=contract_info.abi,
+            address=contract_info.address[chain_id],
+            abi=contract_abi,
             node=node,
             private_key=private_key,
         )

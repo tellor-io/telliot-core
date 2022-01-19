@@ -12,6 +12,7 @@ from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
+from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellorx.master import TellorxMasterContract
 from telliot_core.tellorx.oracle import TellorxOracleContract
@@ -48,8 +49,6 @@ class TelliotCore:
     #: BaseApplication configuration object
     config = property(lambda self: self._config)
     _config: TelliotConfig
-
-    #: Tellorx Contract access
 
     def get_tellorx_contracts(self) -> TellorxContractSet:
         """Get or create TellorX contracts"""
@@ -188,12 +187,13 @@ class TelliotCore:
 
         if not chain_id:
             chain_id = self.config.main.chain_id
+            assert chain_id is not None
 
         if not private_key:
             staker = self.get_staker()
             private_key = staker.private_key
 
-        entries = self.config.directory.find(
+        entries = contract_directory.find(
             org=org, name=name, address=address, chain_id=chain_id
         )
         if len(entries) > 1:
@@ -203,14 +203,17 @@ class TelliotCore:
 
         contract_info = entries[0]
 
-        assert contract_info.abi
+        contract_abi = contract_info.get_abi(chain_id=chain_id)
 
-        endpoint = self.endpoint
+        if self.endpoint.chain_id is not chain_id:
+            raise Exception(
+                f"Endpoint chain {self.endpoint.chain_id} does not match requested chain {chain_id}"
+            )
 
         contract = Contract(
-            address=contract_info.address[endpoint.chain_id],
-            abi=contract_info.abi,
-            node=endpoint,
+            address=contract_info.address[chain_id],
+            abi=contract_abi,
+            node=self.endpoint,
             private_key=private_key,
         )
         contract.connect()
