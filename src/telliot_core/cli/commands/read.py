@@ -70,9 +70,7 @@ async def get_staker_info(ctx: click.Context, address: str) -> Tuple[str, TimeSt
             address = core.get_staker().address
 
         tellorx = core.get_tellorx_contracts()
-        (staker_status, date_staked), status = await tellorx.master.getStakerInfo(
-            address=address
-        )
+        (staker_status, date_staked), status = await tellorx.master.getStakerInfo(address=address)
         return staker_status, date_staked
 
 

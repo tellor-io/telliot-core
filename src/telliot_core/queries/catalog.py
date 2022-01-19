@@ -35,9 +35,7 @@ class CatalogEntry(Base):
 class Catalog(Base):
     _entries: Dict[str, CatalogEntry] = field(default_factory=dict)
 
-    def add_entry(
-        self, tag: str, title: str, q: OracleQuery, active: bool = True
-    ) -> None:
+    def add_entry(self, tag: str, title: str, q: OracleQuery, active: bool = True) -> None:
 
         if tag in self._entries:
             raise Exception(f"Error adding query entry: {tag} already exists")

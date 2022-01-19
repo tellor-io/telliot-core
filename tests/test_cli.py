@@ -30,9 +30,7 @@ def test_config_cmd():
 
 def test_disputesbyid(caplog):
     runner = CliRunner()
-    result = runner.invoke(
-        main, ["--test_config", "read", "master", "disputesbyid", "1"]
-    )
+    result = runner.invoke(main, ["--test_config", "read", "master", "disputesbyid", "1"])
     assert "DisputeReport" in result.stdout
     assert not result.exception
 

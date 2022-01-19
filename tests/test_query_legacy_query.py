@@ -19,7 +19,4 @@ def test_legacy_query():
     # print(q.query_data)
     assert q.query_data == exp
 
-    assert (
-        q.query_id.hex()
-        == "0000000000000000000000000000000000000000000000000000000000000064"
-    )
+    assert q.query_id.hex() == "0000000000000000000000000000000000000000000000000000000000000064"

@@ -47,9 +47,7 @@ def search(
 
 
 @catalog.command()
-@click.option(
-    "-d", "--detail", is_flag=True, help="Print detailed information for each query"
-)
+@click.option("-d", "--detail", is_flag=True, help="Print detailed information for each query")
 def list(detail: bool) -> None:
     """List all queries in the catalog (use --detail for verbose output)."""
     entries = query_catalog.find()

@@ -67,16 +67,11 @@ async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
         print(f"{npoints} most recent on-chain datapoints:")
         for k in range(count - npoints, count):
             ts, status = await tellorx.oracle.getReportTimestampByIndex(queryId, k)
-            blocknum, status = await tellorx.oracle.getBlockNumberByTimestamp(
-                queryId, ts
-            )
+            blocknum, status = await tellorx.oracle.getBlockNumberByTimestamp(queryId, ts)
             bytes_value, status = await tellorx.oracle.getValueByTimestamp(queryId, ts)
             value = q.value_type.decode(bytes_value)
             reporter, status = await tellorx.oracle.getReporterByTimestamp(queryId, ts)
-            print(
-                f" index: {k}, timestamp: {ts}, block: {blocknum}, "
-                f"value:{value}, reporter: {reporter} "
-            )
+            print(f" index: {k}, timestamp: {ts}, block: {blocknum}, value:{value}, reporter: {reporter} ")
 
 
 @query.command()

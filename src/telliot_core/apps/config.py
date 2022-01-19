@@ -126,9 +126,7 @@ class ConfigFile:
             if self.config_file.exists():
                 dt_str = datetime.now().strftime("%Y%M%d-%H%M%S")
                 path = self.config_file
-                backup_file = path.with_name(
-                    path.stem + "_" + dt_str + path.suffix + ".bak"
-                )
+                backup_file = path.with_name(path.stem + "_" + dt_str + path.suffix + ".bak")
                 self.config_file.replace(backup_file)
 
             if self.config_format == "yaml":
@@ -148,9 +146,5 @@ class ConfigFile:
             logger.info("Saved config '{}' to {}".format(self.name, self.config_file))
 
         except FileNotFoundError as e:
-            logger.error(
-                "Error saving {} to {}".format(
-                    self.__class__.__name__, self.config_file
-                )
-            )
+            logger.error("Error saving {} to {}".format(self.__class__.__name__, self.config_file))
             raise e

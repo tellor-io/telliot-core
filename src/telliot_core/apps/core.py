@@ -89,9 +89,7 @@ class TelliotCore:
     def listener(self) -> Listener:
         """Get or create listener object"""
         if not self._listener:
-            self._listener = Listener(
-                session=self.shared_session, ws_url=self.endpoint.url
-            )
+            self._listener = Listener(session=self.shared_session, ws_url=self.endpoint.url)
 
         return self._listener
 
@@ -148,9 +146,7 @@ class TelliotCore:
 
         staker = self.get_staker()
         if staker is None:
-            raise RuntimeError(
-                "Cannot start tellor-core application.  No staker found."
-            )
+            raise RuntimeError("Cannot start tellor-core application.  No staker found.")
 
         await self._session_manager.open()
 
@@ -193,9 +189,7 @@ class TelliotCore:
             staker = self.get_staker()
             private_key = staker.private_key
 
-        entries = contract_directory.find(
-            org=org, name=name, address=address, chain_id=chain_id
-        )
+        entries = contract_directory.find(org=org, name=name, address=address, chain_id=chain_id)
         if len(entries) > 1:
             raise Exception("More than one contract found.")
         elif len(entries) == 0:
@@ -206,9 +200,7 @@ class TelliotCore:
         contract_abi = contract_info.get_abi(chain_id=chain_id)
 
         if self.endpoint.chain_id is not chain_id:
-            raise Exception(
-                f"Endpoint chain {self.endpoint.chain_id} does not match requested chain {chain_id}"
-            )
+            raise Exception(f"Endpoint chain {self.endpoint.chain_id} does not match requested chain {chain_id}")
 
         contract = Contract(
             address=contract_info.address[chain_id],

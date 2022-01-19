@@ -24,7 +24,5 @@ async def test_suggested_report(rinkeby_cfg):
 def test_suggested_report_cli():
     """Test suggested report CLI"""
     runner = CliRunner()
-    result = runner.invoke(
-        telliot_core.cli.main.main, ["--test_config", "query", "suggest"]
-    )
+    result = runner.invoke(telliot_core.cli.main.main, ["--test_config", "query", "suggest"])
     assert "Suggested query" in result.output

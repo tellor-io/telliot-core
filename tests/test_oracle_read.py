@@ -10,9 +10,7 @@ async def test_getReportTimestampByIndex(rinkeby_cfg):
 
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
         index = 2
-        timestamp, status = await tellorx.oracle.getReportTimestampByIndex(
-            queryId, index
-        )
+        timestamp, status = await tellorx.oracle.getReportTimestampByIndex(queryId, index)
         assert status.ok
         assert isinstance(timestamp, int)
         print(timestamp)
@@ -59,9 +57,7 @@ async def test_getBlockNumberByTimestamp(rinkeby_cfg):
 
         queryId = "0x0000000000000000000000000000000000000000000000000000000000000001"
         timestamp = 1638377944
-        result, status = await tellorx.oracle.getBlockNumberByTimestamp(
-            queryId, timestamp
-        )
+        result, status = await tellorx.oracle.getBlockNumberByTimestamp(queryId, timestamp)
         assert status.ok
         print(result)
 

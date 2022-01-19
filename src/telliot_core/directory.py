@@ -54,22 +54,14 @@ class ContractInfo(Serializable):
                 elif chain_id == 80001:
                     url = "https://api-testnet.polygonscan.com"
                 else:
-                    raise ValueError(
-                        f"Could not retrieve ABI using chain_id {chain_id}"
-                    )
+                    raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
-                url = (
-                    url
-                    + f"/api?module=contract&action=getabi&address={address}&format=raw"
-                )
+                url = url + f"/api?module=contract&action=getabi&address={address}&format=raw"
 
                 if api_key:
                     url = url + f"&apikey={api_key}"
 
-                headers = {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:77.0) "
-                    "Gecko/20190101 Firefox/77.0"
-                }
+                headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:77.0) Gecko/20190101 Firefox/77.0"}
                 response = requests.get(url, headers=headers)
                 self._abi = response.json()
 
@@ -144,6 +136,4 @@ class ContractDirectory(ConfigOptions):
         return result
 
 
-contract_directory = ContractDirectory.from_file(
-    TELLIOT_CORE_ROOT / "data/contract_directory.json"
-)
+contract_directory = ContractDirectory.from_file(TELLIOT_CORE_ROOT / "data/contract_directory.json")

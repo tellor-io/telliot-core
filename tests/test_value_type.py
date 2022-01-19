@@ -17,10 +17,7 @@ def test_fixed_response_type():
     value = Decimal("1.0")
     r1 = ValueType(abi_type="ufixed256x9", packed=False)
     bytes_val = r1.encode(value)
-    assert (
-        bytes_val.hex()
-        == "000000000000000000000000000000000000000000000000000000003b9aca00"
-    )
+    assert bytes_val.hex() == "000000000000000000000000000000000000000000000000000000003b9aca00"
     int_val = int.from_bytes(bytes_val, "big", signed=False)
     assert int_val == 10 ** 9
 
@@ -66,10 +63,7 @@ def test_unsigned_float_value():
     print(f.get_state())
     encoded_value = f.encode(99.0000009)
     print(encoded_value.hex())
-    assert (
-        encoded_value.hex()
-        == "0000000000000000000000000000000000000000000000000000000005e69ec1"
-    )
+    assert encoded_value.hex() == "0000000000000000000000000000000000000000000000000000000005e69ec1"
 
     decoded_value = f.decode(encoded_value)
     assert isinstance(decoded_value, float)
