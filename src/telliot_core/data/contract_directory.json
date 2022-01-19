@@ -1,0 +1,105 @@
+[
+  {
+    "type": "ContractInfo",
+    "name": "tellorx-master",
+    "org": "tellor",
+    "address": {
+      "1": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
+      "4": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0"
+    },
+    "abi_file": "tellorx-master-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellorx-controller",
+    "org": "tellor",
+    "address": {
+      "1": "0xf98624E9924CAA2cbD21cC6288215Ec2ef7cFE80",
+      "4": "0x0f2b0a8fa0f60459f51e452273c879eb32555e91"
+    },
+    "abi_file": null
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellorx-oracle",
+    "org": "tellor",
+    "address": {
+      "1": "0xe8218cACb0a5421BC6409e498d9f8CC8869945ea",
+      "4": "0x18431fd88adF138e8b979A7246eb58EA7126ea16"
+    },
+    "abi_file": "tellorx-oracle-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellorx-governance",
+    "org": "tellor",
+    "address": {
+      "1": "0x51d4088d4EeE00Ae4c55f46E0673e9997121DB00",
+      "4": "0xA64Bb0078eB80c97484f3f09Adb47b9B73CBcA00"
+    },
+    "abi_file": "tellorx-governance-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellorx-treasury",
+    "org": "tellor",
+    "address": {
+      "1": "0x3b0f3eaEFaAc9f8F7FDe406919ecEb5270fE0607",
+      "4": "0x2dB91443f2b562B8b2B2e8E4fC0A3EDD6c195147"
+    },
+    "abi_file": "tellorx-treasury-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellorflex-oracle",
+    "org": "tellor",
+    "address": {
+      "137": "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
+      "80001": "0xF281e2De3bB71dE348040b10B420615104359c10"
+    },
+    "abi_file": "tellorflex-oracle-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor-lens",
+    "org": "tellor",
+    "address": {
+      "1": "0xd259A9F7d5b263C400284e9544C9c0088c481cfd"
+    },
+    "abi_file": "tellorx-lens-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor-mesosphere",
+    "org": "tellor",
+    "address": {
+      "137": "0xf8c1EB914EF4271edBC95C48ED067295C057F1a0"
+    },
+    "abi_file": "tellor-mesosphere-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor-playground",
+    "org": "tellor",
+    "address": {
+      "4": "0xF281e2De3bB71dE348040b10B420615104359c10",
+      "42": "0x320f09D9f92Cfa0e9C272b179e530634D873aeFa"
+    }
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor-provider-id10",
+    "org": "tellor",
+    "address": {
+      "1": "0xf5b7562791114fB1A8838A9E8025de4b7627Aa79"
+    }
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor-provider-id41",
+    "org": "tellor",
+    "address": {
+      "1": "0x13853a11Bd9539C15758823902A9421bE9887C53"
+    }
+  }
+]
