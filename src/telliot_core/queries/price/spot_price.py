@@ -8,8 +8,8 @@ from typing import List
 from typing import Tuple
 
 from telliot_core.queries.query import OracleQuery
-from telliot_core.types.float_type import UnsignedFloatType
-from telliot_core.types.value_type import ValueType
+from telliot_core.dtypes.float_type import UnsignedFloatType
+from telliot_core.dtypes.value_type import ValueType
 from telliot_core.utils.home import TELLIOT_CORE_ROOT
 
 logger = logging.getLogger(__name__)

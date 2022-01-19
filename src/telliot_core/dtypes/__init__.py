@@ -1,6 +1,6 @@
-""" :mod:`telliot_core.types`
+""" :mod:`telliot_core.dtypes`
 
-The Types package provides mechanisms to specify response types
+The Types package provides mechanisms to specify response dtypes
 for Oracle Queries.
 """
 # Copyright (c) 2021-, Tellor Development Community

@@ -5,7 +5,7 @@ from typing import Dict
 
 import requests
 
-from telliot_core.types.datapoint import OptionalDataPoint
+from telliot_core.dtypes.datapoint import OptionalDataPoint
 
 
 class PriceServiceInterface(ABC):

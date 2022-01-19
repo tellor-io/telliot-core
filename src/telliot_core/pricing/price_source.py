@@ -3,7 +3,7 @@ from dataclasses import field
 
 from telliot_core.datasource import DataSource
 from telliot_core.pricing.price_service import WebPriceService
-from telliot_core.types.datapoint import OptionalDataPoint
+from telliot_core.dtypes.datapoint import OptionalDataPoint
 
 
 @dataclass
