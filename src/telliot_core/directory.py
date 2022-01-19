@@ -4,16 +4,16 @@ from dataclasses import field
 from pathlib import Path
 from typing import Any
 from typing import Optional
-from typing import Union
 
+import requests
+from clamfig import deserialize
 from clamfig import Serializable
 
-from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
-from telliot_core.utils.home import telliot_homedir
+from telliot_core.utils.home import TELLIOT_CORE_ROOT
+
 
 # Read contract ABIs from json files
-
 _abi_folder = Path(__file__).resolve().parent / "data" / "abi"
 
 
@@ -22,25 +22,58 @@ class ContractInfo(Serializable):
     name: str
     org: str
     address: dict[int, str]
-    abi_file: Optional[str]
+    abi_file: Optional[str] = None
 
     _abi: Optional[list[Any]] = field(default=None, init=False, repr=False)
 
-    @property
-    def abi(self) -> list[Any]:
+    def get_abi(self, chain_id: int = 0, api_key: str = "") -> list[Any]:
         """Returns the contract ABI.
 
         The ABI is lazily loaded from a file the first time it is requested
-        and stored for later access.
+        and stored for later access.  If an abi file is not defined, an attempt
+        is made to retrieve the ABI from the chain explorer.
         """
-        if self._abi is not None:
-            return self._abi
-        else:
+        if not chain_id:
+            chain_id = list(self.address.keys())[0]
+
+        if not self._abi:
             if self.abi_file:
                 with open(_abi_folder / self.abi_file, "r") as f:
-                    return json.load(f)  # type: ignore
+                    self._abi = json.load(f)
             else:
-                raise ValueError("ABI File not defined")
+                # try to get from etherscan or other explorer using example:
+                address = self.address[chain_id]
+                if chain_id == 1:
+                    url = "https://api.etherscan.io"
+                elif chain_id == 4:
+                    url = "https://api-rinkeby.etherscan.io"
+                elif chain_id == 42:
+                    url = "https://api-kovan.etherscan.io"
+                elif chain_id == 137:
+                    url = "https://api.polygonscan.com"
+                elif chain_id == 80001:
+                    url = "https://api-testnet.polygonscan.com"
+                else:
+                    raise ValueError(
+                        f"Could not retrieve ABI using chain_id {chain_id}"
+                    )
+
+                url = (
+                    url
+                    + f"/api?module=contract&action=getabi&address={address}&format=raw"
+                )
+
+                if api_key:
+                    url = url + f"&apikey={api_key}"
+
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:77.0) "
+                    "Gecko/20190101 Firefox/77.0"
+                }
+                response = requests.get(url, headers=headers)
+                self._abi = response.json()
+
+        return self._abi  # type: ignore
 
     def restore_state(self, state: dict[Any, Any]) -> None:
         """Workaround JSON dict key type issue.  This should be handled by clamfig in future."""
@@ -51,75 +84,35 @@ class ContractInfo(Serializable):
         super().restore_state(state)
 
 
-def default_contracts() -> list[ContractInfo]:
-    contracts = [
-        ContractInfo(
-            org="tellor",
-            name="tellorx-master",
-            address={
-                1: "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
-                4: "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
-            },
-            abi_file="tellorx-master-abi.json",
-        ),
-        ContractInfo(
-            org="tellor",
-            name="tellorx-controller",
-            address={
-                1: "0xf98624E9924CAA2cbD21cC6288215Ec2ef7cFE80",
-                4: "0x0f2b0a8fa0f60459f51e452273c879eb32555e91",
-            },
-            abi_file=None,
-        ),
-        ContractInfo(
-            org="tellor",
-            name="tellorx-oracle",
-            address={
-                1: "0xe8218cACb0a5421BC6409e498d9f8CC8869945ea",
-                4: "0x18431fd88adF138e8b979A7246eb58EA7126ea16",
-            },
-            abi_file="tellorx-oracle-abi.json",
-        ),
-        ContractInfo(
-            org="tellor",
-            name="tellorx-governance",
-            address={
-                1: "0x51d4088d4EeE00Ae4c55f46E0673e9997121DB00",
-                4: "0xA64Bb0078eB80c97484f3f09Adb47b9B73CBcA00",
-            },
-            abi_file="tellorx-governance-abi.json",
-        ),
-        ContractInfo(
-            org="tellor",
-            name="tellorx-treasury",
-            address={
-                1: "0x3b0f3eaEFaAc9f8F7FDe406919ecEb5270fE0607",
-                4: "0x2dB91443f2b562B8b2B2e8E4fC0A3EDD6c195147",
-            },
-            abi_file="tellorx-treasury-abi.json",
-        ),
-        ContractInfo(
-            org="tellor",
-            name="tellorflex-oracle",
-            address={
-                137: "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
-                80001: "0xF281e2De3bB71dE348040b10B420615104359c10",
-            },
-            abi_file="tellorflex-oracle-abi.json",
-        ),
-    ]
-
-    return contracts
-
-
 @dataclass
 class ContractDirectory(ConfigOptions):
     """Contract directory object"""
 
-    entries: list[ContractInfo] = field(default_factory=default_contracts)
+    entries: dict[str, ContractInfo] = field(default_factory=dict)
 
-    def add_contract(self, info: ContractInfo) -> None:
-        self.entries.append(info)
+    def add_entry(self, entry: ContractInfo) -> None:
+        """Add ContractInfo object to directory."""
+
+        if entry.name in self.entries:
+            raise ValueError(f"Contrct {entry.name} already in directory")
+
+        self.entries[entry.name] = entry
+
+    @classmethod
+    def from_file(cls, filepath: Path) -> "ContractDirectory":
+        """Create a ContractDirectory from file."""
+
+        with open(filepath) as f:
+            state = json.load(f)
+
+        entry_list = deserialize(state)
+
+        obj = cls(entries={})
+
+        for entry in entry_list:
+            obj.add_entry(entry)
+
+        return obj
 
     def find(
         self,
@@ -129,8 +122,10 @@ class ContractDirectory(ConfigOptions):
         address: Optional[str] = None,
         chain_id: Optional[int] = None,
     ) -> list[ContractInfo]:
+        """Search the Contract Directory."""
+
         result = []
-        for info in self.entries:
+        for info in self.entries.values():
             if org is not None:
                 if org != info.org:
                     continue
@@ -149,15 +144,6 @@ class ContractDirectory(ConfigOptions):
         return result
 
 
-def directory_config_file(config_dir: Optional[Union[str, Path]] = None) -> ConfigFile:
-    if not config_dir:
-        config_dir = telliot_homedir()
-
-    cf = ConfigFile(
-        name="directory",
-        config_type=ContractDirectory,
-        config_format="json",
-        config_dir=config_dir,
-    )
-
-    return cf
+contract_directory = ContractDirectory.from_file(
+    TELLIOT_CORE_ROOT / "data/contract_directory.json"
+)

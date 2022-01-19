@@ -9,8 +9,6 @@ from typing import Union
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
 from telliot_core.apps.staker import StakerList
-from telliot_core.directory import ContractDirectory
-from telliot_core.directory import directory_config_file
 from telliot_core.model.base import Base
 from telliot_core.model.chain import ChainList
 from telliot_core.model.endpoints import EndpointList
@@ -46,14 +44,11 @@ class TelliotConfig(Base):
 
     stakers: StakerList = field(default_factory=StakerList)
 
-    directory: ContractDirectory = field(default_factory=ContractDirectory)
-
     # Private storage for config files
     _main_config_file: Optional[ConfigFile] = None
     _ep_config_file: Optional[ConfigFile] = None
     _chain_config_file: Optional[ConfigFile] = None
     _staker_config_file: Optional[ConfigFile] = None
-    _directory_config_file: Optional[ConfigFile] = None
 
     def __post_init__(self) -> None:
         self._main_config_file = ConfigFile(
@@ -81,13 +76,10 @@ class TelliotConfig(Base):
             config_dir=self.config_dir,
         )
 
-        self._directory_config_file = directory_config_file(self.config_dir)
-
         self.main = self._main_config_file.get_config()
         self.endpoints = self._ep_config_file.get_config()
         self.chains = self._chain_config_file.get_config()
         self.stakers = self._staker_config_file.get_config()
-        self.directory = self._directory_config_file.get_config()
 
     def get_endpoint(self) -> RPCEndpoint:
         """Search endpoints for current chain_id"""

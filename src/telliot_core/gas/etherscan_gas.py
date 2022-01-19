@@ -19,16 +19,24 @@ class EtherscanGasPrice:
     gasUsedRatio: List[float]
 
 
+@dataclass
 class EtherscanGasPriceSource(DataSource[EtherscanGasPrice]):
+
+    # Use an API key if higher rate limit is required
+    api_key: str = ""
+
     async def fetch_new_datapoint(self) -> OptionalDataPoint[EtherscanGasPrice]:
         """Fetch new value and store it for later retrieval"""
 
-        rsp = requests.get(
-            "https://api.etherscan.io/"
-            "api?module=gastracker"
-            "&action=gasoracle"
-            "&apikey=YourApiKeyToken"
-        )
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:77.0) Gecko/20190101 Firefox/77.0"
+        }
+        msg = "https://api.etherscan.io/api?module=gastracker&action=gasoracle"
+
+        if self.api_key:
+            msg = msg + f"&apikey={self.api_key}"
+
+        rsp = requests.get(msg, headers=headers)
         response = json.loads(rsp.content)
         status = response["status"]
         if int(status) == 1:
