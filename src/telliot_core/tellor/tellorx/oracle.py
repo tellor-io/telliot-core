@@ -3,7 +3,7 @@ from typing import Optional
 from typing import Tuple
 
 from telliot_core.contract.contract import Contract
-from telliot_core.directory import contract_directory as directory
+from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
@@ -17,7 +17,7 @@ class TellorxOracleContract(Contract):
         chain_id = node.chain_id
         assert chain_id is not None
 
-        contract_info = directory.find(chain_id=chain_id, name="oracle")[0]
+        contract_info = contract_directory.find(chain_id=chain_id, name="tellorx-oracle")[0]
         if not contract_info:
             raise Exception(f"TellorX oracle contract not found on chain_id {chain_id}")
 
@@ -85,7 +85,7 @@ class TellorxOracleContract(Contract):
     async def getTimeBasedReward(self) -> Tuple[float, ResponseStatus]:
         result, status = await self.read("getTimeBasedReward")
         if status.ok:
-            trb_reward = float(result) / 1.0e18  # type: ignore
+            trb_reward = float(result) / 1.0e18
         else:
             trb_reward = float(0)
         return trb_reward, status
@@ -117,7 +117,7 @@ class TellorxOracleContract(Contract):
 
         tips, status = await self.read("getTipsById", _queryId=queryId)
 
-        return float(tips) / 1.0e18, status  # type: ignore
+        return float(tips) / 1.0e18, status
 
     async def getTipsByUser(self, user: Optional[str] = None) -> ReadRespType:
 

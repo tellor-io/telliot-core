@@ -48,7 +48,7 @@ class Contract:
         self.contract = self.node.web3.eth.contract(address=self.address, abi=self.abi)
         return ResponseStatus(ok=True)
 
-    async def read(self, func_name: str, *args: Any, **kwargs: Any) -> Tuple[Optional[Tuple[Any]], ResponseStatus]:
+    async def read(self, func_name: str, *args: Any, **kwargs: Any) -> Tuple[Any, ResponseStatus]:
         """
         Reads data from contract
         inputs:

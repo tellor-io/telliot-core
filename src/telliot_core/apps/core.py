@@ -14,8 +14,8 @@ from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
-from telliot_core.tellorx.master import TellorxMasterContract
-from telliot_core.tellorx.oracle import TellorxOracleContract
+from telliot_core.tellor.tellorx.master import TellorxMasterContract
+from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
@@ -24,7 +24,7 @@ networks = {
     1: "eth-mainnet",
     4: "eth-rinkeby",
     137: "polygon-mainnet",
-    80008: "polygon-mumbai",
+    80001: "polygon-mumbai",
 }
 
 

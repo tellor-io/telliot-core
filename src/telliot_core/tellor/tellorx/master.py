@@ -4,7 +4,7 @@ from typing import Optional
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory as directory
 from telliot_core.model.endpoints import RPCEndpoint
-from telliot_core.tellorx.oracle import ReadRespType
+from telliot_core.tellor.tellorx.oracle import ReadRespType
 from telliot_core.utils.timestamp import TimeStamp
 
 staker_status_map = {
@@ -67,14 +67,14 @@ class TellorxMasterContract(Contract):
 
         if status.ok:
             result = DisputeReport(
-                hash=f"0x{response[0].hex()}",  # type: ignore
-                tally=response[1],  # type: ignore
-                executed=response[2],  # type: ignore
-                disputeVotePassed=response[3],  # type: ignore
-                isPropFork=response[4],  # type: ignore
-                reportedMiner=response[5],  # type: ignore
-                reportingParty=response[6],  # type: ignore
-                proposedForkAddress=response[7],  # type: ignore
+                hash=f"0x{response[0].hex()}",
+                tally=response[1],
+                executed=response[2],
+                disputeVotePassed=response[3],
+                isPropFork=response[4],
+                reportedMiner=response[5],
+                reportingParty=response[6],
+                proposedForkAddress=response[7],
             )
             return result, status
         else:
