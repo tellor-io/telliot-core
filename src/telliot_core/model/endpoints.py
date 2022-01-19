@@ -103,6 +103,13 @@ default_endpoint_list = [
         url="https://rpc-mainnet.matic.network",
         explorer="https://matic.network",
     ),
+    RPCEndpoint(
+        chain_id=80001,
+        provider="Matic",
+        network="mumbai",
+        url="https://polygon-mumbai.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://mumbai.polygonscan.com/",
+    ),
 ]
 
 
