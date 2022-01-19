@@ -14,6 +14,7 @@ from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.tellor.tellorflex.oracle import TellorflexOracleContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
@@ -36,6 +37,11 @@ class TellorxContractSet:
     treasury: Contract
 
 
+@dataclass
+class TellorflexContractSet:
+    oracle: TellorflexOracleContract
+
+
 class TelliotCore:
     """Telliot core application"""
 
@@ -49,6 +55,20 @@ class TelliotCore:
     #: BaseApplication configuration object
     config = property(lambda self: self._config)
     _config: TelliotConfig
+
+    def get_tellorflex_contracts(self) -> TellorflexContractSet:
+        """Get or create tellorflex contracts."""
+        if not self._tellorflex:
+            staker = self.get_staker()
+            private_key = staker.private_key
+            oracle = TellorflexOracleContract(node=self.endpoint, private_key=private_key)
+            oracle.connect()
+
+            self._tellorflex = TellorflexContractSet(oracle=oracle)
+
+        return self._tellorflex
+
+    _tellorflex: Optional[TellorflexContractSet]
 
     def get_tellorx_contracts(self) -> TellorxContractSet:
         """Get or create TellorX contracts"""
@@ -122,6 +142,7 @@ class TelliotCore:
         self._endpoint = None
         self._listener = None
         self._tellorx = None
+        self._tellorflex = None
 
         if chain_id is not None:
             # Override chain ID
