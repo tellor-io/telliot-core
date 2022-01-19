@@ -1,7 +1,6 @@
 import logging
 from typing import Optional
 
-
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
@@ -97,7 +96,7 @@ class TellorflexOracleContract(Contract):
             return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import asyncio
     from telliot_core.apps.core import TelliotCore
 

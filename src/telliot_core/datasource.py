@@ -10,10 +10,10 @@ from typing import Generic
 from typing import List
 from typing import TypeVar
 
-from telliot_core.model.base import Base
 from telliot_core.dtypes.datapoint import DataPoint
 from telliot_core.dtypes.datapoint import datetime_now_utc
 from telliot_core.dtypes.datapoint import OptionalDataPoint
+from telliot_core.model.base import Base
 
 T = TypeVar("T")
 
