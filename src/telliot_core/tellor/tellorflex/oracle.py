@@ -94,3 +94,19 @@ class TellorflexOracleContract(Contract):
             logger.error("Error reading TellorflexOracleContract")
             logger.error(status)
             return None
+
+
+if __name__ == "__main__":
+    import asyncio
+    from telliot_core.apps.core import TelliotCore
+
+    async def hello_world() -> None:
+        async with TelliotCore(chain_id=137) as core:
+
+            flex = core.get_tellorflex_contracts()
+
+            t = await flex.oracle.get_time_of_last_new_value()
+
+            print(f"Hello world!  Data was just submitted to TellorFlex on: {t}")
+
+    asyncio.run(hello_world())

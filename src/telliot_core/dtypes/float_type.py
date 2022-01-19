@@ -1,11 +1,11 @@
-""" :mod:`telliot_core.types.float_type`
+""" :mod:`telliot_core.dtypes.float_type`
 
 """
 from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
-from telliot_core.types.value_type import ValueType
+from telliot_core.dtypes.value_type import ValueType
 
 
 @dataclass

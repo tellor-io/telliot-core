@@ -46,9 +46,9 @@ The `LegacyQuery` object also demonstrates how to encode a response
 to submit on-chain using the `TellorX.Oracle.submitValue()` contract call.
 
 For example, to submit the value `10000.1234567`, use the 
-[`encode`][telliot_core.types.value_type.ValueType.encode] and 
-[`decode`][telliot_core.types.value_type.ValueType.decode] methods of the response
-[`ValueType`][telliot_core.types.value_type.ValueType].
+[`encode`][telliot_core.dtypes.value_type.ValueType.encode] and 
+[`decode`][telliot_core.dtypes.value_type.ValueType.decode] methods of the response
+[`ValueType`][telliot_core.dtypes.value_type.ValueType].
 
 ```python
 value = 10000.1234567
@@ -64,7 +64,7 @@ Note that the on-chain and decoded values are limited to
     submitValue (bytes): 0x00000000000000000000000000000000000000000000000000000002540dc641
 
 Similarly, the 
-[`decode`][telliot_core.types.value_type.ValueType.decode] method can be used to convert
+[`decode`][telliot_core.dtypes.value_type.ValueType.decode] method can be used to convert
 the on-chain bytes value to a real-world value:
 
 ```python
