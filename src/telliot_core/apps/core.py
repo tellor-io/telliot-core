@@ -1,4 +1,3 @@
-from lib2to3.pgen2 import token
 import logging
 from dataclasses import dataclass
 from pathlib import Path
@@ -74,7 +73,7 @@ class TelliotCore:
             self._tellorflex = TellorFlexContractSet(
                 oracle=oracle,
                 token=token,
-                )
+            )
 
         return self._tellorflex
 

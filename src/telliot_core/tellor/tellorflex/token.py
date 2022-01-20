@@ -1,10 +1,8 @@
 import logging
-from typing import Optional
 
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
-from telliot_core.utils.timestamp import TimeStamp
 
 logger = logging.getLogger(__name__)
 
