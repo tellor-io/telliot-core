@@ -61,6 +61,16 @@
   },
   {
     "type": "ContractInfo",
+    "name": "tellorflex-token",
+    "org": "tellor",
+    "address": {
+      "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
+      "80001": "0x45caf1aae42ba5565ec92362896cc8e0d55a2126"
+    },
+    "abi_file": "polygon-erc20-abi.json"
+  },
+  {
+    "type": "ContractInfo",
     "name": "tellor-lens",
     "org": "tellor",
     "address": {
