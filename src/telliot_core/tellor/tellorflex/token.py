@@ -7,12 +7,12 @@ from telliot_core.model.endpoints import RPCEndpoint
 logger = logging.getLogger(__name__)
 
 
-class TellorFlexTokenContract(Contract):
+class PolygonTokenContract(Contract):
     def __init__(self, node: RPCEndpoint, private_key: str = ""):
         chain_id = node.chain_id
         assert chain_id is not None
 
-        contract_info = contract_directory.find(chain_id=chain_id, name="tellorflex-token")[0]
+        contract_info = contract_directory.find(chain_id=chain_id, name="polygon-token")[0]
         if not contract_info:
             raise Exception(f"Tellorflex token contract not found on chain_id {chain_id}")
 

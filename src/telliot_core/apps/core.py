@@ -15,7 +15,7 @@ from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
-from telliot_core.tellor.tellorflex.token import TellorFlexTokenContract
+from telliot_core.tellor.tellorflex.token import PolygonTokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
@@ -41,7 +41,7 @@ class TellorxContractSet:
 @dataclass
 class TellorFlexContractSet:
     oracle: TellorFlexOracleContract
-    token: TellorFlexTokenContract
+    token: PolygonTokenContract
 
 
 class TelliotCore:
@@ -67,7 +67,7 @@ class TelliotCore:
             oracle = TellorFlexOracleContract(node=self.endpoint, private_key=private_key)
             oracle.connect()
 
-            token = TellorFlexTokenContract(node=self.endpoint, private_key=private_key)
+            token = PolygonTokenContract(node=self.endpoint, private_key=private_key)
             token.connect()
 
             self._tellorflex = TellorFlexContractSet(

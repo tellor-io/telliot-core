@@ -33,7 +33,7 @@ async def test_main(mumbai_cfg):
         if chain_id == 137:
             assert token_address == "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1"
         elif chain_id == 80001:
-            assert token_address == "0x002E861910D7f87BAa832A22Ac436F25FB66FA24"
+            assert token_address == "0x45cAF1aae42BA5565EC92362896cc8e0d55a2126"
 
         total_stake = await flex.oracle.get_total_stake_amount()
         print(f"Total Stake: {total_stake}")
