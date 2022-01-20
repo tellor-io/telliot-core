@@ -2,8 +2,8 @@ from typing import List
 from typing import Optional
 from typing import Union
 
-from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
+from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
 
@@ -28,8 +28,10 @@ async def tellor_suggested_report(
     chain = oracle.node.chain_id
 
     if chain in (1, 4):
+        assert isinstance(oracle, TellorxOracleContract)
         timestamp, status = await oracle.getTimeOfLastNewValue()
     elif chain in (137, 80001):
+        assert isinstance(oracle, TellorFlexOracleContract)
         timestamp, status = await oracle.get_time_of_last_new_value()
     else:
         return None
