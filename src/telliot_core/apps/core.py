@@ -1,3 +1,4 @@
+from lib2to3.pgen2 import token
 import logging
 from dataclasses import dataclass
 from pathlib import Path
@@ -14,7 +15,8 @@ from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
-from telliot_core.tellor.tellorflex.oracle import TellorflexOracleContract
+from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
+from telliot_core.tellor.tellorflex.token import TellorFlexTokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
@@ -38,8 +40,9 @@ class TellorxContractSet:
 
 
 @dataclass
-class TellorflexContractSet:
-    oracle: TellorflexOracleContract
+class TellorFlexContractSet:
+    oracle: TellorFlexOracleContract
+    token: TellorFlexTokenContract
 
 
 class TelliotCore:
@@ -56,19 +59,26 @@ class TelliotCore:
     config = property(lambda self: self._config)
     _config: TelliotConfig
 
-    def get_tellorflex_contracts(self) -> TellorflexContractSet:
+    def get_tellorflex_contracts(self) -> TellorFlexContractSet:
         """Get or create tellorflex contracts."""
         if not self._tellorflex:
             staker = self.get_staker()
             private_key = staker.private_key
-            oracle = TellorflexOracleContract(node=self.endpoint, private_key=private_key)
+
+            oracle = TellorFlexOracleContract(node=self.endpoint, private_key=private_key)
             oracle.connect()
 
-            self._tellorflex = TellorflexContractSet(oracle=oracle)
+            token = TellorFlexTokenContract(node=self.endpoint, private_key=private_key)
+            token.connect()
+
+            self._tellorflex = TellorFlexContractSet(
+                oracle=oracle,
+                token=token,
+                )
 
         return self._tellorflex
 
-    _tellorflex: Optional[TellorflexContractSet]
+    _tellorflex: Optional[TellorFlexContractSet]
 
     def get_tellorx_contracts(self) -> TellorxContractSet:
         """Get or create TellorX contracts"""
