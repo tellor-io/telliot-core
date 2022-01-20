@@ -9,7 +9,7 @@ from telliot_core.utils.timestamp import TimeStamp
 logger = logging.getLogger(__name__)
 
 
-class TellorflexOracleContract(Contract):
+class TellorFlexOracleContract(Contract):
     def __init__(self, node: RPCEndpoint, private_key: str = ""):
         chain_id = node.chain_id
         assert chain_id is not None
@@ -34,7 +34,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return str(governance_address)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -45,7 +45,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return int(lock)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -57,7 +57,7 @@ class TellorflexOracleContract(Contract):
             stake_in_trb = int(stake) / 1.0e18
             return stake_in_trb
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -68,7 +68,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return TimeStamp(tlnv)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -79,7 +79,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return str(token_address)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -91,6 +91,6 @@ class TellorflexOracleContract(Contract):
             total_stake_trb = int(total_stake) / 1.0e18
             return total_stake_trb
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
