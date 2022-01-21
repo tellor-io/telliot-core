@@ -1,6 +1,7 @@
 import pytest
 
 from telliot_core.apps.core import TelliotCore
+from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
 
@@ -22,8 +23,12 @@ async def test_main(mumbai_cfg):
         assert stake_amount == 10.0
         print(stake_amount)
 
-        tlnv = await flex.oracle.get_time_of_last_new_value()
-        assert isinstance(tlnv, TimeStamp)
+        tlnv, status = await flex.oracle.get_time_of_last_new_value()
+        assert isinstance(status, ResponseStatus)
+        if status.ok:
+            assert isinstance(tlnv, TimeStamp)
+        else:
+            assert tlnv is None
         print(tlnv)
 
         lock = await flex.oracle.get_reporting_lock()
