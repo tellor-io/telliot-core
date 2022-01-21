@@ -44,7 +44,7 @@ async def test_main(mumbai_cfg):
         total_stake = await flex.oracle.get_total_stake_amount()
         print(f"Total Stake: {total_stake}")
 
-        staker_info, status = await flex.oracle.get_staker_info(core.get_staker().address)
+        staker_info, status = await flex.oracle.get_staker_info(core.get_account().address)
         assert isinstance(status, ResponseStatus)
         if status.ok:
             for info in staker_info:

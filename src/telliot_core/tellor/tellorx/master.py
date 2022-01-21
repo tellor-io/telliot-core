@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from eth_utils import to_checksum_address
+
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory as directory
 from telliot_core.model.endpoints import RPCEndpoint
@@ -50,6 +52,8 @@ class TellorxMasterContract(Contract):
 
     async def getStakerInfo(self, address: Optional[str] = None) -> ReadRespType:
         """Get Staker Info"""
+
+        address = to_checksum_address(address)
 
         result, status = await self.read("getStakerInfo", _staker=address)
 

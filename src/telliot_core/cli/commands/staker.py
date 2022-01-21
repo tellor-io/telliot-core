@@ -1,6 +1,6 @@
 import click
+from chained_accounts import find_accounts
 
-from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.cli.commands.read import get_staker_info
 from telliot_core.cli.utils import async_run
@@ -25,7 +25,7 @@ def staker(ctx: click.Context, staker_address: str, staker_tag: str) -> None:
     staker_tag = ctx.obj.get("STAKER_TAG", None)
     if staker_tag and not staker_address:
         cfg = cli_config(ctx)
-        stakers = cfg.stakers.find(tag=staker_tag)
+        stakers = find_accounts(name=staker_tag)
         if not stakers:
             print(f"Staker {staker_tag} not found.")
             return
