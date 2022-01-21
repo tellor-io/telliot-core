@@ -122,4 +122,3 @@ if __name__ == "__main__":
             print(f"Hello world!  Data was just submitted to TellorFlex on: {t}")
 
     asyncio.run(hello_world())
-
