@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from chained_accounts import ChainedAccount
 from eth_utils import to_checksum_address
 
 from telliot_core.contract.contract import Contract
@@ -32,7 +33,7 @@ class DisputeReport:
 
 
 class TellorxMasterContract(Contract):
-    def __init__(self, node: RPCEndpoint, private_key: str = ""):
+    def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
 
         chain_id = node.chain_id
         assert chain_id is not None
@@ -47,7 +48,7 @@ class TellorxMasterContract(Contract):
             address=contract_info.address[chain_id],
             abi=contract_abi,
             node=node,
-            private_key=private_key,
+            account=account,
         )
 
     async def getStakerInfo(self, address: Optional[str] = None) -> ReadRespType:

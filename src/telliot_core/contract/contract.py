@@ -14,8 +14,10 @@ from web3 import Web3
 from web3.datastructures import AttributeDict
 
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.utils.key_helpers import lazy_key_getter
 from telliot_core.utils.response import error_status
 from telliot_core.utils.response import ResponseStatus
+from chained_accounts import ChainedAccount
 
 logger = logging.getLogger(__name__)
 
@@ -28,14 +30,15 @@ class Contract:
         address: Union[str, ChecksumAddress],
         abi: Union[List[Dict[str, Any]], str],
         node: RPCEndpoint,
-        private_key: str = "",
+        account: Optional[ChainedAccount] = None,
     ):
 
         self.address = Web3.toChecksumAddress(address)
         self.abi = abi
         self.node = node
         self.contract = None
-        self.private_key = private_key
+        self.account = account
+        self._private_key = None
 
     def connect(self) -> ResponseStatus:
         """Connect to EVM contract through an RPC Endpoint"""
@@ -69,6 +72,15 @@ class Contract:
         else:
             msg = "no instance of contract"
             return None, ResponseStatus(ok=False, error=msg)
+
+
+    @property
+    def private_key(self):
+
+        if not self._private_key:
+            self._private_key = lazy_key_getter(self.account)
+
+        return self._private_key
 
     async def write(
         self,

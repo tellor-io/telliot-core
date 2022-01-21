@@ -38,8 +38,8 @@ def cli_core(ctx: click.Context) -> TelliotCore:
 
     The returned object should be used as a context manager for CLI commands
     """
-    staker_tag = ctx.obj.get("STAKER_TAG", None)
+    account_name = ctx.obj.get("ACCOUNT_NAME", None)
 
     cfg = cli_config(ctx)
-    core = TelliotCore(config=cfg, staker_tag=staker_tag)
+    core = TelliotCore(config=cfg, account_name=account_name)
     return core

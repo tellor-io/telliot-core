@@ -63,12 +63,11 @@ class TelliotCore:
         """Get or create tellorflex contracts."""
         if not self._tellorflex:
             account = self.get_account()
-            private_key = lazy_key_getter(account)
 
-            oracle = TellorFlexOracleContract(node=self.endpoint, private_key=private_key)
+            oracle = TellorFlexOracleContract(node=self.endpoint, account=account)
             oracle.connect()
 
-            token = PolygonTokenContract(node=self.endpoint, private_key=private_key)
+            token = PolygonTokenContract(node=self.endpoint, account=account)
             token.connect()
 
             self._tellorflex = TellorFlexContractSet(
@@ -85,12 +84,11 @@ class TelliotCore:
 
         if not self._tellorx:
             account = self.get_account()
-            private_key = lazy_key_getter(account)
 
-            master = TellorxMasterContract(node=self.endpoint, private_key=private_key)
+            master = TellorxMasterContract(node=self.endpoint, account=account)
             master.connect()
 
-            oracle = TellorxOracleContract(node=self.endpoint, private_key=private_key)
+            oracle = TellorxOracleContract(node=self.endpoint, account=account)
             oracle.connect()
 
             self._tellorx = TellorxContractSet(
@@ -207,7 +205,7 @@ class TelliotCore:
         name: Optional[str] = None,
         address: Optional[str] = None,
         chain_id: Optional[int] = None,
-        private_key: Optional[str] = None,
+        account: Optional[ChainedAccount] = None,
     ) -> Contract:
 
         assert self.config is not None
@@ -216,9 +214,8 @@ class TelliotCore:
             chain_id = self.config.main.chain_id
             assert chain_id is not None
 
-        if not private_key:
+        if not account:
             account = self.get_account()
-            private_key = lazy_key_getter(account)
 
         entries = contract_directory.find(org=org, name=name, address=address, chain_id=chain_id)
         if len(entries) > 1:
@@ -237,7 +234,7 @@ class TelliotCore:
             address=contract_info.address[chain_id],
             abi=contract_abi,
             node=self.endpoint,
-            private_key=private_key,
+            account=account,
         )
         contract.connect()
         return contract
