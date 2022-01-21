@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 from typing import Optional
 from typing import Tuple
 
@@ -95,3 +96,13 @@ class TellorFlexOracleContract(Contract):
             logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
+
+    async def get_staker_info(self, staker_address: str) -> Tuple[Optional[Any], ResponseStatus]:
+
+        staker_info, status = await self.read(func_name="getStakerInfo", _staker=staker_address)
+
+        return staker_info, status
+
+    async def get_new_value_count_by_qeury_id(self, query_id: bytes) -> Tuple[int, ResponseStatus]:
+        count, status = await self.read(func_name="getNewValueCountbyQueryId", _queryId=query_id)
+        return count, status

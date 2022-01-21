@@ -1,6 +1,7 @@
 import pytest
 
 from telliot_core.apps.core import TelliotCore
+from telliot_core.queries.price.spot_price import SpotPrice
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
@@ -42,3 +43,20 @@ async def test_main(mumbai_cfg):
 
         total_stake = await flex.oracle.get_total_stake_amount()
         print(f"Total Stake: {total_stake}")
+
+        staker_info, status = await flex.oracle.get_staker_info(core.get_staker().address)
+        assert isinstance(status, ResponseStatus)
+        if status.ok:
+            for info in staker_info:
+                assert isinstance(info, int)
+        else:
+            assert staker_info is None
+
+        q = SpotPrice(asset="btc", currency="USD")
+        count, status = await flex.oracle.get_new_value_count_by_qeury_id(q.query_id)
+
+        assert isinstance(status, ResponseStatus)
+        if status.ok:
+            assert isinstance(count, int)
+        else:
+            assert count is None
