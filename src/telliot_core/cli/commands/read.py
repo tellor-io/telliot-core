@@ -67,7 +67,7 @@ async def get_staker_info(ctx: click.Context, address: str) -> Tuple[str, TimeSt
     """Get staker information."""
     async with cli_core(ctx) as core:
         if not address:
-            address = core.get_staker().address
+            address = core.get_account().address
 
         tellorx = core.get_tellorx_contracts()
         (staker_status, date_staked), status = await tellorx.master.getStakerInfo(address=address)

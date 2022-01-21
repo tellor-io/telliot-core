@@ -6,9 +6,10 @@ from typing import Optional
 from typing import Union
 
 import aiohttp
+from chained_accounts import ChainedAccount
+from chained_accounts import find_accounts
 
 from telliot_core.apps.session_manager import ClientSessionManager
-from telliot_core.apps.staker import Staker
 from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
@@ -61,13 +62,12 @@ class TelliotCore:
     def get_tellorflex_contracts(self) -> TellorFlexContractSet:
         """Get or create tellorflex contracts."""
         if not self._tellorflex:
-            staker = self.get_staker()
-            private_key = staker.private_key
+            account = self.get_account()
 
-            oracle = TellorFlexOracleContract(node=self.endpoint, private_key=private_key)
+            oracle = TellorFlexOracleContract(node=self.endpoint, account=account)
             oracle.connect()
 
-            token = PolygonTokenContract(node=self.endpoint, private_key=private_key)
+            token = PolygonTokenContract(node=self.endpoint, account=account)
             token.connect()
 
             self._tellorflex = TellorFlexContractSet(
@@ -83,13 +83,12 @@ class TelliotCore:
         """Get or create TellorX contracts"""
 
         if not self._tellorx:
-            staker = self.get_staker()
-            private_key = staker.private_key
+            account = self.get_account()
 
-            master = TellorxMasterContract(node=self.endpoint, private_key=private_key)
+            master = TellorxMasterContract(node=self.endpoint, account=account)
             master.connect()
 
-            oracle = TellorxOracleContract(node=self.endpoint, private_key=private_key)
+            oracle = TellorxOracleContract(node=self.endpoint, account=account)
             oracle.connect()
 
             self._tellorx = TellorxContractSet(
@@ -103,9 +102,9 @@ class TelliotCore:
 
     _tellorx: Optional[TellorxContractSet]
 
-    #: User-specified staker
-    staker_tag = property(lambda self: self._staker_tag)
-    _staker_tag: Optional[str] = None
+    #: User-specified account name
+    account_name = property(lambda self: self._account_name)
+    _account_name: Optional[str] = None
 
     @property
     def shared_session(self) -> aiohttp.ClientSession:
@@ -143,7 +142,7 @@ class TelliotCore:
         homedir: Optional[Union[str, Path]] = None,
         config: Optional[TelliotConfig] = None,
         chain_id: Optional[int] = None,
-        staker_tag: Optional[str] = None,
+        account_name: Optional[str] = None,
     ):
 
         self._homedir = telliot_homedir(homedir)
@@ -157,16 +156,16 @@ class TelliotCore:
             # Override chain ID
             self._config.main.chain_id = chain_id
 
-        if staker_tag is not None:
-            self.set_staker_tag(staker_tag)
+        if account_name is not None:
+            self.set_account_name(account_name)
 
         self._session_manager = ClientSessionManager()
 
         show_telliot_versions()
 
-    def set_staker_tag(self, staker_tag: str) -> None:
-        _ = self.get_staker(tag=staker_tag)  # Make sure it exists
-        self._staker_tag = staker_tag
+    def set_account_name(self, account_name: str) -> None:
+        _ = self.get_account(name=account_name)  # Make sure it exists
+        self._account_name = account_name
 
     async def startup(self) -> None:
         """Connect to the tellorX network"""
@@ -174,13 +173,13 @@ class TelliotCore:
 
         chain_id = self.config.main.chain_id
 
-        staker = self.get_staker()
-        if staker is None:
-            raise RuntimeError("Cannot start tellor-core application.  No staker found.")
+        account = self.get_account()
+        if account is None:
+            raise RuntimeError("Cannot start tellor-core application.  No account found.")
 
         await self._session_manager.open()
 
-        msg = f"Using: {networks[chain_id]} [staker: {staker.tag}]"
+        msg = f"Using: {networks[chain_id]} [account: {account.name}]"
         print(msg)
 
     def get_endpoint(
@@ -206,7 +205,7 @@ class TelliotCore:
         name: Optional[str] = None,
         address: Optional[str] = None,
         chain_id: Optional[int] = None,
-        private_key: Optional[str] = None,
+        account: Optional[ChainedAccount] = None,
     ) -> Contract:
 
         assert self.config is not None
@@ -215,9 +214,8 @@ class TelliotCore:
             chain_id = self.config.main.chain_id
             assert chain_id is not None
 
-        if not private_key:
-            staker = self.get_staker()
-            private_key = staker.private_key
+        if not account:
+            account = self.get_account()
 
         entries = contract_directory.find(org=org, name=name, address=address, chain_id=chain_id)
         if len(entries) > 1:
@@ -236,44 +234,41 @@ class TelliotCore:
             address=contract_info.address[chain_id],
             abi=contract_abi,
             node=self.endpoint,
-            private_key=private_key,
+            account=account,
         )
         contract.connect()
         return contract
 
-    def get_staker(
+    def get_account(
         self,
         *,
-        tag: Optional[str] = None,
+        name: Optional[str] = None,
         address: Optional[str] = None,
-        private_key: Optional[str] = None,
         chain_id: Optional[int] = None,
-    ) -> Staker:
-        """Retrieve the user specified staker
+    ) -> ChainedAccount:
+        """Retrieve the user specified account
 
-        If None configured, the default first matching staker will be used
-
+        If None configured, the default first matching account will be used
         """
 
-        if tag:
-            staker_tag = tag
+        if name:
+            acc_name = name
         else:
-            staker_tag = self.staker_tag
+            acc_name = self.account_name
 
         if not chain_id:
             chain_id = self.config.main.chain_id
 
-        stakers = self.config.stakers.find(
-            tag=staker_tag,
+        accounts = find_accounts(
+            name=acc_name,
             address=address,
-            private_key=private_key,
             chain_id=chain_id,
         )
 
-        if len(stakers) > 0:
-            return stakers[0]  # type: ignore
+        if len(accounts) > 0:
+            return accounts[0]
         else:
-            raise Exception("No stakers found")
+            raise Exception("No accounts found")
 
     async def shutdown(self) -> None:
         """Cleanly shutdown core"""

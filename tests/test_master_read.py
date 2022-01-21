@@ -11,8 +11,8 @@ async def test_get_staker_info(rinkeby_cfg):
     async with TelliotCore(config=rinkeby_cfg) as core:
         tellorx = core.get_tellorx_contracts()
 
-        staker = core.get_staker()
-        address = staker.address
+        account = core.get_account()
+        address = account.address
 
         result, status = await tellorx.master.getStakerInfo(address)
         assert status.ok

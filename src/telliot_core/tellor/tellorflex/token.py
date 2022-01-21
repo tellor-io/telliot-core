@@ -1,4 +1,7 @@
 import logging
+from typing import Optional
+
+from chained_accounts import ChainedAccount
 
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory
@@ -8,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class PolygonTokenContract(Contract):
-    def __init__(self, node: RPCEndpoint, private_key: str = ""):
+    def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
         assert chain_id is not None
 
@@ -22,5 +25,5 @@ class PolygonTokenContract(Contract):
             address=contract_info.address[chain_id],
             abi=contract_abi,
             node=node,
-            private_key=private_key,
+            account=account,
         )

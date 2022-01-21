@@ -6,9 +6,11 @@ from typing import Literal
 from typing import Optional
 from typing import Union
 
+from chained_accounts import ChainedAccount
+from chained_accounts import find_accounts
+
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
-from telliot_core.apps.staker import StakerList
 from telliot_core.model.base import Base
 from telliot_core.model.chain import ChainList
 from telliot_core.model.endpoints import EndpointList
@@ -42,13 +44,10 @@ class TelliotConfig(Base):
 
     chains: ChainList = field(default_factory=ChainList)
 
-    stakers: StakerList = field(default_factory=StakerList)
-
     # Private storage for config files
     _main_config_file: Optional[ConfigFile] = None
     _ep_config_file: Optional[ConfigFile] = None
     _chain_config_file: Optional[ConfigFile] = None
-    _staker_config_file: Optional[ConfigFile] = None
 
     def __post_init__(self) -> None:
         self._main_config_file = ConfigFile(
@@ -69,17 +68,10 @@ class TelliotConfig(Base):
             config_format="json",
             config_dir=self.config_dir,
         )
-        self._staker_config_file = ConfigFile(
-            name="stakers",
-            config_type=StakerList,
-            config_format="yaml",
-            config_dir=self.config_dir,
-        )
 
         self.main = self._main_config_file.get_config()
         self.endpoints = self._ep_config_file.get_config()
         self.chains = self._chain_config_file.get_config()
-        self.stakers = self._staker_config_file.get_config()
 
     def get_endpoint(self) -> RPCEndpoint:
         """Search endpoints for current chain_id"""
@@ -114,22 +106,15 @@ def override_test_config(cfg: TelliotConfig, write: bool = False) -> TelliotConf
         rinkeby_endpoint.url = os.environ["NODE_URL"]
         override_endpoint = True
 
-    # Replace staker private key
-    override_staker = False
-    if os.getenv("PRIVATE_KEY", None):
-        override_staker = True
-        private_key = os.environ["PRIVATE_KEY"]
-        rinkeby_stakers = cfg.stakers.find(chain_id=4)
-        if len(rinkeby_stakers) == 0:
-            raise Exception("No staker/private key defined for rinkeby")
-        rinkeby_staker = rinkeby_stakers[0]
-        rinkeby_staker.private_key = private_key
-        rinkeby_staker.address = "0x8D8D2006A485FA4a75dFD8Da8f63dA31401B8fA2"
+    rinkeby_accounts = find_accounts(chain_id=4)
+    if not rinkeby_accounts:
+
+        # Add private key if detected on git
+        if os.getenv("PRIVATE_KEY", None):
+            # Create an account for use on git
+            ChainedAccount.add("git-rinkeby-key", chains=[4], key=os.environ["PRIVATE_KEY"], password="")
 
     if write:
-        if override_staker:
-            assert cfg._staker_config_file is not None
-            cfg._staker_config_file.save_config(cfg.stakers)
         if override_endpoint:
             assert cfg._ep_config_file is not None
             cfg._ep_config_file.save_config(cfg.endpoints)
