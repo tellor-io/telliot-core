@@ -14,16 +14,6 @@ def staker(ctx: click.Context, name: str) -> None:
     """Manage Telliot stakers."""
     ctx.obj["ACCOUNT_NAME"] = name
 
-    # cfg = cli_config(ctx)
-    # stakers = find_accounts(name=name)
-    # if not stakers:
-    #     print(f"Staker {name} not found.")
-    #     return
-    # else:
-    #     staker_obj = stakers[0]
-    #     assert isinstance(staker_obj, Staker)
-    #     ctx.obj["STAKER_ADDRESS"] = staker_obj.address
-
 
 @staker.command()
 @click.pass_context

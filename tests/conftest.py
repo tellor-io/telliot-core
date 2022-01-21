@@ -30,7 +30,7 @@ def rinkeby_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password="foo")
+            ChainedAccount.add("git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a mumbai account")
 
@@ -53,7 +53,7 @@ def mumbai_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-mumbai-key", chains=80001, key=os.environ["PRIVATE_KEY"], password="foo")
+            ChainedAccount.add("git-mumbai-key", chains=80001, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a mumbai account")
 

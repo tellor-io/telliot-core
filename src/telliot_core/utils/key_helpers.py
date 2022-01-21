@@ -20,16 +20,13 @@ def lazy_unlock_account(account: ChainedAccount) -> None:
     else:
         # Try unlocking with no password
         try:
-            account.unlock("foo")
+            account.unlock("")
         except ValueError:
             try:
-                account.unlock("")
+                password = getpass.getpass(f"Enter encryption password for {account.name}: ")
+                account.unlock(password)
             except ValueError:
-                try:
-                    password = getpass.getpass(f"Enter encryption password for {account.name}: ")
-                    account.unlock(password)
-                except ValueError:
-                    raise Exception(f"Invalid password for {account.name}")
+                raise Exception(f"Invalid password for {account.name}")
 
 
 def lazy_key_getter(account: ChainedAccount) -> HexBytes:
