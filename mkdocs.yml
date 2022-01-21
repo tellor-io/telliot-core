@@ -72,7 +72,7 @@ nav:
       - Text Query: examples/text_query_example.md
   - Code Reference:
       - Queries Module: code/queries.md
-      - Types Module: code/types.md
+      - Types Module: code/dtypes.md
       - Data Feed Module: code/datafeed.md
   - Contributing:
       - Developer's Guide: contributing.md

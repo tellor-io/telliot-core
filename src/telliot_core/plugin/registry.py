@@ -19,13 +19,13 @@ class PluginRegistry:
     # #: List of data feed instances to register with telliot_core
     # feeds: List[DataFeed] = field(default_factory=list)
 
-    #: List of custom query types to register with telliot_core
+    #: List of custom query dtypes to register with telliot_core
     query_types: List[Type[OracleQuery]] = field(default_factory=list)
 
-    #: List of custom data feed types to register with telliot_core
+    #: List of custom data feed dtypes to register with telliot_core
     feed_types: List[Type[DataFeed[Any]]] = field(default_factory=list)
 
-    #: List of custom data feed types to register with telliot_core
+    #: List of custom data feed dtypes to register with telliot_core
     source_types: List[Type[DataSource[Any]]] = field(default_factory=list)
 
     # def register_feed(self, feed: DataFeed) -> None:

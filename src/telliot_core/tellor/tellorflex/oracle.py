@@ -106,3 +106,20 @@ class TellorFlexOracleContract(Contract):
     async def get_new_value_count_by_qeury_id(self, query_id: bytes) -> Tuple[int, ResponseStatus]:
         count, status = await self.read(func_name="getNewValueCountbyQueryId", _queryId=query_id)
         return count, status
+
+
+if __name__ == "__main__":
+    import asyncio
+    from telliot_core.apps.core import TelliotCore
+
+    async def hello_world() -> None:
+        async with TelliotCore(chain_id=137) as core:
+
+            flex = core.get_tellorflex_contracts()
+
+            t = await flex.oracle.get_time_of_last_new_value()
+
+            print(f"Hello world!  Data was just submitted to TellorFlex on: {t}")
+
+    asyncio.run(hello_world())
+
