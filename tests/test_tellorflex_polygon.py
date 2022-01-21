@@ -1,6 +1,8 @@
 import pytest
 
 from telliot_core.apps.core import TelliotCore
+from telliot_core.queries.price.spot_price import SpotPrice
+from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
 
@@ -22,8 +24,12 @@ async def test_main(mumbai_cfg):
         assert stake_amount == 10.0
         print(stake_amount)
 
-        tlnv = await flex.oracle.get_time_of_last_new_value()
-        assert isinstance(tlnv, TimeStamp)
+        tlnv, status = await flex.oracle.get_time_of_last_new_value()
+        assert isinstance(status, ResponseStatus)
+        if status.ok:
+            assert isinstance(tlnv, TimeStamp)
+        else:
+            assert tlnv is None
         print(tlnv)
 
         lock = await flex.oracle.get_reporting_lock()
@@ -33,7 +39,24 @@ async def test_main(mumbai_cfg):
         if chain_id == 137:
             assert token_address == "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1"
         elif chain_id == 80001:
-            assert token_address == "0x002E861910D7f87BAa832A22Ac436F25FB66FA24"
+            assert token_address == "0x45cAF1aae42BA5565EC92362896cc8e0d55a2126"
 
         total_stake = await flex.oracle.get_total_stake_amount()
         print(f"Total Stake: {total_stake}")
+
+        staker_info, status = await flex.oracle.get_staker_info(core.get_staker().address)
+        assert isinstance(status, ResponseStatus)
+        if status.ok:
+            for info in staker_info:
+                assert isinstance(info, int)
+        else:
+            assert staker_info is None
+
+        q = SpotPrice(asset="btc", currency="USD")
+        count, status = await flex.oracle.get_new_value_count_by_qeury_id(q.query_id)
+
+        assert isinstance(status, ResponseStatus)
+        if status.ok:
+            assert isinstance(count, int)
+        else:
+            assert count is None

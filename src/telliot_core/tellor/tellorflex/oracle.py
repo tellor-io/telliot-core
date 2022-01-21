@@ -1,15 +1,19 @@
 import logging
+from typing import Any
 from typing import Optional
+from typing import Tuple
 
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
+
 
 logger = logging.getLogger(__name__)
 
 
-class TellorflexOracleContract(Contract):
+class TellorFlexOracleContract(Contract):
     def __init__(self, node: RPCEndpoint, private_key: str = ""):
         chain_id = node.chain_id
         assert chain_id is not None
@@ -34,7 +38,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return str(governance_address)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -45,7 +49,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return int(lock)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -57,20 +61,18 @@ class TellorflexOracleContract(Contract):
             stake_in_trb = int(stake) / 1.0e18
             return stake_in_trb
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
-    async def get_time_of_last_new_value(self) -> Optional[TimeStamp]:
+    async def get_time_of_last_new_value(self) -> Tuple[Optional[TimeStamp], ResponseStatus]:
 
         tlnv, status = await self.read("getTimeOfLastNewValue")
 
         if status.ok:
-            return TimeStamp(tlnv)
+            return TimeStamp(tlnv), status
         else:
-            logger.error("Error reading TellorflexOracleContract")
-            logger.error(status)
-            return None
+            return None, status
 
     async def get_token_address(self) -> Optional[str]:
 
@@ -79,7 +81,7 @@ class TellorflexOracleContract(Contract):
         if status.ok:
             return str(token_address)
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
 
@@ -91,9 +93,19 @@ class TellorflexOracleContract(Contract):
             total_stake_trb = int(total_stake) / 1.0e18
             return total_stake_trb
         else:
-            logger.error("Error reading TellorflexOracleContract")
+            logger.error("Error reading TellorFlexOracleContract")
             logger.error(status)
             return None
+
+    async def get_staker_info(self, staker_address: str) -> Tuple[Optional[Any], ResponseStatus]:
+
+        staker_info, status = await self.read(func_name="getStakerInfo", _staker=staker_address)
+
+        return staker_info, status
+
+    async def get_new_value_count_by_qeury_id(self, query_id: bytes) -> Tuple[int, ResponseStatus]:
+        count, status = await self.read(func_name="getNewValueCountbyQueryId", _queryId=query_id)
+        return count, status
 
 
 if __name__ == "__main__":

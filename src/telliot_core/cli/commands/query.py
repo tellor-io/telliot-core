@@ -3,7 +3,7 @@ import click
 from telliot_core.cli.utils import async_run
 from telliot_core.cli.utils import cli_core
 from telliot_core.data.query_catalog import query_catalog
-from telliot_core.reporters.reporter_utils import tellorx_suggested_report
+from telliot_core.reporters.reporter_utils import tellor_suggested_report
 
 
 @click.group()
@@ -82,6 +82,6 @@ async def suggest(ctx: click.Context) -> None:
 
     async with cli_core(ctx) as core:
         tellorx = core.get_tellorx_contracts()
-        qtag = await tellorx_suggested_report(tellorx.oracle)
+        qtag = await tellor_suggested_report(tellorx.oracle)
         assert isinstance(qtag, str)
         print(f"Suggested query: {qtag}")

@@ -1,6 +1,8 @@
 from typing import List
 from typing import Optional
+from typing import Union
 
+from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
@@ -13,8 +15,8 @@ reporter_sync_schedule: List[str] = [
 ]
 
 
-async def tellorx_suggested_report(
-    oracle: TellorxOracleContract,
+async def tellor_suggested_report(
+    oracle: Union[TellorxOracleContract, TellorFlexOracleContract],
 ) -> Optional[str]:
     """Returns the currently suggested query to report against.
 
@@ -23,7 +25,16 @@ async def tellorx_suggested_report(
     `report_sync_schedule` to determine the suggested query.
 
     """
-    timestamp, status = await oracle.getTimeOfLastNewValue()
+    chain = oracle.node.chain_id
+
+    if chain in (1, 4):
+        assert isinstance(oracle, TellorxOracleContract)
+        timestamp, status = await oracle.getTimeOfLastNewValue()
+    elif chain in (137, 80001):
+        assert isinstance(oracle, TellorFlexOracleContract)
+        timestamp, status = await oracle.get_time_of_last_new_value()
+    else:
+        return None
 
     if status.ok:
         suggested_idx = timestamp.ts % len(reporter_sync_schedule)
