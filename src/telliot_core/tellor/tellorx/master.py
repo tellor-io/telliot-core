@@ -51,7 +51,7 @@ class TellorxMasterContract(Contract):
             account=account,
         )
 
-    async def getStakerInfo(self, address: Optional[str] = None) -> ReadRespType:
+    async def getStakerInfo(self, address: str) -> ReadRespType:
         """Get Staker Info"""
 
         address = to_checksum_address(address)

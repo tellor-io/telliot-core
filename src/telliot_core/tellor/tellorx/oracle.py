@@ -14,7 +14,7 @@ ReadRespType = Tuple[Any, ResponseStatus]
 
 
 class TellorxOracleContract(Contract):
-    def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount]=None):
+    def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
 
         chain_id = node.chain_id
         assert chain_id is not None

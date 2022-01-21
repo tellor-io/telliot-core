@@ -1,7 +1,7 @@
 import click
-from chained_accounts import find_accounts, ChainedAccount
+from chained_accounts import ChainedAccount
+from chained_accounts import find_accounts
 
-from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.cli.commands.read import get_staker_info
 from telliot_core.cli.utils import async_run
 from telliot_core.cli.utils import cli_config
@@ -50,5 +50,3 @@ async def status(ctx: click.Context) -> None:
     print(f"Status: {staker_status}")
     if staker_status != "NotStaked":
         print(f"Staked on {date_staked} ({date_staked.age} ago)")
-
-

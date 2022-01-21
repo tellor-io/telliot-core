@@ -6,7 +6,8 @@ from typing import Optional
 from typing import Union
 
 import aiohttp
-from chained_accounts import ChainedAccount, find_accounts
+from chained_accounts import ChainedAccount
+from chained_accounts import find_accounts
 
 from telliot_core.apps.session_manager import ClientSessionManager
 from telliot_core.apps.telliot_config import TelliotConfig
@@ -19,7 +20,6 @@ from telliot_core.tellor.tellorflex.token import PolygonTokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
-from telliot_core.utils.key_helpers import lazy_key_getter
 from telliot_core.utils.versions import show_telliot_versions
 
 logger = logging.getLogger(__name__)
@@ -266,7 +266,7 @@ class TelliotCore:
         )
 
         if len(accounts) > 0:
-            return accounts[0]  # type: ignore
+            return accounts[0]
         else:
             raise Exception("No accounts found")
 

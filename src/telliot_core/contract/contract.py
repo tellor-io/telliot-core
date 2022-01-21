@@ -9,6 +9,7 @@ from typing import Optional
 from typing import Tuple
 from typing import Union
 
+from chained_accounts import ChainedAccount
 from eth_typing.evm import ChecksumAddress
 from web3 import Web3
 from web3.datastructures import AttributeDict
@@ -17,7 +18,6 @@ from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.utils.key_helpers import lazy_key_getter
 from telliot_core.utils.response import error_status
 from telliot_core.utils.response import ResponseStatus
-from chained_accounts import ChainedAccount
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class Contract:
         self.node = node
         self.contract = None
         self.account = account
-        self._private_key = None
+        self._private_key: Optional[bytes] = None
 
     def connect(self) -> ResponseStatus:
         """Connect to EVM contract through an RPC Endpoint"""
@@ -73,9 +73,8 @@ class Contract:
             msg = "no instance of contract"
             return None, ResponseStatus(ok=False, error=msg)
 
-
     @property
-    def private_key(self):
+    def private_key(self) -> bytes:
 
         if not self._private_key:
             self._private_key = lazy_key_getter(self.account)

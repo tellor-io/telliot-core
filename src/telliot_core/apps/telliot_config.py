@@ -6,13 +6,14 @@ from typing import Literal
 from typing import Optional
 from typing import Union
 
+from chained_accounts import ChainedAccount
+
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
 from telliot_core.model.base import Base
 from telliot_core.model.chain import ChainList
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
-from chained_accounts import ChainedAccount, find_accounts
 
 
 @dataclass
@@ -108,7 +109,7 @@ def override_test_config(cfg: TelliotConfig, write: bool = False) -> TelliotConf
     if os.getenv("PRIVATE_KEY", None):
 
         # Create an account for use on git
-        ChainedAccount.add('git-rinkeby-key', chains=[4], key=os.environ["PRIVATE_KEY"], password='foo')
+        ChainedAccount.add("git-rinkeby-key", chains=[4], key=os.environ["PRIVATE_KEY"], password="foo")
 
     if write:
         if override_endpoint:

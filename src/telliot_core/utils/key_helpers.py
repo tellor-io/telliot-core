@@ -1,6 +1,7 @@
+import getpass
+
 from chained_accounts import ChainedAccount
 from hexbytes import HexBytes
-import getpass
 
 
 def ask_for_password(name: str) -> str:
@@ -19,18 +20,20 @@ def lazy_unlock_account(account: ChainedAccount) -> None:
     else:
         # Try unlocking with no password
         try:
-            account.unlock('foo')
+            account.unlock("foo")
         except ValueError:
             try:
-                account.unlock('')
+                account.unlock("")
             except ValueError:
                 try:
                     password = getpass.getpass(f"Enter encryption password for {account.name}: ")
                     account.unlock(password)
                 except ValueError:
-                    raise Exception(f'Invalid password for {account.name}')
+                    raise Exception(f"Invalid password for {account.name}")
 
 
 def lazy_key_getter(account: ChainedAccount) -> HexBytes:
+
     lazy_unlock_account(account)
-    return account.key
+
+    return account.key  # type: ignore
