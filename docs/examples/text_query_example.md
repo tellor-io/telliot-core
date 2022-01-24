@@ -1,7 +1,7 @@
 # Text Query Example
 
 The following example demonstrates how to create a 
-[`StringQuery`][telliot_core.queries.string_query.StringQuery] request.
+[`StringQuery`][telliot_core.api.StringQuery] request.
 
 Create a `StringQuery` and view the corresponding query descriptor::
 
