@@ -75,7 +75,5 @@ def test_config_show():
 def test_account_status():
     """Test account status."""
     runner = CliRunner()
-    result = runner.invoke(main, ["account", "status"])
-    assert not result.exception
     result = runner.invoke(main, ["--test_config", "account", "status"])
     assert not result.exception
