@@ -6,11 +6,11 @@
 from dataclasses import dataclass
 
 from telliot_core.dtypes.value_type import ValueType
-from telliot_core.queries.query import OracleQuery
+from telliot_core.queries.json_query import JsonQuery
 
 
 @dataclass
-class StringQuery(OracleQuery):
+class StringQuery(JsonQuery):
     """Static Oracle Query
 
     A text query supports a question in the form of an arbitrary

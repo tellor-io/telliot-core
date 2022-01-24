@@ -64,14 +64,17 @@ async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
         (tips2, reward), status = await tellorx.oracle.getCurrentReward(queryId)
         print(f"Tips/reward (TRB): {tips2} / {reward}")
 
-        print(f"{npoints} most recent on-chain datapoints:")
-        for k in range(count - npoints, count):
-            ts, status = await tellorx.oracle.getReportTimestampByIndex(queryId, k)
-            blocknum, status = await tellorx.oracle.getBlockNumberByTimestamp(queryId, ts)
-            bytes_value, status = await tellorx.oracle.getValueByTimestamp(queryId, ts)
-            value = q.value_type.decode(bytes_value)
-            reporter, status = await tellorx.oracle.getReporterByTimestamp(queryId, ts)
-            print(f" index: {k}, timestamp: {ts}, block: {blocknum}, value:{value}, reporter: {reporter} ")
+        if count > 0:
+            print(f"{npoints} most recent on-chain datapoints:")
+            for k in range(count - npoints, count):
+                ts, status = await tellorx.oracle.getReportTimestampByIndex(queryId, k)
+                blocknum, status = await tellorx.oracle.getBlockNumberByTimestamp(queryId, ts)
+                bytes_value, status = await tellorx.oracle.getValueByTimestamp(queryId, ts)
+                value = q.value_type.decode(bytes_value)
+                reporter, status = await tellorx.oracle.getReporterByTimestamp(queryId, ts)
+                print(f" index: {k}, timestamp: {ts}, block: {blocknum}, value:{value}, reporter: {reporter} ")
+        else:
+            print("No on-chain datapoints found.")
 
 
 @query.command()

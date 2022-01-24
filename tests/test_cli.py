@@ -29,6 +29,7 @@ def test_config_cmd():
 
 
 def test_disputesbyid(caplog):
+    """Test disputes by ID"""
     runner = CliRunner()
     result = runner.invoke(main, ["--test_config", "read", "master", "disputesbyid", "1"])
     assert "DisputeReport" in result.stdout
@@ -50,13 +51,29 @@ def test_getStakerInfo():
 
 @pytest.mark.skip()
 def test_gettimebasedreward():
+    """Test contract method"""
     runner = CliRunner()
     result = runner.invoke(main, ["--test_config", "read", "gettimebasedreward"])
     assert "TRB" in result.output
 
 
 def test_query_info():
+    """Test getting query info"""
     runner = CliRunner()
     result = runner.invoke(main, ["--test_config", "query", "status", "uspce-legacy"])
     assert not result.exception
     assert "Current value" in result.stdout
+
+
+def test_config_show():
+    """Make sure config is running"""
+    runner = CliRunner()
+    result = runner.invoke(main, ["--test_config", "config", "show"])
+    assert not result.exception
+
+
+def test_account_status():
+    """Test account status."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["--test_config", "account", "status"])
+    assert not result.exception

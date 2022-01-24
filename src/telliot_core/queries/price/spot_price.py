@@ -9,7 +9,7 @@ from typing import Tuple
 
 from telliot_core.dtypes.float_type import UnsignedFloatType
 from telliot_core.dtypes.value_type import ValueType
-from telliot_core.queries.query import OracleQuery
+from telliot_core.queries.json_query import JsonQuery
 from telliot_core.utils.home import TELLIOT_CORE_ROOT
 
 logger = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ spot_price_pairs = get_spot_price_pairs()
 
 
 @dataclass
-class SpotPrice(OracleQuery):
+class SpotPrice(JsonQuery):
     """Returns the spot price of a cryptocurrency asset in the given currency.
 
     Attributes:
