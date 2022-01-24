@@ -3,6 +3,7 @@
 """
 # Copyright (c) 2021-, Tellor Development Community
 # Distributed under the terms of the MIT License.
+from telliot_core.data.query_catalog import query_catalog
 from telliot_core.datafeed import DataFeed
 from telliot_core.datasource import DataSource
 from telliot_core.dtypes.value_type import ValueType
@@ -23,4 +24,5 @@ __all__ = [
     "ValueType",
     "DataSource",
     "DataFeed",
+    "query_catalog",
 ]

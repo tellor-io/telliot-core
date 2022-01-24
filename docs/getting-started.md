@@ -22,7 +22,7 @@ To show the current configuration:
 
 ### Main Configuration File
 
-The main configuration file allows you to choose which network Telliot will interact with.
+The main configuration file allows you to choose the default network Telliot will interact with.
 By default, Telliot is configured to run on Rinkeby testnet, as shown in the example below.
 Edit the `~/telliot/main.yaml` config file for the desired configuration.
 
@@ -36,10 +36,26 @@ Edit the `~/telliot/main.yaml` config file for the desired configuration.
 type: MainConfig
 loglevel: INFO
 chain_id: 4
-network: rinkeby
-private_key: ''
 
 ```
+
+### Configure Accounts
+
+Telliot needs to know which accounts are available for contract writes, such as submitting values to the oracle.
+Use the command line to add necessary accounts/private keys.
+
+For example, to add an account called `my-matic-acct` for reporting on polygon mainnet (EVM chain_id=137):
+
+    >> chained add my-matic-acct 0x57fe7105302229455bcfd58a8b531b532d7a2bb3b50e1026afa455cd332bf706 137
+    Enter encryption password for my-matic-acct: 
+    Confirm password: 
+    Added new account my-matic-acct (address= 0xcd19cf65af3a3aea1f44a7cb0257fc7455f245f0) for use on chains (137,)
+
+Note that reporting accounts can be used for ETH mainnet (chain_id=1), Rinkeby testnet (chain_id=4), or Polygon testnet
+(chain_id=80001).  Also note that a single account/private key can be associated with multiple chains.
+
+Detailed instructions for managing EVM accounts can be found in the
+[`chained_accounts` package documentation](https://github.com/pydefi/chained-accounts). 
 
 
 ### Configure endpoints

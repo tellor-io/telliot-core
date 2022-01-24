@@ -44,5 +44,5 @@ query_catalog.add_entry(
     tag="ohm-eth-spot",
     title="OHM/ETH spot price",
     q=SpotPrice(asset="ohm", currency="eth"),
-    active=False,
+    active=True,
 )
