@@ -1,6 +1,8 @@
 """  Oracle Query Module
 
 """
+import json
+
 from clamfig import Serializable
 from web3 import Web3
 
@@ -23,12 +25,16 @@ class OracleQuery(Serializable):
 
     The base class provides:
 
-    - Calculation of the contents of the `data` field to include with the
-      `TellorX.Oracle.tipQuery()` contract call.
+    - Specification of the query `descriptor` JSON string.
 
-    - Calculation of the `id` field field to include with the
+    - Calculation of the `id` field from `query_data`.  This value is used for the
       `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`
       contract calls.
+
+    Subclasses must provide:
+
+    - Encoding of the `descriptor` string to compute the `query_data` attribute,
+    which is used for the `data` field of a `TellorX.Oracle.tipQuery()` contract call.
 
     """
 
@@ -48,22 +54,13 @@ class OracleQuery(Serializable):
     def descriptor(self) -> str:
         """Get the query descriptor string.
 
-        The Query descriptor is a unique, human-readable string representation
-        of the query (including it's parameters).  There must be a one-to-one
-        correspondence between the descriptor string and the query_data.
+        The Query descriptor is a unique string representation of the query, including
+        all parameter values.  The string must be in valid JSON format (http://www.json.org).
 
-        This method *must* be implemented by subclasses
         """
-        raise NotImplementedError
-
-    @property
-    def query_data(self) -> bytes:
-        """Returns the ``data`` field for use in ``TellorX.Oracle.tipQuery()``
-        contract call.
-
-        This method *must* be implemented by subclasses
-        """
-        raise NotImplementedError
+        state = self.get_state()
+        json_str = json.dumps(state, separators=(",", ":"))
+        return json_str
 
     @property
     def query_id(self) -> bytes:
@@ -72,3 +69,12 @@ class OracleQuery(Serializable):
         contract calls.
         """
         return bytes(Web3.keccak(self.query_data))
+
+    @property
+    def query_data(self) -> bytes:
+        """Encode the query `descriptor` to create the query `data` field for
+        use in the ``TellorX.Oracle.tipQuery()`` contract call.
+
+        This method *must* be implemented by subclasses
+        """
+        raise NotImplementedError
