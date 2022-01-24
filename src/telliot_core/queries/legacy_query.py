@@ -5,11 +5,11 @@ from dataclasses import dataclass
 
 from telliot_core.dtypes.float_type import UnsignedFloatType
 from telliot_core.dtypes.value_type import ValueType
-from telliot_core.queries.query import OracleQuery
+from telliot_core.queries.json_query import JsonQuery
 
 
 @dataclass
-class LegacyRequest(OracleQuery):
+class LegacyRequest(JsonQuery):
     """Legacy Price/Value request
 
     Legacy request are queries that existed prior to TellorX

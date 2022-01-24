@@ -6,7 +6,7 @@ from typing import Type
 
 from telliot_core.datafeed import DataFeed
 from telliot_core.datasource import DataSource
-from telliot_core.queries import OracleQuery
+from telliot_core.queries.query import OracleQuery
 
 
 @dataclass

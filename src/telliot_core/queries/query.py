@@ -1,8 +1,6 @@
 """  Oracle Query Module
 
 """
-import json
-
 from clamfig import Serializable
 from web3 import Web3
 
@@ -35,19 +33,6 @@ class OracleQuery(Serializable):
     """
 
     @property
-    def descriptor(self) -> str:
-        """Get the query descriptor string.
-        The Query descriptor is a unique string representation of the query.
-        The descriptor is required for users to specify the query to TellorX
-        through the ``TellorX.Oracle.tipQuery()`` contract call.
-
-
-        """
-        state = self.get_state()
-        jstr = json.dumps(state, separators=(",", ":"))
-        return jstr
-
-    @property
     def value_type(self) -> ValueType:
         """Returns the ValueType expected by the current Query configuration
 
@@ -55,17 +40,30 @@ class OracleQuery(Serializable):
         ``value`` submitted to the contract through
         ``TellorX.Oracle.submitValue()``
 
-        This method must be overridden by subclasses
+        This method *must* be implemented by subclasses
         """
-        pass
+        raise NotImplementedError
+
+    @property
+    def descriptor(self) -> str:
+        """Get the query descriptor string.
+
+        The Query descriptor is a unique, human-readable string representation
+        of the query (including it's parameters).  There must be a one-to-one
+        correspondence between the descriptor string and the query_data.
+
+        This method *must* be implemented by subclasses
+        """
+        raise NotImplementedError
 
     @property
     def query_data(self) -> bytes:
         """Returns the ``data`` field for use in ``TellorX.Oracle.tipQuery()``
         contract call.
 
+        This method *must* be implemented by subclasses
         """
-        return self.descriptor.encode("utf-8")
+        raise NotImplementedError
 
     @property
     def query_id(self) -> bytes:
