@@ -25,14 +25,7 @@ def show() -> None:
     cfg = TelliotConfig()
     state = cfg.get_state()
 
-    # remove stakers private keys
-    stakers = state.pop("stakers")
-    stakers = stakers.pop("stakers")
-    for staker in stakers:
-        staker.pop("private_key")
-
     print(yaml.dump(state, sort_keys=False))
-    print(yaml.dump(stakers, sort_keys=False))
 
 
 @config.command()
