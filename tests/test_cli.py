@@ -65,18 +65,10 @@ def test_query_info():
     assert "Current value" in result.stdout
 
 
-def test_query_info_mainnet():
-    """Test query info on mainnet"""
-    runner = CliRunner()
-    result = runner.invoke(main, ["query", "status", "ohm-eth-spot"])
-    assert not result.exception
-    assert "Current value" in result.stdout
-
-
 def test_config_show():
     """Make sure config is running"""
     runner = CliRunner()
-    result = runner.invoke(main, ["config", "show"])
+    result = runner.invoke(main, ["--test_config", "config", "show"])
     assert not result.exception
 
 
