@@ -10,7 +10,7 @@ from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellor.tellorx.oracle import ReadRespType
 from telliot_core.utils.timestamp import TimeStamp
 
-staker_status_map = {
+account_status_map = {
     0: "NotStaked",
     1: "Staked",
     2: "LockedForWithdraw",
@@ -60,7 +60,7 @@ class TellorxMasterContract(Contract):
 
         if status.ok:
             current_status, ts_staked = result
-            staker_status = staker_status_map[current_status]
+            staker_status = account_status_map[current_status]
             date_staked = TimeStamp(ts_staked)
             return (staker_status, date_staked), status
         else:
