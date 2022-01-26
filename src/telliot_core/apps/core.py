@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from traceback import format_tb
 from typing import Optional
@@ -14,6 +15,7 @@ from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
+from telliot_core.logs import init_logging
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorflex.token import PolygonTokenContract
@@ -22,12 +24,19 @@ from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
-logger = logging.getLogger(__name__)
 networks = {
     1: "eth-mainnet",
     4: "eth-rinkeby",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
+}
+
+loglevel_map = {
+    "CRITICAL": logging.CRITICAL,
+    "ERROR": logging.ERROR,
+    "WARNING": logging.WARNING,
+    "INFO": logging.INFO,
+    "DEBUG": logging.DEBUG,
 }
 
 
@@ -136,6 +145,11 @@ class TelliotCore:
 
     _endpoint: Optional[RPCEndpoint]
 
+    @property
+    def log(self) -> logging.Logger:
+        """Provide access to the main telliot logger"""
+        return self._log
+
     def __init__(
         self,
         *,
@@ -152,6 +166,9 @@ class TelliotCore:
         self._tellorx = None
         self._tellorflex = None
 
+        loglevel = loglevel_map[self._config.main.loglevel]
+        self._log = init_logging(loglevel)
+
         if chain_id is not None:
             # Override chain ID
             self._config.main.chain_id = chain_id
@@ -161,7 +178,7 @@ class TelliotCore:
 
         self._session_manager = ClientSessionManager()
 
-        show_telliot_versions()
+        show_telliot_versions(self.log.info)
 
     def set_account_name(self, account_name: str) -> None:
         _ = self.get_account(name=account_name)  # Make sure it exists
@@ -179,8 +196,8 @@ class TelliotCore:
 
         await self._session_manager.open()
 
-        msg = f"Using: {networks[chain_id]} [account: {account.name}]"
-        print(msg)
+        msg = f"Connected to {networks[chain_id]} [default account: {account.name}], time: {datetime.now()}"
+        self.log.info(msg)
 
     def get_endpoint(
         self,
@@ -284,28 +301,14 @@ class TelliotCore:
         # Close aiohttp session
         await self._session_manager.close()
 
-    def configure_logging(self) -> None:
-        """Configure logging"""
-
-        # type checking does not seem to recognize that config
-        # and homedir were validated/coerced in __init__
-        assert self.config is not None
-        assert isinstance(self.homedir, Path)
-
-        # Convert loglevel text to log type
-        loglevel = eval("logging." + self.config.main.loglevel.upper())
-
-        logfile = self.homedir / (self.name + ".log")
-        logging.basicConfig(filename=str(logfile), level=loglevel)
-
     async def __aenter__(self) -> "TelliotCore":
         await self.startup()
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:  # type: ignore
         if exc_type:
-            logger.error("Exception occurred in telliot-core app")
-            logger.error(exc_type)
-            logger.error(exc_val)
-            logger.error(format_tb(exc_tb))
+            self.log.error("Exception occurred in telliot-core app")
+            self.log.error(exc_type)
+            self.log.error(exc_val)
+            self.log.error(format_tb(exc_tb))
         await self.shutdown()

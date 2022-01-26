@@ -84,7 +84,7 @@ async def eth_subscribe(
 
     """
 
-    logger.info(f"New {name} subscription")
+    logger.debug(f"New {name} subscription")
 
     if kwargs:
         msg = {
@@ -104,6 +104,8 @@ async def eth_subscribe(
 
     sub_result = subscription_response.get("result")
     if not sub_result:
+        logger.error("Subscription failed:")
+        logger.error(subscription_response)
         raise Exception("Subscription Failed")
 
     return HexBytes(sub_result)
@@ -200,7 +202,10 @@ class Listener:
 
         async with self.connect() as ws:
             sub_result = await eth_subscribe(ws=ws, name=name, lid=lid, **kwargs)
-            logger.info(f"Listener subscribed: {sub_result.hex()}")
+            if name == "logs":
+                logger.info(f"Subscribed to contract address={kwargs['address']} (id={sub_result.hex()})")
+            else:
+                logger.info(f"New {name} subscription (id={sub_result.hex()})")
             await receive_message_task(ws=ws, handler=handler, formatter=formatter)
 
     async def shutdown(self) -> None:

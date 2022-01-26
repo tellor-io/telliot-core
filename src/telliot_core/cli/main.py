@@ -9,6 +9,7 @@ import click
 from telliot_core.cli.commands.account import account
 from telliot_core.cli.commands.catalog import catalog
 from telliot_core.cli.commands.config import config
+from telliot_core.cli.commands.listen import listen
 from telliot_core.cli.commands.query import query
 from telliot_core.cli.commands.read import read
 from telliot_core.utils.versions import show_telliot_versions
@@ -45,6 +46,7 @@ main.add_command(read)
 main.add_command(query)
 main.add_command(catalog)
 main.add_command(account)
+main.add_command(listen)
 
 if __name__ == "__main__":
     main()
