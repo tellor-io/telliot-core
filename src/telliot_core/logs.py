@@ -4,7 +4,7 @@ from logging.handlers import RotatingFileHandler
 
 from telliot_core.utils.home import default_homedir
 
-log_core = logging.getLogger('telliot_core')
+log_core = logging.getLogger("telliot_core")
 
 
 def init_logging(level: int) -> logging.Logger:
