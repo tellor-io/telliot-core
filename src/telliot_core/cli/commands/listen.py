@@ -47,4 +47,4 @@ async def listen(ctx: click.Context) -> None:
                 await asyncio.sleep(1)
 
         except asyncio.exceptions.CancelledError:
-            pass
+            core.log.debug("CLI Listener cancelled.")
