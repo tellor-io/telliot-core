@@ -41,6 +41,7 @@ class Catalog(Base):
     The query catalog contains one `CatalogEntry` object for each valid query in the Tellor network.
     It is stored as a mapping of query names (i.e. tags) to `CatalogEntry` objects.
     """
+
     _entries: Dict[str, CatalogEntry] = field(default_factory=dict)
 
     def add_entry(self, tag: str, title: str, q: OracleQuery, active: bool = True) -> None:
@@ -61,12 +62,12 @@ class Catalog(Base):
         self._entries[tag] = entry
 
     def find(
-            self,
-            *,
-            tag: Optional[str] = None,
-            query_id: Optional[str] = None,
-            query_type: Optional[str] = None,
-            active: Optional[bool] = None,
+        self,
+        *,
+        tag: Optional[str] = None,
+        query_id: Optional[str] = None,
+        query_type: Optional[str] = None,
+        active: Optional[bool] = None,
     ) -> List[OracleQuery]:
         """Search the query catalog for matching entries."""
 
