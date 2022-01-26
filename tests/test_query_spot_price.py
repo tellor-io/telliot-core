@@ -30,3 +30,7 @@ def test_invalid_pair():
 
     with pytest.raises(ValueError):
         _ = SpotPrice(asset="xxx", currency="usd")
+
+def test_vsq_usd_spot_price():
+    q = SpotPrice(asset="vsq", currency="usd")
+    assert q.query_id.hex() == 'a21622568487d99fcdce1e75ddb12d40fecf323093ac9ee06099da27acae880c'
