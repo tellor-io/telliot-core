@@ -1,5 +1,4 @@
 import logging
-import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -16,12 +15,12 @@ from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.contract.contract import Contract
 from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
+from telliot_core.logs import init_logging
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorflex.token import PolygonTokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
-from telliot_core.utils.home import default_homedir
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
@@ -179,7 +178,7 @@ class TelliotCore:
 
         self._session_manager = ClientSessionManager()
 
-        show_telliot_versions()
+        show_telliot_versions(self.log.info)
 
     def set_account_name(self, account_name: str) -> None:
         _ = self.get_account(name=account_name)  # Make sure it exists
@@ -197,8 +196,8 @@ class TelliotCore:
 
         await self._session_manager.open()
 
-        msg = f"Using: {networks[chain_id]} [account: {account.name}]"
-        print(msg)
+        msg = f"Connected to {networks[chain_id]} [default account: {account.name}], time: {datetime.now()}"
+        self.log.info(msg)
 
     def get_endpoint(
         self,
@@ -302,20 +301,6 @@ class TelliotCore:
         # Close aiohttp session
         await self._session_manager.close()
 
-    def configure_logging(self) -> None:
-        """Configure logging"""
-
-        # type checking does not seem to recognize that config
-        # and homedir were validated/coerced in __init__
-        assert self.config is not None
-        assert isinstance(self.homedir, Path)
-
-        # Convert loglevel text to log type
-        loglevel = eval("logging." + self.config.main.loglevel.upper())
-
-        logfile = self.homedir / (self.name + ".log")
-        logging.basicConfig(filename=str(logfile), level=loglevel)
-
     async def __aenter__(self) -> "TelliotCore":
         await self.startup()
         return self
@@ -327,34 +312,3 @@ class TelliotCore:
             self.log.error(exc_val)
             self.log.error(format_tb(exc_tb))
         await self.shutdown()
-
-
-def init_logging(level: int) -> logging.Logger:
-    """Initialize logging to console and telliot logfile."""
-    log_dir = default_homedir() / "logs"
-    log_dir.mkdir(exist_ok=True)
-    datestr = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_filename = log_dir / (datestr + "_telliot.txt")
-    log_format = "%(asctime)-15s | %(levelname)-7s | %(name)s | %(message)s"
-
-    root = logging.getLogger()
-    root.setLevel(level)
-    formatter = logging.Formatter(log_format)
-
-    # Log to file
-    fh = logging.FileHandler(log_filename, mode="w")
-    fh.setLevel(level)
-    fh.setFormatter(formatter)
-
-    # Log to stdout
-    stream = logging.StreamHandler(sys.stdout)
-    stream.setLevel(level)
-    stream.setFormatter(formatter)
-
-    root.addHandler(fh)
-    root.addHandler(stream)
-    print("Logging to {}".format(log_filename))
-
-    log = logging.getLogger("telliot_core")
-
-    return log
