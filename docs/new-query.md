@@ -1,19 +1,19 @@
-# New Oracle  Queries
+# Creating New or Custom Oracle Queries
 
 If your smart contract needs data that is not currently provided by the Tellor oracle network, this
 section should help you get started.
 
 The process of adding a new query to the Tellor network involves three steps:
 
-1. [Define the new query][query-definition]
-2. [Register the new query][query-registration]
-3. [Create a data source to provide data for the new query][query-data-sources]
+1. [Define the new query][step-1-query-definition]
+2. [Register the new query][step-2-query-registration]
+3. [Create a data source to provide data for the new query][step-3-query-data-sources]
 
 Technically speaking, the 3rd step above is not required, but it enables Tellor's existing
 decentralized reporter network to automatically respond to the query. Without this step, customers
 will be required to stand-up their own reporter network.
 
-## Query Definition
+## Step 1: Query Definition
 
 To define a new query, the first step is to specify its *Query Type*. If possible, it's easiest to
 use one of the Query Types already defined for the Tellor network (
@@ -32,7 +32,7 @@ To formally add the query definition to Tellor network, you'll need
 to [propose changes][propose-changes] to
 the [Tellor Data Specification Repository](https://github.com/tellor-io/dataSpecs).
 
-## Query Registration
+## Step 2: Query Registration
 
 Registering the new query makes users aware of the query and lets reporters know how to respond. It
 requires [proposing changes][propose-changes] to
@@ -48,7 +48,7 @@ Second, it must be registered with the Query [`Catalog`][telliot_core.queries.ca
 The [example below][example-adding-a-new-spotprice] demonstrates how to test a new query and
 register it in the catalog.
 
-## Query Data Sources
+## Step 3: Query Data Sources
 
 A query [`DataSource`][telliot_core.datasource.DataSource] provides a method to fetch new data
 points in response to a query. It provides an API that enables Tellor's existing decentralized

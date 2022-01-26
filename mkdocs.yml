@@ -71,7 +71,7 @@ nav:
       - Legacy Query: examples/legacy_query_example.md
       - Text Query: examples/text_query_example.md
   - New Oracle Queries:
-      - Overview: new-query.md
+      - Creating New Queries: new-query.md
   - Code Reference:
       - Queries Module:
           - Query Types: code/query-types.md
