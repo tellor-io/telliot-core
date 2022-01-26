@@ -1,5 +1,7 @@
 import logging
+import sys
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from traceback import format_tb
 from typing import Optional
@@ -19,15 +21,23 @@ from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorflex.token import PolygonTokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
+from telliot_core.utils.home import default_homedir
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
-logger = logging.getLogger(__name__)
 networks = {
     1: "eth-mainnet",
     4: "eth-rinkeby",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
+}
+
+loglevel_map = {
+    "CRITICAL": logging.CRITICAL,
+    "ERROR": logging.ERROR,
+    "WARNING": logging.WARNING,
+    "INFO": logging.INFO,
+    "DEBUG": logging.DEBUG,
 }
 
 
@@ -136,6 +146,11 @@ class TelliotCore:
 
     _endpoint: Optional[RPCEndpoint]
 
+    @property
+    def log(self) -> logging.Logger:
+        """Provide access to the main telliot logger"""
+        return self._log
+
     def __init__(
         self,
         *,
@@ -151,6 +166,9 @@ class TelliotCore:
         self._listener = None
         self._tellorx = None
         self._tellorflex = None
+
+        loglevel = loglevel_map[self._config.main.loglevel]
+        self._log = init_logging(loglevel)
 
         if chain_id is not None:
             # Override chain ID
@@ -304,8 +322,39 @@ class TelliotCore:
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:  # type: ignore
         if exc_type:
-            logger.error("Exception occurred in telliot-core app")
-            logger.error(exc_type)
-            logger.error(exc_val)
-            logger.error(format_tb(exc_tb))
+            self.log.error("Exception occurred in telliot-core app")
+            self.log.error(exc_type)
+            self.log.error(exc_val)
+            self.log.error(format_tb(exc_tb))
         await self.shutdown()
+
+
+def init_logging(level: int) -> logging.Logger:
+    """Initialize logging to console and telliot logfile."""
+    log_dir = default_homedir() / "logs"
+    log_dir.mkdir(exist_ok=True)
+    datestr = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_filename = log_dir / (datestr + "_telliot.txt")
+    log_format = "%(asctime)-15s | %(levelname)-7s | %(name)s | %(message)s"
+
+    root = logging.getLogger()
+    root.setLevel(level)
+    formatter = logging.Formatter(log_format)
+
+    # Log to file
+    fh = logging.FileHandler(log_filename, mode="w")
+    fh.setLevel(level)
+    fh.setFormatter(formatter)
+
+    # Log to stdout
+    stream = logging.StreamHandler(sys.stdout)
+    stream.setLevel(level)
+    stream.setFormatter(formatter)
+
+    root.addHandler(fh)
+    root.addHandler(stream)
+    print("Logging to {}".format(log_filename))
+
+    log = logging.getLogger("telliot_core")
+
+    return log
