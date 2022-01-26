@@ -16,3 +16,11 @@ class AbiQuery(OracleQuery):
         TODO: Implement for AbiQuery
         """
         raise NotImplementedError
+
+    @staticmethod
+    def get_query_from_data(query_data: bytes) -> OracleQuery:
+        """Recreate an oracle query from `query_data`
+
+        TODO: Implement for AbiQuery
+        """
+        raise NotImplementedError

@@ -1,4 +1,5 @@
 from telliot_core.queries.query import OracleQuery
+from telliot_core.queries.query import query_from_descriptor
 
 
 class JsonQuery(OracleQuery):
@@ -11,3 +12,10 @@ class JsonQuery(OracleQuery):
 
         """
         return self.descriptor.encode("utf-8")
+
+    @staticmethod
+    def get_query_from_data(query_data: bytes) -> OracleQuery:
+        """Recreate an oracle query from `query_data`"""
+        descriptor = query_data.decode("utf-8")
+
+        return query_from_descriptor(descriptor)

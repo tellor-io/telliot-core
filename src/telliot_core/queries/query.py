@@ -1,8 +1,13 @@
 """  Oracle Query Module
 
 """
-import json
+from __future__ import annotations
 
+import json
+from typing import Any
+from typing import Dict
+
+from clamfig import deserialize
 from clamfig import Serializable
 from web3 import Web3
 
@@ -78,3 +83,19 @@ class OracleQuery(Serializable):
         This method *must* be implemented by subclasses
         """
         raise NotImplementedError
+
+    @staticmethod
+    def get_query_from_data(query_data: bytes) -> OracleQuery:
+        """Recreate an oracle query from `query_data`"""
+        raise NotImplementedError
+
+
+def query_from_descriptor(descriptor: str) -> OracleQuery:
+    """Convert a query descriptor into a query object."""
+    state = json.loads(descriptor)
+    return query_from_state(state)
+
+
+def query_from_state(state: Dict[str, Any]) -> OracleQuery:
+    """Recreate a query object from it's JSON state."""
+    return deserialize(state)  # type: ignore

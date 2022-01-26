@@ -12,7 +12,7 @@ def test_query_catalog():
 def test_find_all():
     """Find all query entries"""
     qlst = query_catalog.find()
-    assert len(qlst) == 7
+    assert len(qlst) == 8
 
 
 def test_yaml_catalog():
