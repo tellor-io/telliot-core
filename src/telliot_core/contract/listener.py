@@ -104,6 +104,8 @@ async def eth_subscribe(
 
     sub_result = subscription_response.get("result")
     if not sub_result:
+        logger.error("Subscription failed")
+        logger.error(subscription_response)
         raise Exception("Subscription Failed")
 
     return HexBytes(sub_result)
