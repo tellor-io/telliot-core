@@ -14,7 +14,10 @@ from telliot_core.queries.query import OracleQuery
 
 @dataclass
 class CatalogEntry(Base):
-    """Query Catalog Entry"""
+    """Query Catalog Entry
+
+    An entry in the query Catalog containing relevant information about the query
+    """
 
     #: Catalog ID
     tag: str
@@ -33,9 +36,15 @@ class CatalogEntry(Base):
 
 @dataclass
 class Catalog(Base):
+    """Query Catalog
+
+    The query catalog contains one `CatalogEntry` object for each valid query in the Tellor network.
+    It is stored as a mapping of query names (i.e. tags) to `CatalogEntry` objects.
+    """
     _entries: Dict[str, CatalogEntry] = field(default_factory=dict)
 
     def add_entry(self, tag: str, title: str, q: OracleQuery, active: bool = True) -> None:
+        """Add a new entry to the catalog."""
 
         if tag in self._entries:
             raise Exception(f"Error adding query entry: {tag} already exists")
@@ -52,14 +61,14 @@ class Catalog(Base):
         self._entries[tag] = entry
 
     def find(
-        self,
-        *,
-        tag: Optional[str] = None,
-        query_id: Optional[str] = None,
-        query_type: Optional[str] = None,
-        active: Optional[bool] = None,
+            self,
+            *,
+            tag: Optional[str] = None,
+            query_id: Optional[str] = None,
+            query_type: Optional[str] = None,
+            active: Optional[bool] = None,
     ) -> List[OracleQuery]:
-        """Returns a list of queries matching the search parameters"""
+        """Search the query catalog for matching entries."""
 
         entries = []
         for entry in self._entries.values():

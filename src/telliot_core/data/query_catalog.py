@@ -2,6 +2,7 @@ from telliot_core.queries.catalog import Catalog
 from telliot_core.queries.legacy_query import LegacyRequest
 from telliot_core.queries.price.spot_price import SpotPrice
 
+"""Main instance of the Query Catalog."""
 query_catalog = Catalog()
 
 # --------------------------------------------------------------------------------------
@@ -45,4 +46,10 @@ query_catalog.add_entry(
     title="OHM/ETH spot price",
     q=SpotPrice(asset="ohm", currency="eth"),
     active=True,
+)
+
+query_catalog.add_entry(
+    tag="vsq-usd-spot",
+    title="VSQ/USD spot price",
+    q=SpotPrice(asset="vsq", currency="usd"),
 )

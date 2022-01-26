@@ -1,11 +1,11 @@
 # Spot Price Query Example
 
 This example demonstrates how to use the 
-[`SpotPrice`][telliot_core.api.SpotPrice] Oracle query.
+[`SpotPrice`][telliot_core.queries.price.spot_price.SpotPrice] Oracle query.
 
 ## Create the query
 
-Create a `SpotPrice` query for the price of Bitcoin in US dollars,
+Create a [`SpotPrice`][telliot_core.queries.price.spot_price.SpotPrice] query for the price of Bitcoin in US dollars,
 and view the corresponding descriptor::
 
 ```python
