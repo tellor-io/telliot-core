@@ -1,7 +1,9 @@
 import asyncio
 
 import click
-from telliot_core.cli.utils import async_run, cli_core
+
+from telliot_core.cli.utils import async_run
+from telliot_core.cli.utils import cli_core
 from telliot_core.contract.listener import event_logger
 from telliot_core.directory import contract_directory
 
@@ -18,14 +20,14 @@ async def listen(ctx: click.Context) -> None:
 
         if chain_id in [1, 4]:
 
-            master = contract_directory.find(name='tellorx-master', chain_id=chain_id)[0]
-            oracle = contract_directory.find(name='tellorx-oracle', chain_id=chain_id)[0]
+            master = contract_directory.find(name="tellorx-master", chain_id=chain_id)[0]
+            oracle = contract_directory.find(name="tellorx-oracle", chain_id=chain_id)[0]
 
         # elif chain_id in [137, 80001]:
         #     oracle = contract_directory.find(name='tellorflex-oracle', chain_id=chain_id)[0]
 
         else:
-            click.echo(f'Listening not supported on network: {chain_id}')
+            click.echo(f"Listening not supported on network: {chain_id}")
             return
 
         # await core.listener.subscribe_new_blocks(handler=block_logger)
@@ -40,11 +42,9 @@ async def listen(ctx: click.Context) -> None:
             address=oracle.address[core.config.main.chain_id],
         )
 
-        click.echo('Listening...')
-
         try:
             while True:
                 await asyncio.sleep(1)
 
         except asyncio.exceptions.CancelledError:
-            click.echo('Existing listener')
+            pass

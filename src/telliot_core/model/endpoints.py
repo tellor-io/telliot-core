@@ -75,8 +75,6 @@ class RPCEndpoint(Base):
             msg = f"Could not connect to RPC endpoint at: {self.url}"
             logger.error(e)
             logger.error(msg)
-            print(e)
-            print(msg)
 
         return connected
 
