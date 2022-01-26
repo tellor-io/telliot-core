@@ -70,8 +70,13 @@ nav:
       - SpotPrice Query: examples/spot_price_query_example.md
       - Legacy Query: examples/legacy_query_example.md
       - Text Query: examples/text_query_example.md
+  - New Oracle Queries:
+      - Overview: new-query.md
   - Code Reference:
-      - Queries Module: code/queries.md
+      - Queries Module:
+          - Query Types: code/query-types.md
+          - Query Base Classes: code/query-base-classes.md
+          - Query Catalog: code/query-catalog.md
       - Types Module: code/dtypes.md
       - Data Feed Module: code/datafeed.md
   - Contributing:
