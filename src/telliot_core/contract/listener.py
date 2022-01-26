@@ -60,7 +60,6 @@ async def receive_message_task(
             logger.debug("Listener cancelled")
             break
         except asyncio.exceptions.TimeoutError:
-            logger.debug("Listener Timed out, restarting.")
             continue
 
 
