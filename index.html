@@ -385,12 +385,62 @@
       
       
         <label class="md-nav__link" for="__nav_4">
+          New Oracle Queries
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="New Oracle Queries" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          New Oracle Queries
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="new-query/" class="md-nav__link">
+        Creating New Queries
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
+        <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
         </label>
@@ -401,10 +451,71 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          Queries Module
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Queries Module" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Queries Module
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="code/queries/" class="md-nav__link">
-        Queries Module
+      <a href="code/query-types/" class="md-nav__link">
+        Query Types
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="code/query-base-classes/" class="md-nav__link">
+        Query Base Classes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="code/query-catalog/" class="md-nav__link">
+        Query Catalog
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -457,18 +568,18 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_6">
           Contributing
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Contributing" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
+        <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Contributing
         </label>
@@ -570,59 +681,53 @@
 
 <h1 id="welcome-to-telliots-documentation">Welcome to Telliot's documentation<a class="headerlink" href="#welcome-to-telliots-documentation" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Telliot is a Python framework for interacting with the decentralized TellorX network.
-With Telliot, you (or your smart contract) can:</p>
+<p>Telliot is a Python framework for interacting with the decentralized TellorX network. With Telliot, you (or your smart
+contract) can:</p>
 <ul>
 <li>
 <p>Ask the TellorX Decentralized Oracle to answer a question (we call that <em>tipping</em>)</p>
 </li>
 <li>
-<p>Submit answers to questions that other people (or smart contracts) ask. (we call that <em>reporting</em>.  Reporters earn tips, but must stake TRB
-    as collateral against incorrect answers)</p>
+<p>Submit answers to questions that other people (or smart contracts) ask. (we call that <em>reporting</em>. Reporters earn
+  tips, but must stake TRB as collateral against incorrect answers)</p>
 </li>
 <li>
 <p>Look up historical answers.</p>
 </li>
 <li>
-<p>Help maintain the security of the TellorX network by disputing inaccurate
-  answers and voting on other disputes.</p>
+<p>Help maintain the security of the TellorX network by disputing inaccurate answers and voting on other disputes.</p>
 </li>
 </ul>
-<p>Of course, TellorX supports DeFi with questions such as "What is the
-current price of Bitcoin in US Dollars?"  But that is just the beginning.
-TellorX also supports arbitrary questions and answers.  Any question is OK, provided
-that the Tellor community can answer it with a reasonable
-degree of confidence (remember, Reporters may lose TRB if the network votes
-the answer incorrect!)</p>
+<p>Of course, TellorX supports DeFi with questions such as "What is the current price of Bitcoin in US Dollars?"  But that
+is just the beginning. TellorX also supports arbitrary questions and answers. Any question is OK, provided that the
+Tellor community can answer it with a reasonable degree of confidence (remember, Reporters may lose TRB if the network
+votes the answer incorrect!)</p>
 <h2 id="telliot-software">Telliot Software<a class="headerlink" href="#telliot-software" title="Permanent link">&para;</a></h2>
 <p>The telliot software currently consists of two main python packages:</p>
 <ul>
-<li><a href="https://github.com/tellor-io/telliot-core">Telliot Core</a></li>
 <li>
-<p>This package provides core functionality and a plugin framework for use
-    by other Telliot subpackages and custom data feeds.</p>
+<p><a href="https://github.com/tellor-io/telliot-core">Telliot Core</a></p>
+<ul>
+<li>This package provides core functionality and a plugin framework for use by other Telliot subpackages and custom
+  data feeds.</li>
+</ul>
 </li>
 <li>
 <p><a href="https://github.com/tellor-io/telliot-feed-examples">Telliot Feed Examples</a></p>
+<ul>
+<li>This package provides several working examples of data feeds that can be either customized or used directly.</li>
+</ul>
 </li>
-<li>This package provides several working examples of data feeds that can be either customized
-    or used directly.</li>
 </ul>
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
-<p>Telliot aims to make it easier to ask questions in a format that the Oracle
-can understand, and specify the format (i.e. data structure) of the
-answers you would like to receive - so that the community can answer
-them more reliably.</p>
-<p>The TellorX network is open to everyone, and Telliot is just
-one way to access it.  You can use all of Telliot, parts of it, or not
-use it at all.  You can also make contributions to improve it.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Use Telliot at your own risk.  <strong>It may have bugs!  Bugs may cost you real money!</strong>
-If you find any, please <a href="https://github.com/tellor-io/telliot-core/issues">submit an issue</a>,
-or better yet <a href="https://github.com/tellor-io/telliot-core/pulls">create a pull request</a>
+<p>Telliot aims to make it easier to ask questions in a format that the Oracle can understand, and specify the format (i.e.
+data structure) of the answers you would like to receive - so that the community can answer them more reliably.</p>
+<p>The TellorX network is open to everyone, and Telliot is just one way to access it. You can use all of Telliot, parts of
+it, or not use it at all. You can also make contributions to improve it.</p>
+<p>!!! warning Use Telliot at your own risk.  <strong>It may have bugs!  Bugs may cost you real money!</strong>
+If you find any, please <a href="https://github.com/tellor-io/telliot-core/issues">submit an issue</a>, or better
+yet <a href="https://github.com/tellor-io/telliot-core/pulls">create a pull request</a>
 with a suggested fix.</p>
-</div>
 
               
             </article>

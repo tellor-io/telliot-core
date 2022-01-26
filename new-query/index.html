@@ -12,14 +12,14 @@
         <meta name="author" content="Tellor Development Community">
       
       
-        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/contributing/">
+        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/new-query/">
       
       <link rel="icon" href="../assets/favicon-32x32.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
     
     
       
-        <title>Developer's Guide - Telliot Documentation</title>
+        <title>Creating New Queries - Telliot Documentation</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing" class="md-skip">
+        <a href="#creating-new-or-custom-oracle-queries" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Developer's Guide
+              Creating New Queries
             
           </span>
         </div>
@@ -317,14 +317,16 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -345,11 +347,87 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../new-query/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Creating New Queries
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Creating New Queries
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-query-definition" class="md-nav__link">
+    Step 1: Query Definition
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-query-registration" class="md-nav__link">
+    Step 2: Query Registration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-query-data-sources" class="md-nav__link">
+    Step 3: Query Data Sources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-new-query-types" class="md-nav__link">
+    Defining New Query Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#propose-changes" class="md-nav__link">
+    Propose changes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-adding-a-new-spotprice" class="md-nav__link">
+    Example: Adding a new SpotPrice
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -506,16 +584,14 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
@@ -536,66 +612,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Developer's Guide
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
         Developer's Guide
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#development-environment-setup" class="md-nav__link">
-    Development Environment Setup
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test-environment" class="md-nav__link">
-    Test Environment
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#making-contributions" class="md-nav__link">
-    Making Contributions
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -648,22 +669,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#development-environment-setup" class="md-nav__link">
-    Development Environment Setup
+  <a href="#step-1-query-definition" class="md-nav__link">
+    Step 1: Query Definition
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-environment" class="md-nav__link">
-    Test Environment
+  <a href="#step-2-query-registration" class="md-nav__link">
+    Step 2: Query Registration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#making-contributions" class="md-nav__link">
-    Making Contributions
+  <a href="#step-3-query-data-sources" class="md-nav__link">
+    Step 3: Query Data Sources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-new-query-types" class="md-nav__link">
+    Defining New Query Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#propose-changes" class="md-nav__link">
+    Propose changes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-adding-a-new-spotprice" class="md-nav__link">
+    Example: Adding a new SpotPrice
   </a>
   
 </li>
@@ -681,55 +723,110 @@
               
                 
 
-<h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
-<h2 id="development-environment-setup">Development Environment Setup<a class="headerlink" href="#development-environment-setup" title="Permanent link">&para;</a></h2>
-<p><em>These instructions assume that a working Python interpreter (version &gt;=3.9)
-is already installed on the system.</em></p>
-<p>Clone the repository to a local working directory:</p>
-<div class="highlight"><pre><span></span><code>git clone https://github.com/tellor-io/telliot-core.git
+<h1 id="creating-new-or-custom-oracle-queries">Creating New or Custom Oracle Queries<a class="headerlink" href="#creating-new-or-custom-oracle-queries" title="Permanent link">&para;</a></h1>
+<p>If your smart contract needs data that is not currently provided by the Tellor oracle network, this
+section should help you get started.</p>
+<p>The process of adding a new query to the Tellor network involves three steps:</p>
+<ol>
+<li><a href="#step-1-query-definition">Define the new query</a></li>
+<li><a href="#step-2-query-registration">Register the new query</a></li>
+<li><a href="#step-3-query-data-sources">Create a data source to provide data for the new query</a></li>
+</ol>
+<p>Technically speaking, the 3rd step above is not required, but it enables Tellor's existing
+decentralized reporter network to automatically respond to the query. Without this step, customers
+will be required to stand-up their own reporter network.</p>
+<h2 id="step-1-query-definition">Step 1: Query Definition<a class="headerlink" href="#step-1-query-definition" title="Permanent link">&para;</a></h2>
+<p>To define a new query, the first step is to specify its <em>Query Type</em>. If possible, it's easiest to
+use one of the Query Types already defined for the Tellor network (
+e.g. <a href="../code/query-types/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a>). If none of the existing query
+types work, you will need to <a href="#defining-new-query-types">define a new query type</a>.</p>
+<p>When using an existing Query Type, you'll need to specify the parameter values that correspond to
+the data you would like put on-chain. For example, when using the <code>SpotPrice</code> query, you'll need to
+specify the values for two parameters: <code>asset</code> and <code>currency</code>.</p>
+<p>It is important to note the difference between defining a <em>Query Type</em> and a defining a <em>query</em>.
+Defining a new Query Type creates an entire new class of queries, whereas defining a new <em>query</em>
+refers to an instance of a QueryType with the value of each parameter specified.</p>
+<p>To formally add the query definition to Tellor network, you'll need
+to <a href="#propose-changes">propose changes</a> to
+the <a href="https://github.com/tellor-io/dataSpecs">Tellor Data Specification Repository</a>.</p>
+<h2 id="step-2-query-registration">Step 2: Query Registration<a class="headerlink" href="#step-2-query-registration" title="Permanent link">&para;</a></h2>
+<p>Registering the new query makes users aware of the query and lets reporters know how to respond. It
+requires <a href="#propose-changes">proposing changes</a> to
+the <a href="https://github.com/tellor-io/telliot-core"><code>telliot-core</code> repository</a>, and must include two
+things.</p>
+<p>First, it must include a unit test for the new query. Using the pytest framework, create a unit test
+that creates an instance of the query and verify that the values query descriptor, query data, and
+query ID are sensible.</p>
+<p>Second, it must be registered with the Query <a href="../code/query-catalog/#telliot_core.queries.catalog.Catalog"><code>Catalog</code></a>.</p>
+<p>The <a href="#example-adding-a-new-spotprice">example below</a> demonstrates how to test a new query and
+register it in the catalog.</p>
+<h2 id="step-3-query-data-sources">Step 3: Query Data Sources<a class="headerlink" href="#step-3-query-data-sources" title="Permanent link">&para;</a></h2>
+<p>A query <a href="../code/datafeed/#telliot_core.datasource.DataSource"><code>DataSource</code></a> provides a method to fetch new data
+points in response to a query. It provides an API that enables Tellor's existing decentralized
+reporter network to automatically respond to the query.</p>
+<p>Ideally, a <a href="../code/datafeed/#telliot_core.datasource.DataSource"><code>DataSource</code></a> should provide additional
+decentralization and robustness by fetching data from multiple sources and aggregating the result.</p>
+<p>A new <a href="../code/datafeed/#telliot_core.datasource.DataSource"><code>DataSource</code></a> is created
+by <a href="#propose-changes">proposing changes</a> to
+the <a href="https://github.com/tellor-io/telliot-feed-examples"><code>telliot-feed-examples</code> repository</a>.</p>
+<h2 id="defining-new-query-types">Defining New Query Types<a class="headerlink" href="#defining-new-query-types" title="Permanent link">&para;</a></h2>
+<p>If none of the existing Tellor Query Types works for your application, you can define a new <em>Query
+Type</em>.</p>
+<p>A new <em>Query Type</em> definition specifies:</p>
+<ul>
+<li>The <em>name</em> of the query type</li>
+<li>The data type or structure of the value expected query response (i.e.
+  its <a href="../code/dtypes/#telliot_core.dtypes.value_type.ValueType"><code>ValueType</code></a>)</li>
+<li>Optionally, the name and data type of each query <em>parameter</em></li>
+<li>Encoding method - the method used to encode the Query Type and parameter values into
+  the <a href="../code/query-base-classes/#telliot_core.queries.query.OracleQuery.query_data"><code>query_data</code></a> field used for Tellor
+  contract interactions.</li>
+</ul>
+<p>It is important to note the difference between defining a <em>Query Type</em> and a defining a <em>query</em>.
+Defining a new Query Type creates an entire new class of queries, whereas defining a new <em>query</em>
+refers to an instance of a QueryType with the value of each parameter specified.</p>
+<p>To define a new Query Type, <a href="#propose-changes">propose changes</a> to
+the <a href="https://github.com/tellor-io/telliot-core"><code>telliot-core</code> repository</a> defining a new subclass
+of <a href="../code/query-base-classes/#telliot_core.queries.query.OracleQuery"><code>OracleQuery</code></a> that implements all required methods and
+properties.</p>
+<p>New users may choose between subclassing <a href="../code/query-base-classes/#telliot_core.queries.json_query.JsonQuery"><code>JsonQuery</code></a>
+and the <br />
+<a href="../code/query-base-classes/#telliot_core.queries.abi_query.AbiQuery"><code>AbiQuery</code></a>. These queries are identical in every way
+except for the coder/decoder that converts between the query name/parameters and the query data
+field used in contract interfaces. The latter format is recommended if on-chain read/write access to
+parameter values is required.</p>
+<h2 id="propose-changes">Propose changes<a class="headerlink" href="#propose-changes" title="Permanent link">&para;</a></h2>
+<p>To propose changes to a Tellor repository, perform the following steps:</p>
+<ol>
+<li>Fork the tellor repository to your github account.</li>
+<li>Make the proposed changes in your forked repository.</li>
+<li>Submit a pull-request to incorporate the changes from your fork into the main tellor repository.</li>
+</ol>
+<p>Alternately, standalone changes can be proposed in a separate repository, but it is the user's
+responsibility to ensure compatibility with
+the <a href="https://github.com/tellor-io/telliot-core"><code>telliot-core</code></a> framework.</p>
+<h2 id="example-adding-a-new-spotprice">Example: Adding a new <code>SpotPrice</code><a class="headerlink" href="#example-adding-a-new-spotprice" title="Permanent link">&para;</a></h2>
+<p>In this example, a new <a href="../code/query-types/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a> query is
+defined for the price of BTC in USD.</p>
+<p>To add a new spot price, use the
+existing <a href="../code/query-types/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a>
+Query Type and simply define a new <code>asset</code>/<code>currency</code> pair.</p>
+<p><em>Example: Create and test the SpotPrice query for BTC/USD.</em></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot_core.api</span> <span class="kn">import</span> <span class="n">SpotPrice</span>
+
+
+<span class="k">def</span> <span class="nf">test_new_query</span><span class="p">():</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">SpotPrice</span><span class="p">(</span><span class="n">asset</span><span class="o">=</span><span class="s2">&quot;BTC&quot;</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">q</span><span class="o">.</span><span class="n">descriptor</span> <span class="o">==</span> <span class="s1">&#39;{&quot;type&quot;:&quot;SpotPrice&quot;,&quot;asset&quot;:&quot;btc&quot;,&quot;currency&quot;:&quot;usd&quot;}&#39;</span>
+    <span class="k">assert</span> <span class="n">q</span><span class="o">.</span><span class="n">query_data</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;{&quot;type&quot;:&quot;SpotPrice&quot;,&quot;asset&quot;:&quot;btc&quot;,&quot;currency&quot;:&quot;usd&quot;}&#39;</span>
+    <span class="k">assert</span> <span class="n">q</span><span class="o">.</span><span class="n">query_id</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;d66b36afdec822c56014e56f468dee7c7b082ed873aba0f7663ec7c6f25d2c0a&quot;</span>
 </code></pre></div>
-<p>Create and activate a <a href="https://docs.python.org/3/library/venv.html">virtual environment</a>.  In this example, the virtual environment is 
-located in a subfolder called <code>tenv</code>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Linux</label><label for="__tabbed_1_2">Windows</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>python3 -m venv tenv
-source tenv/bin/activate
+<p><em>Example: Add the query to the Query <a href="../code/query-catalog/#telliot_core.queries.catalog.Catalog"><code>Catalog</code></a></em></p>
+<p>Add the following statements to <code>telliot_core.data.query_catalog.py</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">query_catalog</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;btc-usd-spot&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;BTC/USD spot price&quot;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">SpotPrice</span><span class="p">(</span><span class="n">asset</span><span class="o">=</span><span class="s2">&quot;BTC&quot;</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 </code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>py -m venv tenv
-tenv\Scripts\activate
-</code></pre></div>
-</div>
-</div>
-</div>
-<p>If working on Ubuntu, may need to install one of the following packages (<a href="https://github.com/ethereum/web3.py/issues/1726">see this issue</a>).</p>
-<div class="highlight"><pre><span></span><code>sudo apt install libpython3.9-dev
-</code></pre></div>
-<p>Install the project using using an <a href="https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs">editable installation</a>.</p>
-<div class="highlight"><pre><span></span><code>pip install -e .
-pip install -r requirements-dev.txt
-</code></pre></div>
-<h2 id="test-environment">Test Environment<a class="headerlink" href="#test-environment" title="Permanent link">&para;</a></h2>
-<p>Verify the development environment by running <code>pytest</code> and ensure that all tests pass.</p>
-<div class="highlight"><pre><span></span><code>pytest
-</code></pre></div>
-<h2 id="making-contributions">Making Contributions<a class="headerlink" href="#making-contributions" title="Permanent link">&para;</a></h2>
-<p>Once your dev environment is set up, make desired changes, create new tests for those changes,
-and conform to the style &amp; typing format of the project. To do so, in the project home directory:</p>
-<p>Run all unit tests:</p>
-<div class="highlight"><pre><span></span><code>pytest
-</code></pre></div>
-<p>Check code typing:</p>
-<div class="highlight"><pre><span></span><code>tox -e typing
-</code></pre></div>
-<p>Check style (you may need run this step several times):</p>
-<div class="highlight"><pre><span></span><code>tox -e style
-</code></pre></div>
-<p>Once all those pass, you're ready to make a pull request to the project's main branch.</p>
-<p>Link any related issues, tag desired reviewers, and watch the <a href="https://discord.gg/URXVQdGjAT">#telliot-core</a> channel in the
-community discord for updates.</p>
 
               
             </article>
@@ -743,7 +840,7 @@ community discord for updates.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../code/datafeed/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data Feed Module" rel="prev">
+        <a href="../examples/text_query_example/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Text Query" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -752,20 +849,20 @@ community discord for updates.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Data Feed Module
+              Text Query
             </div>
           </div>
         </a>
       
       
         
-        <a href="../documentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Documentation" rel="next">
+        <a href="../code/query-types/" class="md-footer__link md-footer__link--next" aria-label="Next: Query Types" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Documentation
+              Query Types
             </div>
           </div>
           <div class="md-footer__button md-icon">

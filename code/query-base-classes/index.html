@@ -12,14 +12,14 @@
         <meta name="author" content="Tellor Development Community">
       
       
-        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/code/datafeed/">
+        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/code/query-base-classes/">
       
       <link rel="icon" href="../../assets/favicon-32x32.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
     
     
       
-        <title>Data Feed Module - Telliot Documentation</title>
+        <title>Query Base Classes - Telliot Documentation</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#telliot_core.datasource.DataSource" class="md-skip">
+        <a href="#telliot_core.queries.query.OracleQuery" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Data Feed Module
+              Query Base Classes
             
           </span>
         </div>
@@ -397,12 +397,14 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" checked>
       
       
       
@@ -437,11 +439,122 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../query-base-classes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Query Base Classes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Query Base Classes
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#telliot_core.queries.query.OracleQuery" class="md-nav__link">
+    OracleQuery
+  </a>
+  
+    <nav class="md-nav" aria-label="OracleQuery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.query.OracleQuery.value_type" class="md-nav__link">
+    value_type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.query.OracleQuery.descriptor" class="md-nav__link">
+    descriptor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.query.OracleQuery.query_id" class="md-nav__link">
+    query_id
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.query.OracleQuery.query_data" class="md-nav__link">
+    query_data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telliot_core.queries.json_query.JsonQuery" class="md-nav__link">
+    JsonQuery
+  </a>
+  
+    <nav class="md-nav" aria-label="JsonQuery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.json_query.JsonQuery.query_data" class="md-nav__link">
+    query_data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telliot_core.queries.abi_query.AbiQuery" class="md-nav__link">
+    AbiQuery
+  </a>
+  
+    <nav class="md-nav" aria-label="AbiQuery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.abi_query.AbiQuery.query_data" class="md-nav__link">
+    query_data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -486,89 +599,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Data Feed Module
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../datafeed/" class="md-nav__link">
         Data Feed Module
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource" class="md-nav__link">
-    DataSource
-  </a>
-  
-    <nav class="md-nav" aria-label="DataSource">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.latest" class="md-nav__link">
-    latest
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.store_datapoint" class="md-nav__link">
-    store_datapoint()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.get_all_datapoints" class="md-nav__link">
-    get_all_datapoints()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.fetch_new_datapoint" class="md-nav__link">
-    fetch_new_datapoint()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#telliot_core.datafeed.DataFeed" class="md-nav__link">
-    DataFeed
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -669,37 +704,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource" class="md-nav__link">
-    DataSource
+  <a href="#telliot_core.queries.query.OracleQuery" class="md-nav__link">
+    OracleQuery
   </a>
   
-    <nav class="md-nav" aria-label="DataSource">
+    <nav class="md-nav" aria-label="OracleQuery">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.latest" class="md-nav__link">
-    latest
+  <a href="#telliot_core.queries.query.OracleQuery.value_type" class="md-nav__link">
+    value_type
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.store_datapoint" class="md-nav__link">
-    store_datapoint()
+  <a href="#telliot_core.queries.query.OracleQuery.descriptor" class="md-nav__link">
+    descriptor
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.get_all_datapoints" class="md-nav__link">
-    get_all_datapoints()
+  <a href="#telliot_core.queries.query.OracleQuery.query_id" class="md-nav__link">
+    query_id
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#telliot_core.datasource.DataSource.fetch_new_datapoint" class="md-nav__link">
-    fetch_new_datapoint()
+  <a href="#telliot_core.queries.query.OracleQuery.query_data" class="md-nav__link">
+    query_data
   </a>
   
 </li>
@@ -710,9 +745,42 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#telliot_core.datafeed.DataFeed" class="md-nav__link">
-    DataFeed
+  <a href="#telliot_core.queries.json_query.JsonQuery" class="md-nav__link">
+    JsonQuery
   </a>
+  
+    <nav class="md-nav" aria-label="JsonQuery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.json_query.JsonQuery.query_data" class="md-nav__link">
+    query_data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telliot_core.queries.abi_query.AbiQuery" class="md-nav__link">
+    AbiQuery
+  </a>
+  
+    <nav class="md-nav" aria-label="AbiQuery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.abi_query.AbiQuery.query_data" class="md-nav__link">
+    query_data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -729,77 +797,120 @@
               
                 
 
-  <h1>Data Feed Module</h1>
+  <h1>Query Base Classes</h1>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h2 id="telliot_core.datasource.DataSource" class="doc doc-heading">
+<h2 id="telliot_core.queries.query.OracleQuery" class="doc doc-heading">
         <code>
-DataSource            (<span title="typing.Generic">Generic</span>, <span title="telliot_core.model.base.Base">Base</span>)
+OracleQuery            (<span title="clamfig.base.Serializable">Serializable</span>)
         </code>
 
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
-  </span>
 
-<a href="#telliot_core.datasource.DataSource" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#telliot_core.queries.query.OracleQuery" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-      <p>Base Class for a DataSource</p>
-<p>A DataSource provides an input to a <code>DataFeed</code>
-It also contains a store for all previously fetched data points.</p>
-<p>All subclasses must implement <code>DataSource.fetch_new_datapoint()</code></p>
+      <p>Oracle Query</p>
+<p>An OracleQuery specifies how to pose a question to the
+Tellor Oracle and how to format/interpret the response.</p>
+<p>The OracleQuery class serves
+as the base class for all Queries, and implements default behaviors.
+Each subclass corresponds to a unique Query Type supported
+by the TellorX network.</p>
+<p>All public attributes of an OracleQuery represent an input that can
+be used to customize the query.</p>
+<p>The base class provides:</p>
+<ul>
+<li>
+<p>Specification of the query <code>descriptor</code> JSON string.</p>
+</li>
+<li>
+<p>Calculation of the <code>id</code> field from <code>query_data</code>.  This value is used for the
+  <code>TellorX.Oracle.tipQuery()</code> and <code>TellorX.Oracle.submitValue()</code>
+  contract calls.</p>
+</li>
+</ul>
+<p>Subclasses must provide:</p>
+<ul>
+<li>Encoding of the <code>descriptor</code> string to compute the <code>query_data</code> attribute,
+which is used for the <code>data</code> field of a <code>TellorX.Oracle.tipQuery()</code> contract call.</li>
+</ul>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\datasource.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">DataSource</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base Class for a DataSource</span>
+          <summary>Source code in <code>telliot_core\queries\query.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">OracleQuery</span><span class="p">(</span><span class="n">Serializable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Oracle Query</span>
 
-<span class="sd">    A DataSource provides an input to a `DataFeed`</span>
-<span class="sd">    It also contains a store for all previously fetched data points.</span>
+<span class="sd">    An OracleQuery specifies how to pose a question to the</span>
+<span class="sd">    Tellor Oracle and how to format/interpret the response.</span>
 
-<span class="sd">    All subclasses must implement `DataSource.fetch_new_datapoint()`</span>
+<span class="sd">    The OracleQuery class serves</span>
+<span class="sd">    as the base class for all Queries, and implements default behaviors.</span>
+<span class="sd">    Each subclass corresponds to a unique Query Type supported</span>
+<span class="sd">    by the TellorX network.</span>
+
+<span class="sd">    All public attributes of an OracleQuery represent an input that can</span>
+<span class="sd">    be used to customize the query.</span>
+
+<span class="sd">    The base class provides:</span>
+
+<span class="sd">    - Specification of the query `descriptor` JSON string.</span>
+
+<span class="sd">    - Calculation of the `id` field from `query_data`.  This value is used for the</span>
+<span class="sd">      `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`</span>
+<span class="sd">      contract calls.</span>
+
+<span class="sd">    Subclasses must provide:</span>
+
+<span class="sd">    - Encoding of the `descriptor` string to compute the `query_data` attribute,</span>
+<span class="sd">    which is used for the `data` field of a `TellorX.Oracle.tipQuery()` contract call.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">max_datapoints</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span>
-
-    <span class="c1"># Private storage for fetched values</span>
-    <span class="n">_history</span><span class="p">:</span> <span class="n">Deque</span><span class="p">[</span><span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">deque</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Overwrite default deque</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_datapoints</span><span class="p">)</span>
-
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">latest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OptionalDataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the most recent datapoint or none if history is empty&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">value_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the ValueType expected by the current Query configuration</span>
 
-    <span class="k">def</span> <span class="nf">store_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoint</span><span class="p">:</span> <span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Store a datapoint&quot;&quot;&quot;</span>
-        <span class="n">v</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">datapoint</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datapoint</span><span class="p">)</span>
+<span class="sd">        The value type defines required data type/structure of the</span>
+<span class="sd">        ``value`` submitted to the contract through</span>
+<span class="sd">        ``TellorX.Oracle.submitValue()``</span>
 
-    <span class="k">def</span> <span class="nf">get_all_datapoints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Get a list of all available data points&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span>
-
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_new_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OptionalDataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Fetch new value and store it for later retrieval&quot;&quot;&quot;</span>
+<span class="sd">        This method *must* be implemented by subclasses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">depth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the query descriptor string.</span>
+
+<span class="sd">        The Query descriptor is a unique string representation of the query, including</span>
+<span class="sd">        all parameter values.  The string must be in valid JSON format (http://www.json.org).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+        <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">json_str</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">query_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the query ``id`` for use with the</span>
+<span class="sd">        ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``</span>
+<span class="sd">        contract calls.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">keccak</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_data</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">query_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Encode the query `descriptor` to create the query `data` field for</span>
+<span class="sd">        use in the ``TellorX.Oracle.tipQuery()`` contract call.</span>
+
+<span class="sd">        This method *must* be implemented by subclasses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div>
         </details>
 
@@ -813,121 +924,108 @@ It also contains a store for all previously fetched data points.</p>
 
 
 
-
   <div class="doc doc-object doc-attribute">
 
 
 
-<h3 id="telliot_core.datasource.DataSource.latest" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">latest</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]]</span></code>
+<h3 id="telliot_core.queries.query.OracleQuery.value_type" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">value_type</span><span class="p">:</span> <span class="n">ValueType</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-<a href="#telliot_core.datasource.DataSource.latest" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#telliot_core.queries.query.OracleQuery.value_type" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the most recent datapoint or none if history is empty</p>
+      <p>Returns the ValueType expected by the current Query configuration</p>
+<p>The value type defines required data type/structure of the
+<code>value</code> submitted to the contract through
+<code>TellorX.Oracle.submitValue()</code></p>
+<p>This method <em>must</em> be implemented by subclasses</p>
     </div>
 
   </div>
 
 
 
+  <div class="doc doc-object doc-attribute">
 
 
 
-
-
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot_core.datasource.DataSource.store_datapoint" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">store_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoint</span><span class="p">)</span></code>
-
-
-<a href="#telliot_core.datasource.DataSource.store_datapoint" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Store a datapoint</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot_core\datasource.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">store_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoint</span><span class="p">:</span> <span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Store a datapoint&quot;&quot;&quot;</span>
-    <span class="n">v</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">datapoint</span>
-    <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datapoint</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot_core.datasource.DataSource.get_all_datapoints" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_all_datapoints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-
-<a href="#telliot_core.datasource.DataSource.get_all_datapoints" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Get a list of all available data points</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot_core\datasource.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_datapoints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Get a list of all available data points&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="telliot_core.datasource.DataSource.fetch_new_datapoint" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">fetch_new_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<h3 id="telliot_core.queries.query.OracleQuery.descriptor" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-async"><code>async</code></small>
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-<a href="#telliot_core.datasource.DataSource.fetch_new_datapoint" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#telliot_core.queries.query.OracleQuery.descriptor" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
-      <p>Fetch new value and store it for later retrieval</p>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot_core\datasource.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_new_datapoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OptionalDataPoint</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Fetch new value and store it for later retrieval&quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</code></pre></div>
-        </details>
+      <p>Get the query descriptor string.</p>
+<p>The Query descriptor is a unique string representation of the query, including
+all parameter values.  The string must be in valid JSON format (http://www.json.org).</p>
     </div>
 
   </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="telliot_core.queries.query.OracleQuery.query_id" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_id</span><span class="p">:</span> <span class="nb">bytes</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#telliot_core.queries.query.OracleQuery.query_id" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Returns the query <code>id</code> for use with the
+<code>TellorX.Oracle.tipQuery()</code> and <code>TellorX.Oracle.submitValue()</code>
+contract calls.</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="telliot_core.queries.query.OracleQuery.query_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#telliot_core.queries.query.OracleQuery.query_data" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Encode the query <code>descriptor</code> to create the query <code>data</code> field for
+use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
+<p>This method <em>must</em> be implemented by subclasses</p>
+    </div>
+
+  </div>
+
+
+
 
 
 
@@ -945,61 +1043,31 @@ It also contains a store for all previously fetched data points.</p>
 
 
 
-<h2 id="telliot_core.datafeed.DataFeed" class="doc doc-heading">
+<h2 id="telliot_core.queries.json_query.JsonQuery" class="doc doc-heading">
         <code>
-DataFeed            (<span title="typing.Generic">Generic</span>, <span title="telliot_core.model.base.Base">Base</span>)
+JsonQuery            (<a title="telliot_core.queries.query.OracleQuery" href="#telliot_core.queries.query.OracleQuery">OracleQuery</a>)
         </code>
 
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-dataclass"><code>dataclass</code></small>
-  </span>
 
-<a href="#telliot_core.datafeed.DataFeed" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#telliot_core.queries.json_query.JsonQuery" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-      <p>Data feed providing query response</p>
-<p>A data feed contains a DataSource to fetch values in response to an <code>OracleQuery</code>.</p>
+      <p>An Oracle Query that uses JSON-encoding to compute the query_data.</p>
 
-<p><strong>Attributes:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>query</code></td>
-        <td><code>OracleQuery</code></td>
-        <td><p>The Query that this feed responds to</p></td>
-      </tr>
-      <tr>
-        <td><code>source</code></td>
-        <td><code>telliot_core.datasource.DataSource[~T]</code></td>
-        <td><p>Data source for feed</p></td>
-      </tr>
-  </tbody>
-</table>
         <details class="quote">
-          <summary>Source code in <code>telliot_core\datafeed.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">DataFeed</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Data feed providing query response</span>
+          <summary>Source code in <code>telliot_core\queries\json_query.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JsonQuery</span><span class="p">(</span><span class="n">OracleQuery</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An Oracle Query that uses JSON-encoding to compute the query_data.&quot;&quot;&quot;</span>
 
-<span class="sd">    A data feed contains a DataSource to fetch values in response to an `OracleQuery`.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">query_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Encode the query `descriptor` to create the query `data` field for</span>
+<span class="sd">        use in the ``TellorX.Oracle.tipQuery()`` contract call.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        query: The Query that this feed responds to</span>
-<span class="sd">        source: Data source for feed</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">query</span><span class="p">:</span> <span class="n">OracleQuery</span>
-
-    <span class="n">source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">descriptor</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1013,8 +1081,115 @@ DataFeed            (<span title="typing.Generic">Generic</span>, <span title="t
 
 
 
+  <div class="doc doc-object doc-attribute">
 
 
+
+<h3 id="telliot_core.queries.json_query.JsonQuery.query_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#telliot_core.queries.json_query.JsonQuery.query_data" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Encode the query <code>descriptor</code> to create the query <code>data</code> field for
+use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="telliot_core.queries.abi_query.AbiQuery" class="doc doc-heading">
+        <code>
+AbiQuery            (<a title="telliot_core.queries.query.OracleQuery" href="#telliot_core.queries.query.OracleQuery">OracleQuery</a>)
+        </code>
+
+
+
+<a href="#telliot_core.queries.abi_query.AbiQuery" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+      <p>An Oracle Query that uses ABI-encoding to compute the query_data.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>telliot_core\queries\abi_query.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AbiQuery</span><span class="p">(</span><span class="n">OracleQuery</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An Oracle Query that uses ABI-encoding to compute the query_data.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">query_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Encode the query `descriptor` to create the query `data` field for</span>
+<span class="sd">        use in the ``TellorX.Oracle.tipQuery()`` contract call.</span>
+
+<span class="sd">        This method uses ABI encoding to encode the values in the Query Descriptor.</span>
+<span class="sd">        A valid JSON ABI specification is required to perform the encoding.</span>
+<span class="sd">        (see https://docs.soliditylang.org/en/v0.5.3/abi-spec.html).</span>
+
+<span class="sd">        TODO: Implement for AbiQuery</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="telliot_core.queries.abi_query.AbiQuery.query_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#telliot_core.queries.abi_query.AbiQuery.query_data" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Encode the query <code>descriptor</code> to create the query <code>data</code> field for
+use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
+<p>This method uses ABI encoding to encode the values in the Query Descriptor.
+A valid JSON ABI specification is required to perform the encoding.
+(see https://docs.soliditylang.org/en/v0.5.3/abi-spec.html).</p>
+<p>TODO: Implement for AbiQuery</p>
+    </div>
+
+  </div>
 
 
 
@@ -1041,7 +1216,7 @@ DataFeed            (<span title="typing.Generic">Generic</span>, <span title="t
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../dtypes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Types Module" rel="prev">
+        <a href="../query-types/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Query Types" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1050,20 +1225,20 @@ DataFeed            (<span title="typing.Generic">Generic</span>, <span title="t
               <span class="md-footer__direction">
                 Previous
               </span>
-              Types Module
+              Query Types
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Developer&#39;s Guide" rel="next">
+        <a href="../query-catalog/" class="md-footer__link md-footer__link--next" aria-label="Next: Query Catalog" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Developer's Guide
+              Query Catalog
             </div>
           </div>
           <div class="md-footer__button md-icon">

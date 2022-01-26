@@ -394,12 +394,62 @@
       
       
         <label class="md-nav__link" for="__nav_4">
+          New Oracle Queries
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="New Oracle Queries" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          New Oracle Queries
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../new-query/" class="md-nav__link">
+        Creating New Queries
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
+        <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
         </label>
@@ -410,10 +460,71 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          Queries Module
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Queries Module" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Queries Module
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../code/queries/" class="md-nav__link">
-        Queries Module
+      <a href="../../code/query-types/" class="md-nav__link">
+        Query Types
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code/query-base-classes/" class="md-nav__link">
+        Query Base Classes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code/query-catalog/" class="md-nav__link">
+        Query Catalog
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -466,18 +577,18 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_6">
           Contributing
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Contributing" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
+        <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Contributing
         </label>
@@ -586,9 +697,9 @@
 
 <h1 id="spot-price-query-example">Spot Price Query Example<a class="headerlink" href="#spot-price-query-example" title="Permanent link">&para;</a></h1>
 <p>This example demonstrates how to use the 
-<a href="../../code/queries/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a> Oracle query.</p>
+<a href="../../code/query-types/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a> Oracle query.</p>
 <h2 id="create-the-query">Create the query<a class="headerlink" href="#create-the-query" title="Permanent link">&para;</a></h2>
-<p>Create a <code>SpotPrice</code> query for the price of Bitcoin in US dollars,
+<p>Create a <a href="../../code/query-types/#telliot_core.queries.price.spot_price.SpotPrice"><code>SpotPrice</code></a> query for the price of Bitcoin in US dollars,
 and view the corresponding descriptor::</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">telliot_core.api</span> <span class="kn">import</span> <span class="n">SpotPrice</span>
 <span class="n">q</span> <span class="o">=</span> <span class="n">SpotPrice</span><span class="p">(</span><span class="n">asset</span><span class="o">=</span><span class="s1">&#39;btc&#39;</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="s1">&#39;usd&#39;</span><span class="p">)</span>

@@ -12,14 +12,14 @@
         <meta name="author" content="Tellor Development Community">
       
       
-        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/code/queries/">
+        <link rel="canonical" href="https://tellor-io.github.io/telliot-core/code/query-types/">
       
       <link rel="icon" href="../../assets/favicon-32x32.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
     
     
       
-        <title>Queries Module - Telliot Documentation</title>
+        <title>Query Types - Telliot Documentation</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#telliot_core.queries.query.OracleQuery" class="md-skip">
+        <a href="#telliot_core.queries.price.spot_price.SpotPrice" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Queries Module
+              Query Types
             
           </span>
         </div>
@@ -317,6 +317,56 @@
 
   
   
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          New Oracle Queries
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="New Oracle Queries" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          New Oracle Queries
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../new-query/" class="md-nav__link">
+        Creating New Queries
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -326,20 +376,48 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
       
       
       
       
-        <label class="md-nav__link" for="__nav_4">
+        <label class="md-nav__link" for="__nav_5">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
+        <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          Queries Module
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Queries Module" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Queries Module
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -357,12 +435,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Queries Module
+          Query Types
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Queries Module
+        Query Types
       </a>
       
         
@@ -377,47 +455,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery" class="md-nav__link">
-    OracleQuery
-  </a>
-  
-    <nav class="md-nav" aria-label="OracleQuery">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.value_type" class="md-nav__link">
-    value_type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.descriptor" class="md-nav__link">
-    descriptor
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.query_id" class="md-nav__link">
-    query_id
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.query_data" class="md-nav__link">
-    query_data
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#telliot_core.queries.price.spot_price.SpotPrice" class="md-nav__link">
@@ -501,6 +538,41 @@
   
   
     <li class="md-nav__item">
+      <a href="../query-base-classes/" class="md-nav__link">
+        Query Base Classes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../query-catalog/" class="md-nav__link">
+        Query Catalog
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../dtypes/" class="md-nav__link">
         Types Module
       </a>
@@ -542,18 +614,18 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_6">
           Contributing
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Contributing" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
+        <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Contributing
         </label>
@@ -616,47 +688,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery" class="md-nav__link">
-    OracleQuery
-  </a>
-  
-    <nav class="md-nav" aria-label="OracleQuery">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.value_type" class="md-nav__link">
-    value_type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.descriptor" class="md-nav__link">
-    descriptor
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.query_id" class="md-nav__link">
-    query_id
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#telliot_core.queries.query.OracleQuery.query_data" class="md-nav__link">
-    query_data
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#telliot_core.queries.price.spot_price.SpotPrice" class="md-nav__link">
@@ -738,255 +769,15 @@
               
                 
 
-  <h1>Queries Module</h1>
+  <h1>Query Types</h1>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h2 id="telliot_core.queries.query.OracleQuery" class="doc doc-heading">
-        <code>
-OracleQuery            (<span title="clamfig.base.Serializable">Serializable</span>)
-        </code>
-
-
-
-<a href="#telliot_core.queries.query.OracleQuery" class="headerlink" title="Permanent link">&para;</a></h2>
-
-    <div class="doc doc-contents first">
-
-      <p>Oracle Query</p>
-<p>An OracleQuery specifies how to pose a question to the
-Tellor Oracle and how to format/interpret the response.</p>
-<p>The OracleQuery class serves
-as the base class for all Queries, and implements default behaviors.
-Each subclass corresponds to a unique Query Type supported
-by the TellorX network.</p>
-<p>All public attributes of an OracleQuery represent an input that can
-be used to customize the query.</p>
-<p>The base class provides:</p>
-<ul>
-<li>
-<p>Specification of the query <code>descriptor</code> JSON string.</p>
-</li>
-<li>
-<p>Calculation of the <code>id</code> field from <code>query_data</code>.  This value is used for the
-  <code>TellorX.Oracle.tipQuery()</code> and <code>TellorX.Oracle.submitValue()</code>
-  contract calls.</p>
-</li>
-</ul>
-<p>Subclasses must provide:</p>
-<ul>
-<li>Encoding of the <code>descriptor</code> string to compute the <code>query_data</code> attribute,
-which is used for the <code>data</code> field of a <code>TellorX.Oracle.tipQuery()</code> contract call.</li>
-</ul>
-
-        <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\query.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">OracleQuery</span><span class="p">(</span><span class="n">Serializable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Oracle Query</span>
-
-<span class="sd">    An OracleQuery specifies how to pose a question to the</span>
-<span class="sd">    Tellor Oracle and how to format/interpret the response.</span>
-
-<span class="sd">    The OracleQuery class serves</span>
-<span class="sd">    as the base class for all Queries, and implements default behaviors.</span>
-<span class="sd">    Each subclass corresponds to a unique Query Type supported</span>
-<span class="sd">    by the TellorX network.</span>
-
-<span class="sd">    All public attributes of an OracleQuery represent an input that can</span>
-<span class="sd">    be used to customize the query.</span>
-
-<span class="sd">    The base class provides:</span>
-
-<span class="sd">    - Specification of the query `descriptor` JSON string.</span>
-
-<span class="sd">    - Calculation of the `id` field from `query_data`.  This value is used for the</span>
-<span class="sd">      `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`</span>
-<span class="sd">      contract calls.</span>
-
-<span class="sd">    Subclasses must provide:</span>
-
-<span class="sd">    - Encoding of the `descriptor` string to compute the `query_data` attribute,</span>
-<span class="sd">    which is used for the `data` field of a `TellorX.Oracle.tipQuery()` contract call.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the ValueType expected by the current Query configuration</span>
-
-<span class="sd">        The value type defines required data type/structure of the</span>
-<span class="sd">        ``value`` submitted to the contract through</span>
-<span class="sd">        ``TellorX.Oracle.submitValue()``</span>
-
-<span class="sd">        This method *must* be implemented by subclasses</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the query descriptor string.</span>
-
-<span class="sd">        The Query descriptor is a unique string representation of the query, including</span>
-<span class="sd">        all parameter values.  The string must be in valid JSON format (http://www.json.org).</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
-        <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">json_str</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">query_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the query ``id`` for use with the</span>
-<span class="sd">        ``TellorX.Oracle.tipQuery()`` and ``TellorX.Oracle.submitValue()``</span>
-<span class="sd">        contract calls.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">keccak</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_data</span><span class="p">))</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">query_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Encode the query `descriptor` to create the query `data` field for</span>
-<span class="sd">        use in the ``TellorX.Oracle.tipQuery()`` contract call.</span>
-
-<span class="sd">        This method *must* be implemented by subclasses</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</code></pre></div>
-        </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-  <div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="telliot_core.queries.query.OracleQuery.value_type" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">value_type</span><span class="p">:</span> <span class="n">ValueType</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-property"><code>property</code></small>
-      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
-  </span>
-
-<a href="#telliot_core.queries.query.OracleQuery.value_type" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns the ValueType expected by the current Query configuration</p>
-<p>The value type defines required data type/structure of the
-<code>value</code> submitted to the contract through
-<code>TellorX.Oracle.submitValue()</code></p>
-<p>This method <em>must</em> be implemented by subclasses</p>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="telliot_core.queries.query.OracleQuery.descriptor" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-property"><code>property</code></small>
-      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
-  </span>
-
-<a href="#telliot_core.queries.query.OracleQuery.descriptor" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Get the query descriptor string.</p>
-<p>The Query descriptor is a unique string representation of the query, including
-all parameter values.  The string must be in valid JSON format (http://www.json.org).</p>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="telliot_core.queries.query.OracleQuery.query_id" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">query_id</span><span class="p">:</span> <span class="nb">bytes</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-property"><code>property</code></small>
-      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
-  </span>
-
-<a href="#telliot_core.queries.query.OracleQuery.query_id" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns the query <code>id</code> for use with the
-<code>TellorX.Oracle.tipQuery()</code> and <code>TellorX.Oracle.submitValue()</code>
-contract calls.</p>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="telliot_core.queries.query.OracleQuery.query_data" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-property"><code>property</code></small>
-      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
-  </span>
-
-<a href="#telliot_core.queries.query.OracleQuery.query_data" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Encode the query <code>descriptor</code> to create the query <code>data</code> field for
-use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
-<p>This method <em>must</em> be implemented by subclasses</p>
-    </div>
-
-  </div>
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
 <h2 id="telliot_core.queries.price.spot_price.SpotPrice" class="doc doc-heading">
         <code>
-SpotPrice            (<span title="telliot_core.queries.json_query.JsonQuery">JsonQuery</span>)
+SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href="../query-base-classes/#telliot_core.queries.json_query.JsonQuery">JsonQuery</a>)
         </code>
 
 
@@ -1123,7 +914,7 @@ SpotPrice            (<span title="telliot_core.queries.json_query.JsonQuery">Js
 
 <h2 id="telliot_core.queries.legacy_query.LegacyRequest" class="doc doc-heading">
         <code>
-LegacyRequest            (<span title="telliot_core.queries.json_query.JsonQuery">JsonQuery</span>)
+LegacyRequest            (<a title="telliot_core.queries.json_query.JsonQuery" href="../query-base-classes/#telliot_core.queries.json_query.JsonQuery">JsonQuery</a>)
         </code>
 
 
@@ -1265,7 +1056,7 @@ for a description of each <code>id</code></p>
 
 <h2 id="telliot_core.queries.string_query.StringQuery" class="doc doc-heading">
         <code>
-StringQuery            (<span title="telliot_core.queries.json_query.JsonQuery">JsonQuery</span>)
+StringQuery            (<a title="telliot_core.queries.json_query.JsonQuery" href="../query-base-classes/#telliot_core.queries.json_query.JsonQuery">JsonQuery</a>)
         </code>
 
 
@@ -1361,7 +1152,7 @@ text.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../../examples/text_query_example/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Text Query" rel="prev">
+        <a href="../../new-query/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Creating New Queries" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1370,20 +1161,20 @@ text.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Text Query
+              Creating New Queries
             </div>
           </div>
         </a>
       
       
         
-        <a href="../dtypes/" class="md-footer__link md-footer__link--next" aria-label="Next: Types Module" rel="next">
+        <a href="../query-base-classes/" class="md-footer__link md-footer__link--next" aria-label="Next: Query Base Classes" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Types Module
+              Query Base Classes
             </div>
           </div>
           <div class="md-footer__button md-icon">
