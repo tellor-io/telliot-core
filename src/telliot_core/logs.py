@@ -36,6 +36,7 @@ def init_logging(level: int) -> logging.Logger:
     # Add handlers to plugins
     for plugin_name in telliot_plugins.keys():
         plugin_logger = logging.getLogger(plugin_name)
+        plugin_logger.setLevel(logging.DEBUG)
         plugin_logger.addHandler(stream)
         plugin_logger.addHandler(fh)
         log_core.debug(f"Configured logging for {plugin_name} plugin")
