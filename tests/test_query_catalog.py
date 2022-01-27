@@ -1,4 +1,5 @@
 from telliot_core.data.query_catalog import query_catalog
+from telliot_core.queries.price.aws_spot_price import AwsSpotPrice
 from telliot_core.queries.query import OracleQuery
 
 
@@ -9,10 +10,17 @@ def test_query_catalog():
     assert isinstance(q.query, OracleQuery)
 
 
+def test_find_aws_spot_price():
+    qlst = query_catalog.find(tag="aws-spot-zone-us-east-1f-instance-i3.16xlarge")
+    assert len(qlst) == 1
+    q = qlst[0].query
+    assert isinstance(q, AwsSpotPrice)
+
+
 def test_find_all():
     """Find all query entries"""
     qlst = query_catalog.find()
-    assert len(qlst) == 8
+    assert len(qlst) == 9
 
 
 def test_yaml_catalog():
