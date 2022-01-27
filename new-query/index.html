@@ -383,6 +383,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-art-of-query-design" class="md-nav__link">
+    The Art of Query Design
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-guide" class="md-nav__link">
+    Detailed Guide
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#step-1-query-definition" class="md-nav__link">
     Step 1: Query Definition
   </a>
@@ -669,6 +683,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-art-of-query-design" class="md-nav__link">
+    The Art of Query Design
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-guide" class="md-nav__link">
+    Detailed Guide
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#step-1-query-definition" class="md-nav__link">
     Step 1: Query Definition
   </a>
@@ -724,9 +752,60 @@
                 
 
 <h1 id="creating-new-or-custom-oracle-queries">Creating New or Custom Oracle Queries<a class="headerlink" href="#creating-new-or-custom-oracle-queries" title="Permanent link">&para;</a></h1>
-<p>If your smart contract needs data that is not currently provided by the Tellor oracle network, this
-section should help you get started.</p>
-<p>The process of adding a new query to the Tellor network involves three steps:</p>
+<p>If the Tellor oracle doesn't have the on-chain data your smart contract needs, this section should
+help you define a new query so that Tellor' decentralized network of reporters can get busy putting
+your data securely on-chain.</p>
+<h2 id="the-art-of-query-design">The Art of Query Design<a class="headerlink" href="#the-art-of-query-design" title="Permanent link">&para;</a></h2>
+<p>Creating new Tellor query is pretty simple - there are only a few steps. Along the way, though,
+there are some important considerations and decisions to make so that Tellor's oracle data serves
+your project well.  Here's how to get started.</p>
+<p><em>Step 1. Give the query a name</em></p>
+<p>Call it anything, really (within reason of course). <code>WeatherReport</code>, <code>GameScore</code>, <code>ElectionResult</code>,
+<code>PropertyOwner</code>, or anything else you can imagine. We call this the <em>Query Type</em>. If you stick
+with <a href="https://en.wikipedia.org/wiki/Camel_case">CamelCase</a> names, it would really help us out, so
+thanks in advance!</p>
+<p><em>Step 2. Choose query parameters (if you want to)</em></p>
+<p>A Query Type can also have <em>parameters</em> that serve to customize the response. For
+example, <code>PropertyOwner</code> might have a parameter called <code>address</code>.  <code>GameScore</code> might have a few
+<em>parameters</em> such as <code>game_date</code>, <code>home_team</code>, or <code>away_team</code>. You get the idea. It helps if you
+also define what values are allowed for each <em>parameter</em>. One last thing - we know it seems weird,
+but we'd love it if you named your parameters
+using <a href="https://en.wikipedia.org/wiki/Snake_case">SnakeCase</a>.</p>
+<p><em>Step 3. Choose the data type</em></p>
+<p>Tellor's reporters need to know how you'd like your data served (medium rare, a side of fries?).
+When you think about it, reporters need to know the <em>data type</em> used to respond, such as <code>float</code>
+, <code>int</code>, <code>string</code>, bool`, raw bytes, etc. But don't stop there. Interesting queries can have complex
+responses with structured data types that can hold data such as weather reports, addresses, GPS
+locations, game statistics.</p>
+<p>That's the great thing about Tellor, you
+can <a href="https://www.youtube.com/watch?v=KJXzkUH72cY">have it your way</a>!</p>
+<p><em>Step 4. You make the rules</em></p>
+<p>Since it's <em>your</em> data used for <em>your</em> smart contract, you get to make the rules!
+With great power (to create arbitrary queries with arbitrary responses) comes great responsibility.
+Rules about your data are mainly to encourage Tellor's reporters to provide the data with a
+reasonable degree of confidence. Remember, reporters may lose their staked TRB if the network votes
+the answer incorrect!</p>
+<p>This is the part of Query Design that is more of an <em>art</em>. Be sure to carefully describe the
+expected response, including the conditions that you would expect for the value to be disputed and
+removed from the chain. Depending on your design, the <em>rules</em> can have a great impact on the
+security of your network.</p>
+<p><em>Step 5. Define data sources (if you want to)</em></p>
+<p>Another optional step here. Reporters will need to figure out how to get the requested data. If the
+rules are clear, you can leave it up to them - that's totally cool.</p>
+<p>Otherwise, you can point reporters in the right direction. Ideally there are multiple off-chain data
+sources to increase the robustness and decentralization of the feed. Sometimes there are specific
+API endpoints that have exactly the data that you're looking for. If endpoints are paid, you might
+have to <em>tip</em> reporters a bit more as an incentive for the feed.</p>
+<p><em>That's it!</em></p>
+<p>You've learned the art of Tellor Query design, including some important things to consider in the
+process. Please reach out to the
+<a href="https://discord.com/channels/461602746336935936/794270931630948432">integrations team on discord</a>
+for more help in getting started. </p>
+<p>If you're a dev, you can continue reading for a detailed technical
+guide for adding new queries to the tellor network.</p>
+<h2 id="detailed-guide">Detailed Guide<a class="headerlink" href="#detailed-guide" title="Permanent link">&para;</a></h2>
+<p>This section begins a detailed technical description of how to add a new query to the Tellor
+network. The process of adding a new query to the Tellor network involves three steps:</p>
 <ol>
 <li><a href="#step-1-query-definition">Define the new query</a></li>
 <li><a href="#step-2-query-registration">Register the new query</a></li>
