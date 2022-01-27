@@ -1,5 +1,6 @@
 from telliot_core.queries.catalog import Catalog
 from telliot_core.queries.legacy_query import LegacyRequest
+from telliot_core.queries.price.aws_spot_price import AWSSpotPrice
 from telliot_core.queries.price.spot_price import SpotPrice
 
 """Main instance of the Query Catalog."""
@@ -52,4 +53,23 @@ query_catalog.add_entry(
     tag="vsq-usd-spot",
     title="VSQ/USD spot price",
     q=SpotPrice(asset="vsq", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="aws-spot-zone-us-east-f1-instance-i3.16xlarge",
+    title="AWS Spot Price",
+    q=AWSSpotPrice(
+        parameters=[
+            {
+                "type": "string",
+                "name": "zone",
+                "value": "us-east-f1",
+            },
+            {
+                "type": "string",
+                "name": "instance_type",
+                "value": "i3.16xlarge",
+            },
+        ]
+    ),
 )
