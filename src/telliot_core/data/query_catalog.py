@@ -67,7 +67,7 @@ query_catalog.add_entry(
             },
             {
                 "type": "string",
-                "name": "instance_type",
+                "name": "instance",
                 "value": "i3.16xlarge",
             },
         ]

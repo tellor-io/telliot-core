@@ -1,6 +1,7 @@
+from eth_abi import decode_abi
+
 from telliot_core.queries.price.aws_spot_price import AWSSpotPrice
 from telliot_core.queries.query import OracleQuery
-from eth_abi import decode_abi
 
 
 ABI_QUERIES = {
@@ -16,7 +17,8 @@ ABI_QUERIES = {
                 "name": "instance",
                 "value": "",
             },
-        ])
+        ]
+    )
 }
 
 
