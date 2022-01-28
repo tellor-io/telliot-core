@@ -25,13 +25,12 @@ def query() -> None:
 async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
     """Show query information
 
-    QUERY_TAG: Choose from query catalog:
-
-    \b https://github.com/tellor-io/dataSpecs/blob/main/catalog.md
+    QUERY_TAG: Use `telliot catalog list` for list of valid query tags
     """
 
     async with cli_core(ctx) as core:
 
+        chain_id = core.config.main.chain_id
         entries = query_catalog.find(tag=query_tag)
         if len(entries) == 0:
             print(f"Unknown query tag: {query_tag}.")
@@ -44,7 +43,12 @@ async def status(ctx: click.Context, query_tag: str, npoints: int) -> None:
 
         queryId = f"0x{q.query_id.hex()}"
 
-        tellorx = core.get_tellorx_contracts()
+        if chain_id in [1, 4]:
+            tellorx = core.get_tellorx_contracts()
+        else:
+            click.echo(f"Query status not yet supported on Chain ID {chain_id}.")
+            return
+
         count, status = await tellorx.oracle.getTimestampCountById(queryId)
         print(f"Timestamp count: {count}")
 
