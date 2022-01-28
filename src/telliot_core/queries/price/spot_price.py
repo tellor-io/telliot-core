@@ -9,7 +9,7 @@ from typing import Tuple
 
 from telliot_core.dtypes.float_type import UnsignedFloatType
 from telliot_core.dtypes.value_type import ValueType
-from telliot_core.queries.json_query import JsonQuery
+from telliot_core.queries.abi_query import AbiQuery
 from telliot_core.utils.home import TELLIOT_CORE_ROOT
 
 logger = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ spot_price_pairs = get_spot_price_pairs()
 
 
 @dataclass
-class SpotPrice(JsonQuery):
+class SpotPrice(AbiQuery):
     """Returns the spot price of a cryptocurrency asset in the given currency.
 
     Attributes:
@@ -50,6 +50,18 @@ class SpotPrice(JsonQuery):
     asset: str
 
     currency: str
+
+    #: ABI used for encoding/decoding parameters
+    abi = [
+        {
+            "abi_type": "string",
+            "name": "asset",
+        },
+        {
+            "abi_type": "string",
+            "name": "currency",
+        },
+    ]
 
     @property
     def value_type(self) -> ValueType:
