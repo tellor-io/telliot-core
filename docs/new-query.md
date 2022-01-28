@@ -1,7 +1,7 @@
 # Creating New or Custom Oracle Queries
 
 If the Tellor oracle doesn't have the on-chain data your smart contract needs, this section should
-help you define a new query so that Tellor' decentralized network of reporters can get busy putting
+help you define a new query so that Tellor's decentralized network of reporters can get busy putting
 your data securely on-chain.
 
 ## The Art of Query Design

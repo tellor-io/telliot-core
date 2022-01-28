@@ -25,12 +25,14 @@ class OracleQuery(Serializable):
     Each subclass corresponds to a unique Query Type supported
     by the TellorX network.
 
-    All public attributes of an OracleQuery represent an input that can
+    All public attributes of an OracleQuery represent a parameter that can
     be used to customize the query.
 
     The base class provides:
 
-    - Specification of the query `descriptor` JSON string.
+    - Generation of the query `descriptor` JSON string.
+    This string provides a simple platform and language independent
+    way to identify a query.
 
     - Calculation of the `id` field from `query_data`.  This value is used for the
       `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`

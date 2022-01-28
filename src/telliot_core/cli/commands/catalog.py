@@ -52,5 +52,6 @@ def list(detail: bool) -> None:
     """List all queries in the catalog (use --detail for verbose output)."""
     entries = query_catalog.find()
 
+    print("Query Tag       Query ID                                                           Query Descriptor")
     for entry in entries:
         dump_catalog_entry(entry, detail)

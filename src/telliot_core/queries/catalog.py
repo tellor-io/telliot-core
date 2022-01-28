@@ -15,7 +15,7 @@ from telliot_core.queries.query import OracleQuery
 @dataclass
 class CatalogEntry(Base):
     """Query Catalog Entry
-
+    
     An entry in the query Catalog containing relevant information about the query
     """
 
