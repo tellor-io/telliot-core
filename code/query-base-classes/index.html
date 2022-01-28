@@ -863,12 +863,14 @@ Tellor Oracle and how to format/interpret the response.</p>
 as the base class for all Queries, and implements default behaviors.
 Each subclass corresponds to a unique Query Type supported
 by the TellorX network.</p>
-<p>All public attributes of an OracleQuery represent an input that can
+<p>All public attributes of an OracleQuery represent a parameter that can
 be used to customize the query.</p>
 <p>The base class provides:</p>
 <ul>
 <li>
-<p>Specification of the query <code>descriptor</code> JSON string.</p>
+<p>Generation of the query <code>descriptor</code> JSON string.
+This string provides a simple platform and language independent
+way to identify a query.</p>
 </li>
 <li>
 <p>Calculation of the <code>id</code> field from <code>query_data</code>.  This value is used for the
@@ -895,12 +897,14 @@ which is used for the <code>data</code> field of a <code>TellorX.Oracle.tipQuery
 <span class="sd">    Each subclass corresponds to a unique Query Type supported</span>
 <span class="sd">    by the TellorX network.</span>
 
-<span class="sd">    All public attributes of an OracleQuery represent an input that can</span>
+<span class="sd">    All public attributes of an OracleQuery represent a parameter that can</span>
 <span class="sd">    be used to customize the query.</span>
 
 <span class="sd">    The base class provides:</span>
 
-<span class="sd">    - Specification of the query `descriptor` JSON string.</span>
+<span class="sd">    - Generation of the query `descriptor` JSON string.</span>
+<span class="sd">    This string provides a simple platform and language independent</span>
+<span class="sd">    way to identify a query.</span>
 
 <span class="sd">    - Calculation of the `id` field from `query_data`.  This value is used for the</span>
 <span class="sd">      `TellorX.Oracle.tipQuery()` and `TellorX.Oracle.submitValue()`</span>
@@ -1253,37 +1257,81 @@ AbiQuery            (<a title="telliot_core.queries.query.OracleQuery" href="#te
 
       <p>An Oracle Query that uses ABI-encoding to compute the query_data.</p>
 
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>abi</code></td>
+        <td><code>ClassVar[list[dict[str, str]]]</code></td>
+        <td><p>The ABI used for encoding/decoding parameters.
+Each subclass must defind the ABI.
+The ABI is an ordered list, with one entry for each query parameter.
+Each parameter should include a dict with two entries:
+    {"name": <parameter name>, "type": <parameter type>}
+Parameter types must be valid solidity ABI type string.
+    See https://docs.soliditylang.org/en/develop/types.html for reference.</p></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>telliot_core\queries\abi_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AbiQuery</span><span class="p">(</span><span class="n">OracleQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;An Oracle Query that uses ABI-encoding to compute the query_data.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;An Oracle Query that uses ABI-encoding to compute the query_data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        abi:</span>
+<span class="sd">            The ABI used for encoding/decoding parameters.</span>
+<span class="sd">            Each subclass must defind the ABI.</span>
+<span class="sd">            The ABI is an ordered list, with one entry for each query parameter.</span>
+<span class="sd">            Each parameter should include a dict with two entries:</span>
+<span class="sd">                {&quot;name&quot;: &lt;parameter name&gt;, &quot;type&quot;: &lt;parameter type&gt;}</span>
+<span class="sd">            Parameter types must be valid solidity ABI type string.</span>
+<span class="sd">                See https://docs.soliditylang.org/en/develop/types.html for reference.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">abi</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">query_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Encode the query `descriptor` to create the query `data` field for</span>
-<span class="sd">        use in the ``TellorX.Oracle.tipQuery()`` contract call.</span>
+        <span class="sd">&quot;&quot;&quot;Encode the query type and parameters to create the query data.</span>
 
-<span class="sd">        This method uses ABI encoding to encode the values in the Query Descriptor.</span>
-<span class="sd">        A valid JSON ABI specification is required to perform the encoding.</span>
-<span class="sd">        (see https://docs.soliditylang.org/en/v0.5.3/abi-spec.html).</span>
-
-<span class="sd">        TODO: Implement for AbiQuery</span>
+<span class="sd">        This method uses ABI encoding to encode the query&#39;s parameter values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">param_values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abi</span><span class="p">]</span>
+        <span class="n">param_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abi</span><span class="p">]</span>
+        <span class="n">encoded_params</span> <span class="o">=</span> <span class="n">encode_abi</span><span class="p">(</span><span class="n">param_types</span><span class="p">,</span> <span class="n">param_values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">encode_abi</span><span class="p">([</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;bytes&quot;</span><span class="p">],</span> <span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">encoded_params</span><span class="p">])</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_query_from_data</span><span class="p">(</span><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OracleQuery</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Recreate an oracle query from `query_data`</span>
+        <span class="sd">&quot;&quot;&quot;Recreate an oracle query from the `query_data` field&quot;&quot;&quot;</span>
 
-<span class="sd">        TODO: Implement for AbiQuery</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">query_type</span><span class="p">,</span> <span class="n">encoded_param_values</span> <span class="o">=</span> <span class="n">decode_abi</span><span class="p">([</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;bytes&quot;</span><span class="p">],</span> <span class="n">query_data</span><span class="p">)</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">Registry</span><span class="o">.</span><span class="n">registry</span><span class="p">[</span><span class="n">query_type</span><span class="p">]</span>
+        <span class="n">params_abi</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abi</span>
+        <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_abi</span><span class="p">]</span>
+        <span class="n">param_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_abi</span><span class="p">]</span>
+        <span class="n">param_values</span> <span class="o">=</span> <span class="n">decode_abi</span><span class="p">(</span><span class="n">param_types</span><span class="p">,</span> <span class="n">encoded_param_values</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">param_values</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">deserialize</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">query_type</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">})</span>  <span class="c1"># type: ignore</span>
 </code></pre></div>
         </details>
 
 
 
   <div class="doc doc-children">
+
 
 
 
@@ -1307,12 +1355,8 @@ AbiQuery            (<a title="telliot_core.queries.query.OracleQuery" href="#te
 
     <div class="doc doc-contents ">
 
-      <p>Encode the query <code>descriptor</code> to create the query <code>data</code> field for
-use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
-<p>This method uses ABI encoding to encode the values in the Query Descriptor.
-A valid JSON ABI specification is required to perform the encoding.
-(see https://docs.soliditylang.org/en/v0.5.3/abi-spec.html).</p>
-<p>TODO: Implement for AbiQuery</p>
+      <p>Encode the query type and parameters to create the query data.</p>
+<p>This method uses ABI encoding to encode the query's parameter values.</p>
     </div>
 
   </div>
@@ -1337,18 +1381,24 @@ A valid JSON ABI specification is required to perform the encoding.
 
     <div class="doc doc-contents ">
 
-      <p>Recreate an oracle query from <code>query_data</code></p>
-<p>TODO: Implement for AbiQuery</p>
+      <p>Recreate an oracle query from the <code>query_data</code> field</p>
 
         <details class="quote">
           <summary>Source code in <code>telliot_core\queries\abi_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_query_from_data</span><span class="p">(</span><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OracleQuery</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Recreate an oracle query from `query_data`</span>
+    <span class="sd">&quot;&quot;&quot;Recreate an oracle query from the `query_data` field&quot;&quot;&quot;</span>
 
-<span class="sd">    TODO: Implement for AbiQuery</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+    <span class="n">query_type</span><span class="p">,</span> <span class="n">encoded_param_values</span> <span class="o">=</span> <span class="n">decode_abi</span><span class="p">([</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;bytes&quot;</span><span class="p">],</span> <span class="n">query_data</span><span class="p">)</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">Registry</span><span class="o">.</span><span class="n">registry</span><span class="p">[</span><span class="n">query_type</span><span class="p">]</span>
+    <span class="n">params_abi</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abi</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_abi</span><span class="p">]</span>
+    <span class="n">param_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_abi</span><span class="p">]</span>
+    <span class="n">param_values</span> <span class="o">=</span> <span class="n">decode_abi</span><span class="p">(</span><span class="n">param_types</span><span class="p">,</span> <span class="n">encoded_param_values</span><span class="p">)</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">param_values</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">deserialize</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">query_type</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">})</span>  <span class="c1"># type: ignore</span>
 </code></pre></div>
         </details>
     </div>

@@ -471,6 +471,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.price.spot_price.SpotPrice.__post_init__" class="md-nav__link">
+    __post_init__()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -704,6 +711,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#telliot_core.queries.price.spot_price.SpotPrice.__post_init__" class="md-nav__link">
+    __post_init__()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -777,7 +791,7 @@
 
 <h2 id="telliot_core.queries.price.spot_price.SpotPrice" class="doc doc-heading">
         <code>
-SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href="../query-base-classes/#telliot_core.queries.json_query.JsonQuery">JsonQuery</a>)
+SpotPrice            (<a title="telliot_core.queries.abi_query.AbiQuery" href="../query-base-classes/#telliot_core.queries.abi_query.AbiQuery">AbiQuery</a>)
         </code>
 
 
@@ -816,20 +830,22 @@ SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href=
         <details class="quote">
           <summary>Source code in <code>telliot_core\queries\price\spot_price.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SpotPrice</span><span class="p">(</span><span class="n">JsonQuery</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SpotPrice</span><span class="p">(</span><span class="n">AbiQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the spot price of a cryptocurrency asset in the given currency.</span>
 
 <span class="sd">    Attributes:</span>
-
-<span class="sd">        asset: Asset ID (see data specifications for a full list of supported assets)</span>
-
-<span class="sd">        currency: Currency (default = `usd`)</span>
+<span class="sd">        asset:</span>
+<span class="sd">            Asset ID (see data specifications for a full list of supported assets)</span>
+<span class="sd">        currency:</span>
+<span class="sd">            Currency (default = `usd`)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">asset</span><span class="p">:</span> <span class="nb">str</span>
-
     <span class="n">currency</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="c1">#: ABI used for encoding/decoding parameters</span>
+    <span class="n">abi</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;asset&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;currency&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span><span class="p">:</span>
@@ -841,6 +857,7 @@ SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href=
         <span class="k">return</span> <span class="n">UnsignedFloatType</span><span class="p">(</span><span class="n">abi_type</span><span class="o">=</span><span class="s2">&quot;ufixed256x18&quot;</span><span class="p">,</span> <span class="n">packed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Validate parameters.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
@@ -855,6 +872,7 @@ SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href=
 
 
   <div class="doc doc-children">
+
 
 
 
@@ -897,6 +915,42 @@ SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href=
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="telliot_core.queries.price.spot_price.SpotPrice.__post_init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#telliot_core.queries.price.spot_price.SpotPrice.__post_init__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Validate parameters.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>telliot_core\queries\price\spot_price.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Validate parameters.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">currencies</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;currency </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spot_price_pairs</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="si">}</span><span class="s2"> is not a supported pair&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
 
 
 
@@ -914,7 +968,7 @@ SpotPrice            (<a title="telliot_core.queries.json_query.JsonQuery" href=
 
 <h2 id="telliot_core.queries.legacy_query.LegacyRequest" class="doc doc-heading">
         <code>
-LegacyRequest            (<a title="telliot_core.queries.json_query.JsonQuery" href="../query-base-classes/#telliot_core.queries.json_query.JsonQuery">JsonQuery</a>)
+LegacyRequest            (<a title="telliot_core.queries.abi_query.AbiQuery" href="../query-base-classes/#telliot_core.queries.abi_query.AbiQuery">AbiQuery</a>)
         </code>
 
 
@@ -939,7 +993,7 @@ for a description of each <code>id</code></p>
         <details class="quote">
           <summary>Source code in <code>telliot_core\queries\legacy_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">LegacyRequest</span><span class="p">(</span><span class="n">JsonQuery</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">LegacyRequest</span><span class="p">(</span><span class="n">AbiQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Legacy Price/Value request</span>
 
 <span class="sd">    Legacy request are queries that existed prior to TellorX</span>
@@ -956,6 +1010,8 @@ for a description of each <code>id</code></p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">legacy_id</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="n">abi</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;legacy_id&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uint256&quot;</span><span class="p">}]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span><span class="p">:</span>
@@ -976,6 +1032,7 @@ for a description of each <code>id</code></p>
 
 
   <div class="doc doc-children">
+
 
 
 
