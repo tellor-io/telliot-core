@@ -27,7 +27,7 @@ class AwsSpotPrice(AbiQuery):
     instance: str
 
     #: ABI used for encoding/decoding parameters
-    abi = [{"name": "zone", "abi_type": "string"}, {"name": "instance", "abi_type": "string"}]
+    abi = [{"name": "zone", "type": "string"}, {"name": "instance", "type": "string"}]
 
     @property
     def value_type(self) -> ValueType:
