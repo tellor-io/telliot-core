@@ -12,6 +12,7 @@ class AbiQuery(OracleQuery):
     """An Oracle Query that uses ABI-encoding to compute the query_data."""
 
     #: ABI used for encoding/decoding parameters
+    #: This ABI must be provided by subclasses.
     abi: ClassVar[list[dict[str, str]]] = []
 
     @property
@@ -19,8 +20,6 @@ class AbiQuery(OracleQuery):
         """Encode the query type and parameters to create the query data.
 
         This method uses ABI encoding to encode the query's parameter values.
-        A valid JSON ABI specification is required to perform the encoding.
-        (see https://docs.soliditylang.org/en/v0.5.3/abi-spec.html).
         """
         param_values = [getattr(self, p["name"]) for p in self.abi]
         param_types = [p["abi_type"] for p in self.abi]
@@ -30,7 +29,7 @@ class AbiQuery(OracleQuery):
 
     @staticmethod
     def get_query_from_data(query_data: bytes) -> OracleQuery:
-        """Recreate an oracle query from `query_data`"""
+        """Recreate an oracle query from the `query_data` field"""
 
         query_type, encoded_param_values = decode_abi(["string", "bytes"], query_data)
         cls = Registry.registry[query_type]

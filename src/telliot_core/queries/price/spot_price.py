@@ -40,28 +40,18 @@ class SpotPrice(AbiQuery):
     """Returns the spot price of a cryptocurrency asset in the given currency.
 
     Attributes:
-
-        asset: Asset ID (see data specifications for a full list of supported assets)
-
-        currency: Currency (default = `usd`)
+        asset:
+            Asset ID (see data specifications for a full list of supported assets)
+        currency:
+            Currency (default = `usd`)
 
     """
 
     asset: str
-
     currency: str
 
     #: ABI used for encoding/decoding parameters
-    abi = [
-        {
-            "abi_type": "string",
-            "name": "asset",
-        },
-        {
-            "abi_type": "string",
-            "name": "currency",
-        },
-    ]
+    abi = [{"name": "asset", "abi_type": "string"}, {"name": "currency", "abi_type": "string"}]
 
     @property
     def value_type(self) -> ValueType:
@@ -73,6 +63,7 @@ class SpotPrice(AbiQuery):
         return UnsignedFloatType(abi_type="ufixed256x18", packed=False)
 
     def __post_init__(self) -> None:
+        """Validate parameters."""
         self.asset = self.asset.lower()
         self.currency = self.currency.lower()
 

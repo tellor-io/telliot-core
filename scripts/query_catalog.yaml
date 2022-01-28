@@ -45,5 +45,19 @@
   title: OHM/ETH spot price
   query_type: SpotPrice
   descriptor: '{"type":"SpotPrice","asset":"ohm","currency":"eth"}'
-  query_id: '0x0136f215d1f75daabc0c0726ad4356debeb9bc95b24344165145a56684995966'
+  query_id: '0xee4fcdeed773931af0bcd16cfcea5b366682ffbd4994cf78b4f0a6a40b570340'
+  active: true
+- type: CatalogEntry
+  tag: vsq-usd-spot
+  title: VSQ/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"vsq","currency":"usd"}'
+  query_id: '0xa9b17c33422e2e576fb664d1d11d38c377b614d62f92653d006eca7bb2af1656'
+  active: true
+- type: CatalogEntry
+  tag: aws-spot-zone-us-east-1f-instance-i3.16xlarge
+  title: AWS Spot Price
+  query_type: AwsSpotPrice
+  descriptor: '{"type":"AwsSpotPrice","zone":"us-east-1f","instance":"i3.16xlarge"}'
+  query_id: '0x1129a7b6be140744637bf7f2910e8e97b4af103935ee3a885bf7611b94caa3cd'
   active: true
