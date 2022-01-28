@@ -1,18 +1,18 @@
-from typing import Any
+from typing import ClassVar
 
 from clamfig import deserialize
+from clamfig.base import Registry
 from eth_abi import decode_abi
 from eth_abi import encode_abi
 
 from telliot_core.queries.query import OracleQuery
-from telliot_core.queries.query_abis import PARAMETERS_ABI_LOOKUP
 
 
 class AbiQuery(OracleQuery):
     """An Oracle Query that uses ABI-encoding to compute the query_data."""
 
-    # Mapping from query parameter name to abi type
-    params_abi: list[dict[str, Any]]
+    #: ABI used for encoding/decoding parameters
+    abi: ClassVar[list[dict[str, str]]] = []
 
     @property
     def query_data(self) -> bytes:
@@ -22,25 +22,23 @@ class AbiQuery(OracleQuery):
         A valid JSON ABI specification is required to perform the encoding.
         (see https://docs.soliditylang.org/en/v0.5.3/abi-spec.html).
         """
-
-        param_values = [p["value"] for p in self.params_abi]
-        param_types = [p["abi_type"] for p in self.params_abi]
+        param_values = [getattr(self, p["name"]) for p in self.abi]
+        param_types = [p["abi_type"] for p in self.abi]
         encoded_params = encode_abi(param_types, param_values)
 
         return encode_abi(["string", "bytes"], [type(self).__name__, encoded_params])
 
     @staticmethod
     def get_query_from_data(query_data: bytes) -> OracleQuery:
-        query_type, encoded_param_values = decode_abi(["string", "bytes"], query_data)
-        params_abi = PARAMETERS_ABI_LOOKUP[query_type]
+        """Recreate an oracle query from `query_data`"""
 
+        query_type, encoded_param_values = decode_abi(["string", "bytes"], query_data)
+        cls = Registry.registry[query_type]
+        params_abi = cls.abi
+        param_names = [p["name"] for p in params_abi]
         param_types = [p["abi_type"] for p in params_abi]
         param_values = decode_abi(param_types, encoded_param_values)
 
-        for idx, val in enumerate(param_values):
-            params_abi[idx]["value"] = val
+        params = dict(zip(param_names, param_values))
 
-        q = deserialize({"type": query_type, "params_abi": params_abi})
-        q.__post_init__()
-
-        return q  # type: ignore
+        return deserialize({"type": query_type, **params})  # type: ignore
