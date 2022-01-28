@@ -5,11 +5,11 @@ from dataclasses import dataclass
 
 from telliot_core.dtypes.float_type import UnsignedFloatType
 from telliot_core.dtypes.value_type import ValueType
-from telliot_core.queries.json_query import JsonQuery
+from telliot_core.queries.abi_query import AbiQuery
 
 
 @dataclass
-class LegacyRequest(JsonQuery):
+class LegacyRequest(AbiQuery):
     """Legacy Price/Value request
 
     Legacy request are queries that existed prior to TellorX
@@ -26,6 +26,8 @@ class LegacyRequest(JsonQuery):
     """
 
     legacy_id: int
+
+    abi = [{"name": "legacy_id", "type": "uint256"}]
 
     @property
     def value_type(self) -> ValueType:
