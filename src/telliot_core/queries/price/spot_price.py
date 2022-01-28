@@ -51,7 +51,7 @@ class SpotPrice(AbiQuery):
     currency: str
 
     #: ABI used for encoding/decoding parameters
-    abi = [{"name": "asset", "abi_type": "string"}, {"name": "currency", "abi_type": "string"}]
+    abi = [{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]
 
     @property
     def value_type(self) -> ValueType:

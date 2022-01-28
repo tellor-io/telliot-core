@@ -9,6 +9,7 @@ import clamfig
 import yaml
 
 from telliot_core.model.base import Base
+from telliot_core.queries.abi_query import AbiQuery
 from telliot_core.queries.query import OracleQuery
 
 
@@ -26,6 +27,7 @@ class CatalogEntry(Base):
     descriptor: str
     query_id: str
     active: bool
+    abi: str
 
     @property
     def query(self) -> OracleQuery:
@@ -50,6 +52,11 @@ class Catalog(Base):
         if tag in self._entries:
             raise Exception(f"Error adding query entry: {tag} already exists")
 
+        if isinstance(q, AbiQuery):
+            abi = json.dumps(q.abi)
+        else:
+            abi = ""
+
         entry = CatalogEntry(
             tag=tag,
             title=title,
@@ -57,6 +64,7 @@ class Catalog(Base):
             descriptor=q.descriptor,
             query_id=f"0x{q.query_id.hex()}",
             active=active,
+            abi=abi,
         )
 
         self._entries[tag] = entry
@@ -108,6 +116,7 @@ class Catalog(Base):
             lines.append(f"| Active | `{entry.active}` |")
             lines.append(f"| Type | `{entry.query_type}` |")
             lines.append(f"| Descriptor | `{entry.descriptor}` |")
+            lines.append(f"| Encoding ABI | `{entry.abi}` |")
             lines.append(f"| Query ID | `{entry.query_id}` |")  # type: ignore
             lines.append(f"| Query data | `0x{entry.query.query_data.hex()}` |")
             lines.append("")
