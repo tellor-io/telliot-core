@@ -5,6 +5,7 @@
   descriptor: '{"type":"LegacyRequest","legacy_id":1}'
   query_id: '0x0000000000000000000000000000000000000000000000000000000000000001'
   active: true
+  abi: '[{"name": "legacy_id", "type": "uint256"}]'
 - type: CatalogEntry
   tag: btc-usd-legacy
   title: Legacy BTC/USD spot price
@@ -12,6 +13,7 @@
   descriptor: '{"type":"LegacyRequest","legacy_id":2}'
   query_id: '0x0000000000000000000000000000000000000000000000000000000000000002'
   active: true
+  abi: '[{"name": "legacy_id", "type": "uint256"}]'
 - type: CatalogEntry
   tag: ampl-legacy
   title: Legacy AMPL/USD custom price
@@ -19,6 +21,7 @@
   descriptor: '{"type":"LegacyRequest","legacy_id":10}'
   query_id: '0x000000000000000000000000000000000000000000000000000000000000000a'
   active: true
+  abi: '[{"name": "legacy_id", "type": "uint256"}]'
 - type: CatalogEntry
   tag: uspce-legacy
   title: Legacy USPCE value
@@ -26,6 +29,7 @@
   descriptor: '{"type":"LegacyRequest","legacy_id":41}'
   query_id: '0x0000000000000000000000000000000000000000000000000000000000000029'
   active: true
+  abi: '[{"name": "legacy_id", "type": "uint256"}]'
 - type: CatalogEntry
   tag: trb-usd-legacy
   title: Legacy TRB/USD spot price
@@ -33,6 +37,7 @@
   descriptor: '{"type":"LegacyRequest","legacy_id":50}'
   query_id: '0x0000000000000000000000000000000000000000000000000000000000000032'
   active: true
+  abi: '[{"name": "legacy_id", "type": "uint256"}]'
 - type: CatalogEntry
   tag: eth-jpy-legacy
   title: Legacy ETH/JPY spot price
@@ -40,6 +45,7 @@
   descriptor: '{"type":"LegacyRequest","legacy_id":59}'
   query_id: '0x000000000000000000000000000000000000000000000000000000000000003b'
   active: true
+  abi: '[{"name": "legacy_id", "type": "uint256"}]'
 - type: CatalogEntry
   tag: ohm-eth-spot
   title: OHM/ETH spot price
@@ -47,6 +53,7 @@
   descriptor: '{"type":"SpotPrice","asset":"ohm","currency":"eth"}'
   query_id: '0xee4fcdeed773931af0bcd16cfcea5b366682ffbd4994cf78b4f0a6a40b570340'
   active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
 - type: CatalogEntry
   tag: vsq-usd-spot
   title: VSQ/USD spot price
@@ -54,6 +61,7 @@
   descriptor: '{"type":"SpotPrice","asset":"vsq","currency":"usd"}'
   query_id: '0xa9b17c33422e2e576fb664d1d11d38c377b614d62f92653d006eca7bb2af1656'
   active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
 - type: CatalogEntry
   tag: aws-spot-zone-us-east-1f-instance-i3.16xlarge
   title: AWS Spot Price
@@ -61,3 +69,4 @@
   descriptor: '{"type":"AwsSpotPrice","zone":"us-east-1f","instance":"i3.16xlarge"}'
   query_id: '0x1129a7b6be140744637bf7f2910e8e97b4af103935ee3a885bf7611b94caa3cd'
   active: true
+  abi: '[{"name": "zone", "type": "string"}, {"name": "instance", "type": "string"}]'
