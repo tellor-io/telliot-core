@@ -10,7 +10,7 @@ from telliot_core.queries.price.aws_spot_price import AwsSpotPrice
 
 
 def test_constructor():
-    """Validate spot price query"""
+    """Validate spot price query."""
     q = AwsSpotPrice(zone="us-east-1f", instance="i3.16xlarge")
 
     print(q.query_id.hex())
@@ -32,6 +32,7 @@ def test_constructor():
 
 
 def test_invalid_params():
+    """Check unsupported attribute vals."""
     with pytest.raises(ValueError):
         _ = AwsSpotPrice(zone="doesnotexist", instance="i3.16xlarge")
 

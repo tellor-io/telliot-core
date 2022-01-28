@@ -16,9 +16,11 @@ class AwsSpotPrice(AbiQuery):
 
     Attributes:
         zone:
-            Asset ID (see data specifications for a full list of supported assets)
+            location of AWS data center cluster (example: us-east-1f)
+            https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
         instance:
-            Currency (default = `usd`)
+            EC2 type (example: i3.16xlarge)
+            https://aws.amazon.com/ec2/instance-types/
     """
 
     zone: str
