@@ -43,3 +43,6 @@ def test_endpoint_list():
     # print(json.dumps(sl.get_state(), indent=2))
     ep4 = sl.find(chain_id=4)[0]
     assert ep4.network == "rinkeby"
+
+    ep3 = sl.find(chain_id=3)[0]
+    assert ep3.network == "ropsten"
