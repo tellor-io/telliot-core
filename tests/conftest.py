@@ -71,8 +71,12 @@ def ropsten_cfg():
     # Override configuration for ropsten testnet
     cfg.main.chain_id = 3
 
-    mumbai_accounts = find_accounts(chain_id=3)
-    if not mumbai_accounts:
+    endpt = cfg.get_endpoint()
+    if "INFURA_API_KEY" in endpt.url:
+        endpt.url = f'wss://ropsten.infura.io/ws/v3/{os.environ["INFURA_API_KEY"]}'
+
+    accounts = find_accounts(chain_id=3)
+    if not accounts:
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
