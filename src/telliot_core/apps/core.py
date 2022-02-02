@@ -24,14 +24,15 @@ from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
 from telliot_core.utils.versions import show_telliot_versions
 
-networks = {
+NETWORKS = {
     1: "eth-mainnet",
+    3: "eth-ropsten",
     4: "eth-rinkeby",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
 }
 
-loglevel_map = {
+LOGLEVEL_MAP = {
     "CRITICAL": logging.CRITICAL,
     "ERROR": logging.ERROR,
     "WARNING": logging.WARNING,
@@ -166,7 +167,7 @@ class TelliotCore:
         self._tellorx = None
         self._tellorflex = None
 
-        loglevel = loglevel_map[self._config.main.loglevel]
+        loglevel = LOGLEVEL_MAP[self._config.main.loglevel]
         self._log = init_logging(loglevel)
 
         if chain_id is not None:
@@ -196,7 +197,7 @@ class TelliotCore:
 
         await self._session_manager.open()
 
-        msg = f"Connected to {networks[chain_id]} [default account: {account.name}], time: {datetime.now()}"
+        msg = f"Connected to {NETWORKS[chain_id]} [default account: {account.name}], time: {datetime.now()}"
         self.log.info(msg)
 
     def get_endpoint(
