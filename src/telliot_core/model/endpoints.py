@@ -88,6 +88,13 @@ default_endpoint_list = [
         explorer="https://etherscan.io",
     ),
     RPCEndpoint(
+        chain_id=3,
+        provider="Infura",
+        network="ropsten",
+        url="wss://ropsten.infura.io/ws/v3{INFURA_API_KEY}",
+        explorer="https://ropsten.etherscan.io",
+    ),
+    RPCEndpoint(
         chain_id=4,
         provider="Infura",
         network="rinkeby",
