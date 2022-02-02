@@ -10,8 +10,6 @@ from telliot_core.utils.timestamp import TimeStamp
 async def test_main(ropsten_cfg):
     async with TelliotCore(config=ropsten_cfg) as core:
 
-        chain_id = core.config.main.chain_id
-
         # Playground contract address used for all tellorflex contract addresses
         # since it contains all functions needed.
         flex = core.get_tellorflex_contracts()
