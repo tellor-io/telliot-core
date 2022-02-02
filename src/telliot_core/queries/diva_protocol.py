@@ -8,6 +8,10 @@ from telliot_core.queries.abi_query import AbiQuery
 logger = logging.getLogger(__name__)
 
 
+# TODO
+# This is a very minimal implementation of what is needed for Diva.
+# Eventually, it'll need to fetch a viable optionID automatically and
+# it's associated response type from the DIVA contract
 @dataclass
 class divaProtocolPolygon(AbiQuery):
     """Returns the result for a given option ID (a specific prediction market) on the
