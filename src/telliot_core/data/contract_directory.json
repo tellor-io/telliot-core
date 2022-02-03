@@ -126,11 +126,11 @@
   },
   {
     "type": "ContractInfo",
-    "name": "diva-tellor-oracle",
+    "name": "diva-oracle-tellor",
     "org": "diva",
     "address": {
       "3": "0xED6D661645a11C45F4B82274db677867a7D32675"
     },
-    "abi_file": "diva-tellor-oracle-abi.json"
+    "abi_file": "diva-oracle-tellor-abi.json"
   }
 ]
