@@ -1,8 +1,8 @@
 import pytest
 
 from telliot_core.apps.core import TelliotCore
-from telliot_core.utils.response import ResponseStatus
-from telliot_core.tellor.tellorflex.diva import DivaProtocolContract, DivaOracleTellorContract
+from telliot_core.tellor.tellorflex.diva import DivaOracleTellorContract
+from telliot_core.tellor.tellorflex.diva import DivaProtocolContract
 
 
 @pytest.mark.asyncio
