@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 # TODO
 # This is a very minimal implementation of what is needed for Diva.
-# Eventually, it'll need to fetch a viable optionID automatically and
+# Eventually, it'll need to fetch a viable poolId automatically and
 # it's associated response type from the DIVA contract
 @dataclass
 class divaProtocolPolygon(AbiQuery):
@@ -18,7 +18,7 @@ class divaProtocolPolygon(AbiQuery):
     Diva Protocol on Polygon.
 
     Attributes:
-        option_id:
+        poolId:
             Specifies the requested data a of a valid prediction market that's ready to
             be settled on the Diva Protocol, on the Polygon network.
 
@@ -29,10 +29,10 @@ class divaProtocolPolygon(AbiQuery):
             https://divaprotocol.io
     """
 
-    optionID: int
+    poolId: int
 
     #: ABI used for encoding/decoding parameters
-    abi = [{"name": "optionID", "type": "uint256"}]
+    abi = [{"name": "poolId", "type": "uint256"}]
 
     @property
     def value_type(self) -> ValueType:

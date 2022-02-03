@@ -10,7 +10,7 @@ from telliot_core.queries.diva_protocol import divaProtocolPolygon
 
 def test_constructor():
     """Validate spot price query."""
-    q = divaProtocolPolygon(optionID=156)
+    q = divaProtocolPolygon(poolId=156)
 
     # print(q.query_id.hex())
     # print(q.query_data)
@@ -22,8 +22,8 @@ def test_constructor():
     query_type, encoded_param_vals = decode_abi(["string", "bytes"], q.query_data)
     assert query_type == "divaProtocolPolygon"
 
-    option_id = decode_abi([q.abi[0]["type"]], encoded_param_vals)[0]
-    assert option_id == 156
+    pool_id = decode_abi([q.abi[0]["type"]], encoded_param_vals)[0]
+    assert pool_id == 156
 
     exp = "96ed1e09bc6d42fa15911c36b46dd451f93ce45ecdb19fd46ecf784656a53d84"
     assert q.query_id.hex() == exp
