@@ -45,6 +45,8 @@ class ContractInfo(Serializable):
                 address = self.address[chain_id]
                 if chain_id == 1:
                     url = "https://api.etherscan.io"
+                elif chain_id == 3:
+                    url = "https://api-ropsten.etherscan.io"
                 elif chain_id == 4:
                     url = "https://api-rinkeby.etherscan.io"
                 elif chain_id == 42:

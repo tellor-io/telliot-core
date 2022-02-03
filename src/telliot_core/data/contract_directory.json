@@ -114,5 +114,23 @@
     "address": {
       "1": "0x13853a11Bd9539C15758823902A9421bE9887C53"
     }
+  },
+  {
+    "type": "ContractInfo",
+    "name": "diva-protocol",
+    "org": "diva",
+    "address": {
+      "3": "0x6455A2Ae3c828c4B505b9217b51161f6976bE7cf"
+    },
+    "abi_file": "diva-protocol-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "diva-oracle-tellor",
+    "org": "diva",
+    "address": {
+      "3": "0xED6D661645a11C45F4B82274db677867a7D32675"
+    },
+    "abi_file": "diva-oracle-tellor-abi.json"
   }
 ]
