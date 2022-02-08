@@ -55,6 +55,7 @@
     "org": "tellor",
     "address": {
       "137": "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
+      "122": "0x66c67C69bed74385A4fFbF3986B3e4736c54a5e1",
       "80001": "0x41b66dd93b03e89D29114a7613A6f9f0d4F40178",
       "3": "0xF281e2De3bB71dE348040b10B420615104359c10"
     },
@@ -132,5 +133,14 @@
       "3": "0xED6D661645a11C45F4B82274db677867a7D32675"
     },
     "abi_file": "diva-oracle-tellor-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "wrapped-fuse-token",
+    "org": "fuse",
+    "address": {
+      "122": "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+    },
+    "abi_file": "fuse-token-abi.json"
   }
 ]

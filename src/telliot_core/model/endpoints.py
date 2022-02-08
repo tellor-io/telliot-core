@@ -109,6 +109,13 @@ default_endpoint_list = [
         explorer="https://matic.network",
     ),
     RPCEndpoint(
+        chain_id=122,
+        provider="Fuse",
+        network="mainnet",
+        url="https://rpc.fuse.io",
+        explorer="https://explorer.fuse.io",
+    ),
+    RPCEndpoint(
         chain_id=80001,
         provider="Matic",
         network="mumbai",
