@@ -82,6 +82,29 @@ def ropsten_cfg():
         if key:
             ChainedAccount.add("git-ropsten-key", chains=3, key=os.environ["PRIVATE_KEY"], password="")
         else:
-            raise Exception("Need a mumbai account")
+            raise Exception("Need a ropsten account")
+
+    return cfg
+
+
+@pytest.fixture(scope="session", autouse=True)
+def fuse_cfg():
+    """Return a test telliot configuration for use on polygon-mumbai
+
+    If environment variables are defined, they will override the values in config files
+    """
+    cfg = TelliotConfig()
+
+    # Override configuration for fuse testnet
+    cfg.main.chain_id = 122
+
+    accounts = find_accounts(chain_id=3)
+    if not accounts:
+        # Create a test account using PRIVATE_KEY defined on github.
+        key = os.getenv("PRIVATE_KEY", None)
+        if key:
+            ChainedAccount.add("git-fuse-key", chains=3, key=os.environ["PRIVATE_KEY"], password="")
+        else:
+            raise Exception("Need a Fuse account")
 
     return cfg
