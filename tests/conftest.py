@@ -103,7 +103,7 @@ def fuse_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-fuse-key", chains=3, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add("git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a Fuse account")
 
