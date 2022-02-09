@@ -14,7 +14,7 @@ class TokenContract(Contract):
     def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
         assert chain_id is not None
-        
+
         if chain_id == 122:
             contract_info = contract_directory.find(chain_id=chain_id, name="wrapped-fuse-token")[0]
         else:
