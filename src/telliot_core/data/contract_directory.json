@@ -63,14 +63,14 @@
   },
   {
     "type": "ContractInfo",
-    "name": "polygon-token",
+    "name": "trb-polygon-token",
     "org": "tellor",
     "address": {
       "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
       "80001": "0x45cAF1aae42BA5565EC92362896cc8e0d55a2126",
       "3": "0xF281e2De3bB71dE348040b10B420615104359c10"
     },
-    "abi_file": "polygon-token-abi.json"
+    "abi_file": "trb-polygon-token-abi.json"
   },
   {
     "type": "ContractInfo",
