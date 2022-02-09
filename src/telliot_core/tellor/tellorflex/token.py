@@ -14,8 +14,12 @@ class PolygonTokenContract(Contract):
     def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
         assert chain_id is not None
+        
+        if chain_id == 122:
+            contract_info = contract_directory.find(chain_id=chain_id, name="wrapped-fuse-token")[0]
+        else:
+            contract_info = contract_directory.find(chain_id=chain_id, name="polygon-token")[0]
 
-        contract_info = contract_directory.find(chain_id=chain_id, name="polygon-token")[0]
         if not contract_info:
             raise Exception(f"Tellorflex token contract not found on chain_id {chain_id}")
 

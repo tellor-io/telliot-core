@@ -30,6 +30,7 @@ NETWORKS = {
     4: "eth-rinkeby",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
+    122: "fuse-mainnet",
 }
 
 LOGLEVEL_MAP = {

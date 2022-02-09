@@ -11,13 +11,13 @@
       },
       {
         "type": "address",
-        "name": "guy",
+        "name": "spender",
         "internalType": "address",
         "indexed": true
       },
       {
         "type": "uint256",
-        "name": "wad",
+        "name": "amount",
         "internalType": "uint256",
         "indexed": false
       }
@@ -36,7 +36,7 @@
       },
       {
         "type": "uint256",
-        "name": "wad",
+        "name": "amount",
         "internalType": "uint256",
         "indexed": false
       }
@@ -61,7 +61,7 @@
       },
       {
         "type": "uint256",
-        "name": "wad",
+        "name": "amount",
         "internalType": "uint256",
         "indexed": false
       }
@@ -80,7 +80,7 @@
       },
       {
         "type": "uint256",
-        "name": "wad",
+        "name": "amount",
         "internalType": "uint256",
         "indexed": false
       }
@@ -107,8 +107,8 @@
     "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
     "name": "approve",
     "inputs": [
-      { "type": "address", "name": "guy", "internalType": "address" },
-      { "type": "uint256", "name": "wad", "internalType": "uint256" }
+      { "type": "address", "name": "spender", "internalType": "address" },
+      { "type": "uint256", "name": "amount", "internalType": "uint256" }
     ],
     "constant": false
   },
@@ -174,7 +174,7 @@
     "name": "transfer",
     "inputs": [
       { "type": "address", "name": "dst", "internalType": "address" },
-      { "type": "uint256", "name": "wad", "internalType": "uint256" }
+      { "type": "uint256", "name": "amount", "internalType": "uint256" }
     ],
     "constant": false
   },
@@ -187,7 +187,7 @@
     "inputs": [
       { "type": "address", "name": "src", "internalType": "address" },
       { "type": "address", "name": "dst", "internalType": "address" },
-      { "type": "uint256", "name": "wad", "internalType": "uint256" }
+      { "type": "uint256", "name": "amount", "internalType": "uint256" }
     ],
     "constant": false
   },
@@ -197,7 +197,7 @@
     "payable": false,
     "outputs": [],
     "name": "withdraw",
-    "inputs": [{ "type": "uint256", "name": "wad", "internalType": "uint256" }],
+    "inputs": [{ "type": "uint256", "name": "amount", "internalType": "uint256" }],
     "constant": false
   }
 ]
