@@ -60,3 +60,9 @@ query_catalog.add_entry(
     title="AWS Spot Price",
     q=AwsSpotPrice(zone="us-east-1f", instance="i3.16xlarge"),
 )
+
+query_catalog.add_entry(
+    tag="bct-usd-spot",
+    title="BCT/USD spot price",
+    q=SpotPrice(asset="bct", currency="usd"),
+)
