@@ -70,5 +70,14 @@
     "chain_id": 137,
     "address": "0x0000000000000000000000000000000000001010",
     "decimals": 18
+  },
+   {
+    "type": "ERC20Token",
+    "id": "toucan-protocol-base-carbon-tonne",
+    "name": "Toucan Protocol: Base Carbon Tonne",
+    "symbol": "BCT",
+     "chain_id": 137,
+    "address": "0x2f800db0fdb5223b3c3f354886d907a671414a7f",
+    "decimals": 18
   }
 ]
