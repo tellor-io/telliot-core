@@ -55,6 +55,7 @@
     "org": "tellor",
     "address": {
       "137": "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
+      "122": "0x66c67C69bed74385A4fFbF3986B3e4736c54a5e1",
       "80001": "0x41b66dd93b03e89D29114a7613A6f9f0d4F40178",
       "3": "0xF281e2De3bB71dE348040b10B420615104359c10"
     },
@@ -62,14 +63,14 @@
   },
   {
     "type": "ContractInfo",
-    "name": "polygon-token",
+    "name": "trb-polygon-token",
     "org": "tellor",
     "address": {
       "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
       "80001": "0x45cAF1aae42BA5565EC92362896cc8e0d55a2126",
       "3": "0xF281e2De3bB71dE348040b10B420615104359c10"
     },
-    "abi_file": "polygon-token-abi.json"
+    "abi_file": "trb-polygon-token-abi.json"
   },
   {
     "type": "ContractInfo",
@@ -114,5 +115,32 @@
     "address": {
       "1": "0x13853a11Bd9539C15758823902A9421bE9887C53"
     }
+  },
+  {
+    "type": "ContractInfo",
+    "name": "diva-protocol",
+    "org": "diva",
+    "address": {
+      "3": "0x6455A2Ae3c828c4B505b9217b51161f6976bE7cf"
+    },
+    "abi_file": "diva-protocol-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "diva-oracle-tellor",
+    "org": "diva",
+    "address": {
+      "3": "0xED6D661645a11C45F4B82274db677867a7D32675"
+    },
+    "abi_file": "diva-oracle-tellor-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "wrapped-fuse-token",
+    "org": "fuse",
+    "address": {
+      "122": "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+    },
+    "abi_file": "fuse-token-abi.json"
   }
 ]

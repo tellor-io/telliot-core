@@ -18,7 +18,7 @@ from telliot_core.directory import contract_directory
 from telliot_core.logs import init_logging
 from telliot_core.model.endpoints import RPCEndpoint
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
-from telliot_core.tellor.tellorflex.token import PolygonTokenContract
+from telliot_core.tellor.tellorflex.token import TokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 from telliot_core.utils.home import telliot_homedir
@@ -30,6 +30,7 @@ NETWORKS = {
     4: "eth-rinkeby",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
+    122: "fuse-mainnet",
 }
 
 LOGLEVEL_MAP = {
@@ -52,7 +53,7 @@ class TellorxContractSet:
 @dataclass
 class TellorFlexContractSet:
     oracle: TellorFlexOracleContract
-    token: PolygonTokenContract
+    token: TokenContract
 
 
 class TelliotCore:
@@ -77,7 +78,7 @@ class TelliotCore:
             oracle = TellorFlexOracleContract(node=self.endpoint, account=account)
             oracle.connect()
 
-            token = PolygonTokenContract(node=self.endpoint, account=account)
+            token = TokenContract(node=self.endpoint, account=account)
             token.connect()
 
             self._tellorflex = TellorFlexContractSet(
