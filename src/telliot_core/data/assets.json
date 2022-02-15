@@ -79,5 +79,23 @@
      "chain_id": 137,
     "address": "0x2f800db0fdb5223b3c3f354886d907a671414a7f",
     "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "dai",
+    "name": "Dai Stablecoin",
+    "symbol": "DAI",
+     "chain_id": 1,
+    "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+    "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "dai-matic",
+    "name": "(POS) Dai Stablecoin",
+    "symbol": "DAI",
+     "chain_id": 137,
+    "address": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+    "decimals": 18
   }
 ]
