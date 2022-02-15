@@ -20,7 +20,7 @@ def test_find_aws_spot_price():
 def test_find_all():
     """Find all query entries"""
     qlst = query_catalog.find()
-    assert len(qlst) == 10
+    assert len(qlst) > 10
 
 
 def test_yaml_catalog():
