@@ -66,3 +66,9 @@ query_catalog.add_entry(
     title="BCT/USD spot price",
     q=SpotPrice(asset="bct", currency="usd"),
 )
+
+query_catalog.add_entry(
+    tag="dai-usd-spot",
+    title="DAI/USD spot price",
+    q=SpotPrice(asset="dai", currency="usd"),
+)
