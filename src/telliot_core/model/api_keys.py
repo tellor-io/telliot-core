@@ -35,11 +35,7 @@ default_api_keys = [
         key="",
         url="https://bravenewcoin.p.rapidapi.com/",
     ),
-    ApiKey(
-        name="nomics",
-        key="",
-        url="https://api.nomics.com/",
-    ),
+    ApiKey(name="nomics", key="", url="https://api.nomics.com/"),
 ]
 
 
@@ -49,7 +45,6 @@ class ApiKeyList(ConfigOptions):
 
     def find(
         self,
-        *,
         name: Optional[str] = None,
         url: Optional[str] = None,
     ) -> list[ApiKey]:
