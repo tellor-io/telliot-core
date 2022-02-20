@@ -97,14 +97,14 @@ type: ApiKeyList
 api_keys:
 - type: ApiKey
   name: anyblock
-  key: '{YOUR API KEY GOES HERE}'
+  key: 'YOUR API KEY GOES HERE'
   url: https://api.anyblock.tools/
 - type: ApiKey
   name: bravenewcoin
-  key: '{YOUR API KEY GOES HERE}'
+  key: 'YOUR API KEY GOES HERE'
   url: https://bravenewcoin.p.rapidapi.com/
 - type: ApiKey
   name: nomics
-  key: '{YOUR API KEY GOES HERE}'
+  key: 'YOUR API KEY GOES HERE'
   url: https://api.nomics.com/
 ```
