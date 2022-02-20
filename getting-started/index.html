@@ -288,6 +288,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#add-api-keys" class="md-nav__link">
+    Add API Keys
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -687,6 +694,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#add-api-keys" class="md-nav__link">
+    Add API Keys
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -712,11 +726,7 @@ Telliot must be personalized to use your own private keys and endpoints.</p>
 <p>First, create the default configuration files:</p>
 <div class="highlight"><pre><span></span><code>telliot config init
 </code></pre></div>
-<p>The default configuration files are created in a folder called <code>telliot</code> in the user home folder:</p>
-<div class="highlight"><pre><span></span><code>Saved config &#39;main&#39; to ~/telliot/main.yaml
-Saved config &#39;endpoints&#39; to ~/telliot/endpoints.yaml
-Saved config &#39;chains&#39; to ~/telliot/chains.json
-</code></pre></div>
+<p>The default configuration files are created in a folder called <code>telliot</code> in the user home folder.</p>
 <p>To show the current configuration:</p>
 <div class="highlight"><pre><span></span><code>telliot config show
 </code></pre></div>
@@ -774,6 +784,24 @@ Added new account my-matic-acct (address= 0xcd19cf65af3a3aea1f44a7cb0257fc7455f2
 <span class="w">  </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Infura</span><span class="w"></span>
 <span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wss://rinkeby.infura.io/ws/v3{INFURA_API_KEY}</span><span class="w"></span>
 <span class="w">  </span><span class="nt">explorer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://rinkeby.etherscan.io</span><span class="w"></span>
+</code></pre></div></p>
+<h3 id="add-api-keys">Add API Keys<a class="headerlink" href="#add-api-keys" title="Permanent link">&para;</a></h3>
+<p>Some data sources used for reporting require you to set up an account and use an API key for authenticating requests. Edit <code>~/telliot/api_keys.yaml</code> to add any API keys needed for reporting data like AMPL/USD/VWAP and BCT/USD.</p>
+<p><em>Example <code>api_keys.yaml</code> file:</em>
+<div class="highlight"><pre><span></span><code><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ApiKeyList</span><span class="w"></span>
+<span class="nt">api_keys</span><span class="p">:</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ApiKey</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">anyblock</span><span class="w"></span>
+<span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;YOUR</span><span class="nv"> </span><span class="s">API</span><span class="nv"> </span><span class="s">KEY</span><span class="nv"> </span><span class="s">GOES</span><span class="nv"> </span><span class="s">HERE&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://api.anyblock.tools/</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ApiKey</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bravenewcoin</span><span class="w"></span>
+<span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;YOUR</span><span class="nv"> </span><span class="s">API</span><span class="nv"> </span><span class="s">KEY</span><span class="nv"> </span><span class="s">GOES</span><span class="nv"> </span><span class="s">HERE&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://bravenewcoin.p.rapidapi.com/</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ApiKey</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nomics</span><span class="w"></span>
+<span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;YOUR</span><span class="nv"> </span><span class="s">API</span><span class="nv"> </span><span class="s">KEY</span><span class="nv"> </span><span class="s">GOES</span><span class="nv"> </span><span class="s">HERE&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://api.nomics.com/</span><span class="w"></span>
 </code></pre></div></p>
 
               

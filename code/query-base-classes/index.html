@@ -885,7 +885,7 @@ which is used for the <code>data</code> field of a <code>TellorX.Oracle.tipQuery
 </ul>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">OracleQuery</span><span class="p">(</span><span class="n">Serializable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Oracle Query</span>
 
@@ -1098,7 +1098,7 @@ use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
       <p>Recreate an oracle query from <code>query_data</code></p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_query_from_data</span><span class="p">(</span><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OracleQuery</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Recreate an oracle query from `query_data`&quot;&quot;&quot;</span>
@@ -1139,7 +1139,7 @@ JsonQuery            (<a title="telliot_core.queries.query.OracleQuery" href="#t
       <p>An Oracle Query that uses JSON-encoding to compute the query_data.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\json_query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/json_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JsonQuery</span><span class="p">(</span><span class="n">OracleQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An Oracle Query that uses JSON-encoding to compute the query_data.&quot;&quot;&quot;</span>
 
@@ -1215,7 +1215,7 @@ use in the <code>TellorX.Oracle.tipQuery()</code> contract call.</p>
       <p>Recreate an oracle query from <code>query_data</code></p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\json_query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/json_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_query_from_data</span><span class="p">(</span><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OracleQuery</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Recreate an oracle query from `query_data`&quot;&quot;&quot;</span>
@@ -1281,7 +1281,7 @@ Parameter types must be valid solidity ABI type string.
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\abi_query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/abi_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AbiQuery</span><span class="p">(</span><span class="n">OracleQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An Oracle Query that uses ABI-encoding to compute the query_data.</span>
 
@@ -1384,7 +1384,7 @@ Parameter types must be valid solidity ABI type string.
       <p>Recreate an oracle query from the <code>query_data</code> field</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\abi_query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/abi_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_query_from_data</span><span class="p">(</span><span class="n">query_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OracleQuery</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Recreate an oracle query from the `query_data` field&quot;&quot;&quot;</span>

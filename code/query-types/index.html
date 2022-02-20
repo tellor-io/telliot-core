@@ -828,7 +828,7 @@ SpotPrice            (<a title="telliot_core.queries.abi_query.AbiQuery" href=".
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\price\spot_price.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/price/spot_price.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SpotPrice</span><span class="p">(</span><span class="n">AbiQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the spot price of a cryptocurrency asset in the given currency.</span>
@@ -933,7 +933,7 @@ SpotPrice            (<a title="telliot_core.queries.abi_query.AbiQuery" href=".
       <p>Validate parameters.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\price\spot_price.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/price/spot_price.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Validate parameters.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -991,7 +991,7 @@ new projects.</p>
 for a description of each <code>id</code></p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\legacy_query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/legacy_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">LegacyRequest</span><span class="p">(</span><span class="n">AbiQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Legacy Price/Value request</span>
@@ -1130,7 +1130,7 @@ StringQuery            (<a title="telliot_core.queries.json_query.JsonQuery" hre
 text.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\string_query.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/string_query.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">StringQuery</span><span class="p">(</span><span class="n">JsonQuery</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Static Oracle Query</span>

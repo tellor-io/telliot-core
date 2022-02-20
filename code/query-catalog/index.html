@@ -754,7 +754,7 @@ Catalog            (<span title="telliot_core.model.base.Base">Base</span>)
 It is stored as a mapping of query names (i.e. tags) to <code>CatalogEntry</code> objects.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\catalog.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/catalog.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Catalog</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query Catalog</span>
@@ -875,7 +875,7 @@ It is stored as a mapping of query names (i.e. tags) to <code>CatalogEntry</code
       <p>Add a new entry to the catalog.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\catalog.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/catalog.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">OracleQuery</span><span class="p">,</span> <span class="n">active</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Add a new entry to the catalog.&quot;&quot;&quot;</span>
 
@@ -921,7 +921,7 @@ It is stored as a mapping of query names (i.e. tags) to <code>CatalogEntry</code
       <p>Search the query catalog for matching entries.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\catalog.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/catalog.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">find</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -995,7 +995,7 @@ CatalogEntry            (<span title="telliot_core.model.base.Base">Base</span>)
 <p>An entry in the query Catalog containing relevant information about the query</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\queries\catalog.py</code></summary>
+          <summary>Source code in <code>telliot_core/queries/catalog.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">CatalogEntry</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Query Catalog Entry</span>

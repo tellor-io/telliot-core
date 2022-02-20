@@ -799,7 +799,7 @@ tip request.</p>
 </ul>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\dtypes\value_type.py</code></summary>
+          <summary>Source code in <code>telliot_core/dtypes/value_type.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ValueType</span><span class="p">(</span><span class="n">Serializable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Value Type</span>
@@ -877,7 +877,7 @@ tip request.</p>
       <p>Encode a value using the ABI Type string.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\dtypes\value_type.py</code></summary>
+          <summary>Source code in <code>telliot_core/dtypes/value_type.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Encode a value using the ABI Type string.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">packed</span><span class="p">:</span>
@@ -907,7 +907,7 @@ tip request.</p>
       <p>Decode bytes into a value using abi type string.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\dtypes\value_type.py</code></summary>
+          <summary>Source code in <code>telliot_core/dtypes/value_type.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bytes_val</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Decode bytes into a value using abi type string.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">decode_single</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abi_type</span><span class="p">,</span> <span class="n">bytes_val</span><span class="p">)</span>
@@ -953,7 +953,7 @@ using an ABI data type.  It also provides encoding/decoding
 to/from floating point values.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\dtypes\float_type.py</code></summary>
+          <summary>Source code in <code>telliot_core/dtypes/float_type.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">UnsignedFloatType</span><span class="p">(</span><span class="n">ValueType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Unsigned Float Type</span>
@@ -1090,7 +1090,7 @@ to/from floating point values.</p>
 data type.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\dtypes\float_type.py</code></summary>
+          <summary>Source code in <code>telliot_core/dtypes/float_type.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An encoder for float values</span>
 
@@ -1126,7 +1126,7 @@ data type.</p>
 a floating point value.</p>
 
         <details class="quote">
-          <summary>Source code in <code>telliot_core\dtypes\float_type.py</code></summary>
+          <summary>Source code in <code>telliot_core/dtypes/float_type.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bytes_val</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A decoder for float values</span>
 
