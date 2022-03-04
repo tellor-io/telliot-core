@@ -82,7 +82,7 @@ endpoints:
   chain_id: 4
   network: rinkeby
   provider: Infura
-  url: wss://rinkeby.infura.io/ws/v3{INFURA_API_KEY}
+  url: wss://rinkeby.infura.io/ws/v3/{INFURA_API_KEY}
   explorer: https://rinkeby.etherscan.io
 
 ```

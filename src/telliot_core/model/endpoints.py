@@ -91,14 +91,14 @@ default_endpoint_list = [
         chain_id=3,
         provider="Infura",
         network="ropsten",
-        url="wss://ropsten.infura.io/ws/v3{INFURA_API_KEY}",
+        url="wss://ropsten.infura.io/ws/v3/{INFURA_API_KEY}",
         explorer="https://ropsten.etherscan.io",
     ),
     RPCEndpoint(
         chain_id=4,
         provider="Infura",
         network="rinkeby",
-        url="wss://rinkeby.infura.io/ws/v3{INFURA_API_KEY}",
+        url="wss://rinkeby.infura.io/ws/v3/{INFURA_API_KEY}",
         explorer="https://rinkeby.etherscan.io",
     ),
     RPCEndpoint(
