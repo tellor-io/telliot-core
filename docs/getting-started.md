@@ -22,7 +22,7 @@ The main configuration file allows you to choose the default network Telliot wil
 By default, Telliot is configured to run on Rinkeby testnet, as shown in the example below.
 Edit the `~/telliot/main.yaml` config file for the desired configuration.
 
-- To run on Etherium mainnet, use `chain_id: 1` and `network: mainnet`.
+- To run on Ethereum mainnet, use `chain_id: 1` and `network: mainnet`.
 
 - To submit values to the Tellor oracle, a `private_key` must also be configured.
 
