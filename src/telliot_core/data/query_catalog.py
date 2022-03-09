@@ -72,3 +72,39 @@ query_catalog.add_entry(
     title="DAI/USD spot price",
     q=SpotPrice(asset="dai", currency="usd"),
 )
+
+query_catalog.add_entry(
+    tag="ric-usd-spot",
+    title="RIC/USD spot price",
+    q=SpotPrice(asset="ric", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="idle-usd-spot",
+    title="IDLE/USD spot price",
+    q=SpotPrice(asset="idle", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="mkr-usd-spot",
+    title="MKR/USD spot price",
+    q=SpotPrice(asset="mkr", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="sushi-usd-spot",
+    title="SUSHI/USD spot price",
+    q=SpotPrice(asset="sushi", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="matic-usd-spot",
+    title="MATIC/USD spot price",
+    q=SpotPrice(asset="matic", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="usdc-usd-spot",
+    title="USDC/USD spot price",
+    q=SpotPrice(asset="usdc", currency="usd"),
+)

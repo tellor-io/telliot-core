@@ -97,5 +97,50 @@
      "chain_id": 137,
     "address": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
     "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "usdc",
+    "name": "USD Coin (POS)(USDC)",
+    "symbol": "DAI",
+     "chain_id": 137,
+    "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    "decimals": 6
+  },
+  {
+    "type": "ERC20Token",
+    "id": "sushi",
+    "name": "SushiToken (POS)(SUSHI)",
+    "symbol": "SUSHI",
+     "chain_id": 137,
+    "address": "0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a",
+    "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "idle",
+    "name": "Idle (POS)(IDLE)",
+    "symbol": "IDLE",
+     "chain_id": 137,
+    "address": "0xc25351811983818c9fe6d8c580531819c8ade90f",
+    "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "ricochet",
+    "name": "Ricochet (RIC)",
+    "symbol": "RIC",
+     "chain_id": 137,
+    "address": "0x263026e7e53dbfdce5ae55ade22493f828922965",
+    "decimals": 18
+  },
+  {
+    "type": "ERC20Token",
+    "id": "mkr",
+    "name": "Maker (MKR)",
+    "symbol": "MKR",
+     "chain_id": 1,
+    "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+    "decimals": 18
   }
 ]
