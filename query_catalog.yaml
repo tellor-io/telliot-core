@@ -86,3 +86,51 @@
   query_id: '0xd913406746edf7891a09ffb9b26a12553bbf4d25ecf8e530ec359969fe6a7a9c'
   active: true
   abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
+- type: CatalogEntry
+  tag: ric-usd-spot
+  title: RIC/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"ric","currency":"usd"}'
+  query_id: '0x6e5122118ce52cc9b97c359c1f174a3c21c71d810f7addce3484cc28e0be0f29'
+  active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
+- type: CatalogEntry
+  tag: idle-usd-spot
+  title: IDLE/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"idle","currency":"usd"}'
+  query_id: '0x7239909c0aa5d3e89efb2dce06c80811e93ab18413110b8c0435ee32c52cc4fb'
+  active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
+- type: CatalogEntry
+  tag: mkr-usd-spot
+  title: MKR/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"mkr","currency":"usd"}'
+  query_id: '0xb9d5e25dabd5f0a48f45f5b6b524bac100df05eaf5311f3e5339ac7c3dd0a37e'
+  active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
+- type: CatalogEntry
+  tag: sushi-usd-spot
+  title: SUSHI/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"sushi","currency":"usd"}'
+  query_id: '0x3f640bf607feb4455c3eb10629385d823341cd18fef6f9f87b8bcfbeafc44eeb'
+  active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
+- type: CatalogEntry
+  tag: matic-usd-spot
+  title: MATIC/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"matic","currency":"usd"}'
+  query_id: '0x40aa71e5205fdc7bdb7d65f7ae41daca3820c5d3a8f62357a99eda3aa27244a3'
+  active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
+- type: CatalogEntry
+  tag: usdc-usd-spot
+  title: USDC/USD spot price
+  query_type: SpotPrice
+  descriptor: '{"type":"SpotPrice","asset":"usdc","currency":"usd"}'
+  query_id: '0x8ee44cd434ed5b0e007eee581fbe0855336f3f84484e8d9989a620a4a49aa0f7'
+  active: true
+  abi: '[{"name": "asset", "type": "string"}, {"name": "currency", "type": "string"}]'
