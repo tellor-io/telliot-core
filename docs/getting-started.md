@@ -103,8 +103,5 @@ api_keys:
   name: bravenewcoin
   key: 'YOUR API KEY GOES HERE'
   url: https://bravenewcoin.p.rapidapi.com/
-- type: ApiKey
-  name: nomics
-  key: 'YOUR API KEY GOES HERE'
-  url: https://api.nomics.com/
+...
 ```

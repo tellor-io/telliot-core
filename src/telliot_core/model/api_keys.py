@@ -36,6 +36,7 @@ default_api_keys = [
         url="https://bravenewcoin.p.rapidapi.com/",
     ),
     ApiKey(name="nomics", key="", url="https://api.nomics.com/"),
+    ApiKey(name="coinmarketcap", key="", url="https://pro-api.coinmarketcap.com/"),
 ]
 
 
