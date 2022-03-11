@@ -12,3 +12,6 @@ def test_api_key_list():
 
     res = lis.find(url="https://api.nomics.com/")[0]
     assert res.name == "nomics"
+
+    res = lis.find(name="coinmarketcap")[0]
+    assert res.url == "https://pro-api.coinmarketcap.com/"
