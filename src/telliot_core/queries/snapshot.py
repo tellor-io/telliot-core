@@ -15,6 +15,7 @@ class snapshot(AbiQuery):
         proposalId:
             Specifies the requested data a of a valid proposal on Snapshot.
 
+    see https://docs.snapshot.org/graphql-api for reference
     """
 
     proposalId: str
