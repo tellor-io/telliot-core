@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class snapshot(AbiQuery):
+class Snapshot(AbiQuery):
     """Returns the result for a given option ID (a specific proposal) on Snapshot.
 
     Attributes:
