@@ -12,12 +12,12 @@ async def test_diva_protocol_contract(ropsten_cfg):
         diva = DivaProtocolContract(core.endpoint, account)
         diva.connect()
 
-        assert diva.address == "0x6455A2Ae3c828c4B505b9217b51161f6976bE7cf"
+        assert diva.address == "0x07F0293a07703c583F4Fb4ce3aC64043732eF3bf"
 
-        params = await diva.get_pool_parameters(pool_id=159)
+        params = await diva.get_pool_parameters(pool_id=3)
         print(params)
         assert isinstance(params, tuple)
-        assert params[0] == "BTC/USD"
+        assert params[0] == "ETH/USD"
 
 
 # @pytest.mark.skip("Tx will revert")

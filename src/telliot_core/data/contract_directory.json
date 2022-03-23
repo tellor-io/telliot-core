@@ -121,7 +121,7 @@
     "name": "diva-protocol",
     "org": "diva",
     "address": {
-      "3": "0x6455A2Ae3c828c4B505b9217b51161f6976bE7cf"
+      "3": "0x07F0293a07703c583F4Fb4ce3aC64043732eF3bf"
     },
     "abi_file": "diva-protocol-abi.json"
   },
