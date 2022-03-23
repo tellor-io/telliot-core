@@ -23,7 +23,7 @@ def test_constructor():
     query_type, encoded_param_vals = decode_abi(["string", "bytes"], q.query_data)
     assert query_type == "Snapshot"
 
-    proposalId = decode_abi(["string", "string"], encoded_param_vals)
+    proposalId = decode_abi(["string"], encoded_param_vals)
     assert proposalId == "QmbZ6cYVvfoKvkDX14jRcN86z6bfV135npUfhxmENjHnQ1"
 
     exp = "1129a7b6be140744637bf7f2910e8e97b4af103935ee3a885bf7611b94caa3cd"
