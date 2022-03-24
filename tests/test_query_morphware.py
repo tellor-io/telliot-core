@@ -1,11 +1,12 @@
-""" Unit tests for AWS price queries
+""" Unit tests for Morphware queries.
 
 Copyright (c) 2021-, Tellor Development Community
 Distributed under the terms of the MIT License.
 """
-import pytest
-from eth_abi import decode_abi, decode_single
 import json
+
+from eth_abi import decode_abi
+from eth_abi import decode_single
 
 from telliot_core.queries.morphware import Morphware
 

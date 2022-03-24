@@ -13,8 +13,8 @@ class Morphware(AbiQuery):
 
     Attributes:
         version:
-            Specifies the requested data. Includes cloud compute provider name,
-            instance type names, and region/zone.
+            A reference to Morphware data specifications found
+            here: www.TODObyMorphware.org/path/to/data/specs
 
             More about this query:
             https://github.com/tellor-io/dataSpecs/blob/main/types/Morphware.md
