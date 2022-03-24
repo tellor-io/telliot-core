@@ -91,14 +91,14 @@ default_endpoint_list = [
         chain_id=3,
         provider="Infura",
         network="ropsten",
-        url="wss://ropsten.infura.io/ws/v3{INFURA_API_KEY}",
+        url="wss://ropsten.infura.io/ws/v3/{INFURA_API_KEY}",
         explorer="https://ropsten.etherscan.io",
     ),
     RPCEndpoint(
         chain_id=4,
         provider="Infura",
         network="rinkeby",
-        url="wss://rinkeby.infura.io/ws/v3{INFURA_API_KEY}",
+        url="wss://rinkeby.infura.io/ws/v3/{INFURA_API_KEY}",
         explorer="https://rinkeby.etherscan.io",
     ),
     RPCEndpoint(
@@ -107,6 +107,13 @@ default_endpoint_list = [
         network="mainnet",
         url="https://rpc-mainnet.matic.network",
         explorer="https://matic.network",
+    ),
+    RPCEndpoint(
+        chain_id=122,
+        provider="Fuse",
+        network="mainnet",
+        url="https://rpc.fuse.io",
+        explorer="https://explorer.fuse.io",
     ),
     RPCEndpoint(
         chain_id=80001,

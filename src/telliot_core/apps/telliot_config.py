@@ -11,6 +11,7 @@ from chained_accounts import find_accounts
 
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
+from telliot_core.model.api_keys import ApiKeyList
 from telliot_core.model.base import Base
 from telliot_core.model.chain import ChainList
 from telliot_core.model.endpoints import EndpointList
@@ -42,11 +43,14 @@ class TelliotConfig(Base):
 
     endpoints: EndpointList = field(default_factory=EndpointList)
 
+    api_keys: ApiKeyList = field(default_factory=ApiKeyList)
+
     chains: ChainList = field(default_factory=ChainList)
 
     # Private storage for config files
     _main_config_file: Optional[ConfigFile] = None
     _ep_config_file: Optional[ConfigFile] = None
+    _api_keys_config_file: Optional[ConfigFile] = None
     _chain_config_file: Optional[ConfigFile] = None
 
     def __post_init__(self) -> None:
@@ -62,6 +66,12 @@ class TelliotConfig(Base):
             config_format="yaml",
             config_dir=self.config_dir,
         )
+        self._api_keys_config_file = ConfigFile(
+            name="api_keys",
+            config_type=ApiKeyList,
+            config_format="yaml",
+            config_dir=self.config_dir,
+        )
         self._chain_config_file = ConfigFile(
             name="chains",
             config_type=ChainList,
@@ -71,6 +81,7 @@ class TelliotConfig(Base):
 
         self.main = self._main_config_file.get_config()
         self.endpoints = self._ep_config_file.get_config()
+        self.api_keys = self._api_keys_config_file.get_config()
         self.chains = self._chain_config_file.get_config()
 
     def get_endpoint(self) -> RPCEndpoint:

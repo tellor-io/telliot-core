@@ -60,3 +60,51 @@ query_catalog.add_entry(
     title="AWS Spot Price",
     q=AwsSpotPrice(zone="us-east-1f", instance="i3.16xlarge"),
 )
+
+query_catalog.add_entry(
+    tag="bct-usd-spot",
+    title="BCT/USD spot price",
+    q=SpotPrice(asset="bct", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="dai-usd-spot",
+    title="DAI/USD spot price",
+    q=SpotPrice(asset="dai", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="ric-usd-spot",
+    title="RIC/USD spot price",
+    q=SpotPrice(asset="ric", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="idle-usd-spot",
+    title="IDLE/USD spot price",
+    q=SpotPrice(asset="idle", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="mkr-usd-spot",
+    title="MKR/USD spot price",
+    q=SpotPrice(asset="mkr", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="sushi-usd-spot",
+    title="SUSHI/USD spot price",
+    q=SpotPrice(asset="sushi", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="matic-usd-spot",
+    title="MATIC/USD spot price",
+    q=SpotPrice(asset="matic", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="usdc-usd-spot",
+    title="USDC/USD spot price",
+    q=SpotPrice(asset="usdc", currency="usd"),
+)

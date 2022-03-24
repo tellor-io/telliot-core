@@ -10,11 +10,7 @@ First, create the default configuration files:
 
     telliot config init
 
-The default configuration files are created in a folder called `telliot` in the user home folder:
-
-    Saved config 'main' to ~/telliot/main.yaml
-    Saved config 'endpoints' to ~/telliot/endpoints.yaml
-    Saved config 'chains' to ~/telliot/chains.json
+The default configuration files are created in a folder called `telliot` in the user home folder.
 
 To show the current configuration:
 
@@ -26,7 +22,7 @@ The main configuration file allows you to choose the default network Telliot wil
 By default, Telliot is configured to run on Rinkeby testnet, as shown in the example below.
 Edit the `~/telliot/main.yaml` config file for the desired configuration.
 
-- To run on Etherium mainnet, use `chain_id: 1` and `network: mainnet`.
+- To run on Ethereum mainnet, use `chain_id: 1` and `network: mainnet`.
 
 - To submit values to the Tellor oracle, a `private_key` must also be configured.
 
@@ -86,8 +82,26 @@ endpoints:
   chain_id: 4
   network: rinkeby
   provider: Infura
-  url: wss://rinkeby.infura.io/ws/v3{INFURA_API_KEY}
+  url: wss://rinkeby.infura.io/ws/v3/{INFURA_API_KEY}
   explorer: https://rinkeby.etherscan.io
 
 ```
 
+### Add API Keys
+
+Some data sources used for reporting require you to set up an account and use an API key for authenticating requests. Edit `~/telliot/api_keys.yaml` to add any API keys needed for reporting data like AMPL/USD/VWAP and BCT/USD.
+
+*Example `api_keys.yaml` file:*
+```yaml
+type: ApiKeyList
+api_keys:
+- type: ApiKey
+  name: anyblock
+  key: 'YOUR API KEY GOES HERE'
+  url: https://api.anyblock.tools/
+- type: ApiKey
+  name: bravenewcoin
+  key: 'YOUR API KEY GOES HERE'
+  url: https://bravenewcoin.p.rapidapi.com/
+...
+```

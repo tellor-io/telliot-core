@@ -12,6 +12,7 @@ def prep_dir(clean=False):
 
     main_file = tmpdir / "main.yaml"
     ep_file = tmpdir / "endpoints.yaml"
+    api_keys_file = tmpdir / "api_keys.yaml"
     chain_file = tmpdir / "chains.json"
     directory_file = tmpdir / "directory.json"
 
@@ -20,6 +21,8 @@ def prep_dir(clean=False):
             os.remove(main_file)
         if ep_file.exists():
             os.remove(ep_file)
+        if api_keys_file.exists():
+            os.remove(api_keys_file)
         if chain_file.exists():
             os.remove(chain_file)
         if directory_file.exists():
@@ -36,5 +39,8 @@ def test_telliot_config():
 
     ep = cfg.get_endpoint()
     assert isinstance(ep, RPCEndpoint)
+
+    api_key = cfg.api_keys.find("anyblock")[0]
+    assert api_key.url == "https://api.anyblock.tools/"
 
     tmpdir = prep_dir(clean=True)
