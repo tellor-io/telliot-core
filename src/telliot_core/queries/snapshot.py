@@ -12,16 +12,16 @@ class Snapshot(AbiQuery):
     """Returns the result for a given option ID (a specific proposal) on Snapshot.
 
     Attributes:
-        proposalId:
+        proposal_id:
             Specifies the requested data a of a valid proposal on Snapshot.
 
     see https://docs.snapshot.org/graphql-api for reference
     """
 
-    proposalId: str
+    proposal_id: str
 
     #: ABI used for encoding/decoding parameters
-    abi = [{"name": "proposalId", "type": "string"}]
+    abi = [{"name": "proposal_id", "type": "string"}]
 
     @property
     def value_type(self) -> ValueType:
@@ -30,4 +30,5 @@ class Snapshot(AbiQuery):
         - `uint256[]`: variable-length array of 256-bit values with 18 decimals of precision
         - `packed`: false
         """
+
         return ValueType(abi_type="uint256[]", packed=False)

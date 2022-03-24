@@ -87,7 +87,6 @@ def ropsten_cfg():
             ChainedAccount.add("git-ropsten-key", chains=3, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a ropsten account")
-
     return cfg
 
 
@@ -110,5 +109,4 @@ def fuse_cfg():
             ChainedAccount.add("git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a Fuse account")
-
     return cfg
