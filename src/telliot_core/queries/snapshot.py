@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Snapshot(AbiQuery):
     """Returns the result for a given option ID (a specific proposal) on Snapshot.
+        An array of values representing the amount of votes (uints) for each vote option should be returned
 
     Attributes:
         proposal_id:
