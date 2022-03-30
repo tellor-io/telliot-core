@@ -49,7 +49,7 @@ async def test_diva_protocol_contract(ropsten_cfg):
         assert p.collateral_token == "0x867e53feDe91d27101E062BF7002143EbaEA3e30"
         assert p.collateral_balance_short_initial == 50000000000000000000
         assert p.collateral_balance_long_initial == 50000000000000000000
-        assert p.collateral_balance == 163948846539618856572
+        assert p.collateral_balance >= 214199598796389167516
         assert p.short_token == "0x91E75Aebda86a6B02d5510438f2981AC4Af1A44d"
         assert p.long_token == "0x945b1fA4DB6Fb1f8d3C7501968F6549C8c147D4e"
         assert p.final_reference_value == 0
