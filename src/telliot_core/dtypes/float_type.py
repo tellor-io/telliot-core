@@ -60,4 +60,4 @@ class UnsignedFloatType(ValueType):
 
         intval = int.from_bytes(bytes_val, "big", signed=False)
 
-        return intval / 10.0 ** self.decimals
+        return intval / 10.0**self.decimals
