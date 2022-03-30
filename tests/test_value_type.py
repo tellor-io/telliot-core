@@ -19,7 +19,7 @@ def test_fixed_response_type():
     bytes_val = r1.encode(value)
     assert bytes_val.hex() == "000000000000000000000000000000000000000000000000000000003b9aca00"
     int_val = int.from_bytes(bytes_val, "big", signed=False)
-    assert int_val == 10 ** 9
+    assert int_val == 10**9
 
 
 def test_dynamic_response_type_unpacked():
@@ -47,7 +47,7 @@ def test_packed_response_type_FAILS():
     bytes_val = r1.encode(value)
     assert bytes_val.hex() == "000000003b9aca00"
     int_val = int.from_bytes(bytes_val, "big", signed=False)
-    assert int_val == 10 ** 9
+    assert int_val == 10**9
 
     with pytest.raises(InsufficientDataBytes):
         decoded = r1.decode(bytes_val)
