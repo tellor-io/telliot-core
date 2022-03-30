@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class PoolParameters:
+    """Source: https://github.com/tellor-io/dataSpecs/blob/main/types/DivaProtocolPolygon.md"""
+
     reference_asset: str  # (string) Reference asset string (e.g., "BTC/USD", "ETH Gas Price (Wei)", "TVL Locked in DeFi", etc.) # noqa: E501
     expiry_time: int  # (uint256) Expiration time of the pool and as of time of final value expressed as a unix timestamp in seconds # noqa: E501
     floor: int  # (uint256) Reference asset value at or below which all collateral will end up in the short pool
