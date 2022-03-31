@@ -38,6 +38,8 @@ Install the project using using an [editable installation](https://pip.pypa.io/e
 
 ## Test Environment
 
+Make sure you've [configured Telliot](https://tellor-io.github.io/telliot-feed-examples/getting-started/) before continuing.
+
 Verify the development environment by running `pytest` and ensure that all tests pass.
 
     pytest
