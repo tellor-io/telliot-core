@@ -162,12 +162,24 @@ except for the coder/decoder that converts between the query name/parameters and
 field used in contract interfaces. The latter format is recommended if on-chain read/write access to
 parameter values is required.
 
+You'll also need to create a [test file](https://github.com/tellor-io/telliot-core/blob/main/tests/test_query_snapshot.py) for your new *Query Type*.
+
+To get the [`query_data`][telliot_core.queries.query.OracleQuery.query_data] and [`query_id`][telliot_core.queries.query.OracleQuery.query_id] in hex format, open up a Python shell and enter the following. We'll be using the [`Snapshot`] query as an example. 
+
+```python 
+from telliot_core.queries.snapshot import Snapshot
+
+q = Snapshot(proposal_id="QmbZ6cYVvfoKvkDX14jRcN86z6bfV135npUfhxmENjHnQ1")
+q.query_data
+q.query_id.hex()
+```
+
 ## Propose changes
 
 To propose changes to a Tellor repository, perform the following steps:
 
 1. Fork the tellor repository to your github account.
-2. Make the proposed changes in your forked repository.
+2. Follow our [developer's guide](https://tellor-io.github.io/telliot-core/contributing/) and make the proposed changes in your forked repository.
 3. Submit a pull-request to incorporate the changes from your fork into the main tellor repository.
 
 Alternately, standalone changes can be proposed in a separate repository, but it is the user's
