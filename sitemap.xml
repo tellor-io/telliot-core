@@ -2,67 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tellor-io.github.io/telliot-core/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/contributing/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/documentation/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/getting-started/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/new-query/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/code/datafeed/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/code/dtypes/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/code/query-base-classes/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/code/query-catalog/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/code/query-types/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/examples/legacy_query_example/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/examples/spot_price_query_example/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tellor-io.github.io/telliot-core/examples/text_query_example/</loc>
-         <lastmod>2022-03-04</lastmod>
+         <lastmod>2022-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
