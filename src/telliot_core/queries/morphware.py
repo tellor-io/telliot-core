@@ -32,7 +32,15 @@ class Morphware(AbiQuery):
     def value_type(self) -> ValueType:
         """Data type returned for a Morphware query.
 
-        - `string`: JSON string containing provider, zones, and instance types
+        - `string[]`: Array containing JSON strings of Ec2Metadata objects.
+                    Interface Ec2MetaData {
+                        "Instance Type": string.
+                        "Number of CPUs": string,
+                        "RAM": string,
+                        "On-demand Price per Hour": string
+                    }
+                    Examples of this data type can be found in the tests for
+                    this query: tests/test_query_morphware.py
         - `packed`: false
         """
-        return ValueType(abi_type="string", packed=False)
+        return ValueType(abi_type="string[]", packed=False)
