@@ -39,6 +39,7 @@ def main():
             json.dumps(
                 {
                     "instanceType": unfiltered_data[i]["Instance Type"],
+                    "cudaCores": unfiltered_data[i]["CUDA Cores"],
                     "numCPUs": unfiltered_data[i]["Number of CPUs"],
                     "RAM": unfiltered_data[i]["RAM"],
                     "onDemandPricePerHour": unfiltered_data[i]["On-demand Price per Hour"],

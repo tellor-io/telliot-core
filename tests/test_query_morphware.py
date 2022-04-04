@@ -64,10 +64,11 @@ def test_encode_decode_reported_val():
         },
         # ...
     ]
-    # Discard unneeded fields, rename needed fields
+    # Rename needed fields
     data = [
         {
             "instanceType": data_from_endpoint[0]["Instance Type"],
+            "cudaCores": data_from_endpoint[0]["CUDA Cores"],
             "numCPUs": data_from_endpoint[0]["Number of CPUs"],
             "RAM": data_from_endpoint[0]["RAM"],
             "onDemandPricePerHour": data_from_endpoint[0]["On-demand Price per Hour"],
