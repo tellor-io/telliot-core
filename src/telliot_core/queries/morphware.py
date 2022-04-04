@@ -34,10 +34,11 @@ class Morphware(AbiQuery):
 
         - `string[]`: Array containing JSON strings of Ec2Metadata objects.
                     Interface Ec2MetaData {
-                        "Instance Type": string.
-                        "Number of CPUs": string,
-                        "RAM": string,
-                        "On-demand Price per Hour": string
+                        "Instance Type": str,
+                        "CUDA Cores": int,
+                        "Number of CPUs": int,
+                        "RAM": float,
+                        "On-demand Price per Hour": float,
                     }
                     Examples of this data type can be found in the tests for
                     this query: tests/test_query_morphware.py
