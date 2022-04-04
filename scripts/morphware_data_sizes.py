@@ -28,9 +28,8 @@ def main():
         "service": "compute",
         "region": "us-east-1",
     }
-    rsp = requests.post("http://167.172.239.133:5000/products", headers=headers, json=json_data)
-    d = json.loads(rsp.text)
-    unfiltered_data = d["products"]
+    rsp = requests.post("http://167.172.239.133:5000/products-2", headers=headers, json=json_data)
+    unfiltered_data = json.loads(rsp.text)
     print("Num products:", len(unfiltered_data))
 
     # Remove unneeded product data
@@ -39,10 +38,10 @@ def main():
         data.append(
             json.dumps(
                 {
-                    "instanceType": unfiltered_data[i]["type"],
-                    "numCPUs": str(unfiltered_data[i]["cpusPerVm"]),
-                    "RAM": str(unfiltered_data[i]["memPerVm"]),
-                    "onDemandPricePerHour": str(unfiltered_data[i]["onDemandPrice"]),
+                    "instanceType": unfiltered_data[i]["Instance Type"],
+                    "numCPUs": unfiltered_data[i]["Number of CPUs"],
+                    "RAM": unfiltered_data[i]["RAM"],
+                    "onDemandPricePerHour": unfiltered_data[i]["On-demand Price per Hour"],
                 }
             )
         )

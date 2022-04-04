@@ -52,42 +52,25 @@ def test_encode_decode_reported_val():
     # https://github.com/tellor-io/dataSpecs/blob/main/types/Morphware.md
 
     # Example data source provided by Morphware:
-    # curl --request POST http://167.172.239.133:5000/products -H "Content-Type: application/json" \
+    # curl --request POST http://167.172.239.133:5000/products-2 -H "Content-Type: application/json" \
     # -d '{"provider":"amazon","service":"compute","region":"us-east-1"}'
     data_from_endpoint = [
         {
-            "attributes": {
-                "cpu": "32",
-                "instanceTypeCategory": "GPU instance",
-                "memory": "128",
-                "networkPerfCategory": "extra",
-            },
-            "category": "GPU instance",
-            "cpusPerVm": 32,
-            "currentGen": True,
-            "gpusPerVm": 1,
-            "memPerVm": 128,
-            "ntwPerf": "25 Gigabit",
-            "ntwPerfCategory": "extra",
-            "onDemandPrice": 2.448,
-            "spotPrice": [
-                {"price": 0.9931, "zone": "us-east-1a"},
-                {"price": 0.9751, "zone": "us-east-1b"},
-                {"price": 0.988, "zone": "us-east-1f"},
-                {"price": 0.9862, "zone": "us-east-1c"},
-                {"price": 0.994, "zone": "us-east-1d"},
-            ],
-            "type": "g5.8xlarge",
-            "zones": None,
-        }
+            "Instance Type": "p2.16xlarge",
+            "CUDA Cores": 79872,
+            "Number of CPUs": 64,
+            "RAM": 732.0,
+            "On-demand Price per Hour": 14.4,
+        },
+        # ...
     ]
-    # Discard unneeded fields, rename needed fields, cast nums to strings
+    # Discard unneeded fields, rename needed fields
     data = [
         {
-            "instanceType": data_from_endpoint[0]["type"],
-            "numCPUs": str(data_from_endpoint[0]["cpusPerVm"]),
-            "RAM": str(data_from_endpoint[0]["memPerVm"]),
-            "onDemandPricePerHour": str(data_from_endpoint[0]["onDemandPrice"]),
+            "instanceType": data_from_endpoint[0]["Instance Type"],
+            "numCPUs": data_from_endpoint[0]["Number of CPUs"],
+            "RAM": data_from_endpoint[0]["RAM"],
+            "onDemandPricePerHour": data_from_endpoint[0]["On-demand Price per Hour"],
         }
     ]
     # Convert Ec2Metadata to JSON string
@@ -101,5 +84,5 @@ def test_encode_decode_reported_val():
     assert isinstance(decoded_data[0], str)
 
     d = json.loads(decoded_data[0])
-    assert d["instanceType"] == "g5.8xlarge"
-    assert d["onDemandPricePerHour"] == "2.448"
+    assert d["instanceType"] == "p2.16xlarge"
+    assert d["onDemandPricePerHour"] == "14.4"
