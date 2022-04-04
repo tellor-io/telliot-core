@@ -86,4 +86,4 @@ def test_encode_decode_reported_val():
 
     d = json.loads(decoded_data[0])
     assert d["instanceType"] == "p2.16xlarge"
-    assert d["onDemandPricePerHour"] == "14.4"
+    assert d["onDemandPricePerHour"] == 14.4
