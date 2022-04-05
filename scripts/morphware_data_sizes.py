@@ -12,7 +12,7 @@ def main():
     Print the size of the data returned by a Morphware query
     using Morphare-provided data source endpoint:
 
-    curl --request POST http://167.172.239.133:5000/products -H "Content-Type: application/json" \
+    curl --request POST http://167.172.239.133:5000/products-2 -H "Content-Type: application/json" \
     -d '{"provider":"amazon","service":"compute","region":"us-east-1"}'
 
     Example:
