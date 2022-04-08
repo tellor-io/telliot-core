@@ -27,7 +27,7 @@ async def ethgasstation(style: ethgastypes = "fast") -> Optional[int]:
     i = 0
     while i < 2:
         try:
-            rsp = requests.get("https://ethgastation.info/json/ethgasAPI.json")
+            rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
             prices = json.loads(rsp.content)
             gas_price = int(prices[style])
             return int(gas_price / 10)  # json output is gwei*10
