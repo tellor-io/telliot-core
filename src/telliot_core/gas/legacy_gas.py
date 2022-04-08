@@ -34,6 +34,6 @@ async def ethgasstation(style: ethgastypes = "fast") -> Optional[int]:
         except JSONDecodeError:
             logger.info("ethgasstation api retrying ...")
             i += 1
-            sleep(1)
+            sleep(3)
             continue
     return None
