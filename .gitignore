@@ -158,3 +158,8 @@ temp/
 .tmp/
 Pipfile
 Pipfile.lock
+
+# eth-brownie related files & dependencies
+package.json
+package-lock.json
+node_modules/
