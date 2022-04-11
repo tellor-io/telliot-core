@@ -60,7 +60,7 @@ Edit `~/telliot/endpoints.yaml` to configure Telliot to use your own endpoints.
 
 If you don't have an endpoint, a free one is available at [Infura.io](http://www.infura.io).  Simply replace `INFURA_API_KEY` with the one provided by Infura.
 
-Endpoints should be configured for both Etherium mainnet and Rinkeby testnet.  
+Endpoints should be configured for both Ethereum mainnet and Rinkeby testnet.  
 
 !!! warning
 
