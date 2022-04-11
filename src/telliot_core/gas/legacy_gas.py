@@ -1,7 +1,6 @@
 import json
 import logging
 from json.decoder import JSONDecodeError
-from time import sleep
 from typing import Literal
 from typing import Optional
 
@@ -22,10 +21,9 @@ async def fetch_gas_price() -> Optional[int]:
     return await ethgasstation("fast")
 
 
-async def ethgasstation(style: ethgastypes = "fast") -> Optional[int]:
+async def ethgasstation(style: ethgastypes = "fast", retries: int = 2) -> Optional[int]:
     """Fetch gas price from ethgasstation in gwei"""
-    i = 0
-    while i < 2:
+    for _ in range(retries):
         try:
             rsp = requests.get("https://ethgasstation.info/json/ethgasAPI.json")
             prices = json.loads(rsp.content)
@@ -33,7 +31,5 @@ async def ethgasstation(style: ethgastypes = "fast") -> Optional[int]:
             return int(gas_price / 10)  # json output is gwei*10
         except JSONDecodeError:
             logger.info("ethgasstation api retrying ...")
-            i += 1
-            sleep(3)
             continue
     return None
