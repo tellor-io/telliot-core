@@ -3,9 +3,9 @@ import os
 import secrets
 
 import pytest
+from brownie import accounts
 from chained_accounts import ChainedAccount
 from chained_accounts import find_accounts
-from brownie import accounts
 
 from telliot_core.apps.telliot_config import TelliotConfig
 
@@ -28,10 +28,7 @@ def local_cfg():
     accounts.add(pk)
     chained_accts = find_accounts(name="_test_account")
     # print(dir(ChainedAccount))
-    if (
-        not chained_accts
-        or chained_accts[0].address != "0x3d79f9a83c8bfc5887741a771609da1ac3101f5a"
-    ):
+    if not chained_accts or chained_accts[0].address != "0x3d79f9a83c8bfc5887741a771609da1ac3101f5a":
         ChainedAccount.add("_test_account", chains=80001, key=pk, password="")
 
     # Verify correct test account used
