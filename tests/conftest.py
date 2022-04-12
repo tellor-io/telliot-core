@@ -2,6 +2,7 @@
 import os
 
 import pytest
+from brownie import chain
 from chained_accounts import ChainedAccount
 from chained_accounts import find_accounts
 
@@ -65,28 +66,33 @@ def mumbai_cfg():
 
 
 @pytest.fixture(scope="session", autouse=True)
-def ropsten_cfg():
-    """Return a test telliot configuration for use on polygon-mumbai
-
-    If environment variables are defined, they will override the values in config files
+def ropsten_test_cfg():
+    """Return a test telliot configuration for use of tellorFlex contracts. Overrides
+    the default Web3 provider with a local Ganache endpoint.
     """
+    chain_id = 3
     cfg = TelliotConfig()
 
-    # Override configuration for ropsten testnet
-    cfg.main.chain_id = 3
+    # Use a chain_id with TellorFlex contracts deployed
+    cfg.main.chain_id = chain_id
 
     endpt = cfg.get_endpoint()
-    if "INFURA_API_KEY" in endpt.url:
-        endpt.url = f'wss://ropsten.infura.io/ws/v3/{os.environ["INFURA_API_KEY"]}'
 
-    accounts = find_accounts(chain_id=3)
+    # Configure testing using local Ganache node
+    endpt.url = "http://127.0.0.1:8545"
+
+    # Advance block number to avoid assertion error in endpoint.connect():
+    # connected = self._web3.eth.get_block_number() > 1
+    chain.mine(10)
+
+    accounts = find_accounts(chain_id=chain_id)
     if not accounts:
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-ropsten-key", chains=3, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add("git-tellorflex-test-key", chains=chain_id, key=os.environ["PRIVATE_KEY"], password="")
         else:
-            raise Exception("Need a ropsten account")
+            raise Exception(f"Need an account for {chain_id}")
 
     return cfg
 
