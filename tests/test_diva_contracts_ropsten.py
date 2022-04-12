@@ -4,16 +4,23 @@ from telliot_core.apps.core import TelliotCore
 from telliot_core.tellor.tellorflex.diva import DivaOracleTellorContract
 from telliot_core.tellor.tellorflex.diva import DivaProtocolContract
 from telliot_core.tellor.tellorflex.diva import PoolParameters
+from brownie import TellorFlex, StakingToken, accounts, DIVAProtocolMock
+
+
+@pytest.fixture
+def diva_mock_contract():
+    return accounts[0].deploy(DIVAProtocolMock)
 
 
 @pytest.mark.asyncio
-async def test_diva_protocol_contract(ropsten_cfg):
-    async with TelliotCore(config=ropsten_cfg) as core:
+async def test_diva_protocol_contract(ropsten_test_cfg, diva_mock_contract):
+    async with TelliotCore(config=ropsten_test_cfg) as core:
         account = core.get_account()
         diva = DivaProtocolContract(core.endpoint, account)
+        diva.address = diva_mock_contract.address # Override with locally-deployed mock contract address
         diva.connect()
 
-        assert diva.address == "0x07F0293a07703c583F4Fb4ce3aC64043732eF3bf"
+        assert diva.address == diva_mock_contract.address
 
         p = await diva.get_pool_parameters(pool_id=3)
         print(p)
@@ -63,7 +70,7 @@ async def test_diva_protocol_contract(ropsten_cfg):
         assert p.capacity == 0
 
 
-# @pytest.mark.skip("Tx will revert")
+@pytest.mark.skip("Under construction")
 @pytest.mark.asyncio
 async def test_diva_tellor_oracle_contract(ropsten_cfg):
     async with TelliotCore(config=ropsten_cfg) as core:
