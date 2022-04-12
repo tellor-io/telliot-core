@@ -1,15 +1,12 @@
 """Pytest Fixtures used for testing Pytelliot"""
 import os
-import secrets
 
 import pytest
-from brownie import accounts
 from brownie import chain
 from chained_accounts import ChainedAccount
 from chained_accounts import find_accounts
 
 from telliot_core.apps.telliot_config import TelliotConfig
-
 
 
 @pytest.fixture(scope="session", autouse=True)

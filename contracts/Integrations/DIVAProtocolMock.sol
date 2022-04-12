@@ -16,9 +16,9 @@ contract DIVAProtocolMock {
     struct Pool {
         string referenceAsset;                      // Reference asset string (e.g., "BTC/USD", "ETH Gas Price (Wei)", "TVL Locked in DeFi", etc.)
         uint256 expiryTime;                         // Expiration time of the pool and as of time of final value expressed as a unix timestamp in seconds
-        uint256 floor;                              // Reference asset value at or below which all collateral will end up in the short pool 
+        uint256 floor;                              // Reference asset value at or below which all collateral will end up in the short pool
         uint256 inflection;                         // Threshold for rebalancing between the long and the short side of the pool
-        uint256 cap;                                // Reference asset value at or above which all collateral will end up in the long pool    
+        uint256 cap;                                // Reference asset value at or above which all collateral will end up in the long pool
         uint256 supplyInitial;                      // Initial short and long token supply
         address collateralToken;                    // Address of ERC20 collateral token
         uint256 collateralBalanceShortInitial;      // Collateral balance of short side at pool creation
