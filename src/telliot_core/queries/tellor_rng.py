@@ -1,7 +1,6 @@
 import logging
 from dataclasses import dataclass
 
-from telliot_core.dtypes.bytes32_type import Bytes32Type
 from telliot_core.dtypes.value_type import ValueType
 from telliot_core.queries.abi_query import AbiQuery
 
@@ -29,4 +28,4 @@ class TellorRNG(AbiQuery):
         - `bytes32`: 32 bytes hexadecimal value
         - `packed`: false
         """
-        return Bytes32Type(abi_type="bytes32", packed=False)
+        return ValueType(abi_type="bytes32", packed=False)
