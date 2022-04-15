@@ -6,21 +6,10 @@
 
 # Telliot Core
 
-Telliot is a Python framework for in
-teracting with the decentralized TellorX network.
-This `telliot-core` repo contains the telliot core functionality and plugin framework
-for use by other telliot packages and data feeds.
+Telliot is a command line tool and software development kit (SDK) for interacting with the [Tellor protocol](https://docs.tellor.io/tellor/whitepaper/introduction).
 
-Please refer to the following for additional information:
-
-- [Telliot Core Documentation](https://tellor-io.github.io/telliot-core/)
-- [TellorX Whitepaper](https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf)
-
-**Please note that the telliot-core API is a work in progress, and may have frequency updates/changes in the near term**
-
-This package should only be installed by advanced users, contributors, and developers of
-custom data feeds.  For more information on contributing and setting up a development environment, please
-[check here](https://tellor-io.github.io/telliot-core/contributing/)
+- [Documentation](https://tellor-io.github.io/telliot-core/)
+- [Contributing](https://tellor-io.github.io/telliot-core/contributing/)
 
 To become a Tellor reporter, begin by installing the
 [telliot-feed-examples](https://github.com/tellor-io/telliot-feed-examples) package.
