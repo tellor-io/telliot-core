@@ -1,32 +1,44 @@
-import logging
-from dataclasses import dataclass
+""" Unit tests for Tellor RNG Query
 
-from telliot_core.dtypes.bytes32_type import Bytes32Type
-from telliot_core.dtypes.value_type import ValueType
-from telliot_core.queries.abi_query import AbiQuery
+Copyright (c) 2022-, Tellor Development Community
+Distributed under the terms of the MIT License.
+"""
+from eth_abi import decode_abi
+from eth_abi import decode_single
 
-logger = logging.getLogger(__name__)
+from telliot_core.queries.tellor_rng import TellorRNG
 
+def test_tellor_rng_query():
+    """Validate tellor rng query"""
+    q = TellorRNG(
+        timestamp=1000000,
+    )
+    assert q.value_type.abi_type == "bytes32"
+    assert q.value_type.packed is False
 
-@dataclass
-class TellorRNG(AbiQuery):
-    """Returns a pseudorandom number generated from hashing together blockhashes from multiple chains.
+    exp_abi = (
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x40\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x09\x54\x65\x6c\x6c\x6f\x72"
+        b"\x52\x4e\x47\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x0f\x42\x40"
+    )
 
-    Attributes:
-        timestamp:
-            time at which to take the most recent blockhashes (example: 1647624359)
-    """
+    assert q.query_data == exp_abi
 
-    timestamp: int
+    query_type, encoded_param_vals = decode_abi(["string", "bytes"], q.query_data)
+    assert query_type == "TellorRNG"
 
-    #: ABI used for encoding/decoding parameters
-    abi = [{"name": "timestamp", "type": "uint256"}]
+    timestamp = decode_single("uint256", encoded_param_vals)
+    assert timestamp == 1000000
 
-    @property
-    def value_type(self) -> ValueType:
-        """Data type returned for a TellorRNG query.
+    assert isinstance(timestamp, int)
 
-        - `bytes32`: 32 bytes hexadecimal value
-        - `packed`: false
-        """
-        return Bytes32Type(abi_type="bytes32", packed=False)
+    assert q.query_id.hex() == "3f43c74ef29e7115b1788f887bcd92a88a242fbab13e1721339adf7b238a473b"
