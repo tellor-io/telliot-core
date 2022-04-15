@@ -8,6 +8,7 @@ from eth_abi import decode_single
 
 from telliot_core.queries.tellor_rng import TellorRNG
 
+
 def test_tellor_rng_query():
     """Validate tellor rng query"""
     q = TellorRNG(
@@ -16,6 +17,7 @@ def test_tellor_rng_query():
     assert q.value_type.abi_type == "bytes32"
     assert q.value_type.packed is False
 
+    print(q.query_data)
     exp_abi = (
         b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
         b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x40\x00\x00"
@@ -37,8 +39,7 @@ def test_tellor_rng_query():
     assert query_type == "TellorRNG"
 
     timestamp = decode_single("uint256", encoded_param_vals)
+
     assert timestamp == 1000000
-
     assert isinstance(timestamp, int)
-
     assert q.query_id.hex() == "3f43c74ef29e7115b1788f887bcd92a88a242fbab13e1721339adf7b238a473b"
