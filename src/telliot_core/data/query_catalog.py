@@ -1,5 +1,6 @@
 from telliot_core.queries.catalog import Catalog
 from telliot_core.queries.legacy_query import LegacyRequest
+from telliot_core.queries.morphware import Morphware
 from telliot_core.queries.price.spot_price import SpotPrice
 
 """Main instance of the Query Catalog."""
@@ -100,4 +101,10 @@ query_catalog.add_entry(
     tag="usdc-usd-spot",
     title="USDC/USD spot price",
     q=SpotPrice(asset="usdc", currency="usd"),
+)
+
+query_catalog.add_entry(
+    tag="morphware-v1",
+    title="Morphware version 1",
+    q=Morphware(version=1),
 )
