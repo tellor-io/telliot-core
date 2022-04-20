@@ -26,7 +26,9 @@ async def test_diva_protocol_contract(ropsten_test_cfg, diva_mock_contract):
     async with TelliotCore(config=ropsten_test_cfg) as core:
         account = core.get_account()
         diva = DivaProtocolContract(core.endpoint, account)
-        diva.address = diva_mock_contract.address  # Override with locally-deployed mock contract address
+        diva.address = (
+            diva_mock_contract.address
+        )  # Override with locally-deployed mock contract address
         diva.connect()
 
         assert diva.address == diva_mock_contract.address
@@ -84,7 +86,9 @@ async def test_diva_tellor_oracle_contract(ropsten_test_cfg, diva_oracle_mock_co
     async with TelliotCore(config=ropsten_test_cfg) as core:
         account = core.get_account()
         oracle = DivaOracleTellorContract(core.endpoint, account)
-        oracle.address = diva_oracle_mock_contract.address  # Override with locally-deployed mock contract address
+        oracle.address = (
+            diva_oracle_mock_contract.address
+        )  # Override with locally-deployed mock contract address
         oracle.connect()
 
         assert oracle.address == diva_oracle_mock_contract.address
