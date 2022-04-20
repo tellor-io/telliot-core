@@ -116,6 +116,11 @@ def mumbai_test_cfg(scope="session", autouse=True):
     return local_node_cfg(chain_id=80001)
 
 
+@pytest.fixture
+def rinkeby_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=4)
+
+
 @pytest.fixture(scope="session", autouse=True)
 def fuse_cfg():
     """Return a test telliot configuration for use on polygon-mumbai
