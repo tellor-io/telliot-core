@@ -1,5 +1,6 @@
 import pytest
 from brownie import accounts
+from brownie import DIVAOracleMock
 from brownie import DIVAProtocolMock
 
 from telliot_core.apps.core import TelliotCore
@@ -7,10 +8,17 @@ from telliot_core.tellor.tellorflex.diva import DivaOracleTellorContract
 from telliot_core.tellor.tellorflex.diva import DivaProtocolContract
 from telliot_core.tellor.tellorflex.diva import PoolParameters
 
+# from telliot_core.utils.response import ResponseStatus
+
 
 @pytest.fixture
 def diva_mock_contract():
     return accounts[0].deploy(DIVAProtocolMock)
+
+
+@pytest.fixture
+def diva_oracle_mock_contract():
+    return accounts[0].deploy(DIVAOracleMock)
 
 
 @pytest.mark.asyncio
@@ -71,22 +79,23 @@ async def test_diva_protocol_contract(ropsten_test_cfg, diva_mock_contract):
         assert p.capacity == 0
 
 
-@pytest.mark.skip("Under construction")
 @pytest.mark.asyncio
-async def test_diva_tellor_oracle_contract(ropsten_cfg):
-    async with TelliotCore(config=ropsten_cfg) as core:
+async def test_diva_tellor_oracle_contract(ropsten_test_cfg, diva_oracle_mock_contract):
+    async with TelliotCore(config=ropsten_test_cfg) as core:
         account = core.get_account()
         oracle = DivaOracleTellorContract(core.endpoint, account)
+        oracle.address = diva_oracle_mock_contract.address  # Override with locally-deployed mock contract address
         oracle.connect()
 
-        assert oracle.address == "0xED6D661645a11C45F4B82274db677867a7D32675"
+        assert oracle.address == diva_oracle_mock_contract.address
 
         t = await oracle.get_min_period_undisputed()
         print(t)
         assert isinstance(t, int)
         assert t == 3600  # seconds
 
-        # TODO:
-        # status = await oracle.set_final_reference_value(pool_id=159,legacy_gas_price=100)
+        # status = await oracle.set_final_reference_value(
+        # pool_id=159, legacy_gas_price=100
+        # )
         # assert isinstance(status, ResponseStatus)
         # assert status.ok

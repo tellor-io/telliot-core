@@ -2,17 +2,13 @@ from typing import List
 from typing import Optional
 from typing import Union
 
+from telliot_core.data.query_catalog import query_catalog
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
-
-reporter_sync_schedule: List[str] = [
-    "eth-usd-legacy",
-    "btc-usd-legacy",
-    "trb-usd-legacy",
-    "ohm-eth-spot",
-]
+reporter_sync_schedule: List[str] = list(query_catalog._entries.keys())
+print(reporter_sync_schedule)
 
 
 async def tellor_suggested_report(

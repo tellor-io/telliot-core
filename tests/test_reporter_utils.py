@@ -5,6 +5,7 @@ import telliot_core.cli.main
 from telliot_core.apps.core import TelliotCore
 from telliot_core.data.query_catalog import query_catalog
 from telliot_core.queries.query import OracleQuery
+from telliot_core.reporters.reporter_utils import reporter_sync_schedule
 from telliot_core.reporters.reporter_utils import tellor_suggested_report
 
 
@@ -26,3 +27,10 @@ def test_suggested_report_cli():
     runner = CliRunner()
     result = runner.invoke(telliot_core.cli.main.main, ["--test_config", "query", "suggest"])
     assert "Suggested query" in result.output
+
+
+def test_reporter_sync_schedule_list():
+    """Test reporter_sync_schedule list"""
+    lis = reporter_sync_schedule
+    assert len(lis) > 4
+    assert "eth-usd-legacy" in lis
