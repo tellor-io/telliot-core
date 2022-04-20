@@ -66,8 +66,8 @@
     "name": "tellorflex-autopay",
     "org": "tellor",
     "address": {
-      "137": "",
-      "80001": ""
+      "137": "0xf27C4d5551a9127D649E2b99f6Ffa9604B85973d",
+      "80001": "0xf27C4d5551a9127D649E2b99f6Ffa9604B85973d"
     }
   },
   {
