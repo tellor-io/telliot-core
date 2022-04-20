@@ -23,33 +23,33 @@ def test_homedir():
 
 
 @pytest.mark.asyncio
-async def test_application_homedir(rinkeby_cfg):
+async def test_application_homedir(mumbai_test_cfg):
     """Test home directory handling"""
     if testhome.exists():
         shutil.rmtree(testhome)
 
     testhome.mkdir(parents=True)
-    app = TelliotCore(config=rinkeby_cfg, homedir=testhome)
+    app = TelliotCore(config=mumbai_test_cfg, homedir=testhome)
     assert isinstance(app.homedir, pathlib.Path)
 
     shutil.rmtree(testhome)
 
 
 @pytest.mark.asyncio
-async def test_application_default_home(rinkeby_cfg):
+async def test_application_default_home(mumbai_test_cfg):
     """Test default application directory"""
 
-    async with TelliotCore(config=rinkeby_cfg) as app:
+    async with TelliotCore(config=mumbai_test_cfg) as app:
         assert app.homedir == default_homedir()
         assert "telliot" in str(app.homedir)
 
 
 @pytest.mark.asyncio
-async def test_app_constructor(rinkeby_cfg):
+async def test_app_constructor(mumbai_test_cfg):
     tmpdir = Path(".tmp")
     if not tmpdir.exists():
         tmpdir.mkdir()
 
     # Create a default application
-    async with TelliotCore(config=rinkeby_cfg, homedir=Path(".tmp")) as app:
+    async with TelliotCore(config=mumbai_test_cfg, homedir=Path(".tmp")) as app:
         assert app.homedir.absolute() == tmpdir.absolute()
