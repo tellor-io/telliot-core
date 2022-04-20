@@ -31,7 +31,9 @@ def rinkeby_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password=""
+            )
         else:
             raise Exception("Need a rinkeby account")
 
@@ -51,26 +53,32 @@ def mumbai_cfg():
 
     endpt = cfg.get_endpoint()
     if "INFURA_API_KEY" in endpt.url:
-        endpt.url = f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
+        endpt.url = (
+            f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
+        )
 
     mumbai_accounts = find_accounts(chain_id=80001)
     if not mumbai_accounts:
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-mumbai-key", chains=80001, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-mumbai-key",
+                chains=80001,
+                key=os.environ["PRIVATE_KEY"],
+                password="",
+            )
         else:
             raise Exception("Need a mumbai account")
 
     return cfg
 
 
-@pytest.fixture(scope="session", autouse=True)
-def ropsten_test_cfg():
+def local_node_cfg(chain_id: int):
     """Return a test telliot configuration for use of tellorFlex contracts. Overrides
     the default Web3 provider with a local Ganache endpoint.
     """
-    chain_id = 3
+
     cfg = TelliotConfig()
 
     # Use a chain_id with TellorFlex contracts deployed
@@ -90,11 +98,21 @@ def ropsten_test_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-tellorflex-test-key", chains=chain_id, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-tellorflex-test-key",
+                chains=chain_id,
+                key=os.environ["PRIVATE_KEY"],
+                password="",
+            )
         else:
             raise Exception(f"Need an account for {chain_id}")
 
     return cfg
+
+
+@pytest.fixture
+def ropsten_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=3)
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -113,7 +131,9 @@ def fuse_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password=""
+            )
         else:
             raise Exception("Need a Fuse account")
 
