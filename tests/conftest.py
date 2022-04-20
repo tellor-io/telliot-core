@@ -58,19 +58,23 @@ def mumbai_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-mumbai-key", chains=80001, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-mumbai-key",
+                chains=80001,
+                key=os.environ["PRIVATE_KEY"],
+                password="",
+            )
         else:
             raise Exception("Need a mumbai account")
 
     return cfg
 
 
-@pytest.fixture(scope="session", autouse=True)
-def ropsten_test_cfg():
+def local_node_cfg(chain_id: int):
     """Return a test telliot configuration for use of tellorFlex contracts. Overrides
     the default Web3 provider with a local Ganache endpoint.
     """
-    chain_id = 3
+
     cfg = TelliotConfig()
 
     # Use a chain_id with TellorFlex contracts deployed
@@ -90,11 +94,26 @@ def ropsten_test_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-tellorflex-test-key", chains=chain_id, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-tellorflex-test-key",
+                chains=chain_id,
+                key=os.environ["PRIVATE_KEY"],
+                password="",
+            )
         else:
             raise Exception(f"Need an account for {chain_id}")
 
     return cfg
+
+
+@pytest.fixture
+def ropsten_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=3)
+
+
+@pytest.fixture
+def mumbai_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=80001)
 
 
 @pytest.fixture(scope="session", autouse=True)
