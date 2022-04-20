@@ -31,9 +31,7 @@ def rinkeby_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add(
-                "git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password=""
-            )
+            ChainedAccount.add("git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a rinkeby account")
 
@@ -53,9 +51,7 @@ def mumbai_cfg():
 
     endpt = cfg.get_endpoint()
     if "INFURA_API_KEY" in endpt.url:
-        endpt.url = (
-            f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
-        )
+        endpt.url = f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
 
     mumbai_accounts = find_accounts(chain_id=80001)
     if not mumbai_accounts:
@@ -131,9 +127,7 @@ def fuse_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add(
-                "git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password=""
-            )
+            ChainedAccount.add("git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password="")
         else:
             raise Exception("Need a Fuse account")
 
