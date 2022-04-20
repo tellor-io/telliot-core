@@ -6,7 +6,6 @@ from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
 
-@pytest.mark.skip("Failing on github action runs")
 @pytest.mark.asyncio
 async def test_main(mumbai_cfg):
     async with TelliotCore(config=mumbai_cfg) as core:
@@ -48,7 +47,9 @@ async def test_main(mumbai_cfg):
         total_stake = await flex.oracle.get_total_stake_amount()
         print(f"Total Stake: {total_stake}")
 
-        staker_info, status = await flex.oracle.get_staker_info(core.get_account().address)
+        staker_info, status = await flex.oracle.get_staker_info(
+            core.get_account().address
+        )
         assert isinstance(status, ResponseStatus)
         if status.ok:
             for info in staker_info:
@@ -64,16 +65,3 @@ async def test_main(mumbai_cfg):
             assert isinstance(count, int)
         else:
             assert count is None
-
-
-@pytest.mark.asyncio
-async def test_tellorflex_fuse(fuse_cfg):
-    async with TelliotCore(config=fuse_cfg) as core:
-        chain_id = core.config.main.chain_id
-        assert chain_id == 122
-
-        flex = core.get_tellorflex_contracts()
-        assert flex.token.address == "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
-
-        stake_amount = await flex.oracle.get_stake_amount()
-        assert stake_amount == 100.0
