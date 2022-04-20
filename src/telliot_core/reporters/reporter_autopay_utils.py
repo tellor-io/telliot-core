@@ -9,9 +9,7 @@ query_ids_in_catalog: List[str] = [lis.query_id for lis in query_catalog._entrie
 print(query_ids_in_catalog)
 
 
-async def autopay_suggested_report(
-    autopay: TellorFlexAutopayContract
-) -> Optional[str]:
+async def autopay_suggested_report(autopay: TellorFlexAutopayContract) -> Optional[str]:
     """Returns the currently suggested query to report against.
 
     Pulls query_ids with tips available from the tellor autopay
@@ -28,10 +26,7 @@ async def autopay_suggested_report(
 
     if status.ok:
 
-        tips_dictionary = {
-            i: autopay.get_current_tip(i)
-            for i in queryIdLis if i in query_ids_in_catalog
-        }
+        tips_dictionary = {i: autopay.get_current_tip(i) for i in queryIdLis if i in query_ids_in_catalog}
         tips_sorted = list(sorted(tips_dictionary.items(), key=lambda item: item[1]))  # type: ignore
 
         suggested_qtag = tips_sorted[0][0]

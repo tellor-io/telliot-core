@@ -50,4 +50,5 @@ if __name__ == "__main__":
             t = await flex.autopay.get_current_tip(query_id=b"")
 
             print(f"Hello world!  One time tip amount: {t}")
+
     asyncio.run(hello_world())
