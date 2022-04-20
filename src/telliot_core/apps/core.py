@@ -17,6 +17,7 @@ from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
 from telliot_core.logs import init_logging
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.tellor.tellorflex.autopay import TellorFlexAutopayContract
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorflex.token import TokenContract
 from telliot_core.tellor.tellorx.master import TellorxMasterContract
@@ -53,6 +54,7 @@ class TellorxContractSet:
 @dataclass
 class TellorFlexContractSet:
     oracle: TellorFlexOracleContract
+    autopay: TellorFlexAutopayContract
     token: TokenContract
 
 
@@ -81,10 +83,10 @@ class TelliotCore:
             token = TokenContract(node=self.endpoint, account=account)
             token.connect()
 
-            self._tellorflex = TellorFlexContractSet(
-                oracle=oracle,
-                token=token,
-            )
+            autopay = TellorFlexAutopayContract(node=self.endpoint, account=account)
+            autopay.connect()
+
+            self._tellorflex = TellorFlexContractSet(oracle=oracle, token=token, autopay=autopay)
 
         return self._tellorflex
 
