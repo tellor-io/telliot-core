@@ -21,7 +21,8 @@ class GasPriceOracle(AbiQuery):
             https://ethereum.org/en/developers/docs/gas/
     """
 
-    version: int
+    chainId: int
+    timestamp: int
 
     #: ABI used for encoding/decoding parameters
     abi = [
