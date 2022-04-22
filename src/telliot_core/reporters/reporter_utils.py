@@ -8,7 +8,6 @@ from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
 reporter_sync_schedule: List[str] = list(query_catalog._entries.keys())
-print(reporter_sync_schedule)
 
 
 async def tellor_suggested_report(
