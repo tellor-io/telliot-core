@@ -1,8 +1,7 @@
 import logging
 from dataclasses import dataclass
-from telliot_core.dtypes.float_type import UnsignedFloatType
 
-from telliot_core.dtypes.value_type import ValueType
+from telliot_core.dtypes.float_type import UnsignedFloatType
 from telliot_core.queries.abi_query import AbiQuery
 
 logger = logging.getLogger(__name__)
@@ -15,7 +14,7 @@ class GasPriceOracle(AbiQuery):
     Attributes:
         version:
             A reference to GasPriceOracle data specifications found
-            here: 
+            here:
             https://github.com/tellor-io/dataSpecs/blob/main/types/GasPriceOracle.md
 
             More about gas/gas price/gas price oracles:
@@ -41,8 +40,8 @@ class GasPriceOracle(AbiQuery):
     def value_type(self) -> UnsignedFloatType:
         """Data type returned for a GasPriceOracle query. Returns a gas price in gwei.
 
-            - abi_type: ufixed256x18 (18 decimals of precision)
-            - packed: false
+        - abi_type: ufixed256x18 (18 decimals of precision)
+        - packed: false
 
         """
         return UnsignedFloatType(abi_type="ufixed256x18", packed=False)
