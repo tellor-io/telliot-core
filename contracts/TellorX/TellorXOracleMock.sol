@@ -7,6 +7,6 @@ contract TellorXOracleMock {
         pure
         returns (uint256)
     {
-        return 1234;
+        return 1235;
     }
 }
