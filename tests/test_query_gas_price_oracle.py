@@ -7,7 +7,6 @@ from base64 import encode
 import json
 
 from eth_abi import decode_abi
-from eth_abi import decode_single
 from telliot_core.queries.gas_price_oracle import GasPriceOracle
 
 def test_query_constructor():
@@ -38,45 +37,19 @@ def test_query_constructor():
 
 def test_encode_decode_reported_val():
     """Ensure expected encoding/decoding behavior."""
-    q = Morphware(version=1)
+    q = GasPriceOracle(chainId=1, timestamp=1650552232)
 
-    # JSON string containing data specified by Morphware and
+    # JSON string containing data specified and
     # referenced in Tellor /dataSpecs:
-    # https://github.com/tellor-io/dataSpecs/blob/main/types/Morphware.md
+    # https://github.com/tellor-io/dataSpecs/blob/main/types/GasPriceOracle.md
 
-    # Example data source provided by Morphware:
-    # curl --request POST http://167.172.239.133:5000/products-2 -H "Content-Type: application/json" \
-    # -d '{"provider":"amazon","service":"compute","region":"us-east-1"}'
-    data_from_endpoint = [
-        {
-            "Instance Type": "p2.16xlarge",
-            "CUDA Cores": 79872,
-            "Number of CPUs": 64,
-            "RAM": 732.0,
-            "On-demand Price per Hour": 14.4,
-        },
-        # ...
-    ]
-    # Rename needed fields
-    data = [
-        {
-            "instanceType": data_from_endpoint[0]["Instance Type"],
-            "cudaCores": data_from_endpoint[0]["CUDA Cores"],
-            "numCPUs": data_from_endpoint[0]["Number of CPUs"],
-            "RAM": data_from_endpoint[0]["RAM"],
-            "onDemandPricePerHour": data_from_endpoint[0]["On-demand Price per Hour"],
-        }
-    ]
-    # Convert Ec2Metadata to JSON string
-    data = [json.dumps(data[0])]
+    data = 31.7 #example gas price in gwei
 
     submit_value = q.value_type.encode(data)
     assert isinstance(submit_value, bytes)
 
     decoded_data = q.value_type.decode(submit_value)
-    assert isinstance(decoded_data, tuple)
-    assert isinstance(decoded_data[0], str)
 
-    d = json.loads(decoded_data[0])
-    assert d["instanceType"] == "p2.16xlarge"
-    assert d["onDemandPricePerHour"] == 14.4
+    assert isinstance(decoded_data, float)
+
+    assert decoded_data == 31.7

@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from telliot_core.dtypes.float_type import UnsignedFloatType
 
 from telliot_core.dtypes.value_type import ValueType
 from telliot_core.queries.abi_query import AbiQuery
@@ -37,11 +38,11 @@ class GasPriceOracle(AbiQuery):
     ]
 
     @property
-    def value_type(self) -> ValueType:
+    def value_type(self) -> UnsignedFloatType:
         """Data type returned for a GasPriceOracle query. Returns a gas price in gwei.
 
             - abi_type: ufixed256x18 (18 decimals of precision)
             - packed: false
 
         """
-        return ValueType(abi_type="uint256x18", packed=False)
+        return UnsignedFloatType(abi_type="ufixed256x18", packed=False)
