@@ -7,6 +7,38 @@ contract TellorXOracleMock {
         pure
         returns (uint256)
     {
-        return 1235;
+        return 1234;
+    }
+
+    function getReportingLock() public pure returns (uint256) {
+        return 12;
+    }
+
+    function getTimeBasedReward() public pure returns (uint256) {
+        return 1e18;
+    }
+
+    function getCurrentReward(bytes32 _queryId)
+        public
+        pure
+        returns (uint256[2] memory)
+    {
+        return [uint256(1e18), uint256(2e18)];
+    }
+
+    function getTimestampCountById(bytes32 _queryId)
+        public
+        pure
+        returns (uint256)
+    {
+        return 30;
+    }
+
+    function getTimeOfLastNewValue() public pure returns (uint256) {
+        return 123456789;
+    }
+
+    function getTipsById(bytes32 _queryId) public pure returns (uint256) {
+        return 3e18;
     }
 }
