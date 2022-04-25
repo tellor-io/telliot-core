@@ -119,10 +119,16 @@ async def get_feed_details(query_id: str, autopay: TellorFlexAutopayContract) ->
             msg = "couldn't get value before from getCurrentValue"
             error_status(note=msg, log=logger.warning)
             return None
-        value_before_now = (
-            decode_single("(uint256)", response[1])[0] / 1e18
-        )  # there might be an issue here with decimals!!!!!!!!!
-        timestamp_before_now = response[2]
+        logger.critical(response)
+        logger.critical(query_id)
+        if not response[0]:
+            value_before_now = 0
+            timestamp_before_now = 0
+        else:
+            value_before_now = (
+                decode_single("(uint256)", response[1])[0] / 1e18
+            )  # there might be an issue here with decimals!!!!!!!!!
+            timestamp_before_now = response[2]
 
         rules = [current_time - c < feed_details[detail.window], timestamp_before_now < c]
 
