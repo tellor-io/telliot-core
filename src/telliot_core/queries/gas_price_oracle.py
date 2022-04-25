@@ -17,7 +17,7 @@ class GasPriceOracle(AbiQuery):
             here:
             https://github.com/tellor-io/dataSpecs/blob/main/types/GasPriceOracle.md
 
-            More about gas/gas price/gas price oracles:
+            More information about gas, gas prices, and gas price oracles:
             https://ethereum.org/en/developers/docs/gas/
     """
 
