@@ -18,7 +18,7 @@ logger = get_logger(__name__)
 query_ids_in_catalog = {query_catalog._entries[tag].query_id: tag for tag in query_catalog._entries}
 
 
-# Mapping to feed details index
+# Mapping to feed details
 class DetailsMap:
     reward = 0
     balance = 1
@@ -33,7 +33,7 @@ detail = DetailsMap()
 
 
 async def single_tip_suggested_query_id(autopay: TellorFlexAutopayContract) -> Tuple[Optional[str], Optional[int]]:
-    """Returns the currently suggested query to report against.
+    """Returns the currently suggested query to for a single tip report against.
 
     Pulls query_ids with tips available from the tellor autopay
     contract, checks if query ids exist in the query catalog,
@@ -45,7 +45,7 @@ async def single_tip_suggested_query_id(autopay: TellorFlexAutopayContract) -> T
     tips_dictionary = {}
     current_time = TimeStamp.now().ts
     for i in query_id_lis:
-        query_id = "0x" + i.hex()
+        query_id = f"0x{i.hex()}"
         if query_id in query_ids_in_catalog:
             length = await autopay.read("getPastTipCount", _queryId=i)
             count = length[0]
@@ -70,7 +70,7 @@ async def single_tip_suggested_query_id(autopay: TellorFlexAutopayContract) -> T
     if status.ok:
         tips_sorted = sorted(tips_dictionary.items(), key=lambda item: item[1], reverse=True)  # type: ignore
         if tips_sorted:
-            suggested_qtag = "0x" + tips_sorted[0][0].hex()
+            suggested_qtag = f"0x{tips_sorted[0][0].hex()}"
             suggested_qtag_tip = int(tips_sorted[0][1])
             assert isinstance(suggested_qtag, str)
             assert isinstance(suggested_qtag_tip, int)
@@ -96,7 +96,7 @@ async def get_feed_details(query_id: str, autopay: TellorFlexAutopayContract) ->
     feed_query_dict = {}
     for i in feed_ids:
         if i:
-            feed_id = "0x" + i.hex()
+            feed_id = f"0x{i.hex()}"
             feed_details, status = await autopay.read("getDataFeed", _feedId=feed_id)
 
             if not status.ok:
@@ -109,9 +109,8 @@ async def get_feed_details(query_id: str, autopay: TellorFlexAutopayContract) ->
                 error_status(note=msg, log=logger.warning)
                 return None
 
-        n = math.floor(
-            (current_time - feed_details[detail.startTime]) / feed_details[detail.interval]
-        )  # round down with important
+        # contract rounds down so matching it here
+        n = math.floor((current_time - feed_details[detail.startTime]) / feed_details[detail.interval])
         c = feed_details[detail.startTime] + (feed_details[detail.interval] * n)
         response, status = await autopay.read("getCurrentValue", _queryId=query_id)
 
@@ -119,15 +118,12 @@ async def get_feed_details(query_id: str, autopay: TellorFlexAutopayContract) ->
             msg = "couldn't get value before from getCurrentValue"
             error_status(note=msg, log=logger.warning)
             return None
-        logger.critical(response)
-        logger.critical(query_id)
+
         if not response[0]:
             value_before_now = 0
             timestamp_before_now = 0
         else:
-            value_before_now = (
-                decode_single("(uint256)", response[1])[0] / 1e18
-            )  # there might be an issue here with decimals!!!!!!!!!
+            value_before_now = decode_single("(uint256)", response[1])[0] / 1e18
             timestamp_before_now = response[2]
 
         rules = [current_time - c < feed_details[detail.window], timestamp_before_now < c]
