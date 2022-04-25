@@ -82,15 +82,18 @@ async def test_main(mumbai_test_cfg, mock_flex_contract, mock_autopay_contract, 
         assert status.ok
         assert staker_info == [pytest.approx(timestamp, 200), 10e18, 0, 0, 0]
 
+        # mkr query id and query data
+        mkr_query_id = query_catalog._entries["mkr-usd-spot"].query_id
+        mkr_query_data = "0x" + query_catalog._entries["mkr-usd-spot"].query.query_data.hex()
         # approve token to be spent by autopay contract
         mock_token_contract.approve(mock_autopay_contract.address, 500e18, {"from": core.get_account().address})
         _, status = await autopay.write(
             "tip",
             gas_limit=350000,
             legacy_gas_price=1,
-            _queryId=query_catalog._entries["mkr-usd-spot"].query_id,
+            _queryId=mkr_query_id,
             _amount=int(10e18),
-            _queryData="0x" + query_catalog._entries["mkr-usd-spot"].query.query_data.hex(),
+            _queryData=mkr_query_data,
         )
         # check txn is successful
         assert status.ok
@@ -190,19 +193,19 @@ async def test_main(mumbai_test_cfg, mock_flex_contract, mock_autopay_contract, 
         # fast forward to avoid claiming tips buffer 12hr
         chain.sleep(43201)
 
-        # get timestamp trb's reported value
-        read_timestamp, status = await autopay.read("getCurrentValue", _queryId=query_id)
-        assert status.ok
+        # # get timestamp trb's reported value
+        # read_timestamp, status = await autopay.read("getCurrentValue", _queryId=query_id)
+        # assert status.ok
 
-        _, status = await autopay.write(
-            "claimTip",
-            gas_limit=350000,
-            legacy_gas_price=1,
-            _feedId=feed_id,
-            _queryId=query_id,
-            _timestamps=[read_timestamp[2]],
-        )
-        assert status.ok
+        # _, status = await autopay.write(
+        #     "claimTip",
+        #     gas_limit=350000,
+        #     legacy_gas_price=1,
+        #     _feedId=feed_id,
+        #     _queryId=query_id,
+        #     _timestamps=[read_timestamp[2]],
+        # )
+        # assert status.ok
 
         # get suggestion from telliot on query with highest tip
         suggested_qtag, tb_reward = await autopay_suggested_report(autopay)
@@ -212,15 +215,6 @@ async def test_main(mumbai_test_cfg, mock_flex_contract, mock_autopay_contract, 
         # get timestamp ric's reported value
         read_timestamp, status = await autopay.read("getCurrentValue", _queryId=query_id)
         assert status.ok
-
-        # _, status = await autopay.write(
-        #     "claimOneTimeTip",
-        #     gas_limit=350000,
-        #     legacy_gas_price=1,
-        #     _queryId=ric_query_id,
-        #     _timestamps=[read_timestamp[2]]
-        # )
-        # assert status.ok
 
         # submit report for onetime tip to oracle
         # should reserve tip for first reporter
@@ -239,3 +233,24 @@ async def test_main(mumbai_test_cfg, mock_flex_contract, mock_autopay_contract, 
         suggested_qtag, tb_reward = await autopay_suggested_report(autopay)
         assert suggested_qtag == "mkr-usd-spot"
         assert tb_reward == 10e18
+
+        # fast forward to avoid reporter time lock
+        chain.sleep(60)
+
+        # submit report for onetime tip to oracle
+        # should reserve tip for first reporter
+        _, status = await oracle.write(
+            "submitValue",
+            gas_limit=350000,
+            legacy_gas_price=1,
+            _queryId=mkr_query_id,
+            _value="0x" + encode_single("(uint256)", [1000]).hex(),
+            _nonce=0,
+            _queryData=mkr_query_data,
+        )
+        assert status.ok
+
+        # get suggestion from telliot on query with highest tip
+        suggested_qtag, tb_reward = await autopay_suggested_report(autopay)
+        assert suggested_qtag is None
+        assert tb_reward is None
