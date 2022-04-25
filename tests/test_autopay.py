@@ -16,8 +16,6 @@ from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
-print(query_catalog._entries["trb-usd-legacy"].query_id)
-
 
 @pytest.fixture(scope="module")
 def mock_token_contract():
