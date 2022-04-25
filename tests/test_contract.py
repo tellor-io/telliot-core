@@ -8,9 +8,9 @@ from telliot_core.apps.core import TelliotCore
 
 
 @pytest.mark.asyncio
-async def test_connect_to_tellor(rinkeby_cfg):
+async def test_connect_to_tellor(rinkeby_test_cfg):
     """Contract object should access Tellor functions"""
-    async with TelliotCore(config=rinkeby_cfg) as core:
+    async with TelliotCore(config=rinkeby_test_cfg) as core:
         tellorx = core.get_tellorx_contracts()
         assert len(tellorx.master.contract.all_functions()) > 0
         assert isinstance(
@@ -20,27 +20,13 @@ async def test_connect_to_tellor(rinkeby_cfg):
 
 
 @pytest.mark.asyncio
-async def test_call_read_function(rinkeby_cfg):
-    """Contract object should be able to call arbitrary contract read function"""
-
-    async with TelliotCore(config=rinkeby_cfg) as core:
-        tellorx = core.get_tellorx_contracts()
-        (reward, tips), status = await tellorx.oracle.read(
-            func_name="getCurrentReward",
-            _queryId="0x0000000000000000000000000000000000000000000000000000000000000001",
-        )
-        assert status.ok
-        assert reward >= 0
-
-
-@pytest.mark.asyncio
-async def test_mixed_gas_inputs(rinkeby_cfg):
+async def test_mixed_gas_inputs(rinkeby_test_cfg):
     """Contract.write() should refuse a combination of
     legacy gas args and EIP-1559 gas args"""
 
     with pytest.raises(ValueError):
 
-        async with TelliotCore(config=rinkeby_cfg) as core:
+        async with TelliotCore(config=rinkeby_test_cfg) as core:
             tellorx = core.get_tellorx_contracts()
 
             tx_receipt, status = await tellorx.oracle.write(
