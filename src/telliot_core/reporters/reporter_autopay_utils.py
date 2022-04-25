@@ -42,16 +42,36 @@ async def single_tip_suggested_query_id(autopay: TellorFlexAutopayContract) -> T
 
     assert isinstance(autopay, TellorFlexAutopayContract)
     query_id_lis, status = await autopay.read("getFundedQueryIds")
+    tips_dictionary = {}
+    current_time = TimeStamp.now().ts
+    for i in query_id_lis:
+        query_id = "0x" + i.hex()
+        if query_id in query_ids_in_catalog:
+            length = await autopay.read("getPastTipCount", _queryId=i)
+            count = length[0]
+            if count > 0:
+                mini = 0
+                maxi = count
+                while maxi - mini > 1:
+                    mid = int((maxi + mini) / 2)
+                    tip_info, status = await autopay.read("tips", query_id, mid)
+                    if tip_info[1] > current_time:
+                        maxi = mid
+                    else:
+                        mini = mid
+
+                timestamp_before, status = await autopay.read("getCurrentValue", _queryId=i)
+                tip_info, status = await autopay.read("tips", i, mini)
+                if timestamp_before[2] < tip_info[1]:
+                    tips_dictionary[i] = tip_info[0] / 1e18
+                else:
+                    continue
 
     if status.ok:
-
-        tips_dictionary = {
-            i: await autopay.get_current_tip(i) for i in query_id_lis if ("0x" + i.hex()) in query_ids_in_catalog
-        }
-        tips_sorted = sorted(tips_dictionary.items(), key=lambda item: item[1])
+        tips_sorted = sorted(tips_dictionary.items(), key=lambda item: item[1], reverse=True)  # type: ignore
         if tips_sorted:
             suggested_qtag = "0x" + tips_sorted[0][0].hex()
-            suggested_qtag_tip = tips_sorted[0][1][0]
+            suggested_qtag_tip = int(tips_sorted[0][1])
             assert isinstance(suggested_qtag, str)
             assert isinstance(suggested_qtag_tip, int)
             return query_ids_in_catalog[suggested_qtag], int(suggested_qtag_tip * 1e18)
