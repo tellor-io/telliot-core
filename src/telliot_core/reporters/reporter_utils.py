@@ -8,6 +8,8 @@ from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
 reporter_sync_schedule: List[str] = list(query_catalog._entries.keys())
+reporter_sync_schedule.remove("uspce-legacy")
+reporter_sync_schedule.remove("morphware-v1")
 print(reporter_sync_schedule)
 
 

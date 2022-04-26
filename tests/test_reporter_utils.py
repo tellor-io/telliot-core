@@ -41,3 +41,5 @@ def test_reporter_sync_schedule_list():
     lis = reporter_sync_schedule
     assert len(lis) > 4
     assert "eth-usd-legacy" in lis
+    assert "morphware-v1" not in lis
+    assert "uspce-legacy" not in lis
