@@ -1,4 +1,6 @@
 import pytest
+from brownie import accounts
+from brownie import TellorXOracleMock
 from click.testing import CliRunner
 
 import telliot_core.cli.main
@@ -7,13 +9,18 @@ from telliot_core.data.query_catalog import query_catalog
 from telliot_core.queries.query import OracleQuery
 from telliot_core.reporters.reporter_utils import reporter_sync_schedule
 from telliot_core.reporters.reporter_utils import tellor_suggested_report
+from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 
 @pytest.mark.asyncio
-async def test_suggested_report(rinkeby_cfg):
-    async with TelliotCore(config=rinkeby_cfg) as core:
-        tellorx = core.get_tellorx_contracts()
-        qtag = await tellor_suggested_report(tellorx.oracle)
+async def test_suggested_report(rinkeby_test_cfg):
+    async with TelliotCore(config=rinkeby_test_cfg) as core:
+        account = core.get_account()
+        contract_instance = accounts[0].deploy(TellorXOracleMock)
+        oracle = TellorxOracleContract(core.endpoint, account)
+        oracle.address = contract_instance.address
+        oracle.connect()
+        qtag = await tellor_suggested_report(oracle)
         assert isinstance(qtag, str)
         entries = query_catalog.find(tag=qtag)
         assert len(entries) == 1
