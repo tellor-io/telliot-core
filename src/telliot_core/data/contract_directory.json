@@ -63,6 +63,16 @@
   },
   {
     "type": "ContractInfo",
+    "name": "tellorflex-autopay",
+    "org": "tellor",
+    "address": {
+      "137": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c",
+      "80001": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c"
+    },
+    "abi_file": "tellorflex-autopay-abi.json"
+  },
+  {
+    "type": "ContractInfo",
     "name": "trb-polygon-token",
     "org": "tellor",
     "address": {
