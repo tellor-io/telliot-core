@@ -33,7 +33,7 @@ class TellorFlexAutopayContract(Contract):
     async def get_current_tip(self, query_id: bytes) -> Tuple[Optional[int], ResponseStatus]:
         tip_amount, status = await self.read(func_name="getCurrentTip", _queryId=query_id)
         if status.ok:
-            return int((tip_amount) / 1.0e18), status
+            return tip_amount, status
         else:
             return None, status
 
