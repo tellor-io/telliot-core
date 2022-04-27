@@ -7,7 +7,10 @@ from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
 
 # List of currently active reporters
-reporter_sync_schedule: List[str] = list(query_catalog._entries.keys())
+reporter_sync_schedule: List[str] = [qt for qt in query_catalog._entries.keys() if "legacy" in qt or "spot" in qt]
+reporter_sync_schedule.remove("uspce-legacy")
+reporter_sync_schedule.remove("ampl-legacy")
+print(reporter_sync_schedule)
 
 
 async def tellor_suggested_report(
