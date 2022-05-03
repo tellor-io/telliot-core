@@ -13,6 +13,7 @@ from telliot_core.queries.legacy_query import LegacyRequest
 from telliot_core.queries.price.spot_price import SpotPrice
 from telliot_core.queries.query import OracleQuery
 from telliot_core.queries.string_query import StringQuery
+from telliot_core.queries.api_query import APIQuery
 
 __all__ = [
     "OracleQuery",
@@ -25,4 +26,5 @@ __all__ = [
     "DataSource",
     "DataFeed",
     "query_catalog",
+    "APIQuery",
 ]
