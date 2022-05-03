@@ -45,7 +45,9 @@ def test_encode_decode_reported_val():
     """Ensure expected encoding/decoding behavior."""
     q = DIVAProtocolPolygon(poolId=156)
 
-    data = (1234.1234, 123.123)
+    # Reference asset example: ETH/USD ($2,819.35)
+    # Collateral token example: DAI/USD ($0.9996)
+    data = (2819.35, 0.9996)
 
     data2 = tuple(int(v * 1e18) for v in data)
     d1 = encode_abi(["ufixed256x18", "ufixed256x18"], data2)
@@ -55,6 +57,7 @@ def test_encode_decode_reported_val():
     submit_value = q.value_type.encode(data)
     assert isinstance(submit_value, bytes)
     assert submit_value == d1 == d2
+    print(submit_value.hex())
 
     decoded_data = q.value_type.decode(submit_value)
     assert isinstance(decoded_data, tuple)
