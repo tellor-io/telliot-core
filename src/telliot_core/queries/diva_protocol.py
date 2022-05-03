@@ -26,7 +26,7 @@ class DIVAReturnType(ValueType):
 
         return encode_single("(ufixed256x18,ufixed256x18)", tuple(int(v * 1e18) for v in value))
 
-    def decode(self, bytes_val: bytes) -> tuple[float]:
+    def decode(self, bytes_val: bytes) -> tuple[float, ...]:
         """A decoder for DIVA Protocol response type
 
         Decodes a tuple of float values.
