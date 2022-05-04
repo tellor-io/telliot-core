@@ -1,8 +1,8 @@
 import logging
 from dataclasses import dataclass
 
-from eth_abi import decode_single
-from eth_abi import encode_single
+from eth_abi import decode_abi
+from eth_abi import encode_abi
 
 from telliot_core.dtypes.value_type import ValueType
 from telliot_core.queries.abi_query import AbiQuery
@@ -16,7 +16,7 @@ class DIVAReturnType(ValueType):
 
     abi_type: str = "(ufixed256x18,ufixed256x18)"
 
-    def encode(self, value: tuple[float]) -> bytes:
+    def encode(self, value: list[float]) -> bytes:
         """An encoder for DIVA Protocol response type
 
         Encodes a tuple of float values.
@@ -24,14 +24,14 @@ class DIVAReturnType(ValueType):
         if len(value) != 2 or not isinstance(value[0], float) or not isinstance(value[1], float):
             raise ValueError("Invalid response type")
 
-        return encode_single("(ufixed256x18,ufixed256x18)", tuple(int(v * 1e18) for v in value))
+        return encode_abi(["uint256", "uint256"], [int(v * 1e18) for v in value])
 
-    def decode(self, bytes_val: bytes) -> tuple[float, ...]:
+    def decode(self, bytes_val: bytes) -> list[float]:
         """A decoder for DIVA Protocol response type
 
         Decodes a tuple of float values.
         """
-        return tuple(float(float(v) / 1e18) for v in decode_single("(ufixed256x18,ufixed256x18)", bytes_val))
+        return [float(float(v) / 1e18) for v in decode_abi(["uint256", "uint256"], bytes_val)]
 
 
 @dataclass

@@ -5,7 +5,6 @@ Distributed under the terms of the MIT License.
 """
 from eth_abi import decode_abi
 from eth_abi import encode_abi
-from eth_abi import encode_single
 
 from telliot_core.queries.diva_protocol import DIVAProtocolPolygon
 
@@ -47,20 +46,18 @@ def test_encode_decode_reported_val():
 
     # Reference asset example: ETH/USD ($2,819.35)
     # Collateral token example: DAI/USD ($0.9996)
-    data = (2819.35, 0.9996)
+    data = [2819.35, 0.9996]
 
-    data2 = tuple(int(v * 1e18) for v in data)
-    d1 = encode_abi(["ufixed256x18", "ufixed256x18"], data2)
-    d2 = encode_single("(ufixed256x18,ufixed256x18)", data2)
-    assert d1 == d2
-
+    data2 = [int(v * 1e18) for v in data]
+    d1 = encode_abi(["uint256", "uint256"], data2)
     submit_value = q.value_type.encode(data)
+
     assert isinstance(submit_value, bytes)
-    assert submit_value == d1 == d2
+    assert submit_value == d1
     print(submit_value.hex())
 
     decoded_data = q.value_type.decode(submit_value)
-    assert isinstance(decoded_data, tuple)
+    assert isinstance(decoded_data, list)
     assert isinstance(decoded_data[0], float)
     assert isinstance(decoded_data[1], float)
     assert decoded_data == data
