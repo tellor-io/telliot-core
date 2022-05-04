@@ -2,6 +2,7 @@ from telliot_core.queries.catalog import Catalog
 from telliot_core.queries.legacy_query import LegacyRequest
 from telliot_core.queries.morphware import Morphware
 from telliot_core.queries.price.spot_price import SpotPrice
+from telliot_core.queries.gas_price_oracle import GasPriceOracle
 
 """Main instance of the Query Catalog."""
 query_catalog = Catalog()
@@ -107,4 +108,10 @@ query_catalog.add_entry(
     tag="morphware-v1",
     title="Morphware version 1",
     q=Morphware(version=1),
+)
+
+query_catalog.add_entry(
+    tag="gas-price-oracle-example",
+    title="Gas Price Oracle, mainnet, 4/1/2022",
+    q=GasPriceOracle(1, 1648771200),
 )
