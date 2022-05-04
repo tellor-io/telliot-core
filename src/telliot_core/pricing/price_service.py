@@ -61,8 +61,12 @@ class WebPriceService(PriceServiceInterface, ABC):
         with requests.Session() as s:
             try:
                 r = s.get(request_url, timeout=self.timeout)
-                json_data = r.json()
-                return {"response": json_data}
+                
+                if r.ok:
+                    json_data = r.json()
+                    return {"response": json_data}
+                else:
+                    return {"error": "request was unsuccessful"}
 
             except requests.exceptions.ConnectTimeout as e:
                 return {"error": "Timeout Error", "exception": e}
