@@ -1,8 +1,8 @@
 from telliot_core.queries.catalog import Catalog
+from telliot_core.queries.gas_price_oracle import GasPriceOracle
 from telliot_core.queries.legacy_query import LegacyRequest
 from telliot_core.queries.morphware import Morphware
 from telliot_core.queries.price.spot_price import SpotPrice
-from telliot_core.queries.gas_price_oracle import GasPriceOracle
 
 """Main instance of the Query Catalog."""
 query_catalog = Catalog()
