@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class PoolParameters:
-    """Source: https://github.com/tellor-io/dataSpecs/blob/main/types/DivaProtocolPolygon.md"""
+    """Source: https://github.com/tellor-io/dataSpecs/blob/main/types/DIVAProtocolPolygon.md"""
 
     reference_asset: str  # (string) Reference asset string (e.g., "BTC/USD", "ETH Gas Price (Wei)", "TVL Locked in DeFi", etc.) # noqa: E501
     expiry_time: int  # (uint256) Expiration time of the pool and as of time of final value expressed as a unix timestamp in seconds # noqa: E501
@@ -46,7 +46,11 @@ class DivaProtocolContract(Contract):
 
     def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
-        assert chain_id is not None and chain_id in (137, 80001, 3)  # Polygon chains & Ropsten
+        assert chain_id is not None and chain_id in (
+            137,
+            80001,
+            3,
+        )  # Polygon chains & Ropsten
 
         contract_info = contract_directory.find(chain_id=chain_id, name="diva-protocol")[0]
         if not contract_info:
@@ -85,7 +89,11 @@ class DivaOracleTellorContract(Contract):
 
     def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
-        assert chain_id is not None and chain_id in (137, 80001, 3)  # Polygon chains & Ropsten
+        assert chain_id is not None and chain_id in (
+            137,
+            80001,
+            3,
+        )  # Polygon chains & Ropsten
 
         contract_info = contract_directory.find(chain_id=chain_id, name="diva-oracle-tellor")[0]
         if not contract_info:
