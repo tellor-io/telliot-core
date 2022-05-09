@@ -9,14 +9,14 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class Snapshot(AbiQuery):
-    """Returns the result for a given option ID (a specific proposal) on Snapshot.
-        An array of values representing the amount of votes (uints) for each vote option should be returned
+    """Returns the proposal result for a given proposal id (an IPFS hash for a certain proposal) coming from Snapshot.
+       A boolean value indicating whether a proposal succeeded (True) or failed (False) should be returned.
 
     Attributes:
         proposal_id:
             Specifies the requested data a of a valid proposal on Snapshot.
 
-    see https://docs.snapshot.org/graphql-api for reference
+    see https://snapshot.org/ for proposal results.
     """
 
     proposal_id: str
@@ -28,8 +28,8 @@ class Snapshot(AbiQuery):
     def value_type(self) -> ValueType:
         """Data type returned for a Snapshot query.
 
-        - `uint256[]`: variable-length array of 256-bit values with 18 decimals of precision
+        - `bool`: a boolean value true or false equivalent to uint8 restricted to the values 0 and 1
         - `packed`: false
         """
 
-        return ValueType(abi_type="uint256[]", packed=False)
+        return ValueType(abi_type="bool", packed=False)
