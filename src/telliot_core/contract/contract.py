@@ -1,6 +1,7 @@
 """
 Utils for connecting to an EVM contract
 """
+import asyncio
 import logging
 from typing import Any
 from typing import Dict
@@ -68,6 +69,12 @@ class Contract:
                 return output, ResponseStatus(ok=True)
             except ValueError as e:
                 msg = f"function '{func_name}' not found in contract abi"
+                return None, ResponseStatus(ok=False, e=e, error=msg)
+            except asyncio.exceptions.TimeoutError as e:
+                msg = "timeout reading from contract"
+                return None, ResponseStatus(ok=False, e=e, error=msg)
+            except Exception as e:
+                msg = "error reading from contract"
                 return None, ResponseStatus(ok=False, e=e, error=msg)
         else:
             msg = "no instance of contract"
