@@ -1,54 +1,57 @@
 import pytest
+from brownie import accounts
+from brownie import TellorFlex
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.queries.price.spot_price import SpotPrice
+from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
 
-@pytest.mark.skip("Failing on github action runs")
+@pytest.fixture(scope="module")
+def mock_flex_contract():
+    return accounts[0].deploy(
+        TellorFlex,
+        "0x0000000000000000000000000000000000000123",
+        "0x0000000000000000000000000000000000000456",
+        42e18,
+        60 * 60,
+    )
+
+
 @pytest.mark.asyncio
-async def test_main(mumbai_cfg):
-    async with TelliotCore(config=mumbai_cfg) as core:
+async def test_main(mumbai_test_cfg, mock_flex_contract):
+    async with TelliotCore(config=mumbai_test_cfg) as core:
+        account = core.get_account()
+        # Override contract addresses with locally deployed mock contract addresses
+        oracle = TellorFlexOracleContract(core.endpoint, account)
+        oracle.address = mock_flex_contract.address
+        oracle.connect()
 
-        chain_id = core.config.main.chain_id
+        governance_address = await oracle.get_governance_address()
+        assert governance_address == "0x0000000000000000000000000000000000000456"
 
-        flex = core.get_tellorflex_contracts()
+        stake_amount = await oracle.get_stake_amount()
+        assert stake_amount == 42
 
-        governance_address = await flex.oracle.get_governance_address()
-        if chain_id == 137:
-            assert governance_address == "0x2cFC5bCE14862D46fBA3bb46A36A8b2d7E4aC040"
-        elif chain_id == 80001:
-            # Old one, TODO confirm w/ Tim it switched
-            # assert governance_address == "0x0Fe623d889Ad1c599E5fF3076A57D1D4F2448CDe"
-            # New one
-            assert governance_address == "0x8A868711e3cE97429faAA6be476F93907BCBc2bc"
-
-        stake_amount = await flex.oracle.get_stake_amount()
-        assert stake_amount == 10.0
-        print(stake_amount)
-
-        tlnv, status = await flex.oracle.get_time_of_last_new_value()
+        tlnv, status = await oracle.get_time_of_last_new_value()
         assert isinstance(status, ResponseStatus)
         if status.ok:
             assert isinstance(tlnv, TimeStamp)
         else:
             assert tlnv is None
-        print(tlnv)
 
-        lock = await flex.oracle.get_reporting_lock()
-        print(lock)
+        lock = await oracle.get_reporting_lock()
+        assert lock == 60 * 60
 
-        token_address = await flex.oracle.get_token_address()
-        if chain_id == 137:
-            assert token_address == "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1"
-        elif chain_id == 80001:
-            assert token_address == "0x45cAF1aae42BA5565EC92362896cc8e0d55a2126"
+        token_address = await oracle.get_token_address()
+        assert token_address == "0x0000000000000000000000000000000000000123"
 
-        total_stake = await flex.oracle.get_total_stake_amount()
-        print(f"Total Stake: {total_stake}")
+        total_stake = await oracle.get_total_stake_amount()
+        assert total_stake == 0
 
-        staker_info, status = await flex.oracle.get_staker_info(core.get_account().address)
+        staker_info, status = await oracle.get_staker_info(core.get_account().address)
         assert isinstance(status, ResponseStatus)
         if status.ok:
             for info in staker_info:
@@ -57,23 +60,10 @@ async def test_main(mumbai_cfg):
             assert staker_info is None
 
         q = SpotPrice(asset="btc", currency="USD")
-        count, status = await flex.oracle.get_new_value_count_by_qeury_id(q.query_id)
+        count, status = await oracle.get_new_value_count_by_qeury_id(q.query_id)
 
         assert isinstance(status, ResponseStatus)
         if status.ok:
             assert isinstance(count, int)
         else:
             assert count is None
-
-
-@pytest.mark.asyncio
-async def test_tellorflex_fuse(fuse_cfg):
-    async with TelliotCore(config=fuse_cfg) as core:
-        chain_id = core.config.main.chain_id
-        assert chain_id == 122
-
-        flex = core.get_tellorflex_contracts()
-        assert flex.token.address == "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
-
-        stake_amount = await flex.oracle.get_stake_amount()
-        assert stake_amount == 100.0

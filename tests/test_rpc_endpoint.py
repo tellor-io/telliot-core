@@ -3,6 +3,7 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 import requests
+from brownie import chain
 
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
@@ -13,9 +14,10 @@ provider = "pokt"
 
 def test_rpc_endpoint():
     """RPCEndpoint connects to the blockchain"""
-    url = "https://mainnet.infura.io/v3/1a09c4705f114af2997548dd901d655b"
+    url = "http://127.0.0.1:8545"  # local Ganache node
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     endpt.connect()
+    chain.mine(10)
     assert endpt.web3.eth.block_number > 1
 
     print(endpt.get_state())

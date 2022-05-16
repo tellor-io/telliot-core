@@ -1,12 +1,26 @@
 import json
+import logging
 from dataclasses import dataclass
 from typing import List
 
 import requests
+from requests import JSONDecodeError
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
 
 from telliot_core.datasource import DataSource
 from telliot_core.datasource import OptionalDataPoint
 from telliot_core.utils.timestamp import now
+
+
+logger = logging.getLogger(__name__)
+retry_strategy = Retry(
+    total=3,
+    backoff_factor=1,
+    status_forcelist=[429, 500, 502, 503, 504],
+    allowed_methods=["GET"],
+)
+adapter = HTTPAdapter(max_retries=retry_strategy)
 
 
 @dataclass
@@ -34,21 +48,39 @@ class EtherscanGasPriceSource(DataSource[EtherscanGasPrice]):
         if self.api_key:
             msg = msg + f"&apikey={self.api_key}"
 
-        rsp = requests.get(msg, headers=headers)
-        response = json.loads(rsp.content)
-        status = response["status"]
-        if int(status) == 1:
-            gp_result = response["result"]
-            gas_used_ratio_str = gp_result["gasUsedRatio"]
-            gas_used_ratio = [float(num) for num in gas_used_ratio_str.split(",")]
-            gp = EtherscanGasPrice(
-                LastBlock=int(gp_result["LastBlock"]),
-                SafeGasPrice=float(gp_result["SafeGasPrice"]),
-                ProposeGasPrice=float(gp_result["ProposeGasPrice"]),
-                FastGasPrice=float(gp_result["FastGasPrice"]),
-                suggestBaseFee=float(gp_result["suggestBaseFee"]),
-                gasUsedRatio=gas_used_ratio,
-            )
-            return gp, now()
-        else:
-            return None, None
+        with requests.Session() as s:
+            s.mount("https://", adapter)
+
+            try:
+                rsp = s.get(msg, headers=headers)
+            except requests.exceptions.ConnectTimeout as e:
+                logger.error(f"Connection timeout: {e}")
+                return None, None
+
+            try:
+                response = json.loads(rsp.content)
+            except JSONDecodeError as e:
+                logger.error(f"JSON decode error: {e}")
+                return None, None
+
+            try:
+                status = response["status"]
+            except KeyError as e:
+                logger.error(f"Key error: {e}")
+                return None, None
+
+            if int(status) == 1:
+                gp_result = response["result"]
+                gas_used_ratio_str = gp_result["gasUsedRatio"]
+                gas_used_ratio = [float(num) for num in gas_used_ratio_str.split(",")]
+                gp = EtherscanGasPrice(
+                    LastBlock=int(gp_result["LastBlock"]),
+                    SafeGasPrice=float(gp_result["SafeGasPrice"]),
+                    ProposeGasPrice=float(gp_result["ProposeGasPrice"]),
+                    FastGasPrice=float(gp_result["FastGasPrice"]),
+                    suggestBaseFee=float(gp_result["suggestBaseFee"]),
+                    gasUsedRatio=gas_used_ratio,
+                )
+                return gp, now()
+            else:
+                return None, None
