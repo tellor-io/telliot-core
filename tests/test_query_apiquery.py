@@ -1,22 +1,68 @@
-import pytest
+from eth_abi import decode_abi
 
 from telliot_core.queries.api_query import APIQuery
 
 
 def test_constructor():
     """Validate spot price query"""
-    q = APIQuery(api_url="https://samples.openweathermap.org/data/2.5/weather?q=Lond`on,uk&appid=b6907d289e10d714a6e88b30761fae22",
-                 arg_string="temp_min, description")
-
-    _ = b'{"type":"APIQuery","api_url":"https://samples.openweathermap.org/data/2.5/weather?q=Lond`on,uk&appid=b6907d289e10d714a6e88b30761fae22",' \
-        b'"arg_string":"temp_min, description"}'  # exp_data_json
-    exp_data = (
-        0x00000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000841504951756572790000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000006768747470733a2f2f73616d706c65732e6f70656e776561746865726d61702e6f72672f646174612f322e352f776561746865723f713d4c6f6e64606f6e2c756b2661707069643d623639303764323839653130643731346136653838623330373631666165323200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001574656d705f6d696e2c206465736372697074696f6e0000000000000000000000
+    q = APIQuery(
+        url="https://samples.openweathermap.org/data/2.5/weather?q=Lond`on,uk&appid=b6907d289e10d714a6e88b30761fae22",
+        key_str="temp_min, description",
     )
 
-    print(q.query_data.hex())
-    #print(exp_data)
-    #assert q.query_data.hex() == exp_data
+    exp_query_id = "93aaa6e84b5a71474db3379116082d814628cefc52af39473db82824e97a5286"
+    assert q.query_id.hex() == exp_query_id
 
-    exp = "93aaa6e84b5a71474db3379116082d814628cefc52af39473db82824e97a5286"
-    #assert q.query_id.hex() == exp
+    exp_query_data = (
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08APIQuery\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x01 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"ghttps://samples.openweathermap.org/data/2.5/weather?q=Lond`on,uk&appid=b6907d289e10d714a6e88b30761fae22\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x15temp_min, description\x00\x00\x00"
+        b"\x00\x00\x00\x00\x00\x00\x00\x00"
+    )
+
+    assert q.query_data == exp_query_data
+
+    query_type, encoded_param_vals = decode_abi(["string", "bytes"], q.query_data)
+    assert query_type == "APIQuery"
+
+    url = decode_abi([q.abi[0]["type"]], encoded_param_vals)[0]
+    assert (
+        url == "https://samples.openweathermap.org/data/2.5/weather?q=Lond`on,uk&appid=b6907d289e10d714a6e88b30761fae22"
+    )
+
+    q = APIQuery.get_query_from_data(exp_query_data)
+    assert isinstance(q, APIQuery)
+    assert q.key_str == "temp_min, description"
+
+
+def test_encode_decode():
+    q = APIQuery(
+        url="https://samples.openweathermap.org/data/2.5/weather?q=Lond`on,uk&appid=b6907d289e10d714a6e88b30761fae22",
+        key_str="temp_min, description",
+    )
+
+    data = "[[300, 5091, 2643743], 279.15, {'all': 90}]"
+    submit_value = q.value_type.encode(data)
+    assert isinstance(submit_value, bytes)
+
+    decoded_data = q.value_type.decode(submit_value)
+    assert isinstance(decoded_data, str)
+    print(decoded_data)
+    assert isinstance(decoded_data[0], str)
