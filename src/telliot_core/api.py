@@ -8,6 +8,7 @@ from telliot_core.datafeed import DataFeed
 from telliot_core.datasource import DataSource
 from telliot_core.dtypes.value_type import ValueType
 from telliot_core.queries.abi_query import AbiQuery
+from telliot_core.queries.api_query import APIQuery
 from telliot_core.queries.json_query import JsonQuery
 from telliot_core.queries.legacy_query import LegacyRequest
 from telliot_core.queries.price.spot_price import SpotPrice
@@ -25,4 +26,5 @@ __all__ = [
     "DataSource",
     "DataFeed",
     "query_catalog",
+    "APIQuery",
 ]
