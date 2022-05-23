@@ -6,7 +6,9 @@ from brownie import chain
 from chained_accounts import ChainedAccount
 from chained_accounts import find_accounts
 
+from telliot_core.datasource import DataSource
 from telliot_core.apps.telliot_config import TelliotConfig
+from telliot_core.dtypes.datapoint import OptionalDataPoint
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -31,7 +33,9 @@ def rinkeby_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password=""
+            )
         else:
             raise Exception("Need a rinkeby account")
 
@@ -51,7 +55,9 @@ def mumbai_cfg():
 
     endpt = cfg.get_endpoint()
     if "INFURA_API_KEY" in endpt.url:
-        endpt.url = f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
+        endpt.url = (
+            f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
+        )
 
     mumbai_accounts = find_accounts(chain_id=80001)
     if not mumbai_accounts:
@@ -137,8 +143,24 @@ def fuse_cfg():
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add(
+                "git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password=""
+            )
         else:
             raise Exception("Need a Fuse account")
 
     return cfg
+
+
+class BadDataSource(DataSource[float]):
+    """Source that does not return an updated DataPoint."""
+
+    async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
+        return None, None
+
+
+@pytest.fixture(scope="module")
+def bad_datasource():
+    """Used for testing no updated value for datafeeds."""
+
+    return BadDataSource()

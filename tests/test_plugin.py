@@ -7,9 +7,9 @@ from telliot_core.plugin.discover import telliot_plugins
 @pytest.mark.skip("Fix test after plugin move complete")
 def test_discovered_plugins():
     # Make sure that default telliot_examples plugin package is registered
-    assert "telliot_feed_examples" in telliot_plugins
+    assert "telliot_core" in telliot_plugins
 
-    example_plugin = telliot_plugins["telliot_feed_examples"]
+    example_plugin = telliot_plugins["telliot_core"]
 
     _ = example_plugin.registry
 
