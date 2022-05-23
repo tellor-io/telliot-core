@@ -7,7 +7,6 @@ from telliot_core.dtypes.datapoint import datetime_now_utc
 from telliot_core.dtypes.datapoint import OptionalDataPoint
 from telliot_core.pricing.price_service import WebPriceService
 from telliot_core.pricing.price_source import PriceSource
-
 from telliot_core.utils.log import get_logger
 
 
@@ -70,6 +69,4 @@ class BitflyerSpotPriceService(WebPriceService):
 class BitflyerSpotPriceSource(PriceSource):
     asset: str = ""
     currency: str = ""
-    service: BitflyerSpotPriceService = field(
-        default_factory=BitflyerSpotPriceService, init=False
-    )
+    service: BitflyerSpotPriceService = field(default_factory=BitflyerSpotPriceService, init=False)

@@ -2,8 +2,8 @@ import os
 from datetime import datetime
 
 import pytest
-from telliot_core.apps.telliot_config import TelliotConfig
 
+from telliot_core.apps.telliot_config import TelliotConfig
 from telliot_core.sources.ampl_usd_vwap import AMPLUSDVWAPSource
 from telliot_core.sources.ampl_usd_vwap import AnyBlockSource
 from telliot_core.sources.ampl_usd_vwap import BraveNewCoinSource

@@ -8,7 +8,6 @@ from telliot_core.dtypes.datapoint import datetime_now_utc
 from telliot_core.dtypes.datapoint import OptionalDataPoint
 from telliot_core.pricing.price_service import WebPriceService
 from telliot_core.pricing.price_source import PriceSource
-
 from telliot_core.utils.log import get_logger
 
 
@@ -37,9 +36,7 @@ class NomicsSpotPriceService(WebPriceService):
         """
 
         if API_KEY == "":
-            logger.warning(
-                "To use the nomics source, add nomics api key to api_keys.yaml"
-            )
+            logger.warning("To use the nomics source, add nomics api key to api_keys.yaml")
             return None, None
 
         asset = asset.lower()
@@ -84,6 +81,4 @@ class NomicsSpotPriceService(WebPriceService):
 class NomicsSpotPriceSource(PriceSource):
     asset: str = ""
     currency: str = ""
-    service: NomicsSpotPriceService = field(
-        default_factory=NomicsSpotPriceService, init=False
-    )
+    service: NomicsSpotPriceService = field(default_factory=NomicsSpotPriceService, init=False)

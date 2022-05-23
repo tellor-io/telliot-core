@@ -5,7 +5,6 @@ from typing import Any
 
 from telliot_core.datasource import DataSource
 from telliot_core.dtypes.datapoint import DataPoint
-
 from telliot_core.utils.log import get_logger
 
 
@@ -21,10 +20,7 @@ class DivaManualSource(DataSource[Any]):
 
     def parse_user_val(self) -> float:
         """Parse historical price from user input."""
-        print(
-            "Enter price to report for reference asset "
-            f"{self.reference_asset} at timestamp {self.timestamp}:"
-        )
+        print(f"Enter price to report for reference asset {self.reference_asset} at timestamp {self.timestamp}:")
 
         data = None
         while data is None:
