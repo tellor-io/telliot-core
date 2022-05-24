@@ -54,7 +54,7 @@ async def receive_message_task(
             # logger.info(f"handled block subscription: {sub_id}")
             result = message["params"]["result"]
             formatted_result = formatter(result)
-            asyncio.create_task(handler(formatted_result))
+            asyncio.create_task(handler(formatted_result))  # type: ignore # Occurs on Github Actions, not locally
 
         except asyncio.CancelledError:
             logger.debug("Listener cancelled")
