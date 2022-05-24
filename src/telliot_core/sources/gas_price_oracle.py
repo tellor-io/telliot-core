@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from time import time
+from typing import Any
 from typing import Optional
 
 import requests
@@ -9,8 +10,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
 from telliot_core.datasource import DataSource
-from telliot_core.dtypes.datapoint import DataPoint
 from telliot_core.dtypes.datapoint import datetime_now_utc
+from telliot_core.dtypes.datapoint import OptionalDataPoint
 from telliot_core.utils.log import get_logger
 
 
@@ -68,7 +69,7 @@ class GasPriceOracleSource(DataSource[str]):
 
     async def fetch_new_datapoint(
         self,
-    ) -> Optional[DataPoint[list[str]]]:
+    ) -> OptionalDataPoint[Any]:
         """Retrieves historical gas prices from Owlracle API.
 
         Returns:
