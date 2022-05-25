@@ -31,13 +31,13 @@ def test_encode_decode_reported_val():
     """Ensure expected encoding/decoding behavior."""
     q = Snapshot(proposal_id="aDd6cYVvfoKvkDX14jRcN86z6bfV135npUfhxmENjHnQ1")
 
-    # An array of values representing the amount of votes (uints) for each vote option
-    votes = [500, 10, 35]
+    # a boolean value indicating whether a proposal succeeded (True) or failed (False)
+    proposal_result = True
 
-    submit_value = q.value_type.encode(votes)
+    submit_value = q.value_type.encode(proposal_result)
     assert isinstance(submit_value, bytes)
 
-    decoded_votes = list(q.value_type.decode(submit_value))
-    assert isinstance(decoded_votes, list)
+    decoded_result = q.value_type.decode(submit_value)
+    assert isinstance(decoded_result, bool)
 
-    assert decoded_votes[2] == 35
+    assert decoded_result is True
