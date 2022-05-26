@@ -7,8 +7,6 @@ from chained_accounts import ChainedAccount
 from chained_accounts import find_accounts
 
 from telliot_core.apps.telliot_config import TelliotConfig
-from telliot_core.datasource import DataSource
-from telliot_core.dtypes.datapoint import OptionalDataPoint
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -144,17 +142,3 @@ def fuse_cfg():
             raise Exception("Need a Fuse account")
 
     return cfg
-
-
-class BadDataSource(DataSource[float]):
-    """Source that does not return an updated DataPoint."""
-
-    async def fetch_new_datapoint(self) -> OptionalDataPoint[float]:
-        return None, None
-
-
-@pytest.fixture(scope="module")
-def bad_datasource():
-    """Used for testing no updated value for datafeeds."""
-
-    return BadDataSource()
