@@ -32,6 +32,9 @@ NETWORKS = {
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
     122: "fuse-mainnet",
+    69: "optimism-kovan",
+    1666600000: "harmony-mainnet",
+    1666700000: "harmony-testnet"
 }
 
 LOGLEVEL_MAP = {
