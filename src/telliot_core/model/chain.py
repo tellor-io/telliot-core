@@ -59,6 +59,27 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Matic", symbol="tMATIC", decimals=18),
     ),
+    Chain(
+        chain_id=69,
+        name="Optimism Kovan",
+        chain="Optimism",
+        network="testnet (public)",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=1666600000,
+        name="Harmony Mainnet",
+        chain="Harmony",
+        network="mainnet",
+        currency=EVMCurrency(name="Harmony ONE", symbol="ONE", decimals=18),
+    ),
+    Chain(
+        chain_id=1666700000,
+        name="Harmony Testnet",
+        chain="Harmony",
+        network="testnet",
+        currency=EVMCurrency(name="Harmony ONE", symbol="ONE", decimals=18),
+    ),
 ]
 
 
