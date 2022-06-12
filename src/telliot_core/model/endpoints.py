@@ -122,6 +122,27 @@ default_endpoint_list = [
         url="https://rpc-mumbai.maticvigil.com",
         explorer="https://mumbai.polygonscan.com/",
     ),
+    RPCEndpoint(
+        chain_id=69,
+        provider="optimism-kovan",
+        network="infura",
+        url="https://optimism-kovan.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://kovan-optimistic.etherscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=1666600000,
+        provider="Harmony",
+        network="Harmony",
+        url="https://api.harmony.one",
+        explorer="https://explorer.harmony.one/",
+    ),
+    RPCEndpoint(
+        chain_id=1666700000,
+        provider="Harmony",
+        network="Harmony Testnet",
+        url="https://api.s0.b.hmny.io",
+        explorer="https://explorer.pops.one/",
+    ),
 ]
 
 

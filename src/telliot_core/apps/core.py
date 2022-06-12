@@ -34,7 +34,7 @@ NETWORKS = {
     122: "fuse-mainnet",
     69: "optimism-kovan",
     1666600000: "harmony-mainnet",
-    1666700000: "harmony-testnet"
+    1666700000: "harmony-testnet",
 }
 
 LOGLEVEL_MAP = {
