@@ -116,7 +116,7 @@
     "address": {
       "4": "0xF281e2De3bB71dE348040b10B420615104359c10",
       "42": "0x320f09D9f92Cfa0e9C272b179e530634D873aeFa",
-      "3": "0xF281e2De3bB71dE348040b10B420615104359c10",
+      "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "69": "0x639d599545d5bBCb88c28d5B998B64E6AF3e37FF"
     }
   },
@@ -141,7 +141,7 @@
     "name": "diva-protocol",
     "org": "diva",
     "address": {
-      "3": "0x07F0293a07703c583F4Fb4ce3aC64043732eF3bf"
+      "3": "0xebBAA31B1Ebd727A1a42e71dC15E304aD8905211"
     },
     "abi_file": "diva-protocol-abi.json"
   },
@@ -150,7 +150,7 @@
     "name": "diva-oracle-tellor",
     "org": "diva",
     "address": {
-      "3": "0xED6D661645a11C45F4B82274db677867a7D32675"
+      "3": "0x2f4218C9262216B7B73A76334e5A98F3eF71A61c"
     },
     "abi_file": "diva-oracle-tellor-abi.json"
   },
