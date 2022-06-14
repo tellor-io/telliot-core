@@ -67,5 +67,8 @@ class WebPriceService(PriceServiceInterface, ABC):
             except requests.exceptions.ConnectTimeout as e:
                 return {"error": "Timeout Error", "exception": e}
 
+            except requests.exceptions.JSONDecodeError as e:
+                return {"error": "JSON Decode Error", "exception": e}
+
             except Exception as e:
                 return {"error": str(type(e)), "exception": e}
