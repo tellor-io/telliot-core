@@ -11,7 +11,7 @@ async def test_etherscan_gas_error(caplog):
     class FakePriceService(WebPriceService):
         async def get_price(self, asset, currency):
             return None, None
-    
+
     def json_decode_error(*args, **kwargs):
         raise requests.exceptions.JSONDecodeError()
 
