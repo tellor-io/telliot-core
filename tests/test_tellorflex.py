@@ -11,6 +11,7 @@ from telliot_core.utils.timestamp import TimeStamp
 
 @pytest.fixture(scope="module")
 def mock_flex_contract():
+    """Mock the TellorFlex contract"""
     return accounts[0].deploy(
         TellorFlex,
         "0x0000000000000000000000000000000000000123",
@@ -22,6 +23,7 @@ def mock_flex_contract():
 
 @pytest.mark.asyncio
 async def test_main(mumbai_test_cfg, mock_flex_contract):
+    """Test the TellorFlex contract"""
     async with TelliotCore(config=mumbai_test_cfg) as core:
         account = core.get_account()
         # Override contract addresses with locally deployed mock contract addresses

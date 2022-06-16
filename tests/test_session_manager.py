@@ -49,6 +49,7 @@ def event_loop():
 
 @pytest.fixture(scope="module")
 async def client_session():
+    """Reusable client session"""
     cm = ClientSessionManager()
     await cm.open()
     yield cm
@@ -58,6 +59,7 @@ async def client_session():
 
 @pytest.mark.asyncio
 async def test_session(client_session):
+    """Test the ClientSessionManager class"""
     result = await client_session.fetch_json(
         "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
     )
