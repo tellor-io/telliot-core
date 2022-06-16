@@ -2,7 +2,8 @@ from typing import Any
 from typing import Callable
 
 import telliot_core
-from telliot_core.plugin.discover import telliot_plugins
+
+# from telliot_core.plugin.discover import telliot_plugins
 
 
 def show_telliot_versions(caller: Callable[[Any], None] = print) -> None:  # , include_plugins: bool = True) -> None:
