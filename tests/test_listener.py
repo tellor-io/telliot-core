@@ -8,6 +8,7 @@ from telliot_core.contract.listener import block_logger
 
 
 async def block_printer(msg) -> None:
+    """Print block info"""
     sub_id = msg["params"]["subscription"]
     block = msg["params"]["result"]
     print(f"handled block subscription: {sub_id}")
@@ -16,6 +17,7 @@ async def block_printer(msg) -> None:
 
 @pytest.mark.asyncio
 async def test_subscribe_new_blocks(caplog, mumbai_test_cfg):
+    """Test the block listener"""
     caplog.set_level(logging.INFO)
     async with TelliotCore(config=mumbai_test_cfg) as core:
         # Subscribe to blocks

@@ -13,16 +13,19 @@ from telliot_core.tellor.tellorflex.diva import PoolParameters
 
 @pytest.fixture
 def diva_mock_contract():
+    """Mock the DIVA contract"""
     return accounts[0].deploy(DIVAProtocolMock)
 
 
 @pytest.fixture
 def diva_oracle_mock_contract():
+    """Mock the DIVAOracle contract"""
     return accounts[0].deploy(DIVAOracleMock)
 
 
 @pytest.mark.asyncio
 async def test_diva_protocol_contract(ropsten_test_cfg, diva_mock_contract):
+    """Test the DIVAProtocol contract"""
     async with TelliotCore(config=ropsten_test_cfg) as core:
         account = core.get_account()
         diva = DivaProtocolContract(core.endpoint, account)
@@ -81,6 +84,7 @@ async def test_diva_protocol_contract(ropsten_test_cfg, diva_mock_contract):
 
 @pytest.mark.asyncio
 async def test_diva_tellor_oracle_contract(ropsten_test_cfg, diva_oracle_mock_contract):
+    """Test the DIVAOracleTellor contract"""
     async with TelliotCore(config=ropsten_test_cfg) as core:
         account = core.get_account()
         oracle = DivaOracleTellorContract(core.endpoint, account)

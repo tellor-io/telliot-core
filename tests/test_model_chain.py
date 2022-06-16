@@ -3,6 +3,7 @@ from telliot_core.model.chain import ChainList
 
 
 def test_chain():
+    """Test ChainList"""
 
     cl = ChainList()
     ch = cl.get_chain("ETH", "mainnet")

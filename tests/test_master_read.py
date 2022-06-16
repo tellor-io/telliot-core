@@ -10,11 +10,13 @@ from telliot_core.utils.timestamp import TimeStamp
 
 @pytest.fixture
 def tellorx_master_mock_contract():
+    """Mock the TellorXMaster contract"""
     return accounts[0].deploy(TellorXMasterMock)
 
 
 @pytest.mark.asyncio
 async def test_get_staker_info(rinkeby_test_cfg, tellorx_master_mock_contract):
+    """Test the TellorXMaster contract"""
 
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()

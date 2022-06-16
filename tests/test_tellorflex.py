@@ -3,10 +3,11 @@ from brownie import accounts
 from brownie import TellorFlex
 
 from telliot_core.apps.core import TelliotCore
-from telliot_core.queries.price.spot_price import SpotPrice
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
+
+# from telliot_core.queries.price.spot_price import SpotPrice
 
 
 @pytest.fixture(scope="module")
@@ -61,8 +62,9 @@ async def test_main(mumbai_test_cfg, mock_flex_contract):
         else:
             assert staker_info is None
 
-        q = SpotPrice(asset="btc", currency="USD")
-        count, status = await oracle.get_new_value_count_by_qeury_id(q.query_id)
+        # q = SpotPrice(asset="btc", currency="USD")
+        qid = b"0000000000000000000000000000000000000000000000000000000000000064"
+        count, status = await oracle.get_new_value_count_by_qeury_id(qid)
 
         assert isinstance(status, ResponseStatus)
         if status.ok:
