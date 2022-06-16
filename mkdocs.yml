@@ -66,8 +66,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting started: getting-started.md
-  - Code Reference:
-      - Types Module: code/dtypes.md
   - Contributing:
       - Developer's Guide: contributing.md
       - Documentation: documentation.md
