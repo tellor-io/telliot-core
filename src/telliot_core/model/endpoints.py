@@ -143,6 +143,13 @@ default_endpoint_list = [
         url="https://api.s0.b.hmny.io",
         explorer="https://explorer.pops.one/",
     ),
+    RPCEndpoint(
+        chain_id=421611,
+        provider="Infura",
+        network="Arbitrum Rinkeby",
+        url="https://arbitrum-rinkeby.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://rinkeby-explorer.arbitrum.io/#/",
+    ),
 ]
 
 
