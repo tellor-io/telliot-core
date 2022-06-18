@@ -9,11 +9,13 @@ from telliot_core.utils.timestamp import TimeStamp
 
 @pytest.fixture
 def tellorx_oracle_mock_contract():
+    """Reusable fixture for TellorXOracleMock contract"""
     return accounts[0].deploy(TellorXOracleMock)
 
 
 @pytest.mark.asyncio
 async def test_getReportTimestampByIndex(rinkeby_test_cfg, tellorx_oracle_mock_contract):
+    """Test the TellorxOracleContract getReportTimestampByIndex method"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)
@@ -31,6 +33,7 @@ async def test_getReportTimestampByIndex(rinkeby_test_cfg, tellorx_oracle_mock_c
 
 @pytest.mark.asyncio
 async def test_getReportingLock(rinkeby_test_cfg, tellorx_oracle_mock_contract):
+    """Test the TellorxOracleContract.getReportingLock() method"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)
@@ -45,7 +48,7 @@ async def test_getReportingLock(rinkeby_test_cfg, tellorx_oracle_mock_contract):
 
 @pytest.mark.asyncio
 async def test_gettimebasedreward(rinkeby_test_cfg, tellorx_oracle_mock_contract):
-
+    """Test the TellorxOracleContract.getTimeBasedReward() method"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)
@@ -59,6 +62,7 @@ async def test_gettimebasedreward(rinkeby_test_cfg, tellorx_oracle_mock_contract
 
 @pytest.mark.asyncio
 async def test_getCurrentReward(rinkeby_test_cfg, tellorx_oracle_mock_contract):
+    """Test the TellorX oracle contract"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)
@@ -75,6 +79,7 @@ async def test_getCurrentReward(rinkeby_test_cfg, tellorx_oracle_mock_contract):
 
 @pytest.mark.asyncio
 async def test_getTimestampCountById(rinkeby_test_cfg, tellorx_oracle_mock_contract):
+    """Test the TellorX oracle contract"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)
@@ -90,6 +95,7 @@ async def test_getTimestampCountById(rinkeby_test_cfg, tellorx_oracle_mock_contr
 
 @pytest.mark.asyncio
 async def test_getTimeOfLastNewValue(rinkeby_test_cfg, tellorx_oracle_mock_contract):
+    """Test the TellorX oracle contract"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)
@@ -105,6 +111,7 @@ async def test_getTimeOfLastNewValue(rinkeby_test_cfg, tellorx_oracle_mock_contr
 
 @pytest.mark.asyncio
 async def test_getTipsById(rinkeby_test_cfg, tellorx_oracle_mock_contract):
+    """Test the TellorX oracle contract"""
     async with TelliotCore(config=rinkeby_test_cfg) as core:
         account = core.get_account()
         oracle = TellorxOracleContract(core.endpoint, account)

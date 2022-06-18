@@ -7,6 +7,7 @@ from telliot_core.directory import ContractInfo
 
 
 def test_contract_info():
+    """Test the ContractInfo class"""
     c = ContractInfo(
         org="tellor",
         name="tellorx-master",
@@ -22,6 +23,7 @@ def test_contract_info():
 
 
 def test_contract_directory():
+    """Test the contract directory"""
     cd = contract_directory
     assert len(cd.entries) > 6
 
@@ -39,12 +41,14 @@ def test_contract_directory():
 
 
 def test_directory_config_file():
+    """Test the contract directory config file"""
     cd = contract_directory
     assert len(cd.entries) > 6
 
 
 @pytest.mark.skip("Runs into API rate limits with other tests")
 def test_abi_mainnet_retrieval():
+    """Test the ABI retrieval from mainnet"""
     cd = contract_directory
     entries = cd.find(name="tellor-provider-id41", chain_id=1)
     info = entries[0]
