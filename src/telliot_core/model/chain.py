@@ -80,6 +80,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Harmony ONE", symbol="ONE", decimals=18),
     ),
+    Chain(
+        chain_id=421611,
+        name="Arbitrum Rinkeby",
+        chain="Arbitrum",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

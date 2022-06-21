@@ -35,6 +35,7 @@ NETWORKS = {
     69: "optimism-kovan",
     1666600000: "harmony-mainnet",
     1666700000: "harmony-testnet",
+    421611: "arbitrum-rinkeby",
 }
 
 LOGLEVEL_MAP = {
