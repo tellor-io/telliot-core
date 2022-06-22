@@ -3,6 +3,7 @@ from typing import Optional
 from typing import Tuple
 
 from chained_accounts import ChainedAccount
+from web3.exceptions import ContractLogicError
 
 from telliot_core.contract.contract import Contract
 from telliot_core.directory import contract_directory
@@ -33,6 +34,12 @@ class TellorFlexAutopayContract(Contract):
     async def get_current_tip(self, query_id: bytes) -> Tuple[Optional[int], ResponseStatus]:
         tip_amount, status = await self.read(func_name="getCurrentTip", _queryId=query_id)
         if status.ok:
+            return tip_amount, status
+        # autopay contract reverts when tip amount is zero
+        # instead of returning 0, not sure why
+        elif type(status.e) == ContractLogicError:
+            tip_amount = 0
+            status.ok = True
             return tip_amount, status
         else:
             return None, status
