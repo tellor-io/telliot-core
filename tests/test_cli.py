@@ -57,14 +57,6 @@ def test_gettimebasedreward():
     assert "TRB" in result.output
 
 
-# def test_query_info():
-#     """Test getting query info"""
-#     runner = CliRunner()
-#     result = runner.invoke(main, ["--test_config", "query", "status", "uspce-legacy"])
-#     assert not result.exception
-#     assert "Current value" in result.stdout
-
-
 def test_config_show():
     """Make sure config is running"""
     runner = CliRunner()
