@@ -12,9 +12,6 @@ from telliot_core.cli.commands.listen import listen
 from telliot_core.cli.commands.read import read
 from telliot_core.utils.versions import show_telliot_versions
 
-# from telliot_core.cli.commands.catalog import catalog
-# from telliot_core.cli.commands.query import query
-
 
 @click.group(invoke_without_command=True)
 @click.pass_context
@@ -44,8 +41,6 @@ def main(ctx: click.Context, version: bool, chain_id: int, test_config: bool) ->
 
 main.add_command(config)
 main.add_command(read)
-# main.add_command(query)
-# main.add_command(catalog)
 main.add_command(account)
 main.add_command(listen)
 
