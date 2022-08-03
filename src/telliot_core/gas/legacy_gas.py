@@ -32,4 +32,6 @@ async def ethgasstation(style: ethgastypes = "fast", retries: int = 2) -> Option
         except JSONDecodeError:
             logger.info("ethgasstation api retrying ...")
             continue
+        except requests.exceptions.SSLError:
+            logger.info("unable to retrieve gas price")
     return None
