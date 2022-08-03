@@ -33,6 +33,8 @@ async def ethgasstation(style: ethgastypes = "fast", retries: int = 2) -> Option
             logger.info("ethgasstation api retrying ...")
             continue
         except requests.exceptions.SSLError:
-            logger.info("unable to retrieve gas price")
+            logger.info("SSLError -- Unable to fetch gas price")
             return None
+        except Exception:
+            logger.info("Unable to fetch gas price")
     return None
