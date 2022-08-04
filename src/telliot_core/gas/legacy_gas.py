@@ -30,11 +30,11 @@ async def ethgasstation(style: ethgastypes = "fast", retries: int = 2) -> Option
             gas_price = int(prices[style])
             return int(gas_price / 10)  # json output is gwei*10
         except JSONDecodeError:
-            logger.info("ethgasstation api retrying ...")
+            logger.error("Error decoding JSON from ethgasstation API")
             continue
         except requests.exceptions.SSLError:
-            logger.info("SSLError -- Unable to fetch gas price")
+            logger.error("SSLError -- Unable to fetch gas price")
             return None
-        except Exception:
-            logger.info("Unable to fetch gas price")
+        except Exception as e:
+            logger.error(f"Error fetching gas price: {e}")
     return None
