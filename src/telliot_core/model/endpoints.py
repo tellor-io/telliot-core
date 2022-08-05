@@ -150,6 +150,13 @@ default_endpoint_list = [
         url="https://arbitrum-rinkeby.infura.io/v3/{INFURA_API_KEY}",
         explorer="https://rinkeby-explorer.arbitrum.io/#/",
     ),
+    RPCEndpoint(
+        chain_id=941,
+        provider="Pulsechain",
+        network="Pulsechain Testnet",
+        url="https://rpc.v2b.testnet.pulsechain.com",
+        explorer="https://scan.v2b.testnet.pulsechain.com"
+    )
 ]
 
 
