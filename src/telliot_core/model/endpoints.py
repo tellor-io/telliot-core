@@ -155,8 +155,8 @@ default_endpoint_list = [
         provider="Pulsechain",
         network="Pulsechain Testnet",
         url="https://rpc.v2b.testnet.pulsechain.com",
-        explorer="https://scan.v2b.testnet.pulsechain.com"
-    )
+        explorer="https://scan.v2b.testnet.pulsechain.com",
+    ),
 ]
 
 

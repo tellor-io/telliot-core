@@ -92,8 +92,8 @@ default_chain_list = [
         name="Pulsechain Testnet",
         chain="Pulechain",
         network="testnet",
-        currency=EVMCurrency(name="Pulsechain tPLS", symbol="tPLS", decimals=18)
-    )
+        currency=EVMCurrency(name="Pulsechain tPLS", symbol="tPLS", decimals=18),
+    ),
 ]
 
 
