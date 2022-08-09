@@ -133,12 +133,8 @@ class DivaOracleTellorContract(Contract):
         """ "Settle a pool.
 
         Must be called after the the minimum period undisputed has elapsed."""
-
-        assert self.node.chain_id is not None
         diva_protocol_info = contract_directory.find(chain_id=self.node.chain_id, name="diva-protocol")[0]
-        diva_protocol_addr = diva_protocol_info.address[self.node.chain_id]
-
-        print(diva_protocol_addr)
+        diva_protocol_addr = diva_protocol_info.address[self.node.chain_id]  # type: ignore
 
         _, status = await self.write(
             "setFinalReferenceValue",
