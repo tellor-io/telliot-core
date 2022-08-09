@@ -160,7 +160,7 @@
     "name": "diva-oracle-tellor",
     "org": "diva",
     "address": {
-      "3": "0x2f4218C9262216B7B73A76334e5A98F3eF71A61c"
+      "3": "0x638c4aB660A9af1E6D79491462A0904b3dA78bB2"
     },
     "abi_file": "diva-oracle-tellor-abi.json"
   },
