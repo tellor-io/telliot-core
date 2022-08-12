@@ -12,4 +12,4 @@ Telliot is a command line tool and software development kit (SDK) for interactin
 - [Contributing](https://tellor-io.github.io/telliot-core/contributing/)
 
 To become a Tellor reporter, begin by installing the
-[telliot-feed-examples](https://github.com/tellor-io/telliot-feed-examples) package.
+[telliot-feeds](https://github.com/tellor-io/telliot-feeds) package.
