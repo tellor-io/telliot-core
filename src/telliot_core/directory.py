@@ -55,6 +55,8 @@ class ContractInfo(Serializable):
                     url = "https://api.polygonscan.com"
                 elif chain_id == 80001:
                     url = "https://api-testnet.polygonscan.com"
+                elif chain_id == 42161:
+                    url = "https://api.arbiscan.io/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
