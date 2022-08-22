@@ -37,6 +37,7 @@ NETWORKS = {
     1666700000: "harmony-testnet",
     421611: "arbitrum-rinkeby",
     941: "pulsechain-testnet",
+    42161: "arbitrum",
 }
 
 LOGLEVEL_MAP = {

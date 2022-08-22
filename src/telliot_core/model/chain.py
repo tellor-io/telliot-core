@@ -94,6 +94,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Pulsechain tPLS", symbol="tPLS", decimals=18),
     ),
+    Chain(
+        chain_id=42161,
+        name="Arbitrum One",
+        chain="Arbitrum",
+        network="mainnet",
+        currency=EVMCurrency(name="Arbitrum Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 
