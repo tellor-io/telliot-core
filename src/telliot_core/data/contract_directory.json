@@ -154,7 +154,8 @@
     "name": "diva-protocol",
     "org": "diva",
     "address": {
-      "3": "0xebBAA31B1Ebd727A1a42e71dC15E304aD8905211"
+      "3": "0xebBAA31B1Ebd727A1a42e71dC15E304aD8905211",
+      "5": "0x2d8642777C51dB31945CeDbbC3198d75e497cb48"
     },
     "abi_file": "diva-protocol-abi.json"
   },
@@ -163,7 +164,8 @@
     "name": "diva-oracle-tellor",
     "org": "diva",
     "address": {
-      "3": "0x638c4aB660A9af1E6D79491462A0904b3dA78bB2"
+      "3": "0x638c4aB660A9af1E6D79491462A0904b3dA78bB2",
+      "5": "0x66f84344c786a106AcaE8f54bbb0BdA44Fec6723"
     },
     "abi_file": "diva-oracle-tellor-abi.json"
   },
