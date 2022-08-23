@@ -157,6 +157,13 @@ default_endpoint_list = [
         url="https://rpc.v2b.testnet.pulsechain.com",
         explorer="https://scan.v2b.testnet.pulsechain.com",
     ),
+    RPCEndpoint(
+        chain_id=42161,
+        provider="Infura",
+        network="Arbitrum One",
+        url="https://arbitrum-mainnet.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://arbiscan.io",
+    ),
 ]
 
 
