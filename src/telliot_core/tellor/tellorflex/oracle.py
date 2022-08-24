@@ -20,9 +20,10 @@ class TellorFlexOracleContract(Contract):
         chain_id = node.chain_id
         assert chain_id is not None
 
-        contract_info = contract_directory.find(chain_id=chain_id, name="tellorflex-oracle")[0]
-        if not contract_info:
+        entries = contract_directory.find(chain_id=chain_id, name="tellorflex-oracle")
+        if not entries:
             raise Exception(f"Tellorflex oracle contract not found on chain_id {chain_id}")
+        contract_info = entries[0]
 
         contract_abi = contract_info.get_abi(chain_id=chain_id)
 
