@@ -89,12 +89,6 @@ class DivaOracleTellorContract(Contract):
 
     def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
-        assert chain_id is not None and chain_id in (
-            137,
-            80001,
-            3,
-        )  # Polygon chains & Ropsten
-
         contract_info = contract_directory.find(chain_id=chain_id, name="diva-oracle-tellor")[0]
         if not contract_info:
             raise Exception(f"diva-oracle-tellor contract info not found on chain_id {chain_id}")
@@ -136,9 +130,10 @@ class DivaOracleTellorContract(Contract):
         diva_protocol_info = contract_directory.find(chain_id=self.node.chain_id, name="diva-protocol")[0]
         diva_protocol_addr = diva_protocol_info.address[self.node.chain_id]  # type: ignore
 
+        print(f"setfinalref middleware address: {self.address}")
         _, status = await self.write(
             "setFinalReferenceValue",
-            _divaDiamond=diva_protocol_addr,
+            _divaDiamond="0x27D1BD739BD152CDaE38d4444E9aee3498166f01",
             _poolId=pool_id,
             gas_limit=gas_limit,
             legacy_gas_price=legacy_gas_price,
