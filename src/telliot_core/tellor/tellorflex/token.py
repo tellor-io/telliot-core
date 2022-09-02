@@ -18,7 +18,7 @@ class TokenContract(Contract):
         if chain_id == 122:
             contract_info = contract_directory.find(chain_id=chain_id, name="wrapped-fuse-token")[0]
         else:
-            contract_info = contract_directory.find(chain_id=chain_id, name="trb-polygon-token")[0]
+            contract_info = contract_directory.find(chain_id=chain_id, name="trb-token")[0]
 
         if not contract_info:
             raise Exception(f"Tellorflex token contract not found on chain_id {chain_id}")

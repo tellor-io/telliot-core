@@ -58,6 +58,7 @@
       "122": "0x66c67C69bed74385A4fFbF3986B3e4736c54a5e1",
       "80001": "0x840c23e39F9D029fFa888F47069aA6864f0401D7",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
+      "5": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "69": "0xa0013274d34a7c469952379646F26aA1C1237131",
       "1666600000": "0xb32e05DF1f11B1f0E1DE2A35F4D99393EB86FF8B",
       "1666700000": "0xbB97C038c338c3DcAF06D5be3B4A3e0B24835f9C",
@@ -78,6 +79,7 @@
       "1666600000": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c",
       "1666700000": "0x7B49420008BcA14782F2700547764AdAdD54F813",
       "3": "0x7B49420008BcA14782F2700547764AdAdD54F813",
+      "5": "0x7B49420008BcA14782F2700547764AdAdD54F813",
       "421611": "0x7B49420008BcA14782F2700547764AdAdD54F813",
       "941": "0xEea6D02cB52163119fDbD46c80617968079b5Af7",
       "42161": "0xd844B26dfAfB0776E70aF12C19189b740329A266"
@@ -86,12 +88,13 @@
   },
   {
     "type": "ContractInfo",
-    "name": "trb-polygon-token",
+    "name": "trb-token",
     "org": "tellor",
     "address": {
       "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
       "80001": "0xce4e32fe9d894f8185271aa990d2db425df3e6be",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
+      "5": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "69": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "1666600000": "0xd4b28ecb7b765C89F1e67dE3359d09A3520f794E",
       "1666700000": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
@@ -99,7 +102,7 @@
       "941": "0x08b193bC308eC1E60cE0064CB503c9D85A841347",
       "42161": "0xd58D345Fd9c82262E087d2D0607624B410D88242"
     },
-    "abi_file": "trb-polygon-token-abi.json"
+    "abi_file": "trb-token-abi.json"
   },
   {
     "type": "ContractInfo",
@@ -127,6 +130,7 @@
       "4": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "42": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
+      "5": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "69": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "80001": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "1666700000": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
@@ -154,7 +158,8 @@
     "name": "diva-protocol",
     "org": "diva",
     "address": {
-      "3": "0xebBAA31B1Ebd727A1a42e71dC15E304aD8905211"
+      "3": "0xebBAA31B1Ebd727A1a42e71dC15E304aD8905211",
+      "5": "0x27D1BD739BD152CDaE38d4444E9aee3498166f01"
     },
     "abi_file": "diva-protocol-abi.json"
   },
@@ -163,7 +168,8 @@
     "name": "diva-oracle-tellor",
     "org": "diva",
     "address": {
-      "3": "0x638c4aB660A9af1E6D79491462A0904b3dA78bB2"
+      "3": "0x638c4aB660A9af1E6D79491462A0904b3dA78bB2",
+      "5": "0xF3F62041113c92F080E88200481dFE392369d17b"
     },
     "abi_file": "diva-oracle-tellor-abi.json"
   },
