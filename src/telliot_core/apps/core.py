@@ -39,6 +39,7 @@ NETWORKS = {
     421611: "arbitrum-rinkeby",
     941: "pulsechain-testnet",
     42161: "arbitrum",
+    1337: "brownie-local-network",
 }
 
 LOGLEVEL_MAP = {
