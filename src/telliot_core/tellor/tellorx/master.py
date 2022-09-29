@@ -39,9 +39,9 @@ class TellorxMasterContract(Contract):
         assert chain_id is not None
 
         entries = directory.find(name="tellorx-master", chain_id=chain_id)
-        contract_info = entries[0]
-        if not contract_info:
+        if not entries:
             raise Exception(f"TellorX master contract not found on chain_id {chain_id}")
+        contract_info = entries[0]
         contract_abi = contract_info.get_abi(chain_id=chain_id)
 
         super().__init__(

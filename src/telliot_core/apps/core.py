@@ -31,6 +31,7 @@ NETWORKS = {
     1: "eth-mainnet",
     3: "eth-ropsten",
     4: "eth-rinkeby",
+    5: "eth-goerli",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
     122: "fuse-mainnet",
@@ -40,6 +41,7 @@ NETWORKS = {
     421611: "arbitrum-rinkeby",
     941: "pulsechain-testnet",
     42161: "arbitrum",
+    1337: "brownie-local-network",
 }
 
 LOGLEVEL_MAP = {
