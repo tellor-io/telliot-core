@@ -70,6 +70,8 @@ class TellorFlexContractSet:
 
 @dataclass
 class Tellor360ContractSet:
+    """Tellor360 contract set"""
+
     oracle: Tellor360OracleContract
     autopay: Tellor360AutopayContract
     token: TokenContract
@@ -133,7 +135,7 @@ class TelliotCore:
     _tellorx: Optional[TellorxContractSet]
 
     def get_tellor360_contracts(self) -> Tellor360ContractSet:
-        """Get or create TellorX contracts"""
+        """Get or create Tellor360 contracts"""
 
         if not self._tellor360:
             account = self.get_account()

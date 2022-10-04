@@ -19,14 +19,14 @@ class Tellor360OracleContract(Contract):
         chain_id = node.chain_id
         assert chain_id is not None
 
-        contract_info = contract_directory.find(chain_id=chain_id, name="tellor360-oracle")[0]
+        contract_info = contract_directory.find(chain_id=chain_id, name="tellor360-oracle")
         if not contract_info:
             raise Exception(f"Tellor360 oracle contract not found on chain_id {chain_id}")
 
-        contract_abi = contract_info.get_abi(chain_id=chain_id)
+        contract_abi = contract_info[0].get_abi(chain_id=chain_id)
 
         super().__init__(
-            address=contract_info.address[chain_id],
+            address=contract_info[0].address[chain_id],
             abi=contract_abi,
             node=node,
             account=account,
