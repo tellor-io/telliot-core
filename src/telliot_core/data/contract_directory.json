@@ -181,5 +181,25 @@
       "122": "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
     },
     "abi_file": "fuse-token-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor360-oracle",
+    "org": "tellor",
+    "address": {
+      "4": "0xDb7923FA7D8959A5aDCAA2B652508420f9E47541",
+      "80001": "0x859d6Ab190b1f0AD366CD5678a67Ba3A90474116"
+    },
+    "abi_file": "tellor360-oracle-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor360-autopay",
+    "org": "tellor",
+    "address": {
+      "4": "0x0116810f08ee722ad737130378760Ad079EA368F",
+      "80001": "0x45B24bd85261210e1354d203682C7127cc3D44E6"
+    },
+    "abi_file": "tellor360-autopay-abi.json"
   }
 ]

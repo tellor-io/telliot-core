@@ -17,6 +17,8 @@ from telliot_core.contract.listener import Listener
 from telliot_core.directory import contract_directory
 from telliot_core.logs import init_logging
 from telliot_core.model.endpoints import RPCEndpoint
+from telliot_core.tellor.tellor360.autopay import Tellor360AutopayContract
+from telliot_core.tellor.tellor360.oracle import Tellor360OracleContract
 from telliot_core.tellor.tellorflex.autopay import TellorFlexAutopayContract
 from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
 from telliot_core.tellor.tellorflex.token import TokenContract
@@ -63,6 +65,15 @@ class TellorxContractSet:
 class TellorFlexContractSet:
     oracle: TellorFlexOracleContract
     autopay: TellorFlexAutopayContract
+    token: TokenContract
+
+
+@dataclass
+class Tellor360ContractSet:
+    """Tellor360 contract set"""
+
+    oracle: Tellor360OracleContract
+    autopay: Tellor360AutopayContract
     token: TokenContract
 
 
@@ -123,6 +134,27 @@ class TelliotCore:
 
     _tellorx: Optional[TellorxContractSet]
 
+    def get_tellor360_contracts(self) -> Tellor360ContractSet:
+        """Get or create Tellor360 contracts"""
+
+        if not self._tellor360:
+            account = self.get_account()
+
+            oracle = Tellor360OracleContract(node=self.endpoint, account=account)
+            oracle.connect()
+
+            autopay = Tellor360AutopayContract(node=self.endpoint, account=account)
+            autopay.connect()
+
+            token = TokenContract(node=self.endpoint, account=account)
+            token.connect()
+
+            self._tellor360 = Tellor360ContractSet(oracle=oracle, autopay=autopay, token=token)
+
+        return self._tellor360
+
+    _tellor360: Optional[Tellor360ContractSet]
+
     #: User-specified account name
     account_name = property(lambda self: self._account_name)
     _account_name: Optional[str] = None
@@ -177,6 +209,7 @@ class TelliotCore:
         self._listener = None
         self._tellorx = None
         self._tellorflex = None
+        self._tellor360 = None
 
         loglevel = LOGLEVEL_MAP[self._config.main.loglevel]
         self._log = init_logging(loglevel)
