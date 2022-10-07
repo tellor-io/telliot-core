@@ -28,6 +28,7 @@ def test_config_cmd():
     print(result.stdout)
 
 
+@pytest.mark.skip("Infura rinkeby node deprecated, needs to use brownie")
 def test_disputesbyid(caplog):
     """Test disputes by ID"""
     runner = CliRunner()
@@ -64,6 +65,7 @@ def test_config_show():
     assert not result.exception
 
 
+@pytest.mark.skip("Infura rinkeby node deprecated, needs to use brownie")
 def test_account_status():
     """Test account status."""
     runner = CliRunner()

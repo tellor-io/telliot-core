@@ -91,6 +91,8 @@
     "name": "trb-token",
     "org": "tellor",
     "address": {
+      "1": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
+      "4": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
       "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
       "80001": "0xce4e32fe9d894f8185271aa990d2db425df3e6be",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
@@ -188,7 +190,7 @@
     "org": "tellor",
     "address": {
       "4": "0xDb7923FA7D8959A5aDCAA2B652508420f9E47541",
-      "80001": "0x859d6Ab190b1f0AD366CD5678a67Ba3A90474116"
+      "80001": "0x0a453872d73C3f4122aC26D03aD58285dAee6D6A"
     },
     "abi_file": "tellor360-oracle-abi.json"
   },
@@ -197,8 +199,8 @@
     "name": "tellor360-autopay",
     "org": "tellor",
     "address": {
-      "4": "0x0116810f08ee722ad737130378760Ad079EA368F",
-      "80001": "0x45B24bd85261210e1354d203682C7127cc3D44E6"
+      "4": "0xb4a418153039eECcaEE2d74D57766BF943aA8d53",
+      "80001": "0xC5231f64A81987731436F430dF9D9f5552EC3ef6"
     },
     "abi_file": "tellor360-autopay-abi.json"
   }
