@@ -54,17 +54,17 @@
     "name": "tellorflex-oracle",
     "org": "tellor",
     "address": {
-      "137": "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
-      "122": "0x66c67C69bed74385A4fFbF3986B3e4736c54a5e1",
-      "80001": "0x840c23e39F9D029fFa888F47069aA6864f0401D7",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "5": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "69": "0xa0013274d34a7c469952379646F26aA1C1237131",
-      "1666600000": "0xb32e05DF1f11B1f0E1DE2A35F4D99393EB86FF8B",
-      "1666700000": "0xbB97C038c338c3DcAF06D5be3B4A3e0B24835f9C",
-      "421611": "0xbB97C038c338c3DcAF06D5be3B4A3e0B24835f9C",
+      "122": "0x66c67C69bed74385A4fFbF3986B3e4736c54a5e1",
+      "137": "0xFd45Ae72E81Adaaf01cC61c8bCe016b7060DD537",
       "941": "0xB0A15Da1538D0968A32858273E64fcd0F9869283",
-      "42161": "0x73B6715D9289bdfE5e758bB7ace782Cc7C933cfC"
+      "42161": "0x73B6715D9289bdfE5e758bB7ace782Cc7C933cfC",
+      "421611": "0xbB97C038c338c3DcAF06D5be3B4A3e0B24835f9C",
+      "80001": "0x840c23e39F9D029fFa888F47069aA6864f0401D7",
+      "1666600000": "0xb32e05DF1f11B1f0E1DE2A35F4D99393EB86FF8B",
+      "1666700000": "0xbB97C038c338c3DcAF06D5be3B4A3e0B24835f9C"
     },
     "abi_file": "tellorflex-oracle-abi.json"
   },
@@ -73,18 +73,40 @@
     "name": "tellorflex-autopay",
     "org": "tellor",
     "address": {
-      "137": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c",
-      "80001": "0x7B49420008BcA14782F2700547764AdAdD54F813",
-      "69": "0x7B49420008BcA14782F2700547764AdAdD54F813",
-      "1666600000": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c",
-      "1666700000": "0x7B49420008BcA14782F2700547764AdAdD54F813",
       "3": "0x7B49420008BcA14782F2700547764AdAdD54F813",
       "5": "0x7B49420008BcA14782F2700547764AdAdD54F813",
-      "421611": "0x7B49420008BcA14782F2700547764AdAdD54F813",
+      "69": "0x7B49420008BcA14782F2700547764AdAdD54F813",
+      "137": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c",
       "941": "0xEea6D02cB52163119fDbD46c80617968079b5Af7",
-      "42161": "0xd844B26dfAfB0776E70aF12C19189b740329A266"
+      "42161": "0xd844B26dfAfB0776E70aF12C19189b740329A266",
+      "421611": "0x7B49420008BcA14782F2700547764AdAdD54F813",
+      "80001": "0x7B49420008BcA14782F2700547764AdAdD54F813",
+      "1666600000": "0xD789488E5ee48Ef8b0719843672Bc04c213b648c",
+      "1666700000": "0x7B49420008BcA14782F2700547764AdAdD54F813"
     },
     "abi_file": "tellorflex-autopay-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor360-oracle",
+    "org": "tellor",
+    "address": {
+      "4": "0xDb7923FA7D8959A5aDCAA2B652508420f9E47541",
+      "137": "0x373e89048b5a4d44445f2e83a23e1fd08AD2316a",
+      "80001": "0x0a453872d73C3f4122aC26D03aD58285dAee6D6A"
+    },
+    "abi_file": "tellor360-oracle-abi.json"
+  },
+  {
+    "type": "ContractInfo",
+    "name": "tellor360-autopay",
+    "org": "tellor",
+    "address": {
+      "4": "0xb4a418153039eECcaEE2d74D57766BF943aA8d53",
+      "137": "0xb1BA09F56F3E6A58680b88e0af7e32F30A61C1Bb",
+      "80001": "0xC5231f64A81987731436F430dF9D9f5552EC3ef6"
+    },
+    "abi_file": "tellor360-autopay-abi.json"
   },
   {
     "type": "ContractInfo",
@@ -92,17 +114,17 @@
     "org": "tellor",
     "address": {
       "1": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
-      "4": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
-      "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
-      "80001": "0xce4e32fe9d894f8185271aa990d2db425df3e6be",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
+      "4": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
       "5": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "69": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
-      "1666600000": "0xd4b28ecb7b765C89F1e67dE3359d09A3520f794E",
-      "1666700000": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
-      "421611": "0x126f5C4802c10848Eb66ce2F74380B7ADeFF36Cb",
       "941": "0x08b193bC308eC1E60cE0064CB503c9D85A841347",
-      "42161": "0xd58D345Fd9c82262E087d2D0607624B410D88242"
+      "137": "0xE3322702BEdaaEd36CdDAb233360B939775ae5f1",
+      "42161": "0xd58D345Fd9c82262E087d2D0607624B410D88242",
+      "421611": "0x126f5C4802c10848Eb66ce2F74380B7ADeFF36Cb",
+      "80001": "0xce4e32fe9d894f8185271aa990d2db425df3e6be",
+      "1666600000": "0xd4b28ecb7b765C89F1e67dE3359d09A3520f794E",
+      "1666700000": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A"
     },
     "abi_file": "trb-token-abi.json"
   },
@@ -183,25 +205,5 @@
       "122": "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
     },
     "abi_file": "fuse-token-abi.json"
-  },
-  {
-    "type": "ContractInfo",
-    "name": "tellor360-oracle",
-    "org": "tellor",
-    "address": {
-      "4": "0xDb7923FA7D8959A5aDCAA2B652508420f9E47541",
-      "80001": "0x0a453872d73C3f4122aC26D03aD58285dAee6D6A"
-    },
-    "abi_file": "tellor360-oracle-abi.json"
-  },
-  {
-    "type": "ContractInfo",
-    "name": "tellor360-autopay",
-    "org": "tellor",
-    "address": {
-      "4": "0xb4a418153039eECcaEE2d74D57766BF943aA8d53",
-      "80001": "0xC5231f64A81987731436F430dF9D9f5552EC3ef6"
-    },
-    "abi_file": "tellor360-autopay-abi.json"
   }
 ]
