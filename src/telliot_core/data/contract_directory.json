@@ -5,7 +5,8 @@
     "org": "tellor",
     "address": {
       "1": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
-      "4": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0"
+      "4": "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
+      "5": "0x51c59c6cAd28ce3693977F2feB4CfAebec30d8a2"
     },
     "abi_file": "tellorx-master-abi.json"
   },
@@ -15,7 +16,8 @@
     "org": "tellor",
     "address": {
       "1": "0xf98624E9924CAA2cbD21cC6288215Ec2ef7cFE80",
-      "4": "0x0f2b0a8fa0f60459f51e452273c879eb32555e91"
+      "4": "0x0f2b0a8fa0f60459f51e452273c879eb32555e91",
+      "5": "0xaF8797c5C113abC7338535581243e11168326082"
     },
     "abi_file": null
   },
@@ -25,7 +27,8 @@
     "org": "tellor",
     "address": {
       "1": "0xe8218cACb0a5421BC6409e498d9f8CC8869945ea",
-      "4": "0x18431fd88adF138e8b979A7246eb58EA7126ea16"
+      "4": "0x18431fd88adF138e8b979A7246eb58EA7126ea16",
+      "5": "0x6732b279E7C975B39DfFedA7173e4E426aA9a40F"
     },
     "abi_file": "tellorx-oracle-abi.json"
   },
@@ -35,7 +38,8 @@
     "org": "tellor",
     "address": {
       "1": "0x51d4088d4EeE00Ae4c55f46E0673e9997121DB00",
-      "4": "0xA64Bb0078eB80c97484f3f09Adb47b9B73CBcA00"
+      "4": "0xA64Bb0078eB80c97484f3f09Adb47b9B73CBcA00",
+      "5": "0x45B24bd85261210e1354d203682C7127cc3D44E6"
     },
     "abi_file": "tellorx-governance-abi.json"
   },
@@ -45,7 +49,8 @@
     "org": "tellor",
     "address": {
       "1": "0x3b0f3eaEFaAc9f8F7FDe406919ecEb5270fE0607",
-      "4": "0x2dB91443f2b562B8b2B2e8E4fC0A3EDD6c195147"
+      "4": "0x2dB91443f2b562B8b2B2e8E4fC0A3EDD6c195147",
+      "5": "0x0a453872d73C3f4122aC26D03aD58285dAee6D6A"
     },
     "abi_file": "tellorx-treasury-abi.json"
   },
