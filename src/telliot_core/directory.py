@@ -49,6 +49,8 @@ class ContractInfo(Serializable):
                     url = "https://api-ropsten.etherscan.io"
                 elif chain_id == 4:
                     url = "https://api-rinkeby.etherscan.io"
+                elif chain_id == 5:
+                    url = "https://api-goerli.etherscan.io"
                 elif chain_id == 42:
                     url = "https://api-kovan.etherscan.io"
                 elif chain_id == 137:
