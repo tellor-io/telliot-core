@@ -163,7 +163,7 @@
       "4": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "42": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "3": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
-      "5": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
+      "5": "0x3251838bd813fdf6a97D32781e011cce8D225d59",
       "69": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "80001": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
       "1666700000": "0x7B8AC044ebce66aCdF14197E8De38C1Cc802dB4A",
@@ -192,7 +192,7 @@
     "org": "diva",
     "address": {
       "3": "0xebBAA31B1Ebd727A1a42e71dC15E304aD8905211",
-      "5": "0x27D1BD739BD152CDaE38d4444E9aee3498166f01"
+      "5": "0x2d941518E0876Fb6042bfCdB403427DC5620b2EC"
     },
     "abi_file": "diva-protocol-abi.json"
   },
@@ -202,7 +202,7 @@
     "org": "diva",
     "address": {
       "3": "0x638c4aB660A9af1E6D79491462A0904b3dA78bB2",
-      "5": "0xF3F62041113c92F080E88200481dFE392369d17b"
+      "5": "0x9F6Cd21bF0f18cf7bcd1bd9AF75476537d8295fB"
     },
     "abi_file": "diva-oracle-tellor-abi.json"
   },
