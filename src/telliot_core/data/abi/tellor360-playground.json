@@ -1,7 +1,7 @@
 [
     {
         "inputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"constructor"
@@ -160,7 +160,7 @@
         ],
         "name":"addStakingRewards",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
@@ -247,14 +247,14 @@
         ],
         "name":"beginDispute",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
     },
     {
         "inputs":[
-            
+
         ],
         "name":"decimals",
         "outputs":[
@@ -277,7 +277,7 @@
         ],
         "name":"depositStake",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
@@ -292,7 +292,7 @@
         ],
         "name":"faucet",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
@@ -405,7 +405,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"getStakeAmount",
         "outputs":[
@@ -522,7 +522,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"governance",
         "outputs":[
@@ -585,7 +585,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"name",
         "outputs":[
@@ -632,7 +632,7 @@
         ],
         "name":"requestStakingWithdraw",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
@@ -663,7 +663,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"stakeAmount",
         "outputs":[
@@ -701,14 +701,14 @@
         ],
         "name":"submitValue",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
     },
     {
         "inputs":[
-            
+
         ],
         "name":"symbol",
         "outputs":[
@@ -723,7 +723,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"timeBasedReward",
         "outputs":[
@@ -781,7 +781,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"tipsInContract",
         "outputs":[
@@ -796,7 +796,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"token",
         "outputs":[
@@ -811,7 +811,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"totalSupply",
         "outputs":[
@@ -903,7 +903,7 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"voteCount",
         "outputs":[
@@ -942,11 +942,11 @@
     },
     {
         "inputs":[
-            
+
         ],
         "name":"withdrawStake",
         "outputs":[
-            
+
         ],
         "stateMutability":"nonpayable",
         "type":"function"
