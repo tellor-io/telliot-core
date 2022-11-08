@@ -47,16 +47,18 @@ async def ethgasstation(style: ethgastypes = "fast", retries: int = 2) -> Option
     return None
 
 
+ETH_GAS_PRICE_API = "https://ethgasstation.info/json/ethgasAPI.json"
+MATIC_GAS_PRICE_API = "https://gasstation-mainnet.matic.network"
 gas_station = {
-    1: GasStation(api="https://ethgasstation.info/json/ethgasAPI.json", default_speed="fast"),
-    5: GasStation(api="https://ethgasstation.info/json/ethgasAPI.json", default_speed="fast"),
-    137: GasStation(api="https://gasstation-mainnet.matic.network", default_speed="safeLow"),
-    80001: GasStation(api="https://gasstation-mainnet.matic.network", default_speed="safeLow"),
+    1: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
+    5: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
+    137: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
+    80001: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
 }
 
 
 async def legacy_gas_station(chain_id: int, speed: Optional[ethgastypes] = None, retries: int = 2) -> Optional[int]:
-    """Fetch gas price from ethgasstation in gwei"""
+    """Fetch gas price from gas station Api in gwei"""
 
     if speed is None:
         try:
