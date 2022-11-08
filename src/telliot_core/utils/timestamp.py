@@ -16,7 +16,7 @@ class TimeStamp:
     ts = property(lambda self: self._ts)
     _ts: int
 
-    def __init__(self, ts: [int, float]):
+    def __init__(self, ts: Union[int, float]):
         """Create from unix timestamp"""
         self._ts = round(ts)
 
