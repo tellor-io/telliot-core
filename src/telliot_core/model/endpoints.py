@@ -102,6 +102,13 @@ default_endpoint_list = [
         explorer="https://rinkeby.etherscan.io",
     ),
     RPCEndpoint(
+        chain_id=5,
+        provider="Infura",
+        network="goerli",
+        url="wss://goerli.infura.io/ws/v3/{INFURA_API_KEY}",
+        explorer="https://goerli.etherscan.io",
+    ),
+    RPCEndpoint(
         chain_id=137,
         provider="Matic",
         network="mainnet",
