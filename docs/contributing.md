@@ -2,15 +2,14 @@
 
 ## Development Environment Setup
 
-_These instructions assume that a working Python interpreter (version >=3.9)
-is already installed on the system._
+### Prerequisites
+- Python (version >=3.9 & <3.10)
 
 Clone the repository to a local working directory:
 
     git clone https://github.com/tellor-io/telliot-core.git
 
-Create and activate a [virtual environment](https://docs.python.org/3/library/venv.html). In this example, the virtual environment is
-located in a subfolder called `tenv`:
+Create and activate a [virtual environment](https://docs.python.org/3/library/venv.html) in that cloned repo. In this example, the virtual environment is called `tenv`:
 
 === "Linux"
 
@@ -25,10 +24,6 @@ located in a subfolder called `tenv`:
     py -m venv tenv
     tenv\Scripts\activate
     ```
-
-If working on Ubuntu, may need to install one of the following packages ([see this issue](https://github.com/ethereum/web3.py/issues/1726)).
-
-    sudo apt install libpython3.9-dev
 
 Install the project using using an [editable installation](https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs).
 
