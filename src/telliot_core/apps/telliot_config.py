@@ -26,7 +26,7 @@ class MainConfig(ConfigOptions):
     loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
 
     #: Select chain id
-    chain_id: int = 4
+    chain_id: int = 5
 
 
 @dataclass
