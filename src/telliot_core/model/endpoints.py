@@ -171,6 +171,13 @@ default_endpoint_list = [
         url="https://arbitrum-mainnet.infura.io/v3/{INFURA_API_KEY}",
         explorer="https://arbiscan.io",
     ),
+    RPCEndpoint(
+        chain_id=10200,
+        provider="blockscout",
+        network="Chiado",
+        url="https://rpc.chiadochain.net",
+        explorer="https://blockscout.chiadochain.net/",
+    ),
 ]
 
 

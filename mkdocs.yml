@@ -1,7 +1,7 @@
-site_name: Telliot Documentation
+site_name: Telliot Core Documentation
 
 # Project information
-site_name: Telliot Documentation
+site_name: Telliot Core Documentation
 site_url: https://tellor-io.github.io/telliot-core/
 site_author: Tellor Development Community
 site_description: >-
@@ -65,8 +65,8 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Getting started: getting-started.md
   - Contributing:
+      - Add New Chain: add-chain.md
       - Developer's Guide: contributing.md
       - Documentation: documentation.md
 

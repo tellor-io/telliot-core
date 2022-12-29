@@ -1,6 +1,6 @@
 # Project Documentation
 
-Telliot is documented using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+Telliot Core is documented using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
 The latest `telliot-core` documentation can
 be [found here](https://tellor-io.github.io/telliot-core/)
