@@ -224,21 +224,6 @@
 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../getting-started/" class="md-nav__link">
-        Getting started
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
     
   
   
@@ -248,22 +233,36 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
       
-        <label class="md-nav__link" for="__nav_3">
+        <label class="md-nav__link" for="__nav_2">
           Contributing
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Contributing" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Contributing
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-chain/" class="md-nav__link">
+        Add New Chain
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -308,6 +307,19 @@
   <a href="#development-environment-setup" class="md-nav__link">
     Development Environment Setup
   </a>
+  
+    <nav class="md-nav" aria-label="Development Environment Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -392,6 +404,19 @@
     Development Environment Setup
   </a>
   
+    <nav class="md-nav" aria-label="Development Environment Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -430,13 +455,14 @@
 
 <h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
 <h2 id="development-environment-setup">Development Environment Setup<a class="headerlink" href="#development-environment-setup" title="Permanent link">&para;</a></h2>
-<p><em>These instructions assume that a working Python interpreter (version &gt;=3.9)
-is already installed on the system.</em></p>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Python (version &gt;=3.9 &amp; &lt;3.10)</li>
+</ul>
 <p>Clone the repository to a local working directory:</p>
 <div class="highlight"><pre><span></span><code>git clone https://github.com/tellor-io/telliot-core.git
 </code></pre></div>
-<p>Create and activate a <a href="https://docs.python.org/3/library/venv.html">virtual environment</a>. In this example, the virtual environment is
-located in a subfolder called <code>tenv</code>:</p>
+<p>Create and activate a <a href="https://docs.python.org/3/library/venv.html">virtual environment</a> in that cloned repo. In this example, the virtual environment is called <code>tenv</code>:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Linux</label><label for="__tabbed_1_2">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -451,9 +477,6 @@ tenv\Scripts\activate
 </div>
 </div>
 </div>
-<p>If working on Ubuntu, may need to install one of the following packages (<a href="https://github.com/ethereum/web3.py/issues/1726">see this issue</a>).</p>
-<div class="highlight"><pre><span></span><code>sudo apt install libpython3.9-dev
-</code></pre></div>
 <p>Install the project using using an <a href="https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs">editable installation</a>.</p>
 <div class="highlight"><pre><span></span><code>pip install -e .
 pip install -r requirements-dev.txt
@@ -512,7 +535,7 @@ community discord for updates.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started" rel="prev">
+        <a href="../add-chain/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Add New Chain" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -521,7 +544,7 @@ community discord for updates.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Getting started
+              Add New Chain
             </div>
           </div>
         </a>
