@@ -55,7 +55,7 @@ gas_station = {
     5: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
     137: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
     80001: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
-    10200: GasStation(api=CHIADO_GAS_PRICE_API, default_speed="average")
+    10200: GasStation(api=CHIADO_GAS_PRICE_API, default_speed="average"),
 }
 
 

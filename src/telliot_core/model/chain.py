@@ -107,7 +107,7 @@ default_chain_list = [
         chain="Chiado",
         network="testnet",
         currency=EVMCurrency(name="XDAI", symbol="XDAI", decimals=18),
-    )
+    ),
 ]
 
 
