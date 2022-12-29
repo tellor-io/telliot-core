@@ -9,4 +9,4 @@
     - add address for tellor360-autopay
     - add address for tellor360-oracle
     - add playground address for trb-token if testnet
-7. Follow steps to support a new chain in [telliot-feeds]()
+7. Follow steps to support a new chain in [telliot-feeds](https://tellor-io.github.io/telliot-feeds/add-chain/)
