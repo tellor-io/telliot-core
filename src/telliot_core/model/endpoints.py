@@ -173,8 +173,8 @@ default_endpoint_list = [
     ),
     RPCEndpoint(
         chain_id=10200,
-        provider="Chiado",
-        network="Chiado Testnet",
+        provider="blockscout",
+        network="Chiado testnet",
         url="https://rpc.chiadochain.net",
         explorer="https://blockscout.chiadochain.net/",
     ),

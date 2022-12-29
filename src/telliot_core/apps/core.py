@@ -42,7 +42,7 @@ NETWORKS = {
     941: "pulsechain-testnet",
     42161: "arbitrum",
     1337: "brownie-local-network",
-    10200: "chiado",
+    10200: "chiado-testnet",
 }
 
 LOGLEVEL_MAP = {

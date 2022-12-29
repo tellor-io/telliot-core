@@ -103,10 +103,10 @@ default_chain_list = [
     ),
     Chain(
         chain_id=10200,
-        name="Chiado",
-        chain="chiado",
+        name="Chiado Testnet",
+        chain="Chiado",
         network="testnet",
-        currency=EVMCurrency(name="Chiado xDai", symbol="xDai", decimals=18),
+        currency=EVMCurrency(name="Chiado xDai", symbol="XDAI", decimals=18),
     ),
 ]
 

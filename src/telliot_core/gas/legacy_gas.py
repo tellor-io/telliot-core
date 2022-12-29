@@ -49,13 +49,13 @@ async def ethgasstation(style: ethgastypes = "fast", retries: int = 2) -> Option
 
 ETH_GAS_PRICE_API = "https://ethgasstation.info/json/ethgasAPI.json"
 MATIC_GAS_PRICE_API = "https://gasstation-mainnet.matic.network"
-GNOSIS_GAS_PRICE_API = "https://blockscout.com/xdai/mainnet/api/v1/gas-price-oracle"
+CHIADO_GAS_PRICE_API = "https://blockscout.com/xdai/mainnet/api/v1/gas-price-oracle"
 gas_station = {
     1: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
     5: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
     137: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
     80001: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
-    10200: GasStation(api=GNOSIS_GAS_PRICE_API, default_speed="average"),
+    10200: GasStation(api=CHIADO_GAS_PRICE_API, default_speed="average"),
 }
 
 
