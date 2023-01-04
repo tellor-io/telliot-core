@@ -178,6 +178,13 @@ default_endpoint_list = [
         url="https://rpc.chiadochain.net",
         explorer="https://blockscout.chiadochain.net/",
     ),
+    RPCEndpoint(
+        chain_id=100,
+        provider="ankr",
+        network="gnosis",
+        url="https://rpc.ankr.com/gnosis",
+        explorer="https://gnosisscan.io",
+    ),
 ]
 
 
