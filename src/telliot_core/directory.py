@@ -61,6 +61,8 @@ class ContractInfo(Serializable):
                     url = "https://api.arbiscan.io/"
                 elif chain_id == 10200:
                     url = "https://blockscout.chiadochain.net/"
+                elif chain_id == 100:
+                    url = "https://api.gnosisscan.io"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
