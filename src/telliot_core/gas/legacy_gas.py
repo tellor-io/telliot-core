@@ -55,6 +55,7 @@ GNOSIS_GAS_PRICE_API = "https://blockscout.com/xdai/mainnet/api/v1/gas-price-ora
 gas_station = {
     1: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
     5: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
+    10: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
     137: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
     80001: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
     10200: GasStation(api=CHIADO_GAS_PRICE_API, default_speed="average"),

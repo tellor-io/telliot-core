@@ -46,6 +46,13 @@ default_chain_list = [
         currency=EVMCurrency(name="Rinkeby Ether", symbol="RIN", decimals=18),
     ),
     Chain(
+        chain_id=10,
+        name="Optimism Mainnet",
+        chain="Optimism",
+        network="mainnet (public)",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
         chain_id=137,
         name="Matic(Polygon) Mainnet",
         chain="Matic(Polygon)",

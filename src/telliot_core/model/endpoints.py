@@ -130,6 +130,13 @@ default_endpoint_list = [
         explorer="https://mumbai.polygonscan.com/",
     ),
     RPCEndpoint(
+        chain_id=10,
+        provider="optimism-mainnet",
+        network="infura",
+        url="https://optimism-mainnet.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://optimistic.etherscan.io/",
+    ),
+    RPCEndpoint(
         chain_id=69,
         provider="optimism-kovan",
         network="infura",

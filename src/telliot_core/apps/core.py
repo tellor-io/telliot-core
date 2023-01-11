@@ -32,6 +32,7 @@ NETWORKS = {
     3: "eth-ropsten",
     4: "eth-rinkeby",
     5: "eth-goerli",
+    10: "optimism-mainnet",
     137: "polygon-mainnet",
     80001: "polygon-mumbai",
     122: "fuse-mainnet",
@@ -44,6 +45,7 @@ NETWORKS = {
     1337: "brownie-local-network",
     10200: "chiado-testnet",
     100: "gnosis",
+    
 }
 
 LOGLEVEL_MAP = {
