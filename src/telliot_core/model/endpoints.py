@@ -113,7 +113,7 @@ default_endpoint_list = [
         provider="Matic",
         network="mainnet",
         url="https://rpc-mainnet.matic.network",
-        explorer="https://matic.network",
+        explorer="https://polygonscan.com/",
     ),
     RPCEndpoint(
         chain_id=122,
