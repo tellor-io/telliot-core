@@ -341,18 +341,18 @@
 
 <h1 id="support-new-chain">Support new chain<a class="headerlink" href="#support-new-chain" title="Permanent link">&para;</a></h1>
 <ol>
-<li>Add chain ID &amp; explorer URL to <code>telliot_core.directory.ContractInfo.get_abi()</code></li>
-<li>Add chain ID &amp; name to <code>telliot_core.apps.core.NETWORKS</code></li>
-<li>Add chain info to <code>telliot_core.model.chain.default_chains_list</code></li>
-<li>Add chain ID &amp; gas/fee info retrieval to <code>telliot_core.gas.legacy_gas.gas_station</code></li>
-<li>Add endpoint info to <code>telliot_core.model.endpoints.default_endpoint_list</code></li>
+<li>Add chain ID &amp; explorer URL to <code>telliot_core.directory.ContractInfo.get_abi()</code>.</li>
+<li>Add chain ID &amp; name to <code>telliot_core.apps.core.NETWORKS</code>.</li>
+<li>Add chain info to <code>telliot_core.model.chain.default_chains_list</code>.</li>
+<li>Add chain ID &amp; gas/fee info retrieval to <code>telliot_core.gas.legacy_gas.gas_station</code>.</li>
+<li>Add endpoint info to <code>telliot_core.model.endpoints.default_endpoint_list</code>.</li>
 <li>Add deployed oracle contract and autopay info to <code>telliot_core.data.contract_directory.json</code>:<ul>
-<li>add address for tellor360-autopay</li>
-<li>add address for tellor360-oracle</li>
-<li>add playground address for trb-token if testnet</li>
+<li>Add address for <code>tellor360-autopay</code>.</li>
+<li>Add address for <code>tellor360-oracle</code>.</li>
+<li>If using testnet, add a tellor playground address for <code>trb-token</code>. If using mainnet, add the address of the bridged TRB token contract.</li>
 </ul>
 </li>
-<li>Follow steps to support a new chain in <a href="https://tellor-io.github.io/telliot-feeds/add-chain/">telliot-feeds</a></li>
+<li>Follow steps to support a new chain in <a href="https://tellor-io.github.io/telliot-feeds/add-chain/">telliot-feeds</a>.</li>
 </ol>
 
               
