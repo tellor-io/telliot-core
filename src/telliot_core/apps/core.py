@@ -44,6 +44,7 @@ NETWORKS = {
     1337: "brownie-local-network",
     10200: "chiado-testnet",
     100: "gnosis",
+    10: "optimism",
 }
 
 LOGLEVEL_MAP = {
