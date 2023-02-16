@@ -115,6 +115,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="xDai", symbol="XDAI", decimals=18),
     ),
+    Chain(
+        chain_id=10,
+        name="optimism",
+        chain="optimism",
+        network="mainnet",
+        currency=EVMCurrency(name="Optimism Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 
