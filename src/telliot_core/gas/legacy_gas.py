@@ -70,7 +70,7 @@ gas_station = {
 
 
 async def legacy_gas_station(
-    chain_id: int, speed: Optional[Union[Tuple[str, int, str], ethgastypes]] = None, retries: int = 2
+    chain_id: int, parse_lis: Optional[Union[Tuple[str, int, str], ethgastypes]] = None, retries: int = 2
 ) -> Optional[int]:
     """Fetch gas price from gas station Api in gwei"""
 
@@ -92,13 +92,13 @@ async def legacy_gas_station(
             logger.error(f"Error fetching gas price: {e}")
             return None
 
-    for i in speed:
+    for i in parse_lis:
         try:
             prices = prices[i]
         except (KeyError, IndexError):
-            logger.error(f"Unable to parse gas price from gasstation: {speed}")
+            logger.error(f"Unable to parse gas price from gasstation: {parse_lis}")
             return None
-    
+
     if isinstance(prices, int):
         gas_price = prices
     elif isinstance(prices, float):
@@ -106,7 +106,6 @@ async def legacy_gas_station(
     else:
         logger.error(f"Invalid reponse from gas station API: {prices}")
         return None
-    
 
     return gas_price if chain_id not in (1, 5) else int(gas_price / 10)  # json output is gwei*10 for eth
 
