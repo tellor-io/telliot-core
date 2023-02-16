@@ -17,7 +17,7 @@ ethgastypes = Literal["fast", "fastest", "safeLow", "average", "standard"]
 @dataclass
 class GasStation:
     api: str
-    default_speed: Union[Tuple[str, int, str], ethgastypes]
+    parse_rsp: Union[Tuple[str, int, str], ethgastypes]
 
 
 async def fetch_gas_price() -> Optional[int]:
@@ -58,14 +58,14 @@ OPTIMISM_GAS_PRICE_API = "https://api.owlracle.info/v3/opt/gas"
 ARBITRUM_GAS_PRICE_API = "https://api.owlracle.info/v3/arb/gas"
 
 gas_station = {
-    1: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
-    5: GasStation(api=ETH_GAS_PRICE_API, default_speed="fast"),
-    10: GasStation(api=OPTIMISM_GAS_PRICE_API, default_speed=("speeds", 2, "gasPrice")),
-    42161: GasStation(api=ARBITRUM_GAS_PRICE_API, default_speed=("speeds", 2, "gasPrice")),
-    137: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
-    80001: GasStation(api=MATIC_GAS_PRICE_API, default_speed="safeLow"),
-    10200: GasStation(api=CHIADO_GAS_PRICE_API, default_speed="average"),
-    100: GasStation(api=GNOSIS_GAS_PRICE_API, default_speed="average"),
+    1: GasStation(api=ETH_GAS_PRICE_API, parse_rsp=["fast"]),
+    5: GasStation(api=ETH_GAS_PRICE_API, parse_rsp=["fast"]),
+    10: GasStation(api=OPTIMISM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
+    42161: GasStation(api=ARBITRUM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
+    137: GasStation(api=MATIC_GAS_PRICE_API, parse_rsp=["safeLow"]),
+    80001: GasStation(api=MATIC_GAS_PRICE_API, parse_rsp=["safeLow"]),
+    10200: GasStation(api=CHIADO_GAS_PRICE_API, parse_rsp=["average"]),
+    100: GasStation(api=GNOSIS_GAS_PRICE_API, parse_rsp=["average"]),
 }
 
 
@@ -74,12 +74,9 @@ async def legacy_gas_station(
 ) -> Optional[int]:
     """Fetch gas price from gas station Api in gwei"""
 
-    if speed is None:
-        try:
-            speed = gas_station[chain_id].default_speed
-        except KeyError:
-            logger.error(f"Please add gas station api for chain id: {chain_id}")
-            return None
+    if chain_id not in gas_station:
+        logger.error(f"Please add gas station API for chain id: {chain_id}")
+        return None
 
     for _ in range(retries):
         try:
@@ -89,31 +86,27 @@ async def legacy_gas_station(
             logger.error("Error decoding JSON from gasstation API")
             continue
         except requests.exceptions.SSLError:
-            logger.error("SSLError -- Unable to fetch gas price")
+            logger.error("SSLError: Unable to fetch gas price")
             return None
         except Exception as e:
             logger.error(f"Error fetching gas price: {e}")
             return None
 
-    if isinstance(speed, tuple):
+    for i in speed:
         try:
-            gas_price = prices[speed[0]][speed[1]][speed[2]]
-            # optimisim gas price is returning 0.01 gwei so we need to round up
-            gas_price = int(gas_price) if gas_price > 1 else math.ceil(gas_price)
-            if gas_price is None:
-                logger.error("Unable to fetch gas price from gasstation")
-                return None
+            prices = prices[i]
         except (KeyError, IndexError):
-            logger.error(f"Invalid gas price speed for gasstation: {speed}")
+            logger.error(f"Unable to parse gas price from gasstation: {speed}")
             return None
+    
+    if isinstance(prices, int):
+        gas_price = prices
+    elif isinstance(prices, float):
+        gas_price = int(prices)
     else:
-        if speed not in prices:
-            logger.error(f"Invalid gas price speed for gasstation: {speed}")
-            return None
-        if prices[speed] is None:
-            logger.error("Unable to fetch gas price from gasstation")
-            return None
-        gas_price = int(prices[speed])
+        logger.error(f"Invalid reponse from gas station API: {prices}")
+        return None
+    
 
     return gas_price if chain_id not in (1, 5) else int(gas_price / 10)  # json output is gwei*10 for eth
 
