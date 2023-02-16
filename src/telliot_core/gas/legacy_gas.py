@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from json.decoder import JSONDecodeError
 from typing import Literal
 from typing import Optional
-from typing import Tuple
 from typing import Union
 
 import requests
@@ -17,7 +16,7 @@ ethgastypes = Literal["fast", "fastest", "safeLow", "average", "standard"]
 @dataclass
 class GasStation:
     api: str
-    parse_rsp: Union[Tuple[str, int, str], ethgastypes]
+    parse_rsp: list[Union[str, int, ethgastypes]]
 
 
 async def fetch_gas_price() -> Optional[int]:
@@ -70,7 +69,7 @@ gas_station = {
 
 
 async def legacy_gas_station(
-    chain_id: int, parse_lis: Optional[Union[Tuple[str, int, str], ethgastypes]] = None, retries: int = 2
+    chain_id: int, speed_parse_lis: Optional[list[Union[str, int, ethgastypes]]] = None, retries: int = 2
 ) -> Optional[int]:
     """Fetch gas price from gas station Api in gwei"""
 
@@ -92,17 +91,20 @@ async def legacy_gas_station(
             logger.error(f"Error fetching gas price: {e}")
             return None
 
-    for i in parse_lis:
+    if speed_parse_lis is None:
+        speed_parse_lis = gas_station[chain_id].parse_rsp
+
+    for i in speed_parse_lis:
         try:
             prices = prices[i]
         except (KeyError, IndexError):
-            logger.error(f"Unable to parse gas price from gasstation: {parse_lis}")
+            logger.error(f"Unable to parse gas price from gasstation: {speed_parse_lis}")
             return None
 
     if isinstance(prices, int):
         gas_price = prices
     elif isinstance(prices, float):
-        gas_price = int(prices)
+        gas_price = int(prices) if prices > 1 else math.ceil(prices)
     else:
         logger.error(f"Invalid reponse from gas station API: {prices}")
         return None
@@ -117,4 +119,5 @@ if __name__ == "__main__":
     for i in (1, 5, 10, 42161, 137, 80001, 10200, 100):
         price = loop.run_until_complete(legacy_gas_station(i))
         assert isinstance(price, int)
+        assert price > 0
         print(i, price)
