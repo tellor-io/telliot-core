@@ -102,6 +102,13 @@ default_chain_list = [
         currency=EVMCurrency(name="Arbitrum Ether", symbol="ETH", decimals=18),
     ),
     Chain(
+        chain_id=42163,
+        name="Arbitrum Goerli",
+        chain="Arbitrum-goerli",
+        network="testnet-goerli",
+        currency=EVMCurrency(name="Arbitrum Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
         chain_id=10200,
         name="Chiado Testnet",
         chain="Chiado",

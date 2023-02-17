@@ -61,6 +61,8 @@ class ContractInfo(Serializable):
                     url = "https://api-testnet.polygonscan.com"
                 elif chain_id == 42161:
                     url = "https://api.arbiscan.io/"
+                elif chain_id == 421613:
+                    url = "https://goerli.arbiscan.io/"
                 elif chain_id == 10200:
                     url = "https://blockscout.chiadochain.net/"
                 elif chain_id == 100:

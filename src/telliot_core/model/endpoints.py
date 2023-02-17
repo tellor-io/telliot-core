@@ -172,6 +172,13 @@ default_endpoint_list = [
         explorer="https://arbiscan.io",
     ),
     RPCEndpoint(
+        chain_id=421613,
+        provider="Infura",
+        network="Arbitrum Goerli",
+        url="https://arbitrum-goerli.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://goerli.arbiscan.io/",
+    ),
+    RPCEndpoint(
         chain_id=10200,
         provider="blockscout",
         network="Chiado testnet",

@@ -40,6 +40,7 @@ NETWORKS = {
     1666600000: "harmony-mainnet",
     1666700000: "harmony-testnet",
     421611: "arbitrum-rinkeby",
+    421613: "arbitrum-goerli",
     941: "pulsechain-testnet",
     42161: "arbitrum",
     1337: "brownie-local-network",
