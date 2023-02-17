@@ -122,6 +122,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Optimism Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=420,
+        name="optimism-goerli",
+        chain="optimism-goerli",
+        network="testnet-goerli",
+        currency=EVMCurrency(name="Optimism Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

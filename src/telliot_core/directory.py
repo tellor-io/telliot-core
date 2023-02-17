@@ -55,6 +55,8 @@ class ContractInfo(Serializable):
                     url = "https://api-kovan.etherscan.io"
                 elif chain_id == 137:
                     url = "https://api.polygonscan.com"
+                elif chain_id == 420:
+                    url = "https://goerli-optimism.etherscan.io/"
                 elif chain_id == 80001:
                     url = "https://api-testnet.polygonscan.com"
                 elif chain_id == 42161:

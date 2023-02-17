@@ -33,6 +33,7 @@ NETWORKS = {
     4: "eth-rinkeby",
     5: "eth-goerli",
     137: "polygon-mainnet",
+    420: "optimism-goerli",
     80001: "polygon-mumbai",
     122: "fuse-mainnet",
     69: "optimism-kovan",
