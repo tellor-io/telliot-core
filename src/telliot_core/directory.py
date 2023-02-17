@@ -55,14 +55,20 @@ class ContractInfo(Serializable):
                     url = "https://api-kovan.etherscan.io"
                 elif chain_id == 137:
                     url = "https://api.polygonscan.com"
+                elif chain_id == 420:
+                    url = "https://goerli-optimism.etherscan.io/"
                 elif chain_id == 80001:
                     url = "https://api-testnet.polygonscan.com"
                 elif chain_id == 42161:
                     url = "https://api.arbiscan.io/"
+                elif chain_id == 421613:
+                    url = "https://goerli.arbiscan.io/"
                 elif chain_id == 10200:
                     url = "https://blockscout.chiadochain.net/"
                 elif chain_id == 100:
                     url = "https://api.gnosisscan.io"
+                elif chain_id == 10:
+                    url = "https://optimistic.etherscan.io/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

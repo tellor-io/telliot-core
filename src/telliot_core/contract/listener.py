@@ -217,7 +217,7 @@ class Listener:
 
     def __del__(self) -> None:
         if self._tasks:
-            warnings.warn("Listener.shutdown() not awaited.")
+            warnings.warn("Listener.shutdown() not awaited.", stacklevel=2)
 
 
 def _handle_task_result(task: asyncio.Task[Any]) -> None:

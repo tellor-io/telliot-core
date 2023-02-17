@@ -33,17 +33,20 @@ NETWORKS = {
     4: "eth-rinkeby",
     5: "eth-goerli",
     137: "polygon-mainnet",
+    420: "optimism-goerli",
     80001: "polygon-mumbai",
     122: "fuse-mainnet",
     69: "optimism-kovan",
     1666600000: "harmony-mainnet",
     1666700000: "harmony-testnet",
     421611: "arbitrum-rinkeby",
+    421613: "arbitrum-goerli",
     941: "pulsechain-testnet",
     42161: "arbitrum",
     1337: "brownie-local-network",
     10200: "chiado-testnet",
     100: "gnosis",
+    10: "optimism",
 }
 
 LOGLEVEL_MAP = {

@@ -172,6 +172,13 @@ default_endpoint_list = [
         explorer="https://arbiscan.io",
     ),
     RPCEndpoint(
+        chain_id=421613,
+        provider="Infura",
+        network="Arbitrum Goerli",
+        url="https://arbitrum-goerli.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://goerli.arbiscan.io/",
+    ),
+    RPCEndpoint(
         chain_id=10200,
         provider="blockscout",
         network="Chiado testnet",
@@ -184,6 +191,20 @@ default_endpoint_list = [
         network="gnosis",
         url="https://rpc.ankr.com/gnosis",
         explorer="https://gnosisscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=10,
+        provider="infura",
+        network="optimism",
+        url="https://optimism-mainnet.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://optimistic.etherscan.io/",
+    ),
+    RPCEndpoint(
+        chain_id=420,
+        provider="infura",
+        network="optimism-goerli",
+        url="https://optimism-goerli.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://goerli-optimism.etherscan.io/",
     ),
 ]
 

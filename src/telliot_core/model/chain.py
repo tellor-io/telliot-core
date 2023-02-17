@@ -102,6 +102,13 @@ default_chain_list = [
         currency=EVMCurrency(name="Arbitrum Ether", symbol="ETH", decimals=18),
     ),
     Chain(
+        chain_id=421613,
+        name="Arbitrum Goerli",
+        chain="Arbitrum-goerli",
+        network="testnet-goerli",
+        currency=EVMCurrency(name="Arbitrum Goerli Ether", symbol="AGOR", decimals=18),
+    ),
+    Chain(
         chain_id=10200,
         name="Chiado Testnet",
         chain="Chiado",
@@ -114,6 +121,20 @@ default_chain_list = [
         chain="gnosis",
         network="mainnet",
         currency=EVMCurrency(name="xDai", symbol="XDAI", decimals=18),
+    ),
+    Chain(
+        chain_id=10,
+        name="optimism",
+        chain="optimism",
+        network="mainnet",
+        currency=EVMCurrency(name="Optimism Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=420,
+        name="optimism-goerli",
+        chain="optimism-goerli",
+        network="testnet-goerli",
+        currency=EVMCurrency(name="Optimism Ether", symbol="ETH", decimals=18),
     ),
 ]
 
