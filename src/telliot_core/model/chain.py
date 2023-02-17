@@ -102,11 +102,11 @@ default_chain_list = [
         currency=EVMCurrency(name="Arbitrum Ether", symbol="ETH", decimals=18),
     ),
     Chain(
-        chain_id=42163,
+        chain_id=421613,
         name="Arbitrum Goerli",
         chain="Arbitrum-goerli",
         network="testnet-goerli",
-        currency=EVMCurrency(name="Arbitrum Ether", symbol="ETH", decimals=18),
+        currency=EVMCurrency(name="Arbitrum Goerli Ether", symbol="AGOR", decimals=18),
     ),
     Chain(
         chain_id=10200,
