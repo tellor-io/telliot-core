@@ -62,7 +62,7 @@ gas_station = {
     10: GasStation(api=OPTIMISM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
     420: GasStation(api=OPTIMISM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
     42161: GasStation(api=ARBITRUM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
-    42163: GasStation(api=ARBITRUM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
+    421613: GasStation(api=ARBITRUM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
     137: GasStation(api=MATIC_GAS_PRICE_API, parse_rsp=["safeLow"]),
     80001: GasStation(api=MATIC_GAS_PRICE_API, parse_rsp=["safeLow"]),
     10200: GasStation(api=CHIADO_GAS_PRICE_API, parse_rsp=["average"]),
