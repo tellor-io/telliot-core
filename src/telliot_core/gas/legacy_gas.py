@@ -118,8 +118,8 @@ if __name__ == "__main__":
     import asyncio
 
     loop = asyncio.get_event_loop()
-    for i in (1, 5, 10, 42161, 137, 80001, 10200, 100):
-        price = loop.run_until_complete(legacy_gas_station(i))
+    for chain_id in gas_station:
+        price = loop.run_until_complete(legacy_gas_station(chain_id))
         assert isinstance(price, int)
         assert price > 0
-        print(i, price)
+        print(chain_id, price)
