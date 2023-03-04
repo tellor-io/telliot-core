@@ -143,10 +143,16 @@ class Contract:
             tx_dict = {
                 "from": acc.address,
                 "nonce": acc_nonce,
-                "gas": gas_limit,
-                "chainId": self.node.chain_id,
             }
+            # Estimate gas_limit if not provided
+            if gas_limit is None:
+                try:
+                    gas_limit = transaction.estimateGas(tx_dict)
+                except Exception as e:
+                    msg = f"Contract.write({func_name}) error: Unable to estimate gas"
+                    return None, error_status(msg, e=e, log=logger.error)
 
+            tx_dict["gas"] = gas_limit
             # use legacy gas strategy if only legacy gas price is provided
             if legacy_gas_price is not None:
 
