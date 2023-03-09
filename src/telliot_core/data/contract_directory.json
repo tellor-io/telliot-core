@@ -249,6 +249,7 @@
       "42161": "0x46038969D7DC0b17BC72137D07b4eDe43859DA45",
       "80001": "0x46038969D7DC0b17BC72137D07b4eDe43859DA45",
       "421613": "0xb55bB55f7D8b4F26Bd18198088C96488D95cab39"
-    }
+    },
+    "abi_file": "tellor-governance-abi.json"
   }
 ]
