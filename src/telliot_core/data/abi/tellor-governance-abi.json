@@ -1,0 +1,835 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "address payable",
+                "name": "_tellor",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_teamMultisig",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_reporter",
+                "type": "address"
+            }
+        ],
+        "name": "NewDispute",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "enum Governance.VoteResult",
+                "name": "_result",
+                "type": "uint8"
+            }
+        ],
+        "name": "VoteExecuted",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "enum Governance.VoteResult",
+                "name": "_result",
+                "type": "uint8"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_initiator",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_reporter",
+                "type": "address"
+            }
+        ],
+        "name": "VoteTallied",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "_supports",
+                "type": "bool"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_voter",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "_invalidQuery",
+                "type": "bool"
+            }
+        ],
+        "name": "Voted",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "autopayAddrsQueryId",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "beginDispute",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_voter",
+                "type": "address"
+            }
+        ],
+        "name": "didVote",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            }
+        ],
+        "name": "executeVote",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "getDataAfter",
+        "outputs": [
+            {
+                "internalType": "bytes",
+                "name": "_value",
+                "type": "bytes"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestampRetrieved",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "getDataBefore",
+        "outputs": [
+            {
+                "internalType": "bytes",
+                "name": "_value",
+                "type": "bytes"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestampRetrieved",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getDisputeFee",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getDisputeInfo",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_reporter",
+                "type": "address"
+            }
+        ],
+        "name": "getDisputesByReporter",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "getIndexForDataAfter",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "_found",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_index",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "getIndexForDataBefore",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "_found",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_index",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_maxAge",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_maxCount",
+                "type": "uint256"
+            }
+        ],
+        "name": "getMultipleValuesBefore",
+        "outputs": [
+            {
+                "internalType": "bytes[]",
+                "name": "_values",
+                "type": "bytes[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "_timestamps",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getNewValueCountbyQueryId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getOpenDisputesOnId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "getReporterByTimestamp",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getTimestampbyQueryIdandIndex",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getVoteCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getVoteInfo",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256[17]",
+                "name": "",
+                "type": "uint256[17]"
+            },
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            },
+            {
+                "internalType": "enum Governance.VoteResult",
+                "name": "",
+                "type": "uint8"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_hash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getVoteRounds",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_voter",
+                "type": "address"
+            }
+        ],
+        "name": "getVoteTallyByAddress",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "idMappingContract",
+        "outputs": [
+            {
+                "internalType": "contract IMappingContract",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "isInDispute",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "oracle",
+        "outputs": [
+            {
+                "internalType": "contract IOracle",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "oracleAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_queryId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "retrieveData",
+        "outputs": [
+            {
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_addy",
+                "type": "address"
+            }
+        ],
+        "name": "setIdMappingContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            }
+        ],
+        "name": "tallyVotes",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "teamMultisig",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tellor",
+        "outputs": [
+            {
+                "internalType": "contract ITellor",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "token",
+        "outputs": [
+            {
+                "internalType": "contract IERC20",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "valueFor",
+        "outputs": [
+            {
+                "internalType": "int256",
+                "name": "_value",
+                "type": "int256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_statusCode",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_disputeId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "_supports",
+                "type": "bool"
+            },
+            {
+                "internalType": "bool",
+                "name": "_invalidQuery",
+                "type": "bool"
+            }
+        ],
+        "name": "vote",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "voteCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "_disputeIds",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "bool[]",
+                "name": "_supports",
+                "type": "bool[]"
+            },
+            {
+                "internalType": "bool[]",
+                "name": "_invalidQuery",
+                "type": "bool[]"
+            }
+        ],
+        "name": "voteOnMultipleDisputes",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
