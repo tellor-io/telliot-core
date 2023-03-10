@@ -206,6 +206,13 @@ default_endpoint_list = [
         url="https://optimism-goerli.infura.io/v3/{INFURA_API_KEY}",
         explorer="https://goerli-optimism.etherscan.io/",
     ),
+    RPCEndpoint(
+        chain_id=3141,
+        provider="Filecoin",
+        network="filecoin-hyperspace",
+        url="https://api.hyperspace.node.glif.io/rpc/v1",
+        explorer="https://hyperspace.filfox.info/",
+    ),
 ]
 
 

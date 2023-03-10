@@ -136,6 +136,13 @@ default_chain_list = [
         network="testnet-goerli",
         currency=EVMCurrency(name="Optimism Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=3141,
+        name="filecoin-hyperspace",
+        chain="filecoin-hyperspace",
+        network="testnet",
+        currency=EVMCurrency(name="Testnet Filecoin", symbol="TFIL", decimals=18),
+    ),
 ]
 
 
