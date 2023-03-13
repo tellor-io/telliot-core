@@ -47,6 +47,7 @@ NETWORKS = {
     10200: "chiado-testnet",
     100: "gnosis",
     10: "optimism",
+    3141: "filecoin-hyperspace",
 }
 
 LOGLEVEL_MAP = {
