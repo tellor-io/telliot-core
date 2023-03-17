@@ -12,7 +12,7 @@ from typing import Union
 
 from chained_accounts import ChainedAccount
 from eth_typing.evm import ChecksumAddress
-from web3 import Web3
+from eth_utils.address import to_checksum_address
 from web3.datastructures import AttributeDict
 
 from telliot_core.model.endpoints import RPCEndpoint
@@ -34,7 +34,7 @@ class Contract:
         account: Optional[ChainedAccount] = None,
     ):
 
-        self.address = Web3.toChecksumAddress(address)
+        self.address = to_checksum_address(address)
         self.abi = abi
         self.node = node
         self.contract = None
