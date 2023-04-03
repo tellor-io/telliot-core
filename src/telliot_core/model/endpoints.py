@@ -213,6 +213,13 @@ default_endpoint_list = [
         url="https://api.hyperspace.node.glif.io/rpc/v1",
         explorer="https://hyperspace.filfox.info/",
     ),
+    RPCEndpoint(
+        chain_id=314,
+        provider="Filecoin",
+        network="filecoin",
+        url="https://api.node.glif.io/rpc/v1",
+        explorer="https://filfox.info/en",
+    ),
 ]
 
 

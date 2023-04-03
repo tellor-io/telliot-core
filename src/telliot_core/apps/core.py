@@ -48,6 +48,7 @@ NETWORKS = {
     100: "gnosis",
     10: "optimism",
     3141: "filecoin-hyperspace",
+    314: "filecoin",
 }
 
 LOGLEVEL_MAP = {

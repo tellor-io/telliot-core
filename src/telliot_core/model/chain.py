@@ -143,6 +143,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Testnet Filecoin", symbol="TFIL", decimals=18),
     ),
+    Chain(
+        chain_id=314,
+        name="filecoin",
+        chain="filecoin",
+        network="mainnet",
+        currency=EVMCurrency(name="Filecoin", symbol="FIL", decimals=18),
+    ),
 ]
 
 
