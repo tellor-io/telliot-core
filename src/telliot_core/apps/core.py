@@ -49,6 +49,7 @@ NETWORKS = {
     10: "optimism",
     3141: "filecoin-hyperspace",
     314: "filecoin",
+    11155111: "sepolia",
 }
 
 LOGLEVEL_MAP = {
