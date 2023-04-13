@@ -150,6 +150,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Filecoin", symbol="FIL", decimals=18),
     ),
+    Chain(
+        chain_id=11155111,
+        name="sepolia",
+        chain="sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

@@ -59,6 +59,7 @@ ARBITRUM_GAS_PRICE_API = "https://api.owlracle.info/v3/arb/gas"
 gas_station = {
     1: GasStation(api=ETH_GAS_PRICE_API, parse_rsp=["fast"]),
     5: GasStation(api=ETH_GAS_PRICE_API, parse_rsp=["fast"]),
+    11155111: GasStation(api=ETH_GAS_PRICE_API, parse_rsp=["fast"]),
     10: GasStation(api=OPTIMISM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
     420: GasStation(api=OPTIMISM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),
     42161: GasStation(api=ARBITRUM_GAS_PRICE_API, parse_rsp=["speeds", 2, "gasPrice"]),

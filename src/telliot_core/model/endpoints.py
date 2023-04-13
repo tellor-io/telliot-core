@@ -220,6 +220,13 @@ default_endpoint_list = [
         url="https://api.node.glif.io/rpc/v1",
         explorer="https://filfox.info/en",
     ),
+    RPCEndpoint(
+        chain_id=11155111,
+        provider="Sepolia",
+        network="sepolia",
+        url="https://sepolia.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://sepolia.etherscan.io/",
+    ),
 ]
 
 
