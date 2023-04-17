@@ -1,2 +1,2 @@
 """ Telliot """
-__version__ = "0.2.5dev0"
+__version__ = "0.2.5"
