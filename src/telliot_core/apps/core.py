@@ -48,6 +48,7 @@ NETWORKS = {
     100: "gnosis",
     10: "optimism",
     3141: "filecoin-hyperspace",
+    314159: "filecoin-calibration",
     314: "filecoin",
     11155111: "sepolia",
 }

@@ -141,7 +141,14 @@ default_chain_list = [
         name="filecoin-hyperspace",
         chain="filecoin-hyperspace",
         network="testnet",
-        currency=EVMCurrency(name="Testnet Filecoin", symbol="TFIL", decimals=18),
+        currency=EVMCurrency(name="Testnet Filecoin", symbol="FIL", decimals=18),
+    ),
+    Chain(
+        chain_id=314159,
+        name="filecoin-calibration",
+        chain="filecoin-calibration",
+        network="testnet",
+        currency=EVMCurrency(name="Testnet Filecoin", symbol="FIL", decimals=18),
     ),
     Chain(
         chain_id=314,
