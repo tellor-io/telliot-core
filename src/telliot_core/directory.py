@@ -70,7 +70,9 @@ class ContractInfo(Serializable):
                 elif chain_id == 10:
                     url = "https://optimistic.etherscan.io/"
                 elif chain_id == 3141:
-                    url = "https://hyperspace.filfox.info/"
+                    url = "https://hyperspace.filfox.info/en"
+                elif chain_id == 314159:
+                    url = "https://calibration.filfox.info/en"
                 elif chain_id == 314:
                     url = "https://filfox.info/en"
                 elif chain_id == 11155111:

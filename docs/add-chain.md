@@ -8,5 +8,6 @@
 6. Add deployed oracle contract and autopay info to `telliot_core.data.contract_directory.json`:
     - Add address for `tellor360-autopay`.
     - Add address for `tellor360-oracle`.
-    - If using testnet, add a tellor playground address for `trb-token`. If using mainnet, add the address of the bridged TRB token contract.
+    - Add address for `trb-token`.
+    - Add address for `tellor-governance`. 
 7. Follow steps to support a new chain in [telliot-feeds](https://tellor-io.github.io/telliot-feeds/add-chain/).
