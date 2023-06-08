@@ -164,3 +164,6 @@ Pipfile.lock
 package.json
 package-lock.json
 node_modules/
+
+# MacOS
+.DS_Store
