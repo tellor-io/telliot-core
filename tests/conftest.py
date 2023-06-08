@@ -119,26 +119,3 @@ def mumbai_test_cfg(scope="session", autouse=True):
 @pytest.fixture
 def rinkeby_test_cfg(scope="session", autouse=True):
     return local_node_cfg(chain_id=4)
-
-
-@pytest.fixture(scope="session", autouse=True)
-def fuse_cfg():
-    """Return a test telliot configuration for use on polygon-mumbai
-
-    If environment variables are defined, they will override the values in config files
-    """
-    cfg = TelliotConfig()
-
-    # Override configuration for fuse testnet
-    cfg.main.chain_id = 122
-
-    accounts = find_accounts(chain_id=122)
-    if not accounts:
-        # Create a test account using PRIVATE_KEY defined on github.
-        key = os.getenv("PRIVATE_KEY", None)
-        if key:
-            ChainedAccount.add("git-fuse-key", chains=122, key=os.environ["PRIVATE_KEY"], password="")
-        else:
-            raise Exception("Need a Fuse account")
-
-    return cfg
