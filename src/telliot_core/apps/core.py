@@ -41,7 +41,6 @@ NETWORKS = {
     1666700000: "harmony-testnet",
     421611: "arbitrum-rinkeby",
     421613: "arbitrum-goerli",
-    941: "pulsechain-testnet",
     42161: "arbitrum",
     1337: "brownie-local-network",
     10200: "chiado-testnet",
@@ -51,6 +50,8 @@ NETWORKS = {
     314159: "filecoin-calibration",
     314: "filecoin",
     11155111: "sepolia",
+    369: "pulsechain",
+    943: "pulsechain-testnet",
 }
 
 LOGLEVEL_MAP = {

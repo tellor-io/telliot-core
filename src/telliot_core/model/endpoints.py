@@ -158,13 +158,6 @@ default_endpoint_list = [
         explorer="https://rinkeby-explorer.arbitrum.io/#/",
     ),
     RPCEndpoint(
-        chain_id=941,
-        provider="Pulsechain",
-        network="Pulsechain Testnet",
-        url="https://rpc.v2b.testnet.pulsechain.com",
-        explorer="https://scan.v2b.testnet.pulsechain.com",
-    ),
-    RPCEndpoint(
         chain_id=42161,
         provider="Infura",
         network="Arbitrum One",
@@ -233,6 +226,20 @@ default_endpoint_list = [
         network="sepolia",
         url="https://sepolia.infura.io/v3/{INFURA_API_KEY}",
         explorer="https://sepolia.etherscan.io/",
+    ),
+    RPCEndpoint(
+        chain_id=369,
+        provider="PulseChain",
+        network="pulsechain",
+        url="https://rpc.pulsechain.com",
+        explorer="https://scan.pulsechain.com/",
+    ),
+    RPCEndpoint(
+        chain_id=943,
+        provider="PulseChain Testnet",
+        network="pulsechain-testnet",
+        url="https://rpc.v4.testnet.pulsechain.com",
+        explorer="https://scan.v4.testnet.pulsechain.com/",
     ),
 ]
 

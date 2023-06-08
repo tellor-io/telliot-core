@@ -88,13 +88,6 @@ default_chain_list = [
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
     Chain(
-        chain_id=941,
-        name="Pulsechain Testnet",
-        chain="Pulechain",
-        network="testnet",
-        currency=EVMCurrency(name="Pulsechain tPLS", symbol="tPLS", decimals=18),
-    ),
-    Chain(
         chain_id=42161,
         name="Arbitrum One",
         chain="Arbitrum",
@@ -163,6 +156,20 @@ default_chain_list = [
         chain="sepolia",
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=369,
+        name="pulsechain",
+        chain="pulsechain",
+        network="mainnet",
+        currency=EVMCurrency(name="PulseChain PLS", symbol="PLS", decimals=18),
+    ),
+    Chain(
+        chain_id=943,
+        name="pulsechain-testnet",
+        chain="pulsechain-testnet",
+        network="testnet",
+        currency=EVMCurrency(name="PulseChain tPLS", symbol="tPLS", decimals=18),
     ),
 ]
 
