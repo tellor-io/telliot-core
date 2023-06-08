@@ -2,7 +2,6 @@
 Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
-import requests
 from brownie import chain
 
 from telliot_core.model.endpoints import EndpointList
@@ -36,7 +35,7 @@ def test_incomplete_rpc_url():
     url = "https://eth-rinkeby.gateway.pokt.network/v1/lb/"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     # expect bad url error from requests library
-    with pytest.raises(requests.exceptions.HTTPError):
+    with pytest.raises(ValueError):
         _ = endpt.connect()
 
 
