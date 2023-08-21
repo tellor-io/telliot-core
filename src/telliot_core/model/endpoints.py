@@ -241,6 +241,20 @@ default_endpoint_list = [
         url="https://rpc.v4.testnet.pulsechain.com",
         explorer="https://scan.v4.testnet.pulsechain.com/",
     ),
+    RPCEndpoint(
+        chain_id=3441005,
+        provider="caldera",
+        network="manta-testnet",
+        url="https://manta-testnet.calderachain.xyz/http",
+        explorer="https://manta-testnet.calderaexplorer.xyz/",
+    ),
+    RPCEndpoint(
+        chain_id=84531,
+        provider="Base",
+        network="Base Goerli",
+        url="https://goerli.base.org",
+        explorer="https://goerli.basescan.org/",
+    ),
 ]
 
 

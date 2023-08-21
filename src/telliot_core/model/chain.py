@@ -171,6 +171,20 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="PulseChain tPLS", symbol="tPLS", decimals=18),
     ),
+    Chain(
+        chain_id=3441005,
+        name="manta-testnet",
+        chain="manta-testnet",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=84531,
+        name="base-goerli",
+        chain="base-goerli",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

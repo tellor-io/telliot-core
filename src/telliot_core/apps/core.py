@@ -52,6 +52,8 @@ NETWORKS = {
     11155111: "sepolia",
     369: "pulsechain",
     943: "pulsechain-testnet",
+    3441005: "manta-testnet",
+    84531: "base-goerli",
 }
 
 LOGLEVEL_MAP = {
