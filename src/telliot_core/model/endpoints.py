@@ -222,7 +222,7 @@ default_endpoint_list = [
     ),
     RPCEndpoint(
         chain_id=11155111,
-        provider="Sepolia",
+        provider="infura",
         network="sepolia",
         url="https://sepolia.infura.io/v3/{INFURA_API_KEY}",
         explorer="https://sepolia.etherscan.io/",

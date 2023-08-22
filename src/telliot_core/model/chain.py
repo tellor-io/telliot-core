@@ -152,7 +152,7 @@ default_chain_list = [
     ),
     Chain(
         chain_id=11155111,
-        name="sepolia",
+        name="Ethereum Testnet Sepolia",
         chain="sepolia",
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
