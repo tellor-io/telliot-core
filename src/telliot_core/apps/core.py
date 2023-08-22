@@ -49,7 +49,7 @@ NETWORKS = {
     3141: "filecoin-hyperspace",
     314159: "filecoin-calibration",
     314: "filecoin",
-    11155111: "sepolia",
+    11155111: "eth-sepolia",
     369: "pulsechain",
     943: "pulsechain-testnet",
 }
