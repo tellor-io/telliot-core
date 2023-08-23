@@ -77,6 +77,10 @@ class ContractInfo(Serializable):
                     url = "https://filfox.info/en"
                 elif chain_id == 11155111:
                     url = "https://api-sepolia.etherscan.io"
+                elif chain_id == 3441005:
+                    url = "https://manta-testnet.calderaexplorer.xyz"
+                elif chain_id == 84531:
+                    url = "https://api-goerli.basescan.org/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
