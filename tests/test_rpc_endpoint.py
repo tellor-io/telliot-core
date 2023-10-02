@@ -3,8 +3,8 @@ Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
 from brownie import chain
-from requests.exceptions import HTTPError
 from requests.exceptions import ConnectionError
+from requests.exceptions import HTTPError
 
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
@@ -41,7 +41,7 @@ def test_incomplete_rpc_url():
     except HTTPError:
         pass  # expected
     except ConnectionError:
-        pass # expected
+        pass  # expected
     except ValueError as e:
         assert "Invalid request path" in str(e)
     else:
