@@ -4,6 +4,7 @@ Tests covering Pytelliot rpc connection  utils.
 import pytest
 from brownie import chain
 from requests.exceptions import HTTPError
+from requests.exceptions import ConnectionError
 
 from telliot_core.model.endpoints import EndpointList
 from telliot_core.model.endpoints import RPCEndpoint
@@ -33,12 +34,14 @@ def test_very_bad_rpc_url():
 
 def test_incomplete_rpc_url():
     """an incomplete url will raise an exception in RPCEndpoint"""
-    url = "https://eth-rpc.gateway.pokt.network/"
+    url = "https://eth-rpc.gateway.pokt.networ/"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     try:
         _ = endpt.connect()
     except HTTPError:
         pass  # expected
+    except ConnectionError:
+        pass # expected
     except ValueError as e:
         assert "Invalid request path" in str(e)
     else:
