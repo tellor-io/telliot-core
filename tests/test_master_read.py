@@ -15,10 +15,10 @@ def tellorx_master_mock_contract():
 
 
 @pytest.mark.asyncio
-async def test_get_staker_info(rinkeby_test_cfg, tellorx_master_mock_contract):
+async def test_get_staker_info(goerli_test_cfg, tellorx_master_mock_contract):
     """Test the TellorXMaster contract"""
 
-    async with TelliotCore(config=rinkeby_test_cfg) as core:
+    async with TelliotCore(config=goerli_test_cfg) as core:
         account = core.get_account()
         tellorx = TellorxMasterContract(core.endpoint, account)
         tellorx.address = tellorx_master_mock_contract.address

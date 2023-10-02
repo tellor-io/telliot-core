@@ -105,25 +105,25 @@ def override_test_config(cfg: TelliotConfig, write: bool = False) -> TelliotConf
 
     # Override configuration for rinkeby testnet
     override_main = False
-    if cfg.main.chain_id != 4:
-        cfg.main.chain_id = 4
+    if cfg.main.chain_id != 11155111:
+        cfg.main.chain_id = 11155111
         override_main = True
 
-    rinkeby_endpoint = cfg.get_endpoint()
-    assert rinkeby_endpoint is not None
+    sepolia_endpoint = cfg.get_endpoint()
+    assert sepolia_endpoint is not None
 
     override_endpoint = False
     if os.getenv("NODE_URL", None):
-        rinkeby_endpoint.url = os.environ["NODE_URL"]
+        sepolia_endpoint.url = os.environ["NODE_URL"]
         override_endpoint = True
 
-    rinkeby_accounts = find_accounts(chain_id=4)
-    if not rinkeby_accounts:
+    sepolia_accounts = find_accounts(chain_id=11155111)
+    if not sepolia_accounts:
 
         # Add private key if detected on git
         if os.getenv("PRIVATE_KEY", None):
             # Create an account for use on git
-            ChainedAccount.add("git-rinkeby-key", chains=[4], key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add("git-sepolia-key", chains=[11155111], key=os.environ["PRIVATE_KEY"], password="")
 
     if write:
         if override_endpoint:

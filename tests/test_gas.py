@@ -4,8 +4,8 @@ Test covering gas price fetching utils
 import pytest
 from requests.exceptions import SSLError
 
-from telliot_core.gas.legacy_gas import fetch_gas_price
-from telliot_core.gas.legacy_gas import legacy_gas_station
+from src.telliot_core.gas.legacy_gas import fetch_gas_price
+from src.telliot_core.gas.legacy_gas import legacy_gas_station
 
 
 def raise_ssl_error(*args, **kwargs):
