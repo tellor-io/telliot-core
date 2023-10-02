@@ -33,7 +33,7 @@ def test_very_bad_rpc_url():
 
 def test_incomplete_rpc_url():
     """an incomplete url will raise an exception in RPCEndpoint"""
-    url = "https://eth-rinkeby.gateway.pokt.network/v1/lb/"
+    url = "https://eth-rpc.gateway.pokt.network/"
     endpt = RPCEndpoint(network=network, provider=provider, url=url)
     try:
         _ = endpt.connect()
@@ -48,8 +48,5 @@ def test_incomplete_rpc_url():
 def test_endpoint_list():
     sl = EndpointList()
     # print(json.dumps(sl.get_state(), indent=2))
-    ep4 = sl.find(chain_id=4)[0]
-    assert ep4.network == "rinkeby"
-
-    ep3 = sl.find(chain_id=3)[0]
-    assert ep3.network == "ropsten"
+    ep11155111 = sl.find(chain_id=11155111)[0]
+    assert ep11155111.network == "sepolia"

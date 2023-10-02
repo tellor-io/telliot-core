@@ -25,7 +25,7 @@ class RPCEndpoint(Base):
     #: Chain ID
     chain_id: Optional[int] = None
 
-    #: Network Name (e.g. 'mainnet', 'testnet', 'rinkeby')
+    #: Network Name (e.g. 'mainnet', 'testnet', 'sepolia')
     network: str = ""
 
     #: Provider Name (e.g. 'Infura')
@@ -61,8 +61,8 @@ class RPCEndpoint(Base):
         else:
             raise ValueError(f"Invalid endpoint url: {self.url}")
 
-        # Inject middleware if connecting to rinkeby (chain_id=4)
-        if self.chain_id == 4:
+        # Inject middleware if connecting to sepolia (chain_id=11155111)
+        if self.chain_id == 11155111:
             self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
         connected = False

@@ -10,30 +10,59 @@ from telliot_core.apps.telliot_config import TelliotConfig
 
 
 @pytest.fixture(scope="session", autouse=True)
-def rinkeby_cfg():
-    """Get rinkeby endpoint from config
+def sepolia_cfg():
+    """Get sepolia endpoint from config
 
     If environment variables are defined, they will override the values in config files
     """
     cfg = TelliotConfig()
 
-    # Override configuration for rinkeby testnet
-    cfg.main.chain_id = 4
+    # Override configuration for sepolia testnet
+    cfg.main.chain_id = 11155111
 
-    rinkeby_endpoint = cfg.get_endpoint()
-    # assert rinkeby_endpoint.network == "rinkeby"
+    sepolia_endpoint = cfg.get_endpoint()
+    # assert sepolia_endpoint.network == "sepolia"
 
     if os.getenv("NODE_URL", None):
-        rinkeby_endpoint.url = os.environ["NODE_URL"]
+        sepolia_endpoint.url = os.environ["NODE_URL"]
 
-    rinkeby_accounts = find_accounts(chain_id=4)
-    if not rinkeby_accounts:
+    sepolia_accounts = find_accounts(chain_id=11155111)
+    if not sepolia_accounts:
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
-            ChainedAccount.add("git-rinkeby-key", chains=4, key=os.environ["PRIVATE_KEY"], password="")
+            ChainedAccount.add("git-sepolia-key", chains=11155111, key=os.environ["PRIVATE_KEY"], password="")
         else:
-            raise Exception("Need a rinkeby account")
+            raise Exception("Need a sepolia account")
+
+    return cfg
+
+
+@pytest.fixture(scope="session", autouse=True)
+def goerli_cfg():
+    """Get goerli endpoint from config
+
+    If environment variables are defined, they will override the values in config files
+    """
+    cfg = TelliotConfig()
+
+    # Override configuration for goerli testnet
+    cfg.main.chain_id = 5
+
+    goerli_endpoint = cfg.get_endpoint()
+    # assert goerli_endpoint.network == "goerli"
+
+    if os.getenv("NODE_URL", None):
+        goerli_endpoint.url = os.environ["NODE_URL"]
+
+    goerli_accounts = find_accounts(chain_id=5)
+    if not goerli_accounts:
+        # Create a test account using PRIVATE_KEY defined on github.
+        key = os.getenv("PRIVATE_KEY", None)
+        if key:
+            ChainedAccount.add("git-goerli-key", chains=5, key=os.environ["PRIVATE_KEY"], password="")
+        else:
+            raise Exception("Need a goerli account")
 
     return cfg
 
@@ -117,5 +146,10 @@ def mumbai_test_cfg(scope="session", autouse=True):
 
 
 @pytest.fixture
-def rinkeby_test_cfg(scope="session", autouse=True):
-    return local_node_cfg(chain_id=4)
+def sepolia_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=11155111)
+
+
+@pytest.fixture
+def goerli_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=5)

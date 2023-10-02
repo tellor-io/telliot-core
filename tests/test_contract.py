@@ -8,28 +8,28 @@ from telliot_core.apps.core import TelliotCore
 
 
 @pytest.mark.asyncio
-async def test_connect_to_tellor(rinkeby_test_cfg):
+async def test_connect_to_tellor(sepolia_test_cfg):
     """Contract object should access Tellor functions"""
-    async with TelliotCore(config=rinkeby_test_cfg) as core:
-        tellorx = core.get_tellorx_contracts()
-        assert len(tellorx.master.contract.all_functions()) > 0
+    async with TelliotCore(config=sepolia_test_cfg) as core:
+        tellor360 = core.get_tellor360_contracts()
+        assert len(tellor360.token.contract.all_functions()) > 0
         assert isinstance(
-            tellorx.master.contract.all_functions()[0],
+            tellor360.token.contract.all_functions()[0],
             web3.contract.ContractFunction,
         )
 
 
 @pytest.mark.asyncio
-async def test_mixed_gas_inputs(rinkeby_test_cfg):
+async def test_mixed_gas_inputs(sepolia_test_cfg):
     """Contract.write() should refuse a combination of
     legacy gas args and EIP-1559 gas args"""
 
     with pytest.raises(ValueError):
 
-        async with TelliotCore(config=rinkeby_test_cfg) as core:
-            tellorx = core.get_tellorx_contracts()
+        async with TelliotCore(config=sepolia_test_cfg) as core:
+            tellor360 = core.get_tellor360_contracts()
 
-            tx_receipt, status = await tellorx.oracle.write(
+            tx_receipt, status = await tellor360.oracle.write(
                 func_name="transfer",
                 _to="0xF90cd1D6C1da49CE2cF5C39f82999D7145aa66aD",
                 _amount=1,
