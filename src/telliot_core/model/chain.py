@@ -185,6 +185,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=5001,
+        name="mantle-testnet",
+        chain="mantle-testnet",
+        network="testnet",
+        currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
+    ),
 ]
 
 
