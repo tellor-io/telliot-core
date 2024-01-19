@@ -54,6 +54,7 @@ NETWORKS = {
     943: "pulsechain-testnet",
     3441005: "manta-testnet",
     84531: "base-goerli",
+    50001: "manta-testnet",
 }
 
 LOGLEVEL_MAP = {
