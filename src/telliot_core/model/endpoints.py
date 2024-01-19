@@ -256,7 +256,7 @@ default_endpoint_list = [
         explorer="https://goerli.basescan.org/",
     ),
     RPCEndpoint(
-        chain_id=50001,
+        chain_id=5001,
         provider="Mantle",
         network="Mantle Testnet",
         url="https://rpc.testnet.mantle.xyz",
