@@ -25,7 +25,7 @@ from web3._utils.method_formatters import syncing_formatter
 
 logger = logging.getLogger(__name__)
 
-AsyncCallable = Callable[[Any], Awaitable]
+AsyncCallable = Callable[[Any], Awaitable[Any]]
 
 SubscriptionType = Literal["newHeads", "logs", "newPendingTransactions", "syncing"]
 
