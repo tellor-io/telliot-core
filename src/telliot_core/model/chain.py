@@ -192,6 +192,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
     ),
+    Chain(
+        chain_id=5000,
+        name="mantle",
+        chain="mantle",
+        network="mainnet",
+        currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
+    ),
 ]
 
 

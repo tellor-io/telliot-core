@@ -55,6 +55,7 @@ NETWORKS = {
     3441005: "manta-testnet",
     84531: "base-goerli",
     5001: "mantle-testnet",
+    5000: "mantle-mainnet",
 }
 
 LOGLEVEL_MAP = {
