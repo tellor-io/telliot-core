@@ -265,7 +265,7 @@ default_endpoint_list = [
     RPCEndpoint(
         chain_id=5000,
         provider="Mantle",
-        network="Mantle Testnet",
+        network="Mantle",
         url="https://rpc.mantle.xyz",
         explorer="https://explorer.mantle.xyz/",
     ),
