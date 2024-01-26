@@ -267,7 +267,7 @@ default_endpoint_list = [
         provider="Mantle",
         network="Mantle Testnet",
         url="https://rpc.mantle.xyz",
-        explorer="https://explorer.testnet.mantle.xyz/",
+        explorer="https://explorer.mantle.xyz/",
     ),
 ]
 
