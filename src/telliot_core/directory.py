@@ -85,6 +85,8 @@ class ContractInfo(Serializable):
                     url = "https://explorer.testnet.mantle.xyz/"
                 elif chain_id == 5000:
                     url = "https://explorer.mantle.xyz/"
+                elif chain_id == 2442:
+                    url = "https://cardona-zkevm.polygonscan.com/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

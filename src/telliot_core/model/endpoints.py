@@ -269,6 +269,13 @@ default_endpoint_list = [
         url="https://rpc.mantle.xyz",
         explorer="https://explorer.mantle.xyz/",
     ),
+    RPCEndpoint(
+        chain_id=2442,
+        provider="Polygon",
+        network="Polygon zkEVM Cardona Testnet",
+        url="https://rpc.cardona.zkevm-rpc.com",
+        explorer="https://cardona-zkevm.polygonscan.com/",
+    ),
 ]
 
 

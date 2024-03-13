@@ -199,6 +199,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
     ),
+    Chain(
+        chain_id=2442,
+        name="Polygon zkEVM Cardona Testnet",
+        chain="cardona",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 
