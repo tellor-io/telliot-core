@@ -276,6 +276,13 @@ default_endpoint_list = [
         url="https://rpc.cardona.zkevm-rpc.com",
         explorer="https://cardona-zkevm.polygonscan.com/",
     ),
+    RPCEndpoint(
+        chain_id=1101,
+        provider="Polygon",
+        network="Polygon zkEVM",
+        url="https://zkevm-rpc.com",
+        explorer="https://zkevm.polygonscan.com/",
+    ),
 ]
 
 

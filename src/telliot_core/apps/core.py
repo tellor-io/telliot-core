@@ -56,7 +56,8 @@ NETWORKS = {
     84531: "base-goerli",
     5001: "mantle-testnet",
     5000: "mantle-mainnet",
-    2442: "Polygon zkEVM Cardona Testnet"
+    2442: "Polygon zkEVM Cardona Testnet",
+    1101: "Polygon zkEVM"
 }
 
 LOGLEVEL_MAP = {
