@@ -57,7 +57,9 @@ NETWORKS = {
     5001: "mantle-testnet",
     5000: "mantle-mainnet",
     2442: "Polygon zkEVM Cardona Testnet",
-    1101: "Polygon zkEVM"
+    1101: "Polygon zkEVM",
+    59140: "Linea Goerli",
+    59144: "Linea"
 }
 
 LOGLEVEL_MAP = {

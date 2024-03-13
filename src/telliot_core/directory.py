@@ -89,6 +89,10 @@ class ContractInfo(Serializable):
                     url = "https://cardona-zkevm.polygonscan.com/"
                 elif chain_id == 1101:
                     url = "https://zkevm.polygonscan.com/"
+                elif chain_id == 59140:
+                    url = "https://goerli.lineascan.build"
+                elif chain_id == 59144:
+                    url = "https://lineascan.build"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

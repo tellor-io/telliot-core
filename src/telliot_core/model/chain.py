@@ -213,6 +213,20 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=59140,
+        name="Linea Goerli",
+        chain="Linea Goerli",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=59144,
+        name="Linea",
+        chain="Linea",
+        network="mainnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

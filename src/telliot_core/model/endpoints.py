@@ -283,6 +283,20 @@ default_endpoint_list = [
         url="https://zkevm-rpc.com",
         explorer="https://zkevm.polygonscan.com/",
     ),
+    RPCEndpoint(
+        chain_id=59140,
+        provider="Linea",
+        network="Linea Goerli",
+        url="https://rpc.goerli.linea.build",
+        explorer="https://goerli.lineascan.build",
+    ),
+    RPCEndpoint(
+        chain_id=59144,
+        provider="Linea",
+        network="Linea",
+        url="https://zkevm-rpc.com",
+        explorer="https://zkevm.polygonscan.com/",
+    ),
 ]
 
 
