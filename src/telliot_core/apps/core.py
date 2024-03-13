@@ -59,7 +59,7 @@ NETWORKS = {
     2442: "Polygon zkEVM Cardona Testnet",
     1101: "Polygon zkEVM",
     59140: "Linea Goerli",
-    59144: "Linea"
+    59144: "Linea",
 }
 
 LOGLEVEL_MAP = {
