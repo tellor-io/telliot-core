@@ -199,6 +199,34 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
     ),
+    Chain(
+        chain_id=2442,
+        name="Polygon zkEVM Cardona Testnet",
+        chain="cardona",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=1101,
+        name="Polygon zkEVM",
+        chain="zkEVM",
+        network="mainnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=59140,
+        name="Linea Goerli",
+        chain="Linea Goerli",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=59144,
+        name="Linea",
+        chain="Linea",
+        network="mainnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

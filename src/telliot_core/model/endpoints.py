@@ -269,6 +269,34 @@ default_endpoint_list = [
         url="https://rpc.mantle.xyz",
         explorer="https://explorer.mantle.xyz/",
     ),
+    RPCEndpoint(
+        chain_id=2442,
+        provider="Polygon",
+        network="Polygon zkEVM Cardona Testnet",
+        url="https://rpc.cardona.zkevm-rpc.com",
+        explorer="https://cardona-zkevm.polygonscan.com/",
+    ),
+    RPCEndpoint(
+        chain_id=1101,
+        provider="Polygon",
+        network="Polygon zkEVM",
+        url="https://zkevm-rpc.com",
+        explorer="https://zkevm.polygonscan.com/",
+    ),
+    RPCEndpoint(
+        chain_id=59140,
+        provider="Linea",
+        network="Linea Goerli",
+        url="https://rpc.goerli.linea.build",
+        explorer="https://goerli.lineascan.build",
+    ),
+    RPCEndpoint(
+        chain_id=59144,
+        provider="Linea",
+        network="Linea",
+        url="https://zkevm-rpc.com",
+        explorer="https://zkevm.polygonscan.com/",
+    ),
 ]
 
 
