@@ -60,6 +60,8 @@ NETWORKS = {
     1101: "Polygon zkEVM",
     59140: "Linea Goerli",
     59144: "Linea",
+    324: "ZkSync Era",
+    300: "ZkSync Era Sepolia Testnet",
 }
 
 LOGLEVEL_MAP = {

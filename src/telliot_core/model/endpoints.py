@@ -297,6 +297,20 @@ default_endpoint_list = [
         url="https://zkevm-rpc.com",
         explorer="https://zkevm.polygonscan.com/",
     ),
+    RPCEndpoint(
+        chain_id= 324,
+        provider= "zksync",
+        network= "zksync era",
+        url = "https://mainnet.era.zksync.io",
+        explorer="https://explorer.zksync.io",
+    ),
+    RPCEndpoint(
+        chain_id= 300,
+        provider="zksync",
+        network= "zkSync Era Sepolia Testnet",
+        url = "https://sepolia.era.zksync.dev",
+        explorer= "https://sepolia.explorer.zksync.io",
+    ),
 ]
 
 
