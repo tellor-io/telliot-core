@@ -97,6 +97,10 @@ class ContractInfo(Serializable):
                     url = "https://block-explorer-api.mainnet.zksync.io"
                 elif chain_id == 300:
                     url = "https://block-explorer-api.testnets.zksync.dev"
+                elif chain_id == 252:
+                    url = "https://api.fraxscan.com"
+                elif chain_id == 2522:
+                    url = "https://api-holesky.fraxscan.com"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

@@ -62,6 +62,8 @@ NETWORKS = {
     59144: "Linea",
     324: "ZkSync Era",
     300: "ZkSync Era Sepolia Testnet",
+    2522: "Fraxtal Testnet",
+    252: "Fraxtal Mainnet",
 }
 
 LOGLEVEL_MAP = {
