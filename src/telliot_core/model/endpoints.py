@@ -297,6 +297,20 @@ default_endpoint_list = [
         url="https://zkevm-rpc.com",
         explorer="https://zkevm.polygonscan.com/",
     ),
+    RPCEndpoint(
+        chain_id=2522,
+        provider="Fraxtal",
+        network="Fraxtal Testnet",
+        url="https://rpc.testnet.frax.com",
+        explorer="https://api-holesky.fraxscan.com",
+    ),
+    RPCEndpoint(
+        chain_id=252,
+        provider="Fraxtal",
+        network="Fraxtal Mainnet",
+        url="https://rpc.frax.com",
+        explorer="https://api.fraxscan.com",
+    )
 ]
 
 
