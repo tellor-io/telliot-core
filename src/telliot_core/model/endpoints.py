@@ -310,7 +310,7 @@ default_endpoint_list = [
         network="Fraxtal Mainnet",
         url="https://rpc.frax.com",
         explorer="https://api.fraxscan.com",
-    )
+    ),
 ]
 
 

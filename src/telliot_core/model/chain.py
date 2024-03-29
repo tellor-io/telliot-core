@@ -240,7 +240,7 @@ default_chain_list = [
         chain="Fraxtal Mainnet",
         network="mainnet",
         currency=EVMCurrency(name="Frax Ether", symbol="frxETH", decimals=18),
-    )
+    ),
 ]
 
 
