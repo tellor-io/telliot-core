@@ -60,6 +60,8 @@ NETWORKS = {
     1101: "Polygon zkEVM",
     59140: "Linea Goerli",
     59144: "Linea",
+    2522: "Fraxtal Testnet",
+    252: "Fraxtal Mainnet",
 }
 
 LOGLEVEL_MAP = {

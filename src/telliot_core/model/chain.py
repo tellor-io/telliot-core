@@ -227,6 +227,20 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=2522,
+        name="Fraxtal Testnet",
+        chain="Fraxtal Testnet",
+        network="testnet",
+        currency=EVMCurrency(name="Frax Ether", symbol="frxETH", decimals=18),
+    ),
+    Chain(
+        chain_id=252,
+        name="Fraxtal Mainnet",
+        chain="Fraxtal Mainnet",
+        network="mainnet",
+        currency=EVMCurrency(name="Frax Ether", symbol="frxETH", decimals=18),
+    ),
 ]
 
 

@@ -93,6 +93,10 @@ class ContractInfo(Serializable):
                     url = "https://goerli.lineascan.build"
                 elif chain_id == 59144:
                     url = "https://lineascan.build"
+                elif chain_id == 2522:
+                    url = "https://api-holesky.fraxscan.com"
+                elif chain_id == 252:
+                    url = "https://api.fraxscan.com"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
