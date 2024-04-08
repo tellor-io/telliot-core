@@ -62,6 +62,9 @@ NETWORKS = {
     59144: "Linea",
     2522: "Fraxtal Testnet",
     252: "Fraxtal Mainnet",
+    1998: "Kyoto Testnet",
+    1444673419: "Skale Europa Testnet",
+    2046399126: "Skale Europa Mainnet",
 }
 
 LOGLEVEL_MAP = {

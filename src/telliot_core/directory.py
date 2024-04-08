@@ -97,6 +97,12 @@ class ContractInfo(Serializable):
                     url = "https://api-holesky.fraxscan.com"
                 elif chain_id == 252:
                     url = "https://api.fraxscan.com"
+                elif chain_id == 1998:
+                    url = "https://testnet.kyotoscan.io"
+                elif chain_id == 1444673419:
+                    url = "https://juicy-low-small-testnet.explorer.testnet.skalenodes.com"
+                elif chain_id == 2046399126:
+                    url = "https://elated-tan-skat.explorer.mainnet.skalenodes.com"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

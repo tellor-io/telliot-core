@@ -294,8 +294,8 @@ default_endpoint_list = [
         chain_id=59144,
         provider="Linea",
         network="Linea",
-        url="https://zkevm-rpc.com",
-        explorer="https://zkevm.polygonscan.com/",
+        url="https://rpc.linea.build",
+        explorer="https://api.lineascan.build",
     ),
     RPCEndpoint(
         chain_id=2522,
@@ -310,6 +310,27 @@ default_endpoint_list = [
         network="Fraxtal Mainnet",
         url="https://rpc.frax.com",
         explorer="https://api.fraxscan.com",
+    ),
+    RPCEndpoint(
+        chain_id=1998,
+        provider="Kyoto",
+        network="Kyoto Testnet",
+        url="https://rpc.testnet.kyotoprotocol.io:8545",
+        explorer="https://testnet.kyotoscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=1444673419,
+        provider="Skale",
+        network="Skale Europa Testnet",
+        url="https://testnet.skalenodes.com/v1/juicy-low-small-testnet",
+        explorer="https://juicy-low-small-testnet.explorer.testnet.skalenodes.com",
+    ),
+    RPCEndpoint(
+        chain_id=2046399126,
+        provider="Skale",
+        network="Skale Europa Mainnet",
+        url="https://mainnet.skalenodes.com/v1/elated-tan-skat",
+        explorer="https://elated-tan-skat.explorer.mainnet.skalenodes.com",
     ),
 ]
 
