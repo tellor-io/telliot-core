@@ -268,7 +268,7 @@ default_chain_list = [
         chain="Linea Sepolia",
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
-    )
+    ),
 ]
 
 
