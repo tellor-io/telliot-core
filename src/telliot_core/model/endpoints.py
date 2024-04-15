@@ -291,6 +291,13 @@ default_endpoint_list = [
         explorer="https://goerli.lineascan.build",
     ),
     RPCEndpoint(
+        chain_id=59141,
+        provider="Linea",
+        network="Linea Sepolia",
+        url="https://rpc.sepolia.linea.build",
+        explorer="https://sepolia.lineascan.build",
+    ),
+    RPCEndpoint(
         chain_id=59144,
         provider="Linea",
         network="Linea",

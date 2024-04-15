@@ -262,6 +262,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Skale Fuel", symbol="sFUEL", decimals=18),
     ),
+    Chain(
+        chain_id=59141,
+        name="Linea Sepolia",
+        chain="Linea Sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    )
 ]
 
 

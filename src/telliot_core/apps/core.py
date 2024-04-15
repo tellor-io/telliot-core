@@ -65,6 +65,7 @@ NETWORKS = {
     1998: "Kyoto Testnet",
     1444673419: "Skale Europa Testnet",
     2046399126: "Skale Europa Mainnet",
+    59141: "Linea Sepolia",
 }
 
 LOGLEVEL_MAP = {
