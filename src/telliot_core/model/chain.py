@@ -241,6 +241,48 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Frax Ether", symbol="frxETH", decimals=18),
     ),
+    Chain(
+        chain_id=1998,
+        name="Kyoto Testnet",
+        chain="Kyoto Testnet",
+        network="testnet",
+        currency=EVMCurrency(name="KYOTO", symbol="KYOTO", decimals=18),
+    ),
+    Chain(
+        chain_id=1444673419,
+        name="Skale Europa Testnet",
+        chain="Skale Europa Testnet",
+        network="testnet",
+        currency=EVMCurrency(name="Skale Fuel", symbol="sFUEL", decimals=18),
+    ),
+    Chain(
+        chain_id=2046399126,
+        name="Skale Europa Mainnet",
+        chain="Skale Europa Mainnet",
+        network="mainnet",
+        currency=EVMCurrency(name="Skale Fuel", symbol="sFUEL", decimals=18),
+    ),
+    Chain(
+        chain_id=59141,
+        name="Linea Sepolia",
+        chain="Linea Sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=324,
+        name="zkSync Era Mainnet",
+        chain="zkSync Era Mainnet",
+        network="network",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=300,
+        name="zkSync Era Sepolia Testnet",
+        chain="zkSync Era Sepolia Testnet",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

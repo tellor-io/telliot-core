@@ -291,11 +291,18 @@ default_endpoint_list = [
         explorer="https://goerli.lineascan.build",
     ),
     RPCEndpoint(
+        chain_id=59141,
+        provider="Linea",
+        network="Linea Sepolia",
+        url="https://rpc.sepolia.linea.build",
+        explorer="https://sepolia.lineascan.build",
+    ),
+    RPCEndpoint(
         chain_id=59144,
         provider="Linea",
         network="Linea",
-        url="https://zkevm-rpc.com",
-        explorer="https://zkevm.polygonscan.com/",
+        url="https://rpc.linea.build",
+        explorer="https://api.lineascan.build",
     ),
     RPCEndpoint(
         chain_id=2522,
@@ -310,6 +317,41 @@ default_endpoint_list = [
         network="Fraxtal Mainnet",
         url="https://rpc.frax.com",
         explorer="https://api.fraxscan.com",
+    ),
+    RPCEndpoint(
+        chain_id=1998,
+        provider="Kyoto",
+        network="Kyoto Testnet",
+        url="https://rpc.testnet.kyotoprotocol.io:8545",
+        explorer="https://testnet.kyotoscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=1444673419,
+        provider="Skale",
+        network="Skale Europa Testnet",
+        url="https://testnet.skalenodes.com/v1/juicy-low-small-testnet",
+        explorer="https://juicy-low-small-testnet.explorer.testnet.skalenodes.com",
+    ),
+    RPCEndpoint(
+        chain_id=2046399126,
+        provider="Skale",
+        network="Skale Europa Mainnet",
+        url="https://mainnet.skalenodes.com/v1/elated-tan-skat",
+        explorer="https://elated-tan-skat.explorer.mainnet.skalenodes.com",
+    ),
+    RPCEndpoint(
+        chain_id=324,
+        provider="zksync",
+        network="ZkSync Era Mainnet",
+        url="https://mainnet.era.zksync.io",
+        explorer="https://explorer.zksync.io",
+    ),
+    RPCEndpoint(
+        chain_id=300,
+        provider="zksync",
+        network="ZkSync Era Sepolia Testnet",
+        url="https://zksync-era-sepolia.blockpi.network/v1/rpc/public",
+        explorer="https://sepolia.explorer.zksync.io",
     ),
 ]
 
