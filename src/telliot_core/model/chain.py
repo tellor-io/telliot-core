@@ -278,11 +278,11 @@ default_chain_list = [
     ),
     Chain(
         chain_id=324,
-        name="zkSync Era Sepolia Testnet", 
+        name="zkSync Era Sepolia Testnet",
         chain="zkSync Era Sepolia Testnet",
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
-    )
+    ),
 ]
 
 

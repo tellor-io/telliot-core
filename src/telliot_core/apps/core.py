@@ -67,7 +67,7 @@ NETWORKS = {
     2046399126: "Skale Europa Mainnet",
     59141: "Linea Sepolia",
     324: "zkSync Era Mainnet",
-    300: "zkSync Era Sepolia Testnet"
+    300: "zkSync Era Sepolia Testnet",
 }
 
 LOGLEVEL_MAP = {

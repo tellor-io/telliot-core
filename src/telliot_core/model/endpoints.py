@@ -344,15 +344,15 @@ default_endpoint_list = [
         provider="zksync",
         network="ZkSync Era Mainnet",
         url="https://mainnet.era.zksync.io",
-        explorer="https://explorer.zksync.io"
+        explorer="https://explorer.zksync.io",
     ),
     RPCEndpoint(
         chain_id=300,
         provider="zksync",
         network="ZkSync Era Sepolia Testnet",
         url="https://zksync-era-sepolia.blockpi.network/v1/rpc/public",
-        explorer="https://sepolia.explorer.zksync.io"
-    )
+        explorer="https://sepolia.explorer.zksync.io",
+    ),
 ]
 
 
