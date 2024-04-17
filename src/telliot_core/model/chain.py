@@ -277,7 +277,7 @@ default_chain_list = [
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
     Chain(
-        chain_id=324,
+        chain_id=300,
         name="zkSync Era Sepolia Testnet",
         chain="zkSync Era Sepolia Testnet",
         network="testnet",
