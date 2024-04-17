@@ -269,6 +269,20 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=324,
+        name="zkSync Era Mainnet",
+        chain="zkSync Era Mainnet",
+        network="network",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=324,
+        name="zkSync Era Sepolia Testnet", 
+        chain="zkSync Era Sepolia Testnet",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    )
 ]
 
 

@@ -339,6 +339,20 @@ default_endpoint_list = [
         url="https://mainnet.skalenodes.com/v1/elated-tan-skat",
         explorer="https://elated-tan-skat.explorer.mainnet.skalenodes.com",
     ),
+    RPCEndpoint(
+        chain_id=324,
+        provider="zksync",
+        network="ZkSync Era Mainnet",
+        url="https://mainnet.era.zksync.io",
+        explorer="https://explorer.zksync.io"
+    ),
+    RPCEndpoint(
+        chain_id=300,
+        provider="zksync",
+        network="ZkSync Era Sepolia Testnet",
+        url="https://zksync-era-sepolia.blockpi.network/v1/rpc/public",
+        explorer="https://sepolia.explorer.zksync.io"
+    )
 ]
 
 
