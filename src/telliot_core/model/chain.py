@@ -311,6 +311,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
     ),
+    Chain(
+        chain_id=84532,
+        name="Base Sepolia Testnet",
+        chain="base-sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

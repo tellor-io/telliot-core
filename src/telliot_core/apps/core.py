@@ -71,7 +71,8 @@ NETWORKS = {
     80002: "polygon-amoy",
     11155420: "optimism-sepolia",
     421614: "arbitrum-sepolia",
-    5003: "mantle-sepolia"
+    5003: "mantle-sepolia",
+    84532: "Base Sepolia",
 }
 
 LOGLEVEL_MAP = {

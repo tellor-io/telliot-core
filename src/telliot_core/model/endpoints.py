@@ -381,6 +381,13 @@ default_endpoint_list = [
         url="https://rpc.sepolia.mantle.xyz",
         explorer="https://explorer.sepolia.mantle.xyz",
     ),
+    RPCEndpoint(
+        chain_id=84532,
+        provider="Base",
+        network="Base Sepolia Testnet",
+        url="https://sepolia.base.org",
+        explorer="https://sepolia.basescan.org",
+    ),
 ]
 
 
