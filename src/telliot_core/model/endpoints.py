@@ -353,6 +353,34 @@ default_endpoint_list = [
         url="https://zksync-era-sepolia.blockpi.network/v1/rpc/public",
         explorer="https://sepolia.explorer.zksync.io",
     ),
+    RPCEndpoint(
+        chain_id=80002,
+        provider="infura",
+        network="Polygon Amoy Testnet",
+        url="https://polygon-amoy.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://amoy.polygonscan.com/",
+    ),
+    RPCEndpoint(
+        chain_id=11155420,
+        provider="infura",
+        network="Optimism Sepolia Testnet",
+        url="https://optimism-sepolia.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://sepolia-optimism.etherscan.io/",
+    ),
+    RPCEndpoint(
+        chain_id=421614,
+        provider="infura",
+        network="Arbitrum Sepolia Testnet",
+        url="https://arbitrum-sepolia.infura.io/v3/{INFURA_API_KEY}",
+        explorer="https://sepolia.arbiscan.io/",
+    ),
+    RPCEndpoint(
+        chain_id=5003,
+        provider="Mantle",
+        network="Mantle Sepolia Testnet",
+        url="https://rpc.sepolia.mantle.xyz",
+        explorer="https://explorer.sepolia.mantle.xyz",
+    ),
 ]
 
 

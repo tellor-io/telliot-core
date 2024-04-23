@@ -68,6 +68,10 @@ NETWORKS = {
     59141: "Linea Sepolia",
     324: "zkSync Era Mainnet",
     300: "zkSync Era Sepolia Testnet",
+    80002: "polygon-amoy",
+    11155420: "optimism-sepolia",
+    421614: "arbitrum-sepolia",
+    5003: "mantle-sepolia"
 }
 
 LOGLEVEL_MAP = {
