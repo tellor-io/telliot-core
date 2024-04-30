@@ -104,11 +104,21 @@ class ContractInfo(Serializable):
                 elif chain_id == 2046399126:
                     url = "https://elated-tan-skat.explorer.mainnet.skalenodes.com"
                 elif chain_id == 59141:
-                    url = "https://sepolia.lineascan.build"
+                    url = "https://api-sepolia.lineascan.build"
                 elif chain_id == 324:
                     url = "https://block-explorer-api.mainnet.zksync.io"
                 elif chain_id == 300:
                     url = "https://block-explorer-api.sepolia.zksync.io"
+                elif chain_id == 80002:
+                    url = "https://api-amoy.polygonscan.com/"
+                elif chain_id == 11155420:
+                    url = "https://api-sepolia-optimism.etherscan.io/"
+                elif chain_id == 421614:
+                    url = "https://api-sepolia.arbiscan.io/"
+                elif chain_id == 5003:
+                    url = "https://explorer.sepolia.mantle.xyz/"
+                elif chain_id == 84532:
+                    url = "https://api-sepolia.basescan.org/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

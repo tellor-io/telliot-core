@@ -283,6 +283,41 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=80002,
+        name="Polygon Amoy Testnet",
+        chain="polygon-amoy",
+        network="testnet",
+        currency=EVMCurrency(name="Matic", symbol="MATIC", decimals=18),
+    ),
+    Chain(
+        chain_id=11155420,
+        name="Optimism Sepolia Testnet",
+        chain="optimism-sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=421614,
+        name="Arbitrum Sepolia Testnet",
+        chain="arbitrum-sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=5003,
+        name="Mantle Sepolia Testnet",
+        chain="mantle-sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Mantle", symbol="MNT", decimals=18),
+    ),
+    Chain(
+        chain_id=84532,
+        name="Base Sepolia Testnet",
+        chain="base-sepolia",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 
