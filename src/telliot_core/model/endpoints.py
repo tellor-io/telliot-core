@@ -388,6 +388,13 @@ default_endpoint_list = [
         url="https://sepolia.base.org",
         explorer="https://sepolia.basescan.org",
     ),
+    RPCEndpoint(
+        chain_id=111,
+        provider="BOB",
+        network="puff-bob-jznbxtoq7h",
+        url="https://l2-puff-bob-jznbxtoq7h.t.conduit.xyz",
+        explorer="https://testnet-explorer.gobob.xyz:443",
+    ),
 ]
 
 

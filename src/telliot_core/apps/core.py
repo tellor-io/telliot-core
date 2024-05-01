@@ -73,6 +73,7 @@ NETWORKS = {
     421614: "arbitrum-sepolia",
     5003: "mantle-sepolia",
     84532: "Base Sepolia",
+    111: "puff-bob-jznbxtoq7h",
 }
 
 LOGLEVEL_MAP = {

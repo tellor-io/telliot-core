@@ -318,6 +318,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=111,
+        name="puff-bob-jznbxtoq7h",
+        chain="BOB",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

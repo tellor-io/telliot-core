@@ -29,14 +29,13 @@ class ApiKey(Base):
 
 
 default_api_keys = [
-    ApiKey(name="anyblock", key="", url="https://api.anyblock.tools/"),
     ApiKey(
         name="bravenewcoin",
         key="",
         url="https://bravenewcoin.p.rapidapi.com/",
     ),
-    ApiKey(name="nomics", key="", url="https://api.nomics.com/"),
     ApiKey(name="coinmarketcap", key="", url="https://pro-api.coinmarketcap.com/"),
+    ApiKey(name="coingecko", key="", url="https://pro-api.coingecko.com"),
 ]
 
 
