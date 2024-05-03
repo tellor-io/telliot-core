@@ -37,6 +37,7 @@ default_api_keys = [
     ),
     ApiKey(name="nomics", key="", url="https://api.nomics.com/"),
     ApiKey(name="coinmarketcap", key="", url="https://pro-api.coinmarketcap.com/"),
+    ApiKey(name="coingecko", key="", url="https://pro-api.coingecko.com"),
 ]
 
 
