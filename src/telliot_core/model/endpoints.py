@@ -395,6 +395,13 @@ default_endpoint_list = [
         url="https://l2-puff-bob-jznbxtoq7h.t.conduit.xyz",
         explorer="https://testnet-explorer.gobob.xyz:443",
     ),
+    RPCEndpoint(
+        chain_id=60808,
+        provider="BOB",
+        network="BOB",
+        url="https://rpc.gobob.xyz",
+        explorer="hhttps://explorer.gobob.xyz:443",
+    ),
 ]
 
 
