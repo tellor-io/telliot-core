@@ -75,7 +75,7 @@ NETWORKS = {
     84532: "Base Sepolia",
     111: "puff-bob-jznbxtoq7h",
     60808: "BOB",
-    919: "mode-sepolia-vtnhnpim72"
+    919: "mode-sepolia-vtnhnpim72",
 }
 
 LOGLEVEL_MAP = {
