@@ -402,6 +402,13 @@ default_endpoint_list = [
         url="https://rpc.gobob.xyz",
         explorer="hhttps://explorer.gobob.xyz:443",
     ),
+    RPCEndpoint(
+        chain_id=919,
+        provider="mode",
+        network="mode-sepolia-vtnhnpim72",
+        url="https://rpc-mode-sepolia-vtnhnpim72.t.conduit.xyz",
+        explorer="https://sepolia.explorer.mode.network:443",
+    ),
 ]
 
 

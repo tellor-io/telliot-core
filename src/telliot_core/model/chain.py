@@ -332,6 +332,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=919,
+        name="mode-sepolia-vtnhnpim72",
+        chain="mode",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 
