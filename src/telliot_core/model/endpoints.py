@@ -34,6 +34,12 @@ class RPCEndpoint(Base):
     #: URL (e.g. 'https://mainnet.infura.io/v3/<project_id>')
     url: str = ""
 
+    # Backup URL to be used when the main node throws an error
+    backup_url: Optional[str] = ""
+
+    # flag that decides which rpc url to use. Would default to false on start
+    using_backup: Optional[bool] = False
+
     #: Explorer URL ')
     explorer: Optional[str] = None
 
@@ -59,7 +65,11 @@ class RPCEndpoint(Base):
         elif self.url.startswith("http"):
             self._web3 = Web3(Web3.HTTPProvider(self.url))
         else:
-            raise ValueError(f"Invalid endpoint url: {self.url}")
+            if self.using_backup == False:
+                self.switchToBackupRPC()
+                return self.connect()
+            else:
+                raise ValueError(f"Invalid endpoint tried primary and backup url: {self.url}")
 
         # Inject middleware if connecting to sepolia (chain_id=11155111)
         if self.chain_id == 11155111:
@@ -73,10 +83,22 @@ class RPCEndpoint(Base):
         except websockets.exceptions.InvalidStatusCode as e:
             connected = False
             msg = f"Could not connect to RPC endpoint at: {self.url}"
-            logger.error(e)
-            logger.error(msg)
+            if self.using_backup == False:
+                self.switchToBackupRPC()
+                return self.connect()
+            else:
+                logger.error(e)
+                logger.error(msg)
 
         return connected
+    
+    def switchToBackupRPC(self):
+        if self.using_backup == True:
+            raise ValueError(f"Cannot switch to backup RPC as we are already using it")
+        self.url = self.backup_url
+        self.using_backup = True
+        logger.info(f"SWITCHED TO USING BACKUP RPC NODE.")
+        logger.info(f"WILL CONTINUE TO USE BACKUP RPC UNTIL TELLIOT IT RESTARTED")
 
 
 default_endpoint_list = [

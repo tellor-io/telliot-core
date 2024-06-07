@@ -71,11 +71,19 @@ class Contract:
                 msg = f"function '{func_name}' not found in contract abi"
                 return None, ResponseStatus(ok=False, e=e, error=msg)
             except asyncio.exceptions.TimeoutError as e:
-                msg = "timeout reading from contract"
-                return None, ResponseStatus(ok=False, e=e, error=msg)
+                if self.node.using_backup == False:
+                    self.node.switchToBackupRPC()
+                    return self.read(func_name, *args, **kwargs)
+                else:
+                    msg = "timeout reading from contract"
+                    return None, ResponseStatus(ok=False, e=e, error=msg)
             except Exception as e:
-                msg = "error reading from contract"
-                return None, ResponseStatus(ok=False, e=e, error=msg)
+                if self.node.using_backup == False:
+                    self.node.switchToBackupRPC()
+                    return self.read(func_name, *args, **kwargs)
+                else:
+                    msg = "error reading from contract"
+                    return None, ResponseStatus(ok=False, e=e, error=msg)
         else:
             msg = "no instance of contract"
             return None, ResponseStatus(ok=False, error=msg)
@@ -149,8 +157,12 @@ class Contract:
                 try:
                     gas_limit = transaction.estimateGas(tx_dict)
                 except Exception as e:
-                    msg = f"Contract.write({func_name}) error: Unable to estimate gas"
-                    return None, error_status(msg, e=e, log=logger.error)
+                    if self.node.using_backup == False:
+                        self.node.switchToBackupRPC()
+                        return self.write(func_name, gas_limit, legacy_gas_price, max_priority_fee_per_gas, max_fee_per_gas, acc_nonce, **kwargs)
+                    else:
+                        msg = f"Contract.write({func_name}) error: Unable to estimate gas"
+                        return None, error_status(msg, e=e, log=logger.error)
 
             tx_dict["gas"] = gas_limit
             # use legacy gas strategy if only legacy gas price is provided
