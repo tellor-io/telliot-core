@@ -84,9 +84,11 @@ class RPCEndpoint(Base):
             connected = False
             msg = f"Could not connect to RPC endpoint at: {self.url}"
             if self.using_backup == False:
+                print("Inside of if statement where we should be for the first run")
                 self.switchToBackupRPC()
                 return self.connect()
             else:
+                print("backup url also failed")
                 logger.error(e)
                 logger.error(msg)
 

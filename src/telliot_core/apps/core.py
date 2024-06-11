@@ -169,7 +169,7 @@ class TelliotCore:
 
     def get_tellor360_contracts(self) -> Tellor360ContractSet:
         """Get or create Tellor360 contracts"""
-
+        print("We are using the right version of telliot core")
         if not self._tellor360:
             account = self.get_account()
 
