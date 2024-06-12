@@ -65,7 +65,7 @@ class RPCEndpoint(Base):
         elif self.url.startswith("http"):
             self._web3 = Web3(Web3.HTTPProvider(self.url))
         else:
-            if self.using_backup == False:
+            if self.using_backup == False and len(self.node.backup_url) != 0:
                 self.switchToBackupRPC()
                 return self.connect()
             else:
@@ -83,7 +83,7 @@ class RPCEndpoint(Base):
         except websockets.exceptions.InvalidStatusCode as e:
             connected = False
             msg = f"Could not connect to RPC endpoint at: {self.url}"
-            if self.using_backup == False:
+            if self.using_backup == False and len(self.node.backup_url) != 0:
                 print("Inside of if statement where we should be for the first run")
                 self.switchToBackupRPC()
                 return self.connect()

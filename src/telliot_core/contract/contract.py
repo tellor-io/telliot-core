@@ -71,14 +71,14 @@ class Contract:
                 msg = f"function '{func_name}' not found in contract abi"
                 return None, ResponseStatus(ok=False, e=e, error=msg)
             except asyncio.exceptions.TimeoutError as e:
-                if self.node.using_backup == False:
+                if self.node.using_backup == False and len(self.node.backup_url) != 0:
                     self.node.switchToBackupRPC()
                     return self.read(func_name, *args, **kwargs)
                 else:
                     msg = "timeout reading from contract"
                     return None, ResponseStatus(ok=False, e=e, error=msg)
             except Exception as e:
-                if self.node.using_backup == False:
+                if self.node.using_backup == False and len(self.node.backup_url) != 0:
                     self.node.switchToBackupRPC()
                     return self.read(func_name, *args, **kwargs)
                 else:
@@ -157,7 +157,7 @@ class Contract:
                 try:
                     gas_limit = transaction.estimateGas(tx_dict)
                 except Exception as e:
-                    if self.node.using_backup == False:
+                    if self.node.using_backup == False and len(self.node.backup_url) != 0:
                         self.node.switchToBackupRPC()
                         return self.write(func_name, gas_limit, legacy_gas_price, max_priority_fee_per_gas, max_fee_per_gas, acc_nonce, **kwargs)
                     else:
