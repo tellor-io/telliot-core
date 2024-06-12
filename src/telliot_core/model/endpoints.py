@@ -80,10 +80,10 @@ class RPCEndpoint(Base):
             connected = self._web3.eth.get_block_number() > 1
             logger.debug("Connected to {}".format(self))
 
-        except websockets.exceptions.InvalidStatusCode as e:
+        except Exception as e:
             connected = False
             msg = f"Could not connect to RPC endpoint at: {self.url}"
-            if self.using_backup == False and len(self.node.backup_url) != 0:
+            if self.using_backup == False and len(self.backup_url) != 0:
                 print("Inside of if statement where we should be for the first run")
                 self.switchToBackupRPC()
                 return self.connect()
@@ -96,9 +96,20 @@ class RPCEndpoint(Base):
     
     def switchToBackupRPC(self):
         if self.using_backup == True:
-            raise ValueError(f"Cannot switch to backup RPC as we are already using it")
-        self.url = self.backup_url
-        self.using_backup = True
+            logger.warning(f"Cannot switch to backup RPC as we are already using it")
+        else:
+            self.url = self.backup_url
+            self.using_backup = True
+        if self._web3 is not None:
+            if self.url.startswith("ws"):
+                self._web3 = Web3(Web3.WebsocketProvider(self.url))
+            elif self.url.startswith("http"):
+                self._web3 = Web3(Web3.HTTPProvider(self.url))
+            else:
+                logger.info(f"Invalid endpoint tried primary and backup url: {self.url}")
+                return
+        if self.web3 is not None:
+            self.web3.self = self
         logger.info(f"SWITCHED TO USING BACKUP RPC NODE.")
         logger.info(f"WILL CONTINUE TO USE BACKUP RPC UNTIL TELLIOT IT RESTARTED")
 
