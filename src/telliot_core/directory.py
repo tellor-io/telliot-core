@@ -123,6 +123,8 @@ class ContractInfo(Serializable):
                     url = "https://testnet-explorer.gobob.xyz:443"
                 elif chain_id == 60808:
                     url = "https://explorer.gobob.xyz:443"
+                elif chain_id == 919:
+                    url = "https://sepolia.explorer.mode.network:443"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
