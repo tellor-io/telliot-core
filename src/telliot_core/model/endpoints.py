@@ -409,6 +409,34 @@ default_endpoint_list = [
         url="https://rpc-mode-sepolia-vtnhnpim72.t.conduit.xyz",
         explorer="https://sepolia.explorer.mode.network:443",
     ),
+    RPCEndpoint(
+        chain_id=1918988905,
+        provider="Rari",
+        network="Rari Testnet",
+        url="https://testnet.rpc.rarichain.org/http",
+        explorer="https://sepolia.explorer.mode.network:443",
+    ),
+    RPCEndpoint(
+        chain_id=41,
+        provider="Telos",
+        network="Telos EVM Testnet",
+        url="https://testnet.telos.net/evm",
+        explorer="https://testnet.teloscan.io",
+    ),
+    RPCEndpoint(
+        chain_id=2340,
+        provider="Atleta",
+        network="Atleta Olympia",
+        url="https://testnet-rpc.atleta.network:9944",
+        explorer="https://blockscout.atleta.network",
+    ),
+    RPCEndpoint(
+        chain_id=842,
+        provider="Taraxa",
+        network="Taraxa Testnet",
+        url="https://rpc.testnet.taraxa.io",
+        explorer="https://explorer.testnet.taraxa.io",
+    ),
 ]
 
 

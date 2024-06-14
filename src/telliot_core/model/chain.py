@@ -339,6 +339,34 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=1918988905,
+        name="Rari Testnet",
+        chain="rari",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
+    Chain(
+        chain_id=41,
+        name="Telos EVM Testnet",
+        chain="telos",
+        network="testnet",
+        currency=EVMCurrency(name="Telos", symbol="TLOS", decimals=18),
+    ),
+    Chain(
+        chain_id=2340,
+        name="Atleta Testnet",
+        chain="atleta",
+        network="testnet",
+        currency=EVMCurrency(name="Atleta", symbol="ATLA", decimals=18),
+    ),
+    Chain(
+        chain_id=842,
+        name="Taraxa Testnet",
+        chain="taraxa",
+        network="testnet",
+        currency=EVMCurrency(name="Taraxa", symbol="TARA", decimals=18),
+    ),
 ]
 
 
