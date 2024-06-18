@@ -97,6 +97,7 @@ class RPCEndpoint(Base):
     def switchToBackupRPC(self):
         if self.using_backup == True:
             logger.warning(f"Cannot switch to backup RPC as we are already using it")
+            return self
         else:
             self.url = self.backup_url
             self.using_backup = True
@@ -109,9 +110,10 @@ class RPCEndpoint(Base):
                 logger.info(f"Invalid endpoint tried primary and backup url: {self.url}")
                 return
         if self.web3 is not None:
-            self.web3.self = self
+            self.web3.self = self._web3
         logger.info(f"SWITCHED TO USING BACKUP RPC NODE.")
         logger.info(f"WILL CONTINUE TO USE BACKUP RPC UNTIL TELLIOT IT RESTARTED")
+        return self
 
 
 default_endpoint_list = [
