@@ -76,6 +76,10 @@ NETWORKS = {
     111: "puff-bob-jznbxtoq7h",
     60808: "BOB",
     919: "mode-sepolia-vtnhnpim72",
+    1918988905: "rari testnet",
+    41: "telos testnet",
+    2340: "atleta olympia testnet",
+    842: "taraxa testnet",
 }
 
 LOGLEVEL_MAP = {
