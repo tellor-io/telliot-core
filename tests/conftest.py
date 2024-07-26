@@ -39,35 +39,6 @@ def sepolia_cfg():
 
 
 @pytest.fixture(scope="session", autouse=True)
-def goerli_cfg():
-    """Get goerli endpoint from config
-
-    If environment variables are defined, they will override the values in config files
-    """
-    cfg = TelliotConfig()
-
-    # Override configuration for goerli testnet
-    cfg.main.chain_id = 5
-
-    goerli_endpoint = cfg.get_endpoint()
-    # assert goerli_endpoint.network == "goerli"
-
-    if os.getenv("NODE_URL", None):
-        goerli_endpoint.url = os.environ["NODE_URL"]
-
-    goerli_accounts = find_accounts(chain_id=5)
-    if not goerli_accounts:
-        # Create a test account using PRIVATE_KEY defined on github.
-        key = os.getenv("PRIVATE_KEY", None)
-        if key:
-            ChainedAccount.add("git-goerli-key", chains=5, key=os.environ["PRIVATE_KEY"], password="")
-        else:
-            raise Exception("Need a goerli account")
-
-    return cfg
-
-
-@pytest.fixture(scope="session", autouse=True)
 def mumbai_cfg():
     """Return a test telliot configuration for use on polygon-mumbai
 
