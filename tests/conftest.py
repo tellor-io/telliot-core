@@ -39,33 +39,33 @@ def sepolia_cfg():
 
 
 @pytest.fixture(scope="session", autouse=True)
-def mumbai_cfg():
-    """Return a test telliot configuration for use on polygon-mumbai
+def amoy_cfg():
+    """Return a test telliot configuration for use on polygon-amoy
 
     If environment variables are defined, they will override the values in config files
     """
     cfg = TelliotConfig()
 
-    # Override configuration for mumbai testnet
-    cfg.main.chain_id = 80001
+    # Override configuration for amoy testnet
+    cfg.main.chain_id = 80002
 
     endpt = cfg.get_endpoint()
     if "INFURA_API_KEY" in endpt.url:
-        endpt.url = f'https://polygon-mumbai.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
+        endpt.url = f'https://polygon-amoy.infura.io/v3/{os.environ["INFURA_API_KEY"]}'
 
-    mumbai_accounts = find_accounts(chain_id=80001)
-    if not mumbai_accounts:
+    amoy_accounts = find_accounts(chain_id=80002)
+    if not amoy_accounts:
         # Create a test account using PRIVATE_KEY defined on github.
         key = os.getenv("PRIVATE_KEY", None)
         if key:
             ChainedAccount.add(
-                "git-mumbai-key",
-                chains=80001,
+                "git-amoy-key",
+                chains=80002,
                 key=os.environ["PRIVATE_KEY"],
                 password="",
             )
         else:
-            raise Exception("Need a mumbai account")
+            raise Exception("Need a amoy account")
 
     return cfg
 
@@ -107,20 +107,10 @@ def local_node_cfg(chain_id: int):
 
 
 @pytest.fixture
-def ropsten_test_cfg(scope="session", autouse=True):
-    return local_node_cfg(chain_id=3)
-
-
-@pytest.fixture
-def mumbai_test_cfg(scope="session", autouse=True):
-    return local_node_cfg(chain_id=80001)
+def amoy_test_cfg(scope="session", autouse=True):
+    return local_node_cfg(chain_id=80002)
 
 
 @pytest.fixture
 def sepolia_test_cfg(scope="session", autouse=True):
     return local_node_cfg(chain_id=11155111)
-
-
-@pytest.fixture
-def goerli_test_cfg(scope="session", autouse=True):
-    return local_node_cfg(chain_id=5)

@@ -53,13 +53,6 @@ default_chain_list = [
         currency=EVMCurrency(name="Matic", symbol="MATIC", decimals=18),
     ),
     Chain(
-        chain_id=80001,
-        name="Matic(Polygon) Testnet Mumbai",
-        chain="Matic(Polygon)",
-        network="testnet",
-        currency=EVMCurrency(name="Matic", symbol="tMATIC", decimals=18),
-    ),
-    Chain(
         chain_id=69,
         name="Optimism Kovan",
         chain="Optimism",

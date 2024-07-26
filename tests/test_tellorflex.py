@@ -23,9 +23,9 @@ def mock_flex_contract():
 
 
 @pytest.mark.asyncio
-async def test_main(mumbai_test_cfg, mock_flex_contract):
+async def test_main(amoy_test_cfg, mock_flex_contract):
     """Test the TellorFlex contract"""
-    async with TelliotCore(config=mumbai_test_cfg) as core:
+    async with TelliotCore(config=amoy_test_cfg) as core:
         account = core.get_account()
         # Override contract addresses with locally deployed mock contract addresses
         oracle = TellorFlexOracleContract(core.endpoint, account)

@@ -19,5 +19,5 @@ def test_matic():
     assert isinstance(ch, Chain)
     assert ch.chain_id == 137
 
-    ch = cl.get_chain("MATIC", "testnet")
-    assert ch.chain_id == 80001
+    ch = cl.get_chain("polygon-amoy", "testnet")
+    assert ch.chain_id == 80002
