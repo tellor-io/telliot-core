@@ -11,6 +11,12 @@ logger = logging.getLogger(__name__)
 
 
 class TokenContract(Contract):
+    """python configs for TellorFlex token txs
+
+    Returns:
+        governance address, lock status, stake ammount...
+    """
+
     def __init__(self, node: RPCEndpoint, account: Optional[ChainedAccount] = None):
         chain_id = node.chain_id
         assert chain_id is not None

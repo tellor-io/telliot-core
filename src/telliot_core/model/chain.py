@@ -365,6 +365,13 @@ default_chain_list = [
 
 @dataclass
 class ChainList(ConfigOptions):
+    """returns chain information for the
+    chain set in the telliot account
+
+    Returns:
+        currency, status...
+    """
+
     chains: List[Chain] = field(default_factory=lambda: default_chain_list)
 
     def get_chain(self, chain: str = "ETH", network: str = "rinkeby") -> Optional[Chain]:

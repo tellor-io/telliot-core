@@ -44,6 +44,8 @@ default_api_keys = [
 
 @dataclass
 class ApiKeyList(ConfigOptions):
+    """list of configured api keys"""
+
     api_keys: List[ApiKey] = field(default_factory=lambda: default_api_keys)
 
     def find(
