@@ -38,11 +38,14 @@ default_api_keys = [
     ApiKey(name="nomics", key="", url="https://api.nomics.com/"),
     ApiKey(name="coinmarketcap", key="", url="https://pro-api.coinmarketcap.com/"),
     ApiKey(name="coingecko", key="", url="https://pro-api.coingecko.com"),
+    ApiKey(name="thegraph", key="", url="https://gateway-arbitrum.network.thegraph.com/api"),
 ]
 
 
 @dataclass
 class ApiKeyList(ConfigOptions):
+    """list of configured api keys"""
+
     api_keys: List[ApiKey] = field(default_factory=lambda: default_api_keys)
 
     def find(

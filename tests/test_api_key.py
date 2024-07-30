@@ -15,3 +15,9 @@ def test_api_key_list():
 
     res = lis.find(name="coinmarketcap")[0]
     assert res.url == "https://pro-api.coinmarketcap.com/"
+
+    res = lis.find(name="coingecko")[0]
+    assert res.url == "https://pro-api.coingecko.com"
+
+    res = lis.find(name="thegraph")[0]
+    assert res.url == "https://gateway-arbitrum.network.thegraph.com/api"

@@ -442,6 +442,12 @@ default_endpoint_list = [
 
 @dataclass
 class EndpointList(ConfigOptions):
+    """gets the rpc endpoint for current chain
+
+    Returns:
+        endpoint url...
+    """
+
     endpoints: List[RPCEndpoint] = field(default_factory=lambda: default_endpoint_list)
 
     def get_chain_endpoint(self, chain_id: int = 1) -> Optional[RPCEndpoint]:

@@ -3,7 +3,7 @@ from brownie import accounts
 from brownie import TellorFlex
 
 from telliot_core.apps.core import TelliotCore
-from telliot_core.tellor.tellorflex.oracle import TellorFlexOracleContract
+from telliot_core.tellor.tellor360.oracle import Tellor360OracleContract
 from telliot_core.utils.response import ResponseStatus
 from telliot_core.utils.timestamp import TimeStamp
 
@@ -23,12 +23,12 @@ def mock_flex_contract():
 
 
 @pytest.mark.asyncio
-async def test_main(mumbai_test_cfg, mock_flex_contract):
+async def test_main(amoy_test_cfg, mock_flex_contract):
     """Test the TellorFlex contract"""
-    async with TelliotCore(config=mumbai_test_cfg) as core:
+    async with TelliotCore(config=amoy_test_cfg) as core:
         account = core.get_account()
         # Override contract addresses with locally deployed mock contract addresses
-        oracle = TellorFlexOracleContract(core.endpoint, account)
+        oracle = Tellor360OracleContract(core.endpoint, account)
         oracle.address = mock_flex_contract.address
         oracle.connect()
 

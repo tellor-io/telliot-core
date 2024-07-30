@@ -3,7 +3,7 @@ from brownie import accounts
 from brownie import AutopayMock
 
 from telliot_core.apps.core import TelliotCore
-from telliot_core.tellor.tellorflex.autopay import TellorFlexAutopayContract
+from telliot_core.tellor.tellor360.autopay import Tellor360AutopayContract
 
 
 @pytest.fixture(scope="module")
@@ -12,11 +12,11 @@ def mock_autopay_contract():
 
 
 @pytest.mark.asyncio
-async def test_get_current_tip(mumbai_test_cfg, mock_autopay_contract):
-    async with TelliotCore(config=mumbai_test_cfg) as core:
+async def test_get_current_tip(amoy_test_cfg, mock_autopay_contract):
+    async with TelliotCore(config=amoy_test_cfg) as core:
         account = core.get_account()
 
-        autopay = TellorFlexAutopayContract(core.endpoint, account)
+        autopay = Tellor360AutopayContract(core.endpoint, account)
         autopay.address = mock_autopay_contract.address
         autopay.connect()
 

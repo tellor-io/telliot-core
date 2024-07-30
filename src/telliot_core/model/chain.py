@@ -53,13 +53,6 @@ default_chain_list = [
         currency=EVMCurrency(name="Matic", symbol="MATIC", decimals=18),
     ),
     Chain(
-        chain_id=80001,
-        name="Matic(Polygon) Testnet Mumbai",
-        chain="Matic(Polygon)",
-        network="testnet",
-        currency=EVMCurrency(name="Matic", symbol="tMATIC", decimals=18),
-    ),
-    Chain(
         chain_id=69,
         name="Optimism Kovan",
         chain="Optimism",
@@ -372,6 +365,13 @@ default_chain_list = [
 
 @dataclass
 class ChainList(ConfigOptions):
+    """returns chain information for the
+    chain set in the telliot account
+
+    Returns:
+        currency, status...
+    """
+
     chains: List[Chain] = field(default_factory=lambda: default_chain_list)
 
     def get_chain(self, chain: str = "ETH", network: str = "rinkeby") -> Optional[Chain]:
