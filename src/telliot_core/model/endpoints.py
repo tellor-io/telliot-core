@@ -9,7 +9,6 @@ from typing import Optional
 
 import websockets.exceptions
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
 
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
@@ -60,10 +59,6 @@ class RPCEndpoint(Base):
             self._web3 = Web3(Web3.HTTPProvider(self.url))
         else:
             raise ValueError(f"Invalid endpoint url: {self.url}")
-
-        # Inject middleware if connecting to sepolia (chain_id=11155111)
-        if self.chain_id == 11155111:
-            self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
         connected = False
         try:
