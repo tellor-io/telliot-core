@@ -53,9 +53,7 @@ class RPCEndpoint(Base):
         if self._web3:
             return True
 
-        if self.url.startswith("ws"):
-            self._web3 = Web3(Web3.WebsocketProvider(self.url))
-        elif self.url.startswith("http"):
+        if self.url.startswith("http"):
             self._web3 = Web3(Web3.HTTPProvider(self.url))
         else:
             raise ValueError(f"Invalid endpoint url: {self.url}")
