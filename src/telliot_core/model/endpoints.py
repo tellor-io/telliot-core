@@ -437,6 +437,13 @@ default_endpoint_list = [
         url="https://rpc.testnet.taraxa.io",
         explorer="https://explorer.testnet.taraxa.io",
     ),
+    RPCEndpoint(
+        chain_id=808813,
+        provider="BOB",
+        network="BOB Sepolia",
+        url="https://bob-sepolia.rpc.gobob.xyz",
+        explorer="https://bob-sepolia.explorer.gobob.xyz",
+    ),
 ]
 
 
