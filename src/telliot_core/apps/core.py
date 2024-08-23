@@ -80,6 +80,7 @@ NETWORKS = {
     41: "telos testnet",
     2340: "atleta olympia testnet",
     842: "taraxa testnet",
+    808813: "taraxa testnet",
 }
 
 LOGLEVEL_MAP = {

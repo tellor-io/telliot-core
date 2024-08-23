@@ -360,6 +360,13 @@ default_chain_list = [
         network="testnet",
         currency=EVMCurrency(name="Taraxa", symbol="TARA", decimals=18),
     ),
+    Chain(
+        chain_id=808813,
+        name="BOB Sepolia",
+        chain="BOB",
+        network="testnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

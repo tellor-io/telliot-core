@@ -133,6 +133,8 @@ class ContractInfo(Serializable):
                     url = "https://testnet-rpc.atleta.network:9944"
                 elif chain_id == 842:
                     url = "https://rpc.testnet.taraxa.io"
+                elif chain_id == 808813:
+                    url = "https://bob-sepolia.explorer.gobob.xyz/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 

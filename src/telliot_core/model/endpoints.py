@@ -9,7 +9,6 @@ from typing import Optional
 
 import websockets.exceptions
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
 
 from telliot_core.apps.config import ConfigFile
 from telliot_core.apps.config import ConfigOptions
@@ -54,16 +53,10 @@ class RPCEndpoint(Base):
         if self._web3:
             return True
 
-        if self.url.startswith("ws"):
-            self._web3 = Web3(Web3.WebsocketProvider(self.url))
-        elif self.url.startswith("http"):
+        if self.url.startswith("http"):
             self._web3 = Web3(Web3.HTTPProvider(self.url))
         else:
             raise ValueError(f"Invalid endpoint url: {self.url}")
-
-        # Inject middleware if connecting to sepolia (chain_id=11155111)
-        if self.chain_id == 11155111:
-            self.web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
         connected = False
         try:
@@ -436,6 +429,13 @@ default_endpoint_list = [
         network="Taraxa Testnet",
         url="https://rpc.testnet.taraxa.io",
         explorer="https://explorer.testnet.taraxa.io",
+    ),
+    RPCEndpoint(
+        chain_id=808813,
+        provider="BOB",
+        network="BOB Sepolia",
+        url="https://bob-sepolia.rpc.gobob.xyz",
+        explorer="https://bob-sepolia.explorer.gobob.xyz",
     ),
 ]
 
