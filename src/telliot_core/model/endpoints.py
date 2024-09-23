@@ -437,6 +437,13 @@ default_endpoint_list = [
         url="https://bob-sepolia.rpc.gobob.xyz",
         explorer="https://bob-sepolia.explorer.gobob.xyz",
     ),
+    RPCEndpoint(
+        chain_id=534352,
+        provider="Scroll",
+        network="mainnet",
+        url="https://rpc.scroll.io",
+        explorer="https://rpc.scroll.io",
+    ),
 ]
 
 
