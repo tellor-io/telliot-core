@@ -444,6 +444,13 @@ default_endpoint_list = [
         url="https://rpc.scroll.io",
         explorer="https://rpc.scroll.io",
     ),
+    RPCEndpoint(
+        chain_id=8453,
+        provider="Base",
+        network="mainnet",
+        url="https://base.llamarpc.com",
+        explorer="https://basescan.org",
+    ),
 ]
 
 
