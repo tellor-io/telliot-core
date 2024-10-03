@@ -451,6 +451,13 @@ default_endpoint_list = [
         url="https://base.llamarpc.com",
         explorer="https://basescan.org",
     ),
+    RPCEndpoint(
+        chain_id=1135,
+        provider="Lisk",
+        network="mainnet",
+        url="https://rpc.api.lisk.com",
+        explorer="https://blockscout.lisk.com/",
+    ),
 ]
 
 

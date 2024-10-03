@@ -381,6 +381,13 @@ default_chain_list = [
         network="mainnet",
         currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
     ),
+    Chain(
+        chain_id=1135,
+        name="Lisk",
+        chain="lisk",
+        network="mainnet",
+        currency=EVMCurrency(name="Ether", symbol="ETH", decimals=18),
+    ),
 ]
 
 

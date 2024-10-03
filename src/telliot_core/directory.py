@@ -139,6 +139,8 @@ class ContractInfo(Serializable):
                     url = "https://rpc.scroll.io"
                 elif chain_id == 8453:
                     url = "https://base.llamarpc.com"
+                elif chain_id == 1135:
+                    url = "https://blockscout.lisk.com/"
                 else:
                     raise ValueError(f"Could not retrieve ABI using chain_id {chain_id}")
 
