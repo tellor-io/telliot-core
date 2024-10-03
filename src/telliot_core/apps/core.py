@@ -83,6 +83,7 @@ NETWORKS = {
     808813: "taraxa testnet",
     534352: "scroll",
     8453: "base",
+    1135: "lisk",
 }
 
 LOGLEVEL_MAP = {
