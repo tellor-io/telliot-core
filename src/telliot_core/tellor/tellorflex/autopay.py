@@ -43,7 +43,7 @@ class TellorFlexAutopayContract(Contract):
             return tip_amount, status
         # autopay contract reverts when tip amount is zero
         # instead of returning 0, not sure why
-        elif type(status.e) == ContractLogicError:
+        elif isinstance(status.e, ContractLogicError):
             tip_amount = 0
             status.ok = True
             return tip_amount, status

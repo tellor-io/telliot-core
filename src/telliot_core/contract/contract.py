@@ -147,7 +147,7 @@ class Contract:
             # Estimate gas_limit if not provided
             if gas_limit is None:
                 try:
-                    gas_limit = transaction.estimateGas(tx_dict)
+                    gas_limit = transaction.estimate_gas(tx_dict)
                 except Exception as e:
                     msg = f"Contract.write({func_name}) error: Unable to estimate gas"
                     return None, error_status(msg, e=e, log=logger.error)
@@ -162,7 +162,7 @@ class Contract:
                         and type 2 transaction (EIP1559) args in one transaction"""
                     )
 
-                tx_dict["gasPrice"] = self.node.web3.toWei(legacy_gas_price, "gwei")
+                tx_dict["gasPrice"] = self.node.web3.to_wei(legacy_gas_price, "gwei")
 
             # use EIP-1559 gas strategy if maxFeePerGas
             # and/or MaxPriorityFeePerGas are provided
@@ -174,15 +174,15 @@ class Contract:
                     )
 
                 if max_fee_per_gas is not None:
-                    tx_dict["maxFeePerGas"] = self.node.web3.toWei(max_fee_per_gas, "gwei")
+                    tx_dict["maxFeePerGas"] = self.node.web3.to_wei(max_fee_per_gas, "gwei")
 
                     if max_priority_fee_per_gas is not None:
-                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
+                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.to_wei(max_priority_fee_per_gas, "gwei")
 
                     # else if (if legacy price and max fee are not provided)
                     # use max priority fee
                     elif max_priority_fee_per_gas is not None:
-                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.toWei(max_priority_fee_per_gas, "gwei")
+                        tx_dict["maxPriorityFeePerGas"] = self.node.web3.to_wei(max_priority_fee_per_gas, "gwei")
 
                     # raise ValueError if no gas arguments are provided
                     else:
@@ -192,7 +192,7 @@ class Contract:
                             or EIP-1559 gas arguments"""
                         )
             # pass in tx dict to build the transaction
-            built_tx = transaction.buildTransaction(tx_dict)
+            built_tx = transaction.build_transaction(tx_dict)
             # submit transaction
             tx_signed = acc.sign_transaction(built_tx)
 
@@ -202,7 +202,7 @@ class Contract:
 
         try:
             logger.debug(f"Sending transaction: {func_name}")
-            tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
+            tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.raw_transaction)
 
         except Exception as e:
             note = "Send transaction failed"
