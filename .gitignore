@@ -160,10 +160,11 @@ temp/
 Pipfile
 Pipfile.lock
 
-# eth-brownie related files & dependencies
+# eth-ape related files & dependencies
 package.json
 package-lock.json
 node_modules/
+.build/
 
 # MacOS
 .DS_Store
