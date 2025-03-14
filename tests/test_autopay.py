@@ -1,14 +1,12 @@
 import pytest
-from brownie import accounts
-from brownie import AutopayMock
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.tellor.tellor360.autopay import Tellor360AutopayContract
 
 
 @pytest.fixture(scope="module")
-def mock_autopay_contract():
-    return accounts[0].deploy(AutopayMock)
+def mock_autopay_contract(project, accounts):
+    return accounts[0].deploy(project.AutopayMock)
 
 
 @pytest.mark.asyncio

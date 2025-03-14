@@ -15,7 +15,7 @@ async def test_connect_to_tellor(sepolia_test_cfg):
         assert len(tellor360.token.contract.all_functions()) > 0
         assert isinstance(
             tellor360.token.contract.all_functions()[0],
-            web3.contract.ContractFunction,
+            web3.contract.base_contract.BaseContractFunction,
         )
 
 

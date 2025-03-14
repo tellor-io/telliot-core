@@ -2,11 +2,33 @@
 import os
 
 import pytest
-from brownie import chain
+from ape import chain
 from chained_accounts import ChainedAccount
 from chained_accounts import find_accounts
 
 from telliot_core.apps.telliot_config import TelliotConfig
+
+
+@pytest.fixture(autouse=True)
+def amoy_test_key_name():
+    return "amoys-test-key-name"
+
+
+@pytest.fixture(autouse=True)
+def amoy_test_key(accounts, amoy_test_key_name):
+    accts = find_accounts(chain_id=80002, name=amoy_test_key_name)
+
+    for acct in accts:
+        if acct.name == amoy_test_key_name:
+            acct.delete()
+            break
+    acct = ChainedAccount.add(
+        amoy_test_key_name,
+        chains=80002,
+        key=accounts[0].private_key,
+        password="",
+    )
+    return accounts[0]
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -39,6 +61,17 @@ def sepolia_cfg():
 
 
 @pytest.fixture(scope="session", autouse=True)
+def connected_provider(networks, chain):
+    """
+    The main HH local-network (non-fork) instance.
+    """
+
+    with networks.ethereum.local.use_provider("hardhat") as provider:
+
+        yield provider
+
+
+@pytest.fixture(scope="session")
 def amoy_cfg():
     """Return a test telliot configuration for use on polygon-amoy
 
@@ -55,17 +88,7 @@ def amoy_cfg():
 
     amoy_accounts = find_accounts(chain_id=80002)
     if not amoy_accounts:
-        # Create a test account using PRIVATE_KEY defined on github.
-        key = os.getenv("PRIVATE_KEY", None)
-        if key:
-            ChainedAccount.add(
-                "git-amoy-key",
-                chains=80002,
-                key=os.environ["PRIVATE_KEY"],
-                password="",
-            )
-        else:
-            raise Exception("Need a amoy account")
+        raise Exception("Need a amoy account")
 
     return cfg
 

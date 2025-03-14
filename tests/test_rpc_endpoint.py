@@ -2,7 +2,6 @@
 Tests covering Pytelliot rpc connection  utils.
 """
 import pytest
-from brownie import chain
 from requests.exceptions import ConnectionError
 from requests.exceptions import HTTPError
 
@@ -13,7 +12,7 @@ network = "mainnet"
 provider = "pokt"
 
 
-def test_rpc_endpoint():
+def test_rpc_endpoint(chain):
     """RPCEndpoint connects to the blockchain"""
     url = "http://127.0.0.1:8545"  # local Ganache node
     endpt = RPCEndpoint(network=network, provider=provider, url=url)

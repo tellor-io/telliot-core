@@ -458,6 +458,13 @@ default_endpoint_list = [
         url="https://rpc.api.lisk.com",
         explorer="https://blockscout.lisk.com/",
     ),
+    RPCEndpoint(
+        chain_id=34443,
+        provider="Mode-mainnet",
+        network="mainnet",
+        url="https://1rpc.io/mode",
+        explorer="https://explorer.mode.network/",
+    ),
 ]
 
 

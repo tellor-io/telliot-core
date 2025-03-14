@@ -1,6 +1,4 @@
 import pytest
-from brownie import accounts
-from brownie import TellorXOracleMock
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.tellor.tellorx.oracle import TellorxOracleContract
@@ -8,9 +6,9 @@ from telliot_core.utils.timestamp import TimeStamp
 
 
 @pytest.fixture
-def tellorx_oracle_mock_contract():
+def tellorx_oracle_mock_contract(project, accounts):
     """Reusable fixture for TellorXOracleMock contract"""
-    return accounts[0].deploy(TellorXOracleMock)
+    return accounts[0].deploy(project.TellorXOracleMock)
 
 
 @pytest.mark.asyncio

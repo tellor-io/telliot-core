@@ -1,6 +1,4 @@
 import pytest
-from brownie import accounts
-from brownie import TellorFlex
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.tellor.tellor360.oracle import Tellor360OracleContract
@@ -11,13 +9,13 @@ from telliot_core.utils.timestamp import TimeStamp
 
 
 @pytest.fixture(scope="module")
-def mock_flex_contract():
+def mock_flex_contract(project, accounts):
     """Mock the TellorFlex contract"""
     return accounts[0].deploy(
-        TellorFlex,
+        project.TellorFlex,
         "0x0000000000000000000000000000000000000123",
         "0x0000000000000000000000000000000000000456",
-        42e18,
+        int(42e18),
         60 * 60,
     )
 

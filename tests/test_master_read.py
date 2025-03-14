@@ -1,6 +1,4 @@
 import pytest
-from brownie import accounts
-from brownie import TellorXMasterMock
 
 from telliot_core.apps.core import TelliotCore
 from telliot_core.tellor.tellorx.master import account_status_map
@@ -9,9 +7,9 @@ from telliot_core.utils.timestamp import TimeStamp
 
 
 @pytest.fixture
-def tellorx_master_mock_contract():
+def tellorx_master_mock_contract(project, accounts):
     """Mock the TellorXMaster contract"""
-    return accounts[0].deploy(TellorXMasterMock)
+    return accounts[0].deploy(project.TellorXMasterMock)
 
 
 @pytest.mark.asyncio
