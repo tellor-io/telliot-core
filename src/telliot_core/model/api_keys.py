@@ -39,6 +39,7 @@ default_api_keys = [
     ApiKey(name="coinmarketcap", key="", url="https://pro-api.coinmarketcap.com/"),
     ApiKey(name="coingecko", key="", url="https://pro-api.coingecko.com"),
     ApiKey(name="thegraph", key="", url="https://gateway-arbitrum.network.thegraph.com/api"),
+    ApiKey(name="etherscan", key="", url="https://api.etherscan.io/api"),
 ]
 
 
