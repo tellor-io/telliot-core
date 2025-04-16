@@ -84,6 +84,7 @@ NETWORKS = {
     534352: "scroll",
     8453: "base",
     1135: "lisk",
+    123456: "layertest-4",
 }
 
 LOGLEVEL_MAP = {
