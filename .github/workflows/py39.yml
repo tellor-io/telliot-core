@@ -34,10 +34,9 @@ jobs:
         with:
               node-version: '22'
 
-      - name: "Install hardhat"
+      - name: "Install hardhat and dependencies"
         run: |
-          npm install --save-dev hardhat
-          npm install --save-dev @nomiclabs/hardhat-ethers
+          npm install
       
       - name: "Start hardhat node"
         run: |

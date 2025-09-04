@@ -3,8 +3,6 @@ module.exports = {
   networks: {
     hardhat: {
       chainId: 1337,
-      host: "127.0.0.1",
-      port: 8545,
       accounts: {
         count: 10,
         accountsBalance: "10000000000000000000000" // 10000 ETH
@@ -15,10 +13,5 @@ module.exports = {
       }
     }
   },
-  paths: {
-    sources: "./contracts",
-    tests: "./tests",
-    cache: "./cache",
-    artifacts: "./artifacts"
-  }
+  defaultNetwork: "hardhat"
 };
