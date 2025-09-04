@@ -17,8 +17,6 @@ jobs:
       NODE_URL: ${{ secrets.TEST_NODE_URL }} 
       PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
       TEST_SECRET: ${{ secrets.TEST_SECRET }}
-      RAPID_KEY: ${{ secrets.TEST_RAPID_KEY }}
-      ANYBLOCK_KEY: ${{ secrets.TEST_ANYBLOCK_KEY }}
       INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
 
     strategy:
@@ -38,6 +36,11 @@ jobs:
 
       - name: "Install hardhat"
         run: npm install --save-dev hardhat
+      
+      - name: "Start hardhat node"
+        run: |
+          npx hardhat node &
+          sleep 5
       
       - name: "Install dependencies"
         run: |
