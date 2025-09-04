@@ -1,12 +1,6 @@
 contracts_folder: ./contracts/
-
 hardhat:
-  host: 127.0.0.1
-  port: 8545
-
-ethereum:
-  local:
-    default_provider: hardhat
+  host: 127.0.0.1:8545
 
 plugins:
   - name: hardhat
