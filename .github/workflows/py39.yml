@@ -35,12 +35,19 @@ jobs:
               node-version: '22'
 
       - name: "Install hardhat"
-        run: npm install --save-dev hardhat
+        run: |
+          npm install --save-dev hardhat
+          npm install --save-dev @nomiclabs/hardhat-ethers
       
       - name: "Start hardhat node"
         run: |
-          npx hardhat node &
+          echo "Starting Hardhat node..."
+          npx hardhat node --hostname 0.0.0.0 --port 8545 &
+          sleep 10
+          echo "Checking if Hardhat node is running..."
+          curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://127.0.0.1:8545 || echo "Node not ready yet"
           sleep 5
+          curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://127.0.0.1:8545 || echo "Node still not ready"
       
       - name: "Install dependencies"
         run: |
