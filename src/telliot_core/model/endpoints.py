@@ -63,7 +63,7 @@ class RPCEndpoint(Base):
             connected = self._web3.eth.get_block_number() > 1
             logger.debug("Connected to {}".format(self))
 
-        except websockets.exceptions.InvalidStatusCode as e:
+        except websockets.exceptions.InvalidStatus as e:
             connected = False
             msg = f"Could not connect to RPC endpoint at: {self.url}"
             logger.error(e)

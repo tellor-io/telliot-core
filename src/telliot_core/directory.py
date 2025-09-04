@@ -153,7 +153,7 @@ class ContractInfo(Serializable):
                 response = requests.get(url, headers=headers)
                 self._abi = response.json()
 
-        return self._abi  # type: ignore
+        return self._abi
 
     def restore_state(self, state: dict[Any, Any]) -> None:
         """Workaround JSON dict key type issue.  This should be handled by clamfig in future."""

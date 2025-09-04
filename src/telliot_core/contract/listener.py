@@ -13,6 +13,7 @@ import warnings
 from typing import Any
 from typing import Awaitable
 from typing import Callable
+from typing import Dict
 from typing import List
 from typing import Literal
 
@@ -28,7 +29,7 @@ AsyncCallable = Callable[[Any], Awaitable[Any]]
 
 def _hex_to_int(value: Any) -> Any:
     """Convert hex strings to integers recursively in data structures."""
-    if isinstance(value, str) and value.startswith('0x'):
+    if isinstance(value, str) and value.startswith("0x"):
         try:
             return int(value, 16)
         except ValueError:
@@ -40,13 +41,13 @@ def _hex_to_int(value: Any) -> Any:
     return value
 
 
-def block_formatter(block_data: dict) -> AttributeDict:
+def block_formatter(block_data: Dict[str, Any]) -> AttributeDict[str, Any]:
     """Format block data similar to web3 v6 block_formatter."""
     formatted = _hex_to_int(block_data)
     return AttributeDict(formatted)
 
 
-def log_entry_formatter(log_data: dict) -> AttributeDict:
+def log_entry_formatter(log_data: Dict[str, Any]) -> AttributeDict[str, Any]:
     """Format log entry data similar to web3 v6 log_entry_formatter."""
     formatted = _hex_to_int(log_data)
     return AttributeDict(formatted)
@@ -58,6 +59,7 @@ def syncing_formatter(sync_data: Any) -> Any:
         formatted = _hex_to_int(sync_data)
         return AttributeDict(formatted)
     return sync_data
+
 
 SubscriptionType = Literal["newHeads", "logs", "newPendingTransactions", "syncing"]
 
