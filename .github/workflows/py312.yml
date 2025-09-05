@@ -32,10 +32,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
               node-version: '20'
-              cache: 'npm'
 
       - name: "Install Node dependencies"
-        run: npm ci
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install
+          fi
       
       - name: "Install dependencies"
         run: |
@@ -53,6 +57,16 @@ jobs:
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
           tox -e py312
+
+      - name: Print hardhat log
+        if: ${{ always() }}
+        run: |
+          if [ -f hardhat.log ]; then
+            echo "==== hardhat.log ===="
+            tail -n +1 hardhat.log | cat
+          else
+            echo "hardhat.log not found"
+          fi
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
