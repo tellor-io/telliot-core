@@ -33,21 +33,19 @@ jobs:
         with:
               node-version: '20'
 
-      # No local Node project needed; we'll run Hardhat via npx
+      - name: "Install Hardhat globally"
+        run: npm install -g hardhat@^2.19.0
+
+      - name: "Verify Hardhat availability"
+        run: |
+          which hardhat
+          hardhat --version
       
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade tox tox-gh-actions    
       
-      - name: "Start Hardhat node"
-        run: |
-          nohup npx --yes hardhat@^2.19.0 node --hostname 127.0.0.1 --port 8545 > hardhat.log 2>&1 &
-          for i in {1..60}; do
-            curl -s -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://127.0.0.1:8545 >/dev/null && break
-            sleep 1
-          done
-        
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
           tox -e py312
