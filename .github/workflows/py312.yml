@@ -32,33 +32,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
               node-version: '20'
-
-      - name: "Install Hardhat globally"
-        run: npm install -g hardhat@^2.19.0
-
-      - name: "Verify Hardhat availability"
-        run: |
-          which hardhat
-          hardhat --version
+              cache: 'npm'
       
+      - run: npm ci
+
+      - uses: ApeWorX/github-action@v3
+        with:
+          python-version: '3.12'
+          ape-plugins-list: 'hardhat solidity'
+
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --upgrade tox tox-gh-actions    
+          python -m pip install --upgrade tox tox-gh-actions
       
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run:
           tox -e py312
-
-      - name: Print hardhat log
-        if: ${{ always() }}
-        run: |
-          if [ -f hardhat.log ]; then
-            echo "==== hardhat.log ===="
-            tail -n +1 hardhat.log | cat
-          else
-            echo "hardhat.log not found"
-          fi
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
