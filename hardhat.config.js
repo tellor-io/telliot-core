@@ -1,4 +1,4 @@
-require("@nomiclabs/hardhat-ethers");
+// Hardhat config for running a local node in CI
 
 /**
  * @type import('hardhat/config').HardhatUserConfig

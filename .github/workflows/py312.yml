@@ -33,13 +33,7 @@ jobs:
         with:
               node-version: '20'
 
-      - name: "Install Node dependencies"
-        run: |
-          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+      # No local Node project needed; we'll run Hardhat via npx
       
       - name: "Install dependencies"
         run: |
@@ -48,7 +42,7 @@ jobs:
       
       - name: "Start Hardhat node"
         run: |
-          nohup npx hardhat node --hostname 127.0.0.1 --port 8545 > hardhat.log 2>&1 &
+          nohup npx --yes hardhat@^2.19.0 node --hostname 127.0.0.1 --port 8545 > hardhat.log 2>&1 &
           for i in {1..60}; do
             curl -s -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://127.0.0.1:8545 >/dev/null && break
             sleep 1
