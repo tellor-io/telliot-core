@@ -32,6 +32,9 @@
           uses: actions/setup-node@v4
           with:
                 node-version: '20'
+                cache: 'npm'
+        
+        - run: npm ci
   
         - uses: ApeWorX/github-action@v3
           with:
