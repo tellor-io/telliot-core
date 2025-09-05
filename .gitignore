@@ -161,7 +161,6 @@ Pipfile
 Pipfile.lock
 
 # eth-ape related files & dependencies
-package.json
 node_modules/
 .build/
 
