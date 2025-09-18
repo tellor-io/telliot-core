@@ -7,7 +7,8 @@ from dataclasses import field
 from typing import List
 from typing import Optional
 
-import websockets.exceptions
+from requests.exceptions import ConnectionError
+from requests.exceptions import HTTPError
 from web3 import Web3
 
 from telliot_core.apps.config import ConfigFile
@@ -63,11 +64,11 @@ class RPCEndpoint(Base):
             connected = self._web3.eth.get_block_number() > 1
             logger.debug("Connected to {}".format(self))
 
-        except websockets.exceptions.InvalidStatusCode as e:
-            connected = False
+        except (HTTPError, ConnectionError) as e:
             msg = f"Could not connect to RPC endpoint at: {self.url}"
             logger.error(e)
             logger.error(msg)
+            raise
 
         return connected
 

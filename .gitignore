@@ -161,10 +161,9 @@ Pipfile
 Pipfile.lock
 
 # eth-ape related files & dependencies
-package.json
-package-lock.json
 node_modules/
 .build/
 
 # MacOS
 .DS_Store
+bin/act

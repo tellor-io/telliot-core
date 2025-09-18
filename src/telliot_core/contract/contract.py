@@ -202,7 +202,7 @@ class Contract:
 
         try:
             logger.debug(f"Sending transaction: {func_name}")
-            tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.rawTransaction)
+            tx_hash = self.node.web3.eth.send_raw_transaction(tx_signed.raw_transaction)
 
         except Exception as e:
             note = "Send transaction failed"
