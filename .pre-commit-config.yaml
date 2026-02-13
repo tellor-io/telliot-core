@@ -4,13 +4,11 @@ fail_fast: true
 
 repos:
   - repo: https://github.com/econchick/interrogate
-    rev: 1.4.0
+    rev: 1.7.0
     hooks:
     - id: interrogate
       name: Check for docstrings
       args: [-vv, -i, --fail-under=50]
-      additional_dependencies:
-        - setuptools
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v2.6.0
     hooks:
