@@ -1,5 +1,9 @@
 import asyncio
 from functools import wraps
+from typing import Any
+from typing import Callable
+from typing import Coroutine
+from typing import TypeVar
 
 import click
 
@@ -7,14 +11,16 @@ from telliot_core.apps.core import TelliotCore
 from telliot_core.apps.telliot_config import override_test_config
 from telliot_core.apps.telliot_config import TelliotConfig
 
+F = TypeVar("F", bound=Callable[..., Coroutine[Any, Any, Any]])
 
-def async_run(f):  # type: ignore
+
+def async_run(f: F) -> Callable[..., Any]:
     """Call and run an async function.
 
     Handy Click CLI tests of async functions."""
 
     @wraps(f)
-    def wrapper(*args, **kwargs):  # type: ignore
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
         return asyncio.run(f(*args, **kwargs))
 
     return wrapper
