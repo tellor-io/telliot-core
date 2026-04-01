@@ -466,6 +466,13 @@ default_endpoint_list = [
         url="https://1rpc.io/mode",
         explorer="https://explorer.mode.network/",
     ),
+    RPCEndpoint(
+        chain_id=5293783785,
+        provider="LayerTest-5",
+        network="LayerTest-5",
+        url="https://node-palmito.tellorlayer.com/",
+        explorer="https://explorer.tellor.io",
+    ),
 ]
 
 
