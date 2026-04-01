@@ -5,6 +5,7 @@ from pathlib import Path
 from traceback import format_tb
 from typing import Optional
 from typing import Union
+from typing import cast
 
 import aiohttp
 from chained_accounts import ChainedAccount
@@ -316,14 +317,12 @@ class TelliotCore:
 
         assert self.config is not None
 
-        if not chain_id:
-            chain_id = self.config.main.chain_id
-            assert chain_id is not None
+        resolved_chain_id = cast(int, chain_id if chain_id is not None else self.config.main.chain_id)
 
         if not account:
             account = self.get_account()
 
-        entries = contract_directory.find(org=org, name=name, address=address, chain_id=chain_id)
+        entries = contract_directory.find(org=org, name=name, address=address, chain_id=resolved_chain_id)
         if len(entries) > 1:
             raise Exception("More than one contract found.")
         elif len(entries) == 0:
@@ -331,13 +330,15 @@ class TelliotCore:
 
         contract_info = entries[0]
 
-        contract_abi = contract_info.get_abi(chain_id=chain_id)
+        contract_abi = contract_info.get_abi(chain_id=resolved_chain_id)
 
-        if self.endpoint.chain_id is not chain_id:
-            raise Exception(f"Endpoint chain {self.endpoint.chain_id} does not match requested chain {chain_id}")
+        if self.endpoint.chain_id is not resolved_chain_id:
+            raise Exception(
+                f"Endpoint chain {self.endpoint.chain_id} does not match requested chain {resolved_chain_id}"
+            )
 
         contract = Contract(
-            address=contract_info.address[chain_id],
+            address=contract_info.address[resolved_chain_id],
             abi=contract_abi,
             node=self.endpoint,
             account=account,
