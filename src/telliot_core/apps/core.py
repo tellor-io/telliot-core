@@ -3,9 +3,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from traceback import format_tb
+from typing import cast
 from typing import Optional
 from typing import Union
-from typing import cast
 
 import aiohttp
 from chained_accounts import ChainedAccount
