@@ -84,7 +84,7 @@ NETWORKS = {
     534352: "scroll",
     8453: "base",
     1135: "lisk",
-    5293783784: "layertest-4",
+    5293783785: "layertest-5",
     8355671: "tellor",
 }
 
