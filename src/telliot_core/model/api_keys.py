@@ -40,6 +40,7 @@ default_api_keys = [
     ApiKey(name="coingecko", key="", url="https://pro-api.coingecko.com"),
     ApiKey(name="thegraph", key="", url="https://gateway-arbitrum.network.thegraph.com/api"),
     ApiKey(name="etherscan", key="", url="https://api.etherscan.io/api"),
+    ApiKey(name="bea_gov", key="", url="https://apps.bea.gov/api/data"),
 ]
 
 
