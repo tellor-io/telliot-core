@@ -1,4 +1,4 @@
-exclude: '.git|.tox|docs|tox.ini'
+exclude: '.git|.venv|docs|uv.lock'
 default_stages: [pre-commit]
 fail_fast: true
 
