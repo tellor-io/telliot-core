@@ -65,7 +65,7 @@ SubscriptionType = Literal["newHeads", "logs", "newPendingTransactions", "syncin
 
 
 async def receive_message_task(
-    ws: aiohttp.ClientWebSocketResponse,
+    ws: "aiohttp.ClientWebSocketResponse[bool]",
     handler: AsyncCallable,
     formatter: Callable[..., Any],
 ) -> None:
@@ -99,7 +99,7 @@ async def receive_message_task(
 
 async def eth_subscribe(
     *,
-    ws: aiohttp.ClientWebSocketResponse,
+    ws: "aiohttp.ClientWebSocketResponse[bool]",
     name: SubscriptionType,
     lid: int = 1,
     **kwargs: Any,

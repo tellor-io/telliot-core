@@ -1,5 +1,3 @@
-site_name: Telliot Core Documentation
-
 # Project information
 site_name: Telliot Core Documentation
 site_url: https://tellor-io.github.io/telliot-core/
@@ -15,13 +13,11 @@ edit_uri: ""
 # Copyright
 copyright: Copyright (c) 2020-, Tellor Development Community
 
-
 theme:
   name: material
   logo: assets/tellor_swoosh.png
   favicon: assets/favicon-32x32.png
   features:
-    # - navigation.tabs
     - navigation.sections
   palette:
     primary: black
@@ -29,39 +25,16 @@ theme:
 
 plugins:
   - search
-  - autorefs
-  - mkdocstrings:
-      enable_inventory: true
-      watch:
-        - src
-      handlers:
-        python:
-          options:
-            show_root_heading: true
-            show_root_full_path: false
-            # show_category_heading: true
-            members_order: source
-            heading_level: 2
 
 markdown_extensions:
   - admonition
-  - abbr
   - attr_list
   - def_list
   - footnotes
-  - meta
   - md_in_html
-  - codehilite
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
   - toc:
       permalink: true
-  - markdown.extensions.codehilite:
-      guess_lang: false
   - pymdownx.superfences
-  - pymdownx.tabbed:
-      alternate_style: true
 
 nav:
   - Home: index.md
@@ -69,4 +42,3 @@ nav:
       - Add New Chain: add-chain.md
       - Developer's Guide: contributing.md
       - Documentation: documentation.md
-
